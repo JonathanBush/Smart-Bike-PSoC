@@ -1,0 +1,149 @@
+# CMG
+# 2019-01-23 22:07:38Z
+
+# IO_0@[IOP=(1)][IoId=(0)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 0
+# IO_1@[IOP=(1)][IoId=(1)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 1
+# IO_3@[IOP=(1)][IoId=(3)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 3
+set_location "\Handle_Encoder:Net_1251_split\" 2 5 1 0
+set_location "ClockBlock" clockblockcell -1 -1 0
+set_io "flywheel_motor(0)" iocell 0 0
+set_io "gimbal_motor(0)" iocell 0 1
+set_io "gimbal_direction(0)" iocell 0 2
+set_io "Rx_RPi(0)" iocell 3 3
+set_io "Tx_RPi(0)" iocell 12 2
+set_io "Gimbal_Encoder_A(0)" iocell 1 6
+set_io "SW1(0)" iocell 3 6
+set_io "LED1(0)" iocell 2 1
+set_io "Gimbal_Encoder_B(0)" iocell 1 7
+set_io "Handle_Encoder_A(0)" iocell 0 7
+set_io "Handle_Encoder_B(0)" iocell 0 6
+set_io "Steering_PWM(0)" iocell 2 4
+set_io "Steering_Dir(0)" iocell 2 3
+set_location "\PWM_CMG:PWMUDB:status_2\" 3 5 0 1
+set_location "Net_183" 3 3 0 0
+set_location "\UART:BUART:counter_load_not\" 3 4 1 1
+set_location "\UART:BUART:tx_status_0\" 3 4 0 3
+set_location "\UART:BUART:tx_status_2\" 3 3 1 0
+set_location "\UART:BUART:rx_counter_load\" 3 0 1 2
+set_location "\UART:BUART:rx_postpoll\" 3 1 0 1
+set_location "\UART:BUART:rx_status_4\" 3 1 1 2
+set_location "\UART:BUART:rx_status_5\" 3 1 1 1
+set_location "\Gimbal_Encoder:Cnt16:CounterUDB:reload\" 0 1 1 0
+set_location "\Gimbal_Encoder:Cnt16:CounterUDB:status_0\" 0 2 0 3
+set_location "\Gimbal_Encoder:Cnt16:CounterUDB:status_2\" 1 1 0 0
+set_location "\Gimbal_Encoder:Cnt16:CounterUDB:status_3\" 0 1 0 2
+set_location "\Gimbal_Encoder:Cnt16:CounterUDB:count_enable\" 0 0 0 0
+set_location "\Gimbal_Encoder:Net_530\" 1 4 0 0
+set_location "\Gimbal_Encoder:Net_611\" 1 4 1 1
+set_location "\Handle_Encoder:Cnt16:CounterUDB:reload\" 2 1 0 2
+set_location "\Handle_Encoder:Cnt16:CounterUDB:status_0\" 2 2 0 1
+set_location "\Handle_Encoder:Cnt16:CounterUDB:status_2\" 3 2 0 1
+set_location "\Handle_Encoder:Cnt16:CounterUDB:status_3\" 2 2 1 0
+set_location "\Handle_Encoder:Cnt16:CounterUDB:count_enable\" 1 0 0 0
+set_location "\Handle_Encoder:Net_530\" 1 0 1 1
+set_location "\Handle_Encoder:Net_611\" 1 2 1 0
+set_location "\PWM_Steer:PWMUDB:status_2\" 0 4 0 1
+set_location "__ONE__" 1 1 1 1
+set_location "\PWM_CMG:PWMUDB:genblk1:ctrlreg\" 3 4 6
+set_location "\PWM_CMG:PWMUDB:genblk8:stsreg\" 3 5 4
+set_location "\PWM_CMG:PWMUDB:sP16:pwmdp:u0\" 2 5 2
+set_location "\PWM_CMG:PWMUDB:sP16:pwmdp:u1\" 3 5 2
+set_location "\UART:TXInternalInterrupt\" interrupt -1 -1 2
+set_location "\UART:BUART:sTX:TxShifter:u0\" 3 3 2
+set_location "\UART:BUART:sTX:sCLOCK:TxBitClkGen\" 3 4 2
+set_location "\UART:BUART:sTX:TxSts\" 3 3 4
+set_location "\UART:BUART:sRX:RxShifter:u0\" 3 1 2
+set_location "\UART:BUART:sRX:RxBitCounter\" 3 0 7
+set_location "\UART:BUART:sRX:RxSts\" 3 1 4
+set_location "Rpi_Tx_Interrupt" interrupt -1 -1 0
+set_location "\VDAC8_1:viDAC8\" vidaccell -1 -1 2
+set_location "\Gimbal_Timer:TimerHW\" timercell -1 -1 0
+set_location "Gimbal_Control_Loop_Interrupt" interrupt -1 -1 17
+set_location "Timer_Interrupt" interrupt -1 -1 1
+set_location "\Gimbal_Encoder:Cnt16:CounterUDB:sCTRLReg:ctrlreg\" 0 0 6
+set_location "\Gimbal_Encoder:Cnt16:CounterUDB:sSTSReg:stsreg\" 0 1 4
+set_location "\Gimbal_Encoder:Cnt16:CounterUDB:sC16:counterdp:u0\" 1 1 2
+set_location "\Gimbal_Encoder:Cnt16:CounterUDB:sC16:counterdp:u1\" 0 1 2
+set_location "\Gimbal_Encoder:bQuadDec:quad_A_delayed_0\" 0 2 0 0
+set_location "\Gimbal_Encoder:bQuadDec:quad_A_delayed_1\" 0 2 0 2
+set_location "\Gimbal_Encoder:bQuadDec:quad_A_delayed_2\" 0 2 1 3
+set_location "\Gimbal_Encoder:bQuadDec:quad_B_delayed_0\" 0 1 0 3
+set_location "\Gimbal_Encoder:bQuadDec:quad_B_delayed_1\" 0 1 0 0
+set_location "\Gimbal_Encoder:bQuadDec:quad_B_delayed_2\" 0 1 1 2
+set_location "\Gimbal_Encoder:bQuadDec:Stsreg\" 1 2 4
+set_location "\Handle_Encoder:Cnt16:CounterUDB:sCTRLReg:ctrlreg\" 1 0 6
+set_location "\Handle_Encoder:Cnt16:CounterUDB:sSTSReg:stsreg\" 3 2 4
+set_location "\Handle_Encoder:Cnt16:CounterUDB:sC16:counterdp:u0\" 2 0 2
+set_location "\Handle_Encoder:Cnt16:CounterUDB:sC16:counterdp:u1\" 3 0 2
+set_location "\Handle_Encoder:bQuadDec:quad_A_delayed_0\" 3 2 1 3
+set_location "\Handle_Encoder:bQuadDec:quad_A_delayed_1\" 3 2 0 2
+set_location "\Handle_Encoder:bQuadDec:quad_A_delayed_2\" 3 2 0 0
+set_location "\Handle_Encoder:bQuadDec:quad_B_delayed_0\" 3 4 1 0
+set_location "\Handle_Encoder:bQuadDec:quad_B_delayed_1\" 2 4 1 2
+set_location "\Handle_Encoder:bQuadDec:quad_B_delayed_2\" 2 4 0 1
+set_location "\Handle_Encoder:bQuadDec:Stsreg\" 1 0 4
+set_location "\Steering_Timer:TimerHW\" timercell -1 -1 1
+set_location "Steering_Control_Loop_Interrupt" interrupt -1 -1 18
+set_location "\PWM_Steer:PWMUDB:genblk1:ctrlreg\" 0 4 6
+set_location "\PWM_Steer:PWMUDB:genblk8:stsreg\" 0 4 4
+set_location "\PWM_Steer:PWMUDB:sP16:pwmdp:u0\" 1 4 2
+set_location "\PWM_Steer:PWMUDB:sP16:pwmdp:u1\" 0 4 2
+set_location "\PWM_CMG:PWMUDB:runmode_enable\" 3 4 0 0
+set_location "\PWM_CMG:PWMUDB:prevCompare1\" 3 5 0 0
+set_location "\PWM_CMG:PWMUDB:prevCompare2\" 3 5 0 2
+set_location "\PWM_CMG:PWMUDB:status_0\" 3 5 1 0
+set_location "\PWM_CMG:PWMUDB:status_1\" 3 5 0 3
+set_location "Net_88" 3 4 0 2
+set_location "Net_89" 3 5 1 1
+set_location "\UART:BUART:txn\" 3 3 1 2
+set_location "\UART:BUART:tx_state_1\" 2 3 0 1
+set_location "\UART:BUART:tx_state_0\" 3 3 0 2
+set_location "\UART:BUART:tx_state_2\" 2 3 1 0
+set_location "\UART:BUART:tx_bitclk\" 3 3 1 3
+set_location "\UART:BUART:tx_ctrl_mark_last\" 2 0 1 0
+set_location "\UART:BUART:rx_state_0\" 3 0 0 0
+set_location "\UART:BUART:rx_load_fifo\" 3 0 1 1
+set_location "\UART:BUART:rx_state_3\" 3 0 0 2
+set_location "\UART:BUART:rx_state_2\" 3 0 1 0
+set_location "\UART:BUART:rx_bitclk_enable\" 3 1 0 2
+set_location "\UART:BUART:rx_state_stop1_reg\" 3 0 0 3
+set_location "\UART:BUART:pollcount_1\" 3 1 0 3
+set_location "\UART:BUART:pollcount_0\" 3 1 0 0
+set_location "\UART:BUART:rx_status_3\" 3 0 0 1
+set_location "\UART:BUART:rx_last\" 3 0 1 3
+set_location "\Gimbal_Encoder:Net_1251\" 1 2 1 3
+set_location "\Gimbal_Encoder:Cnt16:CounterUDB:overflow_reg_i\" 1 1 1 3
+set_location "\Gimbal_Encoder:Cnt16:CounterUDB:underflow_reg_i\" 0 1 1 3
+set_location "\Gimbal_Encoder:Net_1275\" 0 2 1 2
+set_location "\Gimbal_Encoder:Cnt16:CounterUDB:prevCompare\" 1 4 1 2
+set_location "\Gimbal_Encoder:Net_1251_split\" 1 2 0 3
+set_location "\Gimbal_Encoder:Cnt16:CounterUDB:count_stored_i\" 0 0 0 2
+set_location "\Gimbal_Encoder:Net_1203\" 0 0 0 3
+set_location "\Gimbal_Encoder:bQuadDec:quad_A_filt\" 0 2 0 1
+set_location "\Gimbal_Encoder:bQuadDec:quad_B_filt\" 0 1 1 1
+set_location "\Gimbal_Encoder:Net_1260\" 1 4 0 1
+set_location "\Gimbal_Encoder:bQuadDec:error\" 0 2 1 1
+set_location "\Gimbal_Encoder:bQuadDec:state_1\" 1 1 1 0
+set_location "\Gimbal_Encoder:bQuadDec:state_0\" 1 0 1 3
+set_location "\Handle_Encoder:Net_1251\" 2 5 0 1
+set_location "\Handle_Encoder:Cnt16:CounterUDB:overflow_reg_i\" 3 2 1 2
+set_location "\Handle_Encoder:Cnt16:CounterUDB:underflow_reg_i\" 2 2 1 2
+set_location "\Handle_Encoder:Net_1275\" 2 2 0 2
+set_location "\Handle_Encoder:Cnt16:CounterUDB:prevCompare\" 2 1 0 0
+set_location "\Gimbal_Encoder:Net_1203_split\" 0 0 1 3
+set_location "\Handle_Encoder:Cnt16:CounterUDB:count_stored_i\" 1 0 0 1
+set_location "\Handle_Encoder:Net_1203\" 2 1 0 3
+set_location "\Handle_Encoder:bQuadDec:quad_A_filt\" 3 2 1 1
+set_location "\Handle_Encoder:bQuadDec:quad_B_filt\" 2 4 0 0
+set_location "\Handle_Encoder:Net_1260\" 2 4 0 2
+set_location "\Handle_Encoder:bQuadDec:error\" 2 2 0 0
+set_location "\Handle_Encoder:bQuadDec:state_1\" 2 2 1 1
+set_location "\Handle_Encoder:bQuadDec:state_0\" 2 4 1 3
+set_location "\PWM_Steer:PWMUDB:runmode_enable\" 0 4 0 0
+set_location "\PWM_Steer:PWMUDB:prevCompare1\" 0 4 0 3
+set_location "\PWM_Steer:PWMUDB:status_0\" 0 4 1 0
+set_location "\Handle_Encoder:Net_1203_split\" 2 1 1 0
+set_location "Net_311" 0 4 1 2

@@ -1,0 +1,2905 @@
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"PWM_Steer.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.PWM_Steer_Enable,"ax",%progbits
+  20              		.align	1
+  21              		.global	PWM_Steer_Enable
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	PWM_Steer_Enable, %function
+  25              	PWM_Steer_Enable:
+  26              	.LFB2:
+  27              		.file 1 "Generated_Source\\PSoC5\\PWM_Steer.c"
+   1:Generated_Source\PSoC5/PWM_Steer.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/PWM_Steer.c **** * File Name: PWM_Steer.c
+   3:Generated_Source\PSoC5/PWM_Steer.c **** * Version 3.30
+   4:Generated_Source\PSoC5/PWM_Steer.c **** *
+   5:Generated_Source\PSoC5/PWM_Steer.c **** * Description:
+   6:Generated_Source\PSoC5/PWM_Steer.c **** *  The PWM User Module consist of an 8 or 16-bit counter with two 8 or 16-bit
+   7:Generated_Source\PSoC5/PWM_Steer.c **** *  comparitors. Each instance of this user module is capable of generating
+   8:Generated_Source\PSoC5/PWM_Steer.c **** *  two PWM outputs with the same period. The pulse width is selectable between
+   9:Generated_Source\PSoC5/PWM_Steer.c **** *  1 and 255/65535. The period is selectable between 2 and 255/65536 clocks.
+  10:Generated_Source\PSoC5/PWM_Steer.c **** *  The compare value output may be configured to be active when the present
+  11:Generated_Source\PSoC5/PWM_Steer.c **** *  counter is less than or less than/equal to the compare value.
+  12:Generated_Source\PSoC5/PWM_Steer.c **** *  A terminal count output is also provided. It generates a pulse one clock
+  13:Generated_Source\PSoC5/PWM_Steer.c **** *  width wide when the counter is equal to zero.
+  14:Generated_Source\PSoC5/PWM_Steer.c **** *
+  15:Generated_Source\PSoC5/PWM_Steer.c **** * Note:
+  16:Generated_Source\PSoC5/PWM_Steer.c **** *
+  17:Generated_Source\PSoC5/PWM_Steer.c **** *******************************************************************************
+  18:Generated_Source\PSoC5/PWM_Steer.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  19:Generated_Source\PSoC5/PWM_Steer.c **** * You may use this file only in accordance with the license, terms, conditions,
+  20:Generated_Source\PSoC5/PWM_Steer.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  21:Generated_Source\PSoC5/PWM_Steer.c **** * the software package with which this file was provided.
+  22:Generated_Source\PSoC5/PWM_Steer.c **** ********************************************************************************/
+  23:Generated_Source\PSoC5/PWM_Steer.c **** 
+  24:Generated_Source\PSoC5/PWM_Steer.c **** #include "PWM_Steer.h"
+  25:Generated_Source\PSoC5/PWM_Steer.c **** 
+  26:Generated_Source\PSoC5/PWM_Steer.c **** /* Error message for removed <resource> through optimization */
+  27:Generated_Source\PSoC5/PWM_Steer.c **** #ifdef PWM_Steer_PWMUDB_genblk1_ctrlreg__REMOVED
+  28:Generated_Source\PSoC5/PWM_Steer.c ****     #error PWM_v3_30 detected with a constant 0 for the enable or \
+  29:Generated_Source\PSoC5/PWM_Steer.c ****          constant 1 for reset. This will prevent the component from operating.
+  30:Generated_Source\PSoC5/PWM_Steer.c **** #endif /* PWM_Steer_PWMUDB_genblk1_ctrlreg__REMOVED */
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 2
+
+
+  31:Generated_Source\PSoC5/PWM_Steer.c **** 
+  32:Generated_Source\PSoC5/PWM_Steer.c **** uint8 PWM_Steer_initVar = 0u;
+  33:Generated_Source\PSoC5/PWM_Steer.c **** 
+  34:Generated_Source\PSoC5/PWM_Steer.c **** 
+  35:Generated_Source\PSoC5/PWM_Steer.c **** /*******************************************************************************
+  36:Generated_Source\PSoC5/PWM_Steer.c **** * Function Name: PWM_Steer_Start
+  37:Generated_Source\PSoC5/PWM_Steer.c **** ********************************************************************************
+  38:Generated_Source\PSoC5/PWM_Steer.c **** *
+  39:Generated_Source\PSoC5/PWM_Steer.c **** * Summary:
+  40:Generated_Source\PSoC5/PWM_Steer.c **** *  The start function initializes the pwm with the default values, the
+  41:Generated_Source\PSoC5/PWM_Steer.c **** *  enables the counter to begin counting.  It does not enable interrupts,
+  42:Generated_Source\PSoC5/PWM_Steer.c **** *  the EnableInt command should be called if interrupt generation is required.
+  43:Generated_Source\PSoC5/PWM_Steer.c **** *
+  44:Generated_Source\PSoC5/PWM_Steer.c **** * Parameters:
+  45:Generated_Source\PSoC5/PWM_Steer.c **** *  None
+  46:Generated_Source\PSoC5/PWM_Steer.c **** *
+  47:Generated_Source\PSoC5/PWM_Steer.c **** * Return:
+  48:Generated_Source\PSoC5/PWM_Steer.c **** *  None
+  49:Generated_Source\PSoC5/PWM_Steer.c **** *
+  50:Generated_Source\PSoC5/PWM_Steer.c **** * Global variables:
+  51:Generated_Source\PSoC5/PWM_Steer.c **** *  PWM_Steer_initVar: Is modified when this function is called for the
+  52:Generated_Source\PSoC5/PWM_Steer.c **** *   first time. Is used to ensure that initialization happens only once.
+  53:Generated_Source\PSoC5/PWM_Steer.c **** *
+  54:Generated_Source\PSoC5/PWM_Steer.c **** *******************************************************************************/
+  55:Generated_Source\PSoC5/PWM_Steer.c **** void PWM_Steer_Start(void) 
+  56:Generated_Source\PSoC5/PWM_Steer.c **** {
+  57:Generated_Source\PSoC5/PWM_Steer.c ****     /* If not Initialized then initialize all required hardware and software */
+  58:Generated_Source\PSoC5/PWM_Steer.c ****     if(PWM_Steer_initVar == 0u)
+  59:Generated_Source\PSoC5/PWM_Steer.c ****     {
+  60:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_Init();
+  61:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_initVar = 1u;
+  62:Generated_Source\PSoC5/PWM_Steer.c ****     }
+  63:Generated_Source\PSoC5/PWM_Steer.c ****     PWM_Steer_Enable();
+  64:Generated_Source\PSoC5/PWM_Steer.c **** 
+  65:Generated_Source\PSoC5/PWM_Steer.c **** }
+  66:Generated_Source\PSoC5/PWM_Steer.c **** 
+  67:Generated_Source\PSoC5/PWM_Steer.c **** 
+  68:Generated_Source\PSoC5/PWM_Steer.c **** /*******************************************************************************
+  69:Generated_Source\PSoC5/PWM_Steer.c **** * Function Name: PWM_Steer_Init
+  70:Generated_Source\PSoC5/PWM_Steer.c **** ********************************************************************************
+  71:Generated_Source\PSoC5/PWM_Steer.c **** *
+  72:Generated_Source\PSoC5/PWM_Steer.c **** * Summary:
+  73:Generated_Source\PSoC5/PWM_Steer.c **** *  Initialize component's parameters to the parameters set by user in the
+  74:Generated_Source\PSoC5/PWM_Steer.c **** *  customizer of the component placed onto schematic. Usually called in
+  75:Generated_Source\PSoC5/PWM_Steer.c **** *  PWM_Steer_Start().
+  76:Generated_Source\PSoC5/PWM_Steer.c **** *
+  77:Generated_Source\PSoC5/PWM_Steer.c **** * Parameters:
+  78:Generated_Source\PSoC5/PWM_Steer.c **** *  None
+  79:Generated_Source\PSoC5/PWM_Steer.c **** *
+  80:Generated_Source\PSoC5/PWM_Steer.c **** * Return:
+  81:Generated_Source\PSoC5/PWM_Steer.c **** *  None
+  82:Generated_Source\PSoC5/PWM_Steer.c **** *
+  83:Generated_Source\PSoC5/PWM_Steer.c **** *******************************************************************************/
+  84:Generated_Source\PSoC5/PWM_Steer.c **** void PWM_Steer_Init(void) 
+  85:Generated_Source\PSoC5/PWM_Steer.c **** {
+  86:Generated_Source\PSoC5/PWM_Steer.c ****     #if (PWM_Steer_UsingFixedFunction || PWM_Steer_UseControl)
+  87:Generated_Source\PSoC5/PWM_Steer.c ****         uint8 ctrl;
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 3
+
+
+  88:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (PWM_Steer_UsingFixedFunction || PWM_Steer_UseControl) */
+  89:Generated_Source\PSoC5/PWM_Steer.c **** 
+  90:Generated_Source\PSoC5/PWM_Steer.c ****     #if(!PWM_Steer_UsingFixedFunction)
+  91:Generated_Source\PSoC5/PWM_Steer.c ****         #if(PWM_Steer_UseStatus)
+  92:Generated_Source\PSoC5/PWM_Steer.c ****             /* Interrupt State Backup for Critical Region*/
+  93:Generated_Source\PSoC5/PWM_Steer.c ****             uint8 PWM_Steer_interruptState;
+  94:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_UseStatus) */
+  95:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (!PWM_Steer_UsingFixedFunction) */
+  96:Generated_Source\PSoC5/PWM_Steer.c **** 
+  97:Generated_Source\PSoC5/PWM_Steer.c ****     #if (PWM_Steer_UsingFixedFunction)
+  98:Generated_Source\PSoC5/PWM_Steer.c ****         /* You are allowed to write the compare value (FF only) */
+  99:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_CONTROL |= PWM_Steer_CFG0_MODE;
+ 100:Generated_Source\PSoC5/PWM_Steer.c ****         #if (PWM_Steer_DeadBand2_4)
+ 101:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_CONTROL |= PWM_Steer_CFG0_DB;
+ 102:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_DeadBand2_4) */
+ 103:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 104:Generated_Source\PSoC5/PWM_Steer.c ****         ctrl = PWM_Steer_CONTROL3 & ((uint8 )(~PWM_Steer_CTRL_CMPMODE1_MASK));
+ 105:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_CONTROL3 = ctrl | PWM_Steer_DEFAULT_COMPARE1_MODE;
+ 106:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 107:Generated_Source\PSoC5/PWM_Steer.c ****          /* Clear and Set SYNCTC and SYNCCMP bits of RT1 register */
+ 108:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_RT1 &= ((uint8)(~PWM_Steer_RT1_MASK));
+ 109:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_RT1 |= PWM_Steer_SYNC;
+ 110:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 111:Generated_Source\PSoC5/PWM_Steer.c ****         /*Enable DSI Sync all all inputs of the PWM*/
+ 112:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_RT1 &= ((uint8)(~PWM_Steer_SYNCDSI_MASK));
+ 113:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_RT1 |= PWM_Steer_SYNCDSI_EN;
+ 114:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 115:Generated_Source\PSoC5/PWM_Steer.c ****     #elif (PWM_Steer_UseControl)
+ 116:Generated_Source\PSoC5/PWM_Steer.c ****         /* Set the default compare mode defined in the parameter */
+ 117:Generated_Source\PSoC5/PWM_Steer.c ****         ctrl = PWM_Steer_CONTROL & ((uint8)(~PWM_Steer_CTRL_CMPMODE2_MASK)) &
+ 118:Generated_Source\PSoC5/PWM_Steer.c ****                 ((uint8)(~PWM_Steer_CTRL_CMPMODE1_MASK));
+ 119:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_CONTROL = ctrl | PWM_Steer_DEFAULT_COMPARE2_MODE |
+ 120:Generated_Source\PSoC5/PWM_Steer.c ****                                    PWM_Steer_DEFAULT_COMPARE1_MODE;
+ 121:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (PWM_Steer_UsingFixedFunction) */
+ 122:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 123:Generated_Source\PSoC5/PWM_Steer.c ****     #if (!PWM_Steer_UsingFixedFunction)
+ 124:Generated_Source\PSoC5/PWM_Steer.c ****         #if (PWM_Steer_Resolution == 8)
+ 125:Generated_Source\PSoC5/PWM_Steer.c ****             /* Set FIFO 0 to 1 byte register for period*/
+ 126:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_AUX_CONTROLDP0 |= (PWM_Steer_AUX_CTRL_FIFO0_CLR);
+ 127:Generated_Source\PSoC5/PWM_Steer.c ****         #else /* (PWM_Steer_Resolution == 16)*/
+ 128:Generated_Source\PSoC5/PWM_Steer.c ****             /* Set FIFO 0 to 1 byte register for period */
+ 129:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_AUX_CONTROLDP0 |= (PWM_Steer_AUX_CTRL_FIFO0_CLR);
+ 130:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_AUX_CONTROLDP1 |= (PWM_Steer_AUX_CTRL_FIFO0_CLR);
+ 131:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_Resolution == 8) */
+ 132:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 133:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_WriteCounter(PWM_Steer_INIT_PERIOD_VALUE);
+ 134:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (!PWM_Steer_UsingFixedFunction) */
+ 135:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 136:Generated_Source\PSoC5/PWM_Steer.c ****     PWM_Steer_WritePeriod(PWM_Steer_INIT_PERIOD_VALUE);
+ 137:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 138:Generated_Source\PSoC5/PWM_Steer.c ****         #if (PWM_Steer_UseOneCompareMode)
+ 139:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_WriteCompare(PWM_Steer_INIT_COMPARE_VALUE1);
+ 140:Generated_Source\PSoC5/PWM_Steer.c ****         #else
+ 141:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_WriteCompare1(PWM_Steer_INIT_COMPARE_VALUE1);
+ 142:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_WriteCompare2(PWM_Steer_INIT_COMPARE_VALUE2);
+ 143:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_UseOneCompareMode) */
+ 144:Generated_Source\PSoC5/PWM_Steer.c **** 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 4
+
+
+ 145:Generated_Source\PSoC5/PWM_Steer.c ****         #if (PWM_Steer_KillModeMinTime)
+ 146:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_WriteKillTime(PWM_Steer_MinimumKillTime);
+ 147:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_KillModeMinTime) */
+ 148:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 149:Generated_Source\PSoC5/PWM_Steer.c ****         #if (PWM_Steer_DeadBandUsed)
+ 150:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_WriteDeadTime(PWM_Steer_INIT_DEAD_TIME);
+ 151:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_DeadBandUsed) */
+ 152:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 153:Generated_Source\PSoC5/PWM_Steer.c ****     #if (PWM_Steer_UseStatus || PWM_Steer_UsingFixedFunction)
+ 154:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_SetInterruptMode(PWM_Steer_INIT_INTERRUPTS_MODE);
+ 155:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (PWM_Steer_UseStatus || PWM_Steer_UsingFixedFunction) */
+ 156:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 157:Generated_Source\PSoC5/PWM_Steer.c ****     #if (PWM_Steer_UsingFixedFunction)
+ 158:Generated_Source\PSoC5/PWM_Steer.c ****         /* Globally Enable the Fixed Function Block chosen */
+ 159:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_GLOBAL_ENABLE |= PWM_Steer_BLOCK_EN_MASK;
+ 160:Generated_Source\PSoC5/PWM_Steer.c ****         /* Set the Interrupt source to come from the status register */
+ 161:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_CONTROL2 |= PWM_Steer_CTRL2_IRQ_SEL;
+ 162:Generated_Source\PSoC5/PWM_Steer.c ****     #else
+ 163:Generated_Source\PSoC5/PWM_Steer.c ****         #if(PWM_Steer_UseStatus)
+ 164:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 165:Generated_Source\PSoC5/PWM_Steer.c ****             /* CyEnterCriticalRegion and CyExitCriticalRegion are used to mark following region cri
+ 166:Generated_Source\PSoC5/PWM_Steer.c ****             /* Enter Critical Region*/
+ 167:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_interruptState = CyEnterCriticalSection();
+ 168:Generated_Source\PSoC5/PWM_Steer.c ****             /* Use the interrupt output of the status register for IRQ output */
+ 169:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_STATUS_AUX_CTRL |= PWM_Steer_STATUS_ACTL_INT_EN_MASK;
+ 170:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 171:Generated_Source\PSoC5/PWM_Steer.c ****              /* Exit Critical Region*/
+ 172:Generated_Source\PSoC5/PWM_Steer.c ****             CyExitCriticalSection(PWM_Steer_interruptState);
+ 173:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 174:Generated_Source\PSoC5/PWM_Steer.c ****             /* Clear the FIFO to enable the PWM_Steer_STATUS_FIFOFULL
+ 175:Generated_Source\PSoC5/PWM_Steer.c ****                    bit to be set on FIFO full. */
+ 176:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_ClearFIFO();
+ 177:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_UseStatus) */
+ 178:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (PWM_Steer_UsingFixedFunction) */
+ 179:Generated_Source\PSoC5/PWM_Steer.c **** }
+ 180:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 181:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 182:Generated_Source\PSoC5/PWM_Steer.c **** /*******************************************************************************
+ 183:Generated_Source\PSoC5/PWM_Steer.c **** * Function Name: PWM_Steer_Enable
+ 184:Generated_Source\PSoC5/PWM_Steer.c **** ********************************************************************************
+ 185:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 186:Generated_Source\PSoC5/PWM_Steer.c **** * Summary:
+ 187:Generated_Source\PSoC5/PWM_Steer.c **** *  Enables the PWM block operation
+ 188:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 189:Generated_Source\PSoC5/PWM_Steer.c **** * Parameters:
+ 190:Generated_Source\PSoC5/PWM_Steer.c **** *  None
+ 191:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 192:Generated_Source\PSoC5/PWM_Steer.c **** * Return:
+ 193:Generated_Source\PSoC5/PWM_Steer.c **** *  None
+ 194:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 195:Generated_Source\PSoC5/PWM_Steer.c **** * Side Effects:
+ 196:Generated_Source\PSoC5/PWM_Steer.c **** *  This works only if software enable mode is chosen
+ 197:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 198:Generated_Source\PSoC5/PWM_Steer.c **** *******************************************************************************/
+ 199:Generated_Source\PSoC5/PWM_Steer.c **** void PWM_Steer_Enable(void) 
+ 200:Generated_Source\PSoC5/PWM_Steer.c **** {
+  28              		.loc 1 200 0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 5
+
+
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+ 201:Generated_Source\PSoC5/PWM_Steer.c ****     /* Globally Enable the Fixed Function Block chosen */
+ 202:Generated_Source\PSoC5/PWM_Steer.c ****     #if (PWM_Steer_UsingFixedFunction)
+ 203:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_GLOBAL_ENABLE |= PWM_Steer_BLOCK_EN_MASK;
+ 204:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_GLOBAL_STBY_ENABLE |= PWM_Steer_BLOCK_STBY_EN_MASK;
+ 205:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (PWM_Steer_UsingFixedFunction) */
+ 206:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 207:Generated_Source\PSoC5/PWM_Steer.c ****     /* Enable the PWM from the control register  */
+ 208:Generated_Source\PSoC5/PWM_Steer.c ****     #if (PWM_Steer_UseControl || PWM_Steer_UsingFixedFunction)
+ 209:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_CONTROL |= PWM_Steer_CTRL_ENABLE;
+  33              		.loc 1 209 0
+  34 0000 024A     		ldr	r2, .L2
+  35 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  36 0004 43F08003 		orr	r3, r3, #128
+  37 0008 1370     		strb	r3, [r2]
+  38 000a 7047     		bx	lr
+  39              	.L3:
+  40              		.align	2
+  41              	.L2:
+  42 000c 78640040 		.word	1073767544
+  43              		.cfi_endproc
+  44              	.LFE2:
+  45              		.size	PWM_Steer_Enable, .-PWM_Steer_Enable
+  46              		.section	.text.PWM_Steer_Stop,"ax",%progbits
+  47              		.align	1
+  48              		.global	PWM_Steer_Stop
+  49              		.thumb
+  50              		.thumb_func
+  51              		.type	PWM_Steer_Stop, %function
+  52              	PWM_Steer_Stop:
+  53              	.LFB3:
+ 210:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (PWM_Steer_UseControl || PWM_Steer_UsingFixedFunction) */
+ 211:Generated_Source\PSoC5/PWM_Steer.c **** }
+ 212:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 213:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 214:Generated_Source\PSoC5/PWM_Steer.c **** /*******************************************************************************
+ 215:Generated_Source\PSoC5/PWM_Steer.c **** * Function Name: PWM_Steer_Stop
+ 216:Generated_Source\PSoC5/PWM_Steer.c **** ********************************************************************************
+ 217:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 218:Generated_Source\PSoC5/PWM_Steer.c **** * Summary:
+ 219:Generated_Source\PSoC5/PWM_Steer.c **** *  The stop function halts the PWM, but does not change any modes or disable
+ 220:Generated_Source\PSoC5/PWM_Steer.c **** *  interrupts.
+ 221:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 222:Generated_Source\PSoC5/PWM_Steer.c **** * Parameters:
+ 223:Generated_Source\PSoC5/PWM_Steer.c **** *  None
+ 224:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 225:Generated_Source\PSoC5/PWM_Steer.c **** * Return:
+ 226:Generated_Source\PSoC5/PWM_Steer.c **** *  None
+ 227:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 228:Generated_Source\PSoC5/PWM_Steer.c **** * Side Effects:
+ 229:Generated_Source\PSoC5/PWM_Steer.c **** *  If the Enable mode is set to Hardware only then this function
+ 230:Generated_Source\PSoC5/PWM_Steer.c **** *  has no effect on the operation of the PWM
+ 231:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 232:Generated_Source\PSoC5/PWM_Steer.c **** *******************************************************************************/
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 6
+
+
+ 233:Generated_Source\PSoC5/PWM_Steer.c **** void PWM_Steer_Stop(void) 
+ 234:Generated_Source\PSoC5/PWM_Steer.c **** {
+  54              		.loc 1 234 0
+  55              		.cfi_startproc
+  56              		@ args = 0, pretend = 0, frame = 0
+  57              		@ frame_needed = 0, uses_anonymous_args = 0
+  58              		@ link register save eliminated.
+ 235:Generated_Source\PSoC5/PWM_Steer.c ****     #if (PWM_Steer_UseControl || PWM_Steer_UsingFixedFunction)
+ 236:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_CONTROL &= ((uint8)(~PWM_Steer_CTRL_ENABLE));
+  59              		.loc 1 236 0
+  60 0000 024A     		ldr	r2, .L5
+  61 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  62 0004 03F07F03 		and	r3, r3, #127
+  63 0008 1370     		strb	r3, [r2]
+  64 000a 7047     		bx	lr
+  65              	.L6:
+  66              		.align	2
+  67              	.L5:
+  68 000c 78640040 		.word	1073767544
+  69              		.cfi_endproc
+  70              	.LFE3:
+  71              		.size	PWM_Steer_Stop, .-PWM_Steer_Stop
+  72              		.section	.text.PWM_Steer_WriteCounter,"ax",%progbits
+  73              		.align	1
+  74              		.global	PWM_Steer_WriteCounter
+  75              		.thumb
+  76              		.thumb_func
+  77              		.type	PWM_Steer_WriteCounter, %function
+  78              	PWM_Steer_WriteCounter:
+  79              	.LFB4:
+ 237:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (PWM_Steer_UseControl || PWM_Steer_UsingFixedFunction) */
+ 238:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 239:Generated_Source\PSoC5/PWM_Steer.c ****     /* Globally disable the Fixed Function Block chosen */
+ 240:Generated_Source\PSoC5/PWM_Steer.c ****     #if (PWM_Steer_UsingFixedFunction)
+ 241:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_GLOBAL_ENABLE &= ((uint8)(~PWM_Steer_BLOCK_EN_MASK));
+ 242:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_GLOBAL_STBY_ENABLE &= ((uint8)(~PWM_Steer_BLOCK_STBY_EN_MASK));
+ 243:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (PWM_Steer_UsingFixedFunction) */
+ 244:Generated_Source\PSoC5/PWM_Steer.c **** }
+ 245:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 246:Generated_Source\PSoC5/PWM_Steer.c **** #if (PWM_Steer_UseOneCompareMode)
+ 247:Generated_Source\PSoC5/PWM_Steer.c ****     #if (PWM_Steer_CompareMode1SW)
+ 248:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 249:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 250:Generated_Source\PSoC5/PWM_Steer.c ****         /*******************************************************************************
+ 251:Generated_Source\PSoC5/PWM_Steer.c ****         * Function Name: PWM_Steer_SetCompareMode
+ 252:Generated_Source\PSoC5/PWM_Steer.c ****         ********************************************************************************
+ 253:Generated_Source\PSoC5/PWM_Steer.c ****         *
+ 254:Generated_Source\PSoC5/PWM_Steer.c ****         * Summary:
+ 255:Generated_Source\PSoC5/PWM_Steer.c ****         *  This function writes the Compare Mode for the pwm output when in Dither mode,
+ 256:Generated_Source\PSoC5/PWM_Steer.c ****         *  Center Align Mode or One Output Mode.
+ 257:Generated_Source\PSoC5/PWM_Steer.c ****         *
+ 258:Generated_Source\PSoC5/PWM_Steer.c ****         * Parameters:
+ 259:Generated_Source\PSoC5/PWM_Steer.c ****         *  comparemode:  The new compare mode for the PWM output. Use the compare types
+ 260:Generated_Source\PSoC5/PWM_Steer.c ****         *                defined in the H file as input arguments.
+ 261:Generated_Source\PSoC5/PWM_Steer.c ****         *
+ 262:Generated_Source\PSoC5/PWM_Steer.c ****         * Return:
+ 263:Generated_Source\PSoC5/PWM_Steer.c ****         *  None
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 7
+
+
+ 264:Generated_Source\PSoC5/PWM_Steer.c ****         *
+ 265:Generated_Source\PSoC5/PWM_Steer.c ****         *******************************************************************************/
+ 266:Generated_Source\PSoC5/PWM_Steer.c ****         void PWM_Steer_SetCompareMode(uint8 comparemode) 
+ 267:Generated_Source\PSoC5/PWM_Steer.c ****         {
+ 268:Generated_Source\PSoC5/PWM_Steer.c ****             #if(PWM_Steer_UsingFixedFunction)
+ 269:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 270:Generated_Source\PSoC5/PWM_Steer.c ****                 #if(0 != PWM_Steer_CTRL_CMPMODE1_SHIFT)
+ 271:Generated_Source\PSoC5/PWM_Steer.c ****                     uint8 comparemodemasked = ((uint8)((uint8)comparemode << PWM_Steer_CTRL_CMPMODE
+ 272:Generated_Source\PSoC5/PWM_Steer.c ****                 #else
+ 273:Generated_Source\PSoC5/PWM_Steer.c ****                     uint8 comparemodemasked = comparemode;
+ 274:Generated_Source\PSoC5/PWM_Steer.c ****                 #endif /* (0 != PWM_Steer_CTRL_CMPMODE1_SHIFT) */
+ 275:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 276:Generated_Source\PSoC5/PWM_Steer.c ****                 PWM_Steer_CONTROL3 &= ((uint8)(~PWM_Steer_CTRL_CMPMODE1_MASK)); /*Clear Existing Da
+ 277:Generated_Source\PSoC5/PWM_Steer.c ****                 PWM_Steer_CONTROL3 |= comparemodemasked;
+ 278:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 279:Generated_Source\PSoC5/PWM_Steer.c ****             #elif (PWM_Steer_UseControl)
+ 280:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 281:Generated_Source\PSoC5/PWM_Steer.c ****                 #if(0 != PWM_Steer_CTRL_CMPMODE1_SHIFT)
+ 282:Generated_Source\PSoC5/PWM_Steer.c ****                     uint8 comparemode1masked = ((uint8)((uint8)comparemode << PWM_Steer_CTRL_CMPMOD
+ 283:Generated_Source\PSoC5/PWM_Steer.c ****                                                 PWM_Steer_CTRL_CMPMODE1_MASK;
+ 284:Generated_Source\PSoC5/PWM_Steer.c ****                 #else
+ 285:Generated_Source\PSoC5/PWM_Steer.c ****                     uint8 comparemode1masked = comparemode & PWM_Steer_CTRL_CMPMODE1_MASK;
+ 286:Generated_Source\PSoC5/PWM_Steer.c ****                 #endif /* (0 != PWM_Steer_CTRL_CMPMODE1_SHIFT) */
+ 287:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 288:Generated_Source\PSoC5/PWM_Steer.c ****                 #if(0 != PWM_Steer_CTRL_CMPMODE2_SHIFT)
+ 289:Generated_Source\PSoC5/PWM_Steer.c ****                     uint8 comparemode2masked = ((uint8)((uint8)comparemode << PWM_Steer_CTRL_CMPMOD
+ 290:Generated_Source\PSoC5/PWM_Steer.c ****                                                PWM_Steer_CTRL_CMPMODE2_MASK;
+ 291:Generated_Source\PSoC5/PWM_Steer.c ****                 #else
+ 292:Generated_Source\PSoC5/PWM_Steer.c ****                     uint8 comparemode2masked = comparemode & PWM_Steer_CTRL_CMPMODE2_MASK;
+ 293:Generated_Source\PSoC5/PWM_Steer.c ****                 #endif /* (0 != PWM_Steer_CTRL_CMPMODE2_SHIFT) */
+ 294:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 295:Generated_Source\PSoC5/PWM_Steer.c ****                 /*Clear existing mode */
+ 296:Generated_Source\PSoC5/PWM_Steer.c ****                 PWM_Steer_CONTROL &= ((uint8)(~(PWM_Steer_CTRL_CMPMODE1_MASK |
+ 297:Generated_Source\PSoC5/PWM_Steer.c ****                                             PWM_Steer_CTRL_CMPMODE2_MASK)));
+ 298:Generated_Source\PSoC5/PWM_Steer.c ****                 PWM_Steer_CONTROL |= (comparemode1masked | comparemode2masked);
+ 299:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 300:Generated_Source\PSoC5/PWM_Steer.c ****             #else
+ 301:Generated_Source\PSoC5/PWM_Steer.c ****                 uint8 temp = comparemode;
+ 302:Generated_Source\PSoC5/PWM_Steer.c ****             #endif /* (PWM_Steer_UsingFixedFunction) */
+ 303:Generated_Source\PSoC5/PWM_Steer.c ****         }
+ 304:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* PWM_Steer_CompareMode1SW */
+ 305:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 306:Generated_Source\PSoC5/PWM_Steer.c **** #else /* UseOneCompareMode */
+ 307:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 308:Generated_Source\PSoC5/PWM_Steer.c ****     #if (PWM_Steer_CompareMode1SW)
+ 309:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 310:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 311:Generated_Source\PSoC5/PWM_Steer.c ****         /*******************************************************************************
+ 312:Generated_Source\PSoC5/PWM_Steer.c ****         * Function Name: PWM_Steer_SetCompareMode1
+ 313:Generated_Source\PSoC5/PWM_Steer.c ****         ********************************************************************************
+ 314:Generated_Source\PSoC5/PWM_Steer.c ****         *
+ 315:Generated_Source\PSoC5/PWM_Steer.c ****         * Summary:
+ 316:Generated_Source\PSoC5/PWM_Steer.c ****         *  This function writes the Compare Mode for the pwm or pwm1 output
+ 317:Generated_Source\PSoC5/PWM_Steer.c ****         *
+ 318:Generated_Source\PSoC5/PWM_Steer.c ****         * Parameters:
+ 319:Generated_Source\PSoC5/PWM_Steer.c ****         *  comparemode:  The new compare mode for the PWM output. Use the compare types
+ 320:Generated_Source\PSoC5/PWM_Steer.c ****         *                defined in the H file as input arguments.
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 8
+
+
+ 321:Generated_Source\PSoC5/PWM_Steer.c ****         *
+ 322:Generated_Source\PSoC5/PWM_Steer.c ****         * Return:
+ 323:Generated_Source\PSoC5/PWM_Steer.c ****         *  None
+ 324:Generated_Source\PSoC5/PWM_Steer.c ****         *
+ 325:Generated_Source\PSoC5/PWM_Steer.c ****         *******************************************************************************/
+ 326:Generated_Source\PSoC5/PWM_Steer.c ****         void PWM_Steer_SetCompareMode1(uint8 comparemode) 
+ 327:Generated_Source\PSoC5/PWM_Steer.c ****         {
+ 328:Generated_Source\PSoC5/PWM_Steer.c ****             #if(0 != PWM_Steer_CTRL_CMPMODE1_SHIFT)
+ 329:Generated_Source\PSoC5/PWM_Steer.c ****                 uint8 comparemodemasked = ((uint8)((uint8)comparemode << PWM_Steer_CTRL_CMPMODE1_SH
+ 330:Generated_Source\PSoC5/PWM_Steer.c ****                                            PWM_Steer_CTRL_CMPMODE1_MASK;
+ 331:Generated_Source\PSoC5/PWM_Steer.c ****             #else
+ 332:Generated_Source\PSoC5/PWM_Steer.c ****                 uint8 comparemodemasked = comparemode & PWM_Steer_CTRL_CMPMODE1_MASK;
+ 333:Generated_Source\PSoC5/PWM_Steer.c ****             #endif /* (0 != PWM_Steer_CTRL_CMPMODE1_SHIFT) */
+ 334:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 335:Generated_Source\PSoC5/PWM_Steer.c ****             #if (PWM_Steer_UseControl)
+ 336:Generated_Source\PSoC5/PWM_Steer.c ****                 PWM_Steer_CONTROL &= ((uint8)(~PWM_Steer_CTRL_CMPMODE1_MASK)); /*Clear existing mod
+ 337:Generated_Source\PSoC5/PWM_Steer.c ****                 PWM_Steer_CONTROL |= comparemodemasked;
+ 338:Generated_Source\PSoC5/PWM_Steer.c ****             #endif /* (PWM_Steer_UseControl) */
+ 339:Generated_Source\PSoC5/PWM_Steer.c ****         }
+ 340:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* PWM_Steer_CompareMode1SW */
+ 341:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 342:Generated_Source\PSoC5/PWM_Steer.c **** #if (PWM_Steer_CompareMode2SW)
+ 343:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 344:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 345:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 346:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_SetCompareMode2
+ 347:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 348:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 349:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 350:Generated_Source\PSoC5/PWM_Steer.c ****     *  This function writes the Compare Mode for the pwm or pwm2 output
+ 351:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 352:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 353:Generated_Source\PSoC5/PWM_Steer.c ****     *  comparemode:  The new compare mode for the PWM output. Use the compare types
+ 354:Generated_Source\PSoC5/PWM_Steer.c ****     *                defined in the H file as input arguments.
+ 355:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 356:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 357:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 358:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 359:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 360:Generated_Source\PSoC5/PWM_Steer.c ****     void PWM_Steer_SetCompareMode2(uint8 comparemode) 
+ 361:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 362:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 363:Generated_Source\PSoC5/PWM_Steer.c ****         #if(0 != PWM_Steer_CTRL_CMPMODE2_SHIFT)
+ 364:Generated_Source\PSoC5/PWM_Steer.c ****             uint8 comparemodemasked = ((uint8)((uint8)comparemode << PWM_Steer_CTRL_CMPMODE2_SHIFT)
+ 365:Generated_Source\PSoC5/PWM_Steer.c ****                                                  PWM_Steer_CTRL_CMPMODE2_MASK;
+ 366:Generated_Source\PSoC5/PWM_Steer.c ****         #else
+ 367:Generated_Source\PSoC5/PWM_Steer.c ****             uint8 comparemodemasked = comparemode & PWM_Steer_CTRL_CMPMODE2_MASK;
+ 368:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (0 != PWM_Steer_CTRL_CMPMODE2_SHIFT) */
+ 369:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 370:Generated_Source\PSoC5/PWM_Steer.c ****         #if (PWM_Steer_UseControl)
+ 371:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_CONTROL &= ((uint8)(~PWM_Steer_CTRL_CMPMODE2_MASK)); /*Clear existing mode */
+ 372:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_CONTROL |= comparemodemasked;
+ 373:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_UseControl) */
+ 374:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 375:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /*PWM_Steer_CompareMode2SW */
+ 376:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 377:Generated_Source\PSoC5/PWM_Steer.c **** #endif /* UseOneCompareMode */
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 9
+
+
+ 378:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 379:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 380:Generated_Source\PSoC5/PWM_Steer.c **** #if (!PWM_Steer_UsingFixedFunction)
+ 381:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 382:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 383:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 384:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_WriteCounter
+ 385:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 386:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 387:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 388:Generated_Source\PSoC5/PWM_Steer.c ****     *  Writes a new counter value directly to the counter register. This will be
+ 389:Generated_Source\PSoC5/PWM_Steer.c ****     *  implemented for that currently running period and only that period. This API
+ 390:Generated_Source\PSoC5/PWM_Steer.c ****     *  is valid only for UDB implementation and not available for fixed function
+ 391:Generated_Source\PSoC5/PWM_Steer.c ****     *  PWM implementation.
+ 392:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 393:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 394:Generated_Source\PSoC5/PWM_Steer.c ****     *  counter:  The period new period counter value.
+ 395:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 396:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 397:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 398:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 399:Generated_Source\PSoC5/PWM_Steer.c ****     * Side Effects:
+ 400:Generated_Source\PSoC5/PWM_Steer.c ****     *  The PWM Period will be reloaded when a counter value will be a zero
+ 401:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 402:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 403:Generated_Source\PSoC5/PWM_Steer.c ****     void PWM_Steer_WriteCounter(uint16 counter) \
+ 404:Generated_Source\PSoC5/PWM_Steer.c ****                                        
+ 405:Generated_Source\PSoC5/PWM_Steer.c ****     {
+  80              		.loc 1 405 0
+  81              		.cfi_startproc
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84              		@ link register save eliminated.
+  85              	.LVL0:
+ 406:Generated_Source\PSoC5/PWM_Steer.c ****         CY_SET_REG16(PWM_Steer_COUNTER_LSB_PTR, counter);
+  86              		.loc 1 406 0
+  87 0000 014B     		ldr	r3, .L8
+  88 0002 1880     		strh	r0, [r3]	@ movhi
+  89 0004 7047     		bx	lr
+  90              	.L9:
+  91 0006 00BF     		.align	2
+  92              	.L8:
+  93 0008 12680040 		.word	1073768466
+  94              		.cfi_endproc
+  95              	.LFE4:
+  96              		.size	PWM_Steer_WriteCounter, .-PWM_Steer_WriteCounter
+  97              		.section	.text.PWM_Steer_ReadCounter,"ax",%progbits
+  98              		.align	1
+  99              		.global	PWM_Steer_ReadCounter
+ 100              		.thumb
+ 101              		.thumb_func
+ 102              		.type	PWM_Steer_ReadCounter, %function
+ 103              	PWM_Steer_ReadCounter:
+ 104              	.LFB5:
+ 407:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 408:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 409:Generated_Source\PSoC5/PWM_Steer.c **** 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 10
+
+
+ 410:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 411:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_ReadCounter
+ 412:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 413:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 414:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 415:Generated_Source\PSoC5/PWM_Steer.c ****     *  This function returns the current value of the counter.  It doesn't matter
+ 416:Generated_Source\PSoC5/PWM_Steer.c ****     *  if the counter is enabled or running.
+ 417:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 418:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 419:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 420:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 421:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 422:Generated_Source\PSoC5/PWM_Steer.c ****     *  The current value of the counter.
+ 423:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 424:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 425:Generated_Source\PSoC5/PWM_Steer.c ****     uint16 PWM_Steer_ReadCounter(void) 
+ 426:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 105              		.loc 1 426 0
+ 106              		.cfi_startproc
+ 107              		@ args = 0, pretend = 0, frame = 0
+ 108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109              		@ link register save eliminated.
+ 427:Generated_Source\PSoC5/PWM_Steer.c ****         /* Force capture by reading Accumulator */
+ 428:Generated_Source\PSoC5/PWM_Steer.c ****         /* Must first do a software capture to be able to read the counter */
+ 429:Generated_Source\PSoC5/PWM_Steer.c ****         /* It is up to the user code to make sure there isn't already captured data in the FIFO */
+ 430:Generated_Source\PSoC5/PWM_Steer.c ****           (void)CY_GET_REG8(PWM_Steer_COUNTERCAP_LSB_PTR_8BIT);
+ 110              		.loc 1 430 0
+ 111 0000 024B     		ldr	r3, .L11
+ 112 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 431:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 432:Generated_Source\PSoC5/PWM_Steer.c ****         /* Read the data from the FIFO */
+ 433:Generated_Source\PSoC5/PWM_Steer.c ****         return (CY_GET_REG16(PWM_Steer_CAPTURE_LSB_PTR));
+ 113              		.loc 1 433 0
+ 114 0004 024B     		ldr	r3, .L11+4
+ 115 0006 1888     		ldrh	r0, [r3]
+ 434:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 116              		.loc 1 434 0
+ 117 0008 80B2     		uxth	r0, r0
+ 118 000a 7047     		bx	lr
+ 119              	.L12:
+ 120              		.align	2
+ 121              	.L11:
+ 122 000c 19640040 		.word	1073767449
+ 123 0010 B2680040 		.word	1073768626
+ 124              		.cfi_endproc
+ 125              	.LFE5:
+ 126              		.size	PWM_Steer_ReadCounter, .-PWM_Steer_ReadCounter
+ 127              		.section	.text.PWM_Steer_ClearFIFO,"ax",%progbits
+ 128              		.align	1
+ 129              		.global	PWM_Steer_ClearFIFO
+ 130              		.thumb
+ 131              		.thumb_func
+ 132              		.type	PWM_Steer_ClearFIFO, %function
+ 133              	PWM_Steer_ClearFIFO:
+ 134              	.LFB6:
+ 435:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 436:Generated_Source\PSoC5/PWM_Steer.c ****     #if (PWM_Steer_UseStatus)
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 11
+
+
+ 437:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 438:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 439:Generated_Source\PSoC5/PWM_Steer.c ****         /*******************************************************************************
+ 440:Generated_Source\PSoC5/PWM_Steer.c ****         * Function Name: PWM_Steer_ClearFIFO
+ 441:Generated_Source\PSoC5/PWM_Steer.c ****         ********************************************************************************
+ 442:Generated_Source\PSoC5/PWM_Steer.c ****         *
+ 443:Generated_Source\PSoC5/PWM_Steer.c ****         * Summary:
+ 444:Generated_Source\PSoC5/PWM_Steer.c ****         *  This function clears all capture data from the capture FIFO
+ 445:Generated_Source\PSoC5/PWM_Steer.c ****         *
+ 446:Generated_Source\PSoC5/PWM_Steer.c ****         * Parameters:
+ 447:Generated_Source\PSoC5/PWM_Steer.c ****         *  None
+ 448:Generated_Source\PSoC5/PWM_Steer.c ****         *
+ 449:Generated_Source\PSoC5/PWM_Steer.c ****         * Return:
+ 450:Generated_Source\PSoC5/PWM_Steer.c ****         *  None
+ 451:Generated_Source\PSoC5/PWM_Steer.c ****         *
+ 452:Generated_Source\PSoC5/PWM_Steer.c ****         *******************************************************************************/
+ 453:Generated_Source\PSoC5/PWM_Steer.c ****         void PWM_Steer_ClearFIFO(void) 
+ 454:Generated_Source\PSoC5/PWM_Steer.c ****         {
+ 135              		.loc 1 454 0
+ 136              		.cfi_startproc
+ 137              		@ args = 0, pretend = 0, frame = 0
+ 138              		@ frame_needed = 0, uses_anonymous_args = 0
+ 139              		@ link register save eliminated.
+ 140              	.LBB14:
+ 141              	.LBB15:
+ 455:Generated_Source\PSoC5/PWM_Steer.c ****             while(0u != (PWM_Steer_ReadStatusRegister() & PWM_Steer_STATUS_FIFONEMPTY))
+ 456:Generated_Source\PSoC5/PWM_Steer.c ****             {
+ 457:Generated_Source\PSoC5/PWM_Steer.c ****                 (void)PWM_Steer_ReadCapture();
+ 458:Generated_Source\PSoC5/PWM_Steer.c ****             }
+ 459:Generated_Source\PSoC5/PWM_Steer.c ****         }
+ 460:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 461:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* PWM_Steer_UseStatus */
+ 462:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 463:Generated_Source\PSoC5/PWM_Steer.c **** #endif /* !PWM_Steer_UsingFixedFunction */
+ 464:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 465:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 466:Generated_Source\PSoC5/PWM_Steer.c **** /*******************************************************************************
+ 467:Generated_Source\PSoC5/PWM_Steer.c **** * Function Name: PWM_Steer_WritePeriod
+ 468:Generated_Source\PSoC5/PWM_Steer.c **** ********************************************************************************
+ 469:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 470:Generated_Source\PSoC5/PWM_Steer.c **** * Summary:
+ 471:Generated_Source\PSoC5/PWM_Steer.c **** *  This function is used to change the period of the counter.  The new period
+ 472:Generated_Source\PSoC5/PWM_Steer.c **** *  will be loaded the next time terminal count is detected.
+ 473:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 474:Generated_Source\PSoC5/PWM_Steer.c **** * Parameters:
+ 475:Generated_Source\PSoC5/PWM_Steer.c **** *  period:  Period value. May be between 1 and (2^Resolution)-1.  A value of 0
+ 476:Generated_Source\PSoC5/PWM_Steer.c **** *           will result in the counter remaining at zero.
+ 477:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 478:Generated_Source\PSoC5/PWM_Steer.c **** * Return:
+ 479:Generated_Source\PSoC5/PWM_Steer.c **** *  None
+ 480:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 481:Generated_Source\PSoC5/PWM_Steer.c **** *******************************************************************************/
+ 482:Generated_Source\PSoC5/PWM_Steer.c **** void PWM_Steer_WritePeriod(uint16 period) 
+ 483:Generated_Source\PSoC5/PWM_Steer.c **** {
+ 484:Generated_Source\PSoC5/PWM_Steer.c ****     #if(PWM_Steer_UsingFixedFunction)
+ 485:Generated_Source\PSoC5/PWM_Steer.c ****         CY_SET_REG16(PWM_Steer_PERIOD_LSB_PTR, (uint16)period);
+ 486:Generated_Source\PSoC5/PWM_Steer.c ****     #else
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 12
+
+
+ 487:Generated_Source\PSoC5/PWM_Steer.c ****         CY_SET_REG16(PWM_Steer_PERIOD_LSB_PTR, period);
+ 488:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (PWM_Steer_UsingFixedFunction) */
+ 489:Generated_Source\PSoC5/PWM_Steer.c **** }
+ 490:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 491:Generated_Source\PSoC5/PWM_Steer.c **** #if (PWM_Steer_UseOneCompareMode)
+ 492:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 493:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 494:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 495:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_WriteCompare
+ 496:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 497:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 498:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 499:Generated_Source\PSoC5/PWM_Steer.c ****     *  This funtion is used to change the compare1 value when the PWM is in Dither
+ 500:Generated_Source\PSoC5/PWM_Steer.c ****     *  mode. The compare output will reflect the new value on the next UDB clock.
+ 501:Generated_Source\PSoC5/PWM_Steer.c ****     *  The compare output will be driven high when the present counter value is
+ 502:Generated_Source\PSoC5/PWM_Steer.c ****     *  compared to the compare value based on the compare mode defined in
+ 503:Generated_Source\PSoC5/PWM_Steer.c ****     *  Dither Mode.
+ 504:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 505:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 506:Generated_Source\PSoC5/PWM_Steer.c ****     *  compare:  New compare value.
+ 507:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 508:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 509:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 510:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 511:Generated_Source\PSoC5/PWM_Steer.c ****     * Side Effects:
+ 512:Generated_Source\PSoC5/PWM_Steer.c ****     *  This function is only available if the PWM mode parameter is set to
+ 513:Generated_Source\PSoC5/PWM_Steer.c ****     *  Dither Mode, Center Aligned Mode or One Output Mode
+ 514:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 515:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 516:Generated_Source\PSoC5/PWM_Steer.c ****     void PWM_Steer_WriteCompare(uint16 compare) \
+ 517:Generated_Source\PSoC5/PWM_Steer.c ****                                        
+ 518:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 519:Generated_Source\PSoC5/PWM_Steer.c ****         #if(PWM_Steer_UsingFixedFunction)
+ 520:Generated_Source\PSoC5/PWM_Steer.c ****             CY_SET_REG16(PWM_Steer_COMPARE1_LSB_PTR, (uint16)compare);
+ 521:Generated_Source\PSoC5/PWM_Steer.c ****         #else
+ 522:Generated_Source\PSoC5/PWM_Steer.c ****             CY_SET_REG16(PWM_Steer_COMPARE1_LSB_PTR, compare);
+ 523:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_UsingFixedFunction) */
+ 524:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 525:Generated_Source\PSoC5/PWM_Steer.c ****         #if (PWM_Steer_PWMMode == PWM_Steer__B_PWM__DITHER)
+ 526:Generated_Source\PSoC5/PWM_Steer.c ****             #if(PWM_Steer_UsingFixedFunction)
+ 527:Generated_Source\PSoC5/PWM_Steer.c ****                 CY_SET_REG16(PWM_Steer_COMPARE2_LSB_PTR, (uint16)(compare + 1u));
+ 528:Generated_Source\PSoC5/PWM_Steer.c ****             #else
+ 529:Generated_Source\PSoC5/PWM_Steer.c ****                 CY_SET_REG16(PWM_Steer_COMPARE2_LSB_PTR, (compare + 1u));
+ 530:Generated_Source\PSoC5/PWM_Steer.c ****             #endif /* (PWM_Steer_UsingFixedFunction) */
+ 531:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_PWMMode == PWM_Steer__B_PWM__DITHER) */
+ 532:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 533:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 534:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 535:Generated_Source\PSoC5/PWM_Steer.c **** #else
+ 536:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 537:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 538:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 539:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_WriteCompare1
+ 540:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 541:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 542:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 543:Generated_Source\PSoC5/PWM_Steer.c ****     *  This funtion is used to change the compare1 value.  The compare output will
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 13
+
+
+ 544:Generated_Source\PSoC5/PWM_Steer.c ****     *  reflect the new value on the next UDB clock.  The compare output will be
+ 545:Generated_Source\PSoC5/PWM_Steer.c ****     *  driven high when the present counter value is less than or less than or
+ 546:Generated_Source\PSoC5/PWM_Steer.c ****     *  equal to the compare register, depending on the mode.
+ 547:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 548:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 549:Generated_Source\PSoC5/PWM_Steer.c ****     *  compare:  New compare value.
+ 550:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 551:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 552:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 553:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 554:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 555:Generated_Source\PSoC5/PWM_Steer.c ****     void PWM_Steer_WriteCompare1(uint16 compare) \
+ 556:Generated_Source\PSoC5/PWM_Steer.c ****                                         
+ 557:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 558:Generated_Source\PSoC5/PWM_Steer.c ****         #if(PWM_Steer_UsingFixedFunction)
+ 559:Generated_Source\PSoC5/PWM_Steer.c ****             CY_SET_REG16(PWM_Steer_COMPARE1_LSB_PTR, (uint16)compare);
+ 560:Generated_Source\PSoC5/PWM_Steer.c ****         #else
+ 561:Generated_Source\PSoC5/PWM_Steer.c ****             CY_SET_REG16(PWM_Steer_COMPARE1_LSB_PTR, compare);
+ 562:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_UsingFixedFunction) */
+ 563:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 564:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 565:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 566:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 567:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_WriteCompare2
+ 568:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 569:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 570:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 571:Generated_Source\PSoC5/PWM_Steer.c ****     *  This funtion is used to change the compare value, for compare1 output.
+ 572:Generated_Source\PSoC5/PWM_Steer.c ****     *  The compare output will reflect the new value on the next UDB clock.
+ 573:Generated_Source\PSoC5/PWM_Steer.c ****     *  The compare output will be driven high when the present counter value is
+ 574:Generated_Source\PSoC5/PWM_Steer.c ****     *  less than or less than or equal to the compare register, depending on the
+ 575:Generated_Source\PSoC5/PWM_Steer.c ****     *  mode.
+ 576:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 577:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 578:Generated_Source\PSoC5/PWM_Steer.c ****     *  compare:  New compare value.
+ 579:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 580:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 581:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 582:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 583:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 584:Generated_Source\PSoC5/PWM_Steer.c ****     void PWM_Steer_WriteCompare2(uint16 compare) \
+ 585:Generated_Source\PSoC5/PWM_Steer.c ****                                         
+ 586:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 587:Generated_Source\PSoC5/PWM_Steer.c ****         #if(PWM_Steer_UsingFixedFunction)
+ 588:Generated_Source\PSoC5/PWM_Steer.c ****             CY_SET_REG16(PWM_Steer_COMPARE2_LSB_PTR, compare);
+ 589:Generated_Source\PSoC5/PWM_Steer.c ****         #else
+ 590:Generated_Source\PSoC5/PWM_Steer.c ****             CY_SET_REG16(PWM_Steer_COMPARE2_LSB_PTR, compare);
+ 591:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_UsingFixedFunction) */
+ 592:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 593:Generated_Source\PSoC5/PWM_Steer.c **** #endif /* UseOneCompareMode */
+ 594:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 595:Generated_Source\PSoC5/PWM_Steer.c **** #if (PWM_Steer_DeadBandUsed)
+ 596:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 597:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 598:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 599:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_WriteDeadTime
+ 600:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 14
+
+
+ 601:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 602:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 603:Generated_Source\PSoC5/PWM_Steer.c ****     *  This function writes the dead-band counts to the corresponding register
+ 604:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 605:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 606:Generated_Source\PSoC5/PWM_Steer.c ****     *  deadtime:  Number of counts for dead time
+ 607:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 608:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 609:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 610:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 611:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 612:Generated_Source\PSoC5/PWM_Steer.c ****     void PWM_Steer_WriteDeadTime(uint8 deadtime) 
+ 613:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 614:Generated_Source\PSoC5/PWM_Steer.c ****         /* If using the Dead Band 1-255 mode then just write the register */
+ 615:Generated_Source\PSoC5/PWM_Steer.c ****         #if(!PWM_Steer_DeadBand2_4)
+ 616:Generated_Source\PSoC5/PWM_Steer.c ****             CY_SET_REG8(PWM_Steer_DEADBAND_COUNT_PTR, deadtime);
+ 617:Generated_Source\PSoC5/PWM_Steer.c ****         #else
+ 618:Generated_Source\PSoC5/PWM_Steer.c ****             /* Otherwise the data has to be masked and offset */
+ 619:Generated_Source\PSoC5/PWM_Steer.c ****             /* Clear existing data */
+ 620:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_DEADBAND_COUNT &= ((uint8)(~PWM_Steer_DEADBAND_COUNT_MASK));
+ 621:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 622:Generated_Source\PSoC5/PWM_Steer.c ****             /* Set new dead time */
+ 623:Generated_Source\PSoC5/PWM_Steer.c ****             #if(PWM_Steer_DEADBAND_COUNT_SHIFT)
+ 624:Generated_Source\PSoC5/PWM_Steer.c ****                 PWM_Steer_DEADBAND_COUNT |= ((uint8)((uint8)deadtime << PWM_Steer_DEADBAND_COUNT_SH
+ 625:Generated_Source\PSoC5/PWM_Steer.c ****                                                     PWM_Steer_DEADBAND_COUNT_MASK;
+ 626:Generated_Source\PSoC5/PWM_Steer.c ****             #else
+ 627:Generated_Source\PSoC5/PWM_Steer.c ****                 PWM_Steer_DEADBAND_COUNT |= deadtime & PWM_Steer_DEADBAND_COUNT_MASK;
+ 628:Generated_Source\PSoC5/PWM_Steer.c ****             #endif /* (PWM_Steer_DEADBAND_COUNT_SHIFT) */
+ 629:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 630:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (!PWM_Steer_DeadBand2_4) */
+ 631:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 632:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 633:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 634:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 635:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_ReadDeadTime
+ 636:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 637:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 638:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 639:Generated_Source\PSoC5/PWM_Steer.c ****     *  This function reads the dead-band counts from the corresponding register
+ 640:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 641:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 642:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 643:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 644:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 645:Generated_Source\PSoC5/PWM_Steer.c ****     *  Dead Band Counts
+ 646:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 647:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 648:Generated_Source\PSoC5/PWM_Steer.c ****     uint8 PWM_Steer_ReadDeadTime(void) 
+ 649:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 650:Generated_Source\PSoC5/PWM_Steer.c ****         /* If using the Dead Band 1-255 mode then just read the register */
+ 651:Generated_Source\PSoC5/PWM_Steer.c ****         #if(!PWM_Steer_DeadBand2_4)
+ 652:Generated_Source\PSoC5/PWM_Steer.c ****             return (CY_GET_REG8(PWM_Steer_DEADBAND_COUNT_PTR));
+ 653:Generated_Source\PSoC5/PWM_Steer.c ****         #else
+ 654:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 655:Generated_Source\PSoC5/PWM_Steer.c ****             /* Otherwise the data has to be masked and offset */
+ 656:Generated_Source\PSoC5/PWM_Steer.c ****             #if(PWM_Steer_DEADBAND_COUNT_SHIFT)
+ 657:Generated_Source\PSoC5/PWM_Steer.c ****                 return ((uint8)(((uint8)(PWM_Steer_DEADBAND_COUNT & PWM_Steer_DEADBAND_COUNT_MASK))
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 15
+
+
+ 658:Generated_Source\PSoC5/PWM_Steer.c ****                                                                            PWM_Steer_DEADBAND_COUNT
+ 659:Generated_Source\PSoC5/PWM_Steer.c ****             #else
+ 660:Generated_Source\PSoC5/PWM_Steer.c ****                 return (PWM_Steer_DEADBAND_COUNT & PWM_Steer_DEADBAND_COUNT_MASK);
+ 661:Generated_Source\PSoC5/PWM_Steer.c ****             #endif /* (PWM_Steer_DEADBAND_COUNT_SHIFT) */
+ 662:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (!PWM_Steer_DeadBand2_4) */
+ 663:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 664:Generated_Source\PSoC5/PWM_Steer.c **** #endif /* DeadBandUsed */
+ 665:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 666:Generated_Source\PSoC5/PWM_Steer.c **** #if (PWM_Steer_UseStatus || PWM_Steer_UsingFixedFunction)
+ 667:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 668:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 669:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 670:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_SetInterruptMode
+ 671:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 672:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 673:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 674:Generated_Source\PSoC5/PWM_Steer.c ****     *  This function configures the interrupts mask control of theinterrupt
+ 675:Generated_Source\PSoC5/PWM_Steer.c ****     *  source status register.
+ 676:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 677:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 678:Generated_Source\PSoC5/PWM_Steer.c ****     *  uint8 interruptMode: Bit field containing the interrupt sources enabled
+ 679:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 680:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 681:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 682:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 683:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 684:Generated_Source\PSoC5/PWM_Steer.c ****     void PWM_Steer_SetInterruptMode(uint8 interruptMode) 
+ 685:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 686:Generated_Source\PSoC5/PWM_Steer.c ****         CY_SET_REG8(PWM_Steer_STATUS_MASK_PTR, interruptMode);
+ 687:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 688:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 689:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 690:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 691:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_ReadStatusRegister
+ 692:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 693:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 694:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 695:Generated_Source\PSoC5/PWM_Steer.c ****     *  This function returns the current state of the status register.
+ 696:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 697:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 698:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 699:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 700:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 701:Generated_Source\PSoC5/PWM_Steer.c ****     *  uint8 : Current status register value. The status register bits are:
+ 702:Generated_Source\PSoC5/PWM_Steer.c ****     *  [7:6] : Unused(0)
+ 703:Generated_Source\PSoC5/PWM_Steer.c ****     *  [5]   : Kill event output
+ 704:Generated_Source\PSoC5/PWM_Steer.c ****     *  [4]   : FIFO not empty
+ 705:Generated_Source\PSoC5/PWM_Steer.c ****     *  [3]   : FIFO full
+ 706:Generated_Source\PSoC5/PWM_Steer.c ****     *  [2]   : Terminal count
+ 707:Generated_Source\PSoC5/PWM_Steer.c ****     *  [1]   : Compare output 2
+ 708:Generated_Source\PSoC5/PWM_Steer.c ****     *  [0]   : Compare output 1
+ 709:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 710:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 711:Generated_Source\PSoC5/PWM_Steer.c ****     uint8 PWM_Steer_ReadStatusRegister(void) 
+ 712:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 713:Generated_Source\PSoC5/PWM_Steer.c ****         return (CY_GET_REG8(PWM_Steer_STATUS_PTR));
+ 142              		.loc 1 713 0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 16
+
+
+ 143 0000 034A     		ldr	r2, .L18
+ 144              	.LBE15:
+ 145              	.LBE14:
+ 146              	.LBB17:
+ 147              	.LBB18:
+ 714:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 715:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 716:Generated_Source\PSoC5/PWM_Steer.c **** #endif /* (PWM_Steer_UseStatus || PWM_Steer_UsingFixedFunction) */
+ 717:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 718:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 719:Generated_Source\PSoC5/PWM_Steer.c **** #if (PWM_Steer_UseControl)
+ 720:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 721:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 722:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 723:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_ReadControlRegister
+ 724:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 725:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 726:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 727:Generated_Source\PSoC5/PWM_Steer.c ****     *  Returns the current state of the control register. This API is available
+ 728:Generated_Source\PSoC5/PWM_Steer.c ****     *  only if the control register is not removed.
+ 729:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 730:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 731:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 732:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 733:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 734:Generated_Source\PSoC5/PWM_Steer.c ****     *  uint8 : Current control register value
+ 735:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 736:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 737:Generated_Source\PSoC5/PWM_Steer.c ****     uint8 PWM_Steer_ReadControlRegister(void) 
+ 738:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 739:Generated_Source\PSoC5/PWM_Steer.c ****         uint8 result;
+ 740:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 741:Generated_Source\PSoC5/PWM_Steer.c ****         result = CY_GET_REG8(PWM_Steer_CONTROL_PTR);
+ 742:Generated_Source\PSoC5/PWM_Steer.c ****         return (result);
+ 743:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 744:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 745:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 746:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 747:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_WriteControlRegister
+ 748:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 749:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 750:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 751:Generated_Source\PSoC5/PWM_Steer.c ****     *  Sets the bit field of the control register. This API is available only if
+ 752:Generated_Source\PSoC5/PWM_Steer.c ****     *  the control register is not removed.
+ 753:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 754:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 755:Generated_Source\PSoC5/PWM_Steer.c ****     *  uint8 control: Control register bit field, The status register bits are:
+ 756:Generated_Source\PSoC5/PWM_Steer.c ****     *  [7]   : PWM Enable
+ 757:Generated_Source\PSoC5/PWM_Steer.c ****     *  [6]   : Reset
+ 758:Generated_Source\PSoC5/PWM_Steer.c ****     *  [5:3] : Compare Mode2
+ 759:Generated_Source\PSoC5/PWM_Steer.c ****     *  [2:0] : Compare Mode2
+ 760:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 761:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 762:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 763:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 764:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 765:Generated_Source\PSoC5/PWM_Steer.c ****     void PWM_Steer_WriteControlRegister(uint8 control) 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 17
+
+
+ 766:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 767:Generated_Source\PSoC5/PWM_Steer.c ****         CY_SET_REG8(PWM_Steer_CONTROL_PTR, control);
+ 768:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 769:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 770:Generated_Source\PSoC5/PWM_Steer.c **** #endif /* (PWM_Steer_UseControl) */
+ 771:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 772:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 773:Generated_Source\PSoC5/PWM_Steer.c **** #if (!PWM_Steer_UsingFixedFunction)
+ 774:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 775:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 776:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 777:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_ReadCapture
+ 778:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 779:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 780:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 781:Generated_Source\PSoC5/PWM_Steer.c ****     *  Reads the capture value from the capture FIFO.
+ 782:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 783:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 784:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 785:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 786:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 787:Generated_Source\PSoC5/PWM_Steer.c ****     *  uint8/uint16: The current capture value
+ 788:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 789:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 790:Generated_Source\PSoC5/PWM_Steer.c ****     uint16 PWM_Steer_ReadCapture(void) 
+ 791:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 792:Generated_Source\PSoC5/PWM_Steer.c ****         return (CY_GET_REG16(PWM_Steer_CAPTURE_LSB_PTR));
+ 148              		.loc 1 792 0
+ 149 0002 0449     		ldr	r1, .L18+4
+ 150              	.L14:
+ 151              	.LBE18:
+ 152              	.LBE17:
+ 153              	.LBB20:
+ 154              	.LBB16:
+ 713:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 155              		.loc 1 713 0
+ 156 0004 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 157              	.LBE16:
+ 158              	.LBE20:
+ 455:Generated_Source\PSoC5/PWM_Steer.c ****             while(0u != (PWM_Steer_ReadStatusRegister() & PWM_Steer_STATUS_FIFONEMPTY))
+ 159              		.loc 1 455 0
+ 160 0006 DB06     		lsls	r3, r3, #27
+ 161 0008 01D5     		bpl	.L17
+ 162              	.LBB21:
+ 163              	.LBB19:
+ 164              		.loc 1 792 0
+ 165 000a 0B88     		ldrh	r3, [r1]
+ 166 000c FAE7     		b	.L14
+ 167              	.L17:
+ 168              	.LBE19:
+ 169              	.LBE21:
+ 459:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 170              		.loc 1 459 0
+ 171 000e 7047     		bx	lr
+ 172              	.L19:
+ 173              		.align	2
+ 174              	.L18:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 18
+
+
+ 175 0010 68640040 		.word	1073767528
+ 176 0014 B2680040 		.word	1073768626
+ 177              		.cfi_endproc
+ 178              	.LFE6:
+ 179              		.size	PWM_Steer_ClearFIFO, .-PWM_Steer_ClearFIFO
+ 180              		.section	.text.PWM_Steer_Init,"ax",%progbits
+ 181              		.align	1
+ 182              		.global	PWM_Steer_Init
+ 183              		.thumb
+ 184              		.thumb_func
+ 185              		.type	PWM_Steer_Init, %function
+ 186              	PWM_Steer_Init:
+ 187              	.LFB1:
+  85:Generated_Source\PSoC5/PWM_Steer.c ****     #if (PWM_Steer_UsingFixedFunction || PWM_Steer_UseControl)
+ 188              		.loc 1 85 0
+ 189              		.cfi_startproc
+ 190              		@ args = 0, pretend = 0, frame = 0
+ 191              		@ frame_needed = 0, uses_anonymous_args = 0
+ 192 0000 08B5     		push	{r3, lr}
+ 193              		.cfi_def_cfa_offset 8
+ 194              		.cfi_offset 3, -8
+ 195              		.cfi_offset 14, -4
+ 117:Generated_Source\PSoC5/PWM_Steer.c ****                 ((uint8)(~PWM_Steer_CTRL_CMPMODE1_MASK));
+ 196              		.loc 1 117 0
+ 197 0002 144A     		ldr	r2, .L21
+ 198 0004 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 199              	.LVL1:
+ 200              	.LBB22:
+ 201              	.LBB23:
+ 686:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 202              		.loc 1 686 0
+ 203 0006 1032     		adds	r2, r2, #16
+ 204              	.LBE23:
+ 205              	.LBE22:
+ 119:Generated_Source\PSoC5/PWM_Steer.c ****                                    PWM_Steer_DEFAULT_COMPARE1_MODE;
+ 206              		.loc 1 119 0
+ 207 0008 03F0C003 		and	r3, r3, #192
+ 208              	.LVL2:
+ 209 000c 43F00903 		orr	r3, r3, #9
+ 210 0010 02F8103C 		strb	r3, [r2, #-16]
+ 129:Generated_Source\PSoC5/PWM_Steer.c ****             PWM_Steer_AUX_CONTROLDP1 |= (PWM_Steer_AUX_CTRL_FIFO0_CLR);
+ 211              		.loc 1 129 0
+ 212 0014 537C     		ldrb	r3, [r2, #17]	@ zero_extendqisi2
+ 213 0016 43F00103 		orr	r3, r3, #1
+ 214 001a 5374     		strb	r3, [r2, #17]
+ 130:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_Resolution == 8) */
+ 215              		.loc 1 130 0
+ 216 001c 937C     		ldrb	r3, [r2, #18]	@ zero_extendqisi2
+ 217 001e 43F00103 		orr	r3, r3, #1
+ 218 0022 9374     		strb	r3, [r2, #18]
+ 219              	.LVL3:
+ 220              	.LBB25:
+ 221              	.LBB26:
+ 406:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 222              		.loc 1 406 0
+ 223 0024 40F6C413 		movw	r3, #2500
+ 224 0028 A2F88A33 		strh	r3, [r2, #906]	@ movhi
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 19
+
+
+ 225              	.LVL4:
+ 226              	.LBE26:
+ 227              	.LBE25:
+ 228              	.LBB27:
+ 229              	.LBB28:
+ 487:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (PWM_Steer_UsingFixedFunction) */
+ 230              		.loc 1 487 0
+ 231 002c A2F80A34 		strh	r3, [r2, #1034]	@ movhi
+ 232              	.LVL5:
+ 233              	.LBE28:
+ 234              	.LBE27:
+ 235              	.LBB29:
+ 236              	.LBB30:
+ 522:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_UsingFixedFunction) */
+ 237              		.loc 1 522 0
+ 238 0030 0023     		movs	r3, #0
+ 239 0032 A2F8CA33 		strh	r3, [r2, #970]	@ movhi
+ 240              	.LVL6:
+ 241              	.LBE30:
+ 242              	.LBE29:
+ 243              	.LBB31:
+ 244              	.LBB24:
+ 686:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 245              		.loc 1 686 0
+ 246 0036 1370     		strb	r3, [r2]
+ 247              	.LVL7:
+ 248              	.LBE24:
+ 249              	.LBE31:
+ 167:Generated_Source\PSoC5/PWM_Steer.c ****             /* Use the interrupt output of the status register for IRQ output */
+ 250              		.loc 1 167 0
+ 251 0038 FFF7FEFF 		bl	CyEnterCriticalSection
+ 252              	.LVL8:
+ 169:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 253              		.loc 1 169 0
+ 254 003c 064A     		ldr	r2, .L21+4
+ 255 003e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 256 0040 43F01003 		orr	r3, r3, #16
+ 257 0044 1370     		strb	r3, [r2]
+ 172:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 258              		.loc 1 172 0
+ 259 0046 FFF7FEFF 		bl	CyExitCriticalSection
+ 260              	.LVL9:
+ 179:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 261              		.loc 1 179 0
+ 262 004a BDE80840 		pop	{r3, lr}
+ 263              		.cfi_restore 14
+ 264              		.cfi_restore 3
+ 265              		.cfi_def_cfa_offset 0
+ 176:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_UseStatus) */
+ 266              		.loc 1 176 0
+ 267 004e FFF7FEBF 		b	PWM_Steer_ClearFIFO
+ 268              	.LVL10:
+ 269              	.L22:
+ 270 0052 00BF     		.align	2
+ 271              	.L21:
+ 272 0054 78640040 		.word	1073767544
+ 273 0058 98640040 		.word	1073767576
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 20
+
+
+ 274              		.cfi_endproc
+ 275              	.LFE1:
+ 276              		.size	PWM_Steer_Init, .-PWM_Steer_Init
+ 277              		.section	.text.PWM_Steer_Start,"ax",%progbits
+ 278              		.align	1
+ 279              		.global	PWM_Steer_Start
+ 280              		.thumb
+ 281              		.thumb_func
+ 282              		.type	PWM_Steer_Start, %function
+ 283              	PWM_Steer_Start:
+ 284              	.LFB0:
+  56:Generated_Source\PSoC5/PWM_Steer.c ****     /* If not Initialized then initialize all required hardware and software */
+ 285              		.loc 1 56 0
+ 286              		.cfi_startproc
+ 287              		@ args = 0, pretend = 0, frame = 0
+ 288              		@ frame_needed = 0, uses_anonymous_args = 0
+ 289 0000 10B5     		push	{r4, lr}
+ 290              		.cfi_def_cfa_offset 8
+ 291              		.cfi_offset 4, -8
+ 292              		.cfi_offset 14, -4
+  58:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 293              		.loc 1 58 0
+ 294 0002 054C     		ldr	r4, .L25
+ 295 0004 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 296 0006 1BB9     		cbnz	r3, .L24
+  60:Generated_Source\PSoC5/PWM_Steer.c ****         PWM_Steer_initVar = 1u;
+ 297              		.loc 1 60 0
+ 298 0008 FFF7FEFF 		bl	PWM_Steer_Init
+ 299              	.LVL11:
+  61:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 300              		.loc 1 61 0
+ 301 000c 0123     		movs	r3, #1
+ 302 000e 2370     		strb	r3, [r4]
+ 303              	.L24:
+  65:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 304              		.loc 1 65 0
+ 305 0010 BDE81040 		pop	{r4, lr}
+ 306              		.cfi_restore 14
+ 307              		.cfi_restore 4
+ 308              		.cfi_def_cfa_offset 0
+  63:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 309              		.loc 1 63 0
+ 310 0014 FFF7FEBF 		b	PWM_Steer_Enable
+ 311              	.LVL12:
+ 312              	.L26:
+ 313              		.align	2
+ 314              	.L25:
+ 315 0018 00000000 		.word	.LANCHOR0
+ 316              		.cfi_endproc
+ 317              	.LFE0:
+ 318              		.size	PWM_Steer_Start, .-PWM_Steer_Start
+ 319              		.section	.text.PWM_Steer_WritePeriod,"ax",%progbits
+ 320              		.align	1
+ 321              		.global	PWM_Steer_WritePeriod
+ 322              		.thumb
+ 323              		.thumb_func
+ 324              		.type	PWM_Steer_WritePeriod, %function
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 21
+
+
+ 325              	PWM_Steer_WritePeriod:
+ 326              	.LFB7:
+ 483:Generated_Source\PSoC5/PWM_Steer.c ****     #if(PWM_Steer_UsingFixedFunction)
+ 327              		.loc 1 483 0
+ 328              		.cfi_startproc
+ 329              		@ args = 0, pretend = 0, frame = 0
+ 330              		@ frame_needed = 0, uses_anonymous_args = 0
+ 331              		@ link register save eliminated.
+ 332              	.LVL13:
+ 487:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (PWM_Steer_UsingFixedFunction) */
+ 333              		.loc 1 487 0
+ 334 0000 014B     		ldr	r3, .L28
+ 335 0002 1880     		strh	r0, [r3]	@ movhi
+ 336 0004 7047     		bx	lr
+ 337              	.L29:
+ 338 0006 00BF     		.align	2
+ 339              	.L28:
+ 340 0008 92680040 		.word	1073768594
+ 341              		.cfi_endproc
+ 342              	.LFE7:
+ 343              		.size	PWM_Steer_WritePeriod, .-PWM_Steer_WritePeriod
+ 344              		.section	.text.PWM_Steer_WriteCompare,"ax",%progbits
+ 345              		.align	1
+ 346              		.global	PWM_Steer_WriteCompare
+ 347              		.thumb
+ 348              		.thumb_func
+ 349              		.type	PWM_Steer_WriteCompare, %function
+ 350              	PWM_Steer_WriteCompare:
+ 351              	.LFB8:
+ 518:Generated_Source\PSoC5/PWM_Steer.c ****         #if(PWM_Steer_UsingFixedFunction)
+ 352              		.loc 1 518 0
+ 353              		.cfi_startproc
+ 354              		@ args = 0, pretend = 0, frame = 0
+ 355              		@ frame_needed = 0, uses_anonymous_args = 0
+ 356              		@ link register save eliminated.
+ 357              	.LVL14:
+ 522:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_UsingFixedFunction) */
+ 358              		.loc 1 522 0
+ 359 0000 014B     		ldr	r3, .L31
+ 360 0002 1880     		strh	r0, [r3]	@ movhi
+ 361 0004 7047     		bx	lr
+ 362              	.L32:
+ 363 0006 00BF     		.align	2
+ 364              	.L31:
+ 365 0008 52680040 		.word	1073768530
+ 366              		.cfi_endproc
+ 367              	.LFE8:
+ 368              		.size	PWM_Steer_WriteCompare, .-PWM_Steer_WriteCompare
+ 369              		.section	.text.PWM_Steer_SetInterruptMode,"ax",%progbits
+ 370              		.align	1
+ 371              		.global	PWM_Steer_SetInterruptMode
+ 372              		.thumb
+ 373              		.thumb_func
+ 374              		.type	PWM_Steer_SetInterruptMode, %function
+ 375              	PWM_Steer_SetInterruptMode:
+ 376              	.LFB9:
+ 685:Generated_Source\PSoC5/PWM_Steer.c ****         CY_SET_REG8(PWM_Steer_STATUS_MASK_PTR, interruptMode);
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 22
+
+
+ 377              		.loc 1 685 0
+ 378              		.cfi_startproc
+ 379              		@ args = 0, pretend = 0, frame = 0
+ 380              		@ frame_needed = 0, uses_anonymous_args = 0
+ 381              		@ link register save eliminated.
+ 382              	.LVL15:
+ 686:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 383              		.loc 1 686 0
+ 384 0000 014B     		ldr	r3, .L34
+ 385 0002 1870     		strb	r0, [r3]
+ 386 0004 7047     		bx	lr
+ 387              	.L35:
+ 388 0006 00BF     		.align	2
+ 389              	.L34:
+ 390 0008 88640040 		.word	1073767560
+ 391              		.cfi_endproc
+ 392              	.LFE9:
+ 393              		.size	PWM_Steer_SetInterruptMode, .-PWM_Steer_SetInterruptMode
+ 394              		.section	.text.PWM_Steer_ReadStatusRegister,"ax",%progbits
+ 395              		.align	1
+ 396              		.global	PWM_Steer_ReadStatusRegister
+ 397              		.thumb
+ 398              		.thumb_func
+ 399              		.type	PWM_Steer_ReadStatusRegister, %function
+ 400              	PWM_Steer_ReadStatusRegister:
+ 401              	.LFB10:
+ 712:Generated_Source\PSoC5/PWM_Steer.c ****         return (CY_GET_REG8(PWM_Steer_STATUS_PTR));
+ 402              		.loc 1 712 0
+ 403              		.cfi_startproc
+ 404              		@ args = 0, pretend = 0, frame = 0
+ 405              		@ frame_needed = 0, uses_anonymous_args = 0
+ 406              		@ link register save eliminated.
+ 713:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 407              		.loc 1 713 0
+ 408 0000 014B     		ldr	r3, .L37
+ 409 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 714:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 410              		.loc 1 714 0
+ 411 0004 7047     		bx	lr
+ 412              	.L38:
+ 413 0006 00BF     		.align	2
+ 414              	.L37:
+ 415 0008 68640040 		.word	1073767528
+ 416              		.cfi_endproc
+ 417              	.LFE10:
+ 418              		.size	PWM_Steer_ReadStatusRegister, .-PWM_Steer_ReadStatusRegister
+ 419              		.section	.text.PWM_Steer_ReadControlRegister,"ax",%progbits
+ 420              		.align	1
+ 421              		.global	PWM_Steer_ReadControlRegister
+ 422              		.thumb
+ 423              		.thumb_func
+ 424              		.type	PWM_Steer_ReadControlRegister, %function
+ 425              	PWM_Steer_ReadControlRegister:
+ 426              	.LFB11:
+ 738:Generated_Source\PSoC5/PWM_Steer.c ****         uint8 result;
+ 427              		.loc 1 738 0
+ 428              		.cfi_startproc
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 23
+
+
+ 429              		@ args = 0, pretend = 0, frame = 0
+ 430              		@ frame_needed = 0, uses_anonymous_args = 0
+ 431              		@ link register save eliminated.
+ 741:Generated_Source\PSoC5/PWM_Steer.c ****         return (result);
+ 432              		.loc 1 741 0
+ 433 0000 014B     		ldr	r3, .L40
+ 434 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 435              	.LVL16:
+ 743:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 436              		.loc 1 743 0
+ 437 0004 7047     		bx	lr
+ 438              	.L41:
+ 439 0006 00BF     		.align	2
+ 440              	.L40:
+ 441 0008 78640040 		.word	1073767544
+ 442              		.cfi_endproc
+ 443              	.LFE11:
+ 444              		.size	PWM_Steer_ReadControlRegister, .-PWM_Steer_ReadControlRegister
+ 445              		.section	.text.PWM_Steer_WriteControlRegister,"ax",%progbits
+ 446              		.align	1
+ 447              		.global	PWM_Steer_WriteControlRegister
+ 448              		.thumb
+ 449              		.thumb_func
+ 450              		.type	PWM_Steer_WriteControlRegister, %function
+ 451              	PWM_Steer_WriteControlRegister:
+ 452              	.LFB12:
+ 766:Generated_Source\PSoC5/PWM_Steer.c ****         CY_SET_REG8(PWM_Steer_CONTROL_PTR, control);
+ 453              		.loc 1 766 0
+ 454              		.cfi_startproc
+ 455              		@ args = 0, pretend = 0, frame = 0
+ 456              		@ frame_needed = 0, uses_anonymous_args = 0
+ 457              		@ link register save eliminated.
+ 458              	.LVL17:
+ 767:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 459              		.loc 1 767 0
+ 460 0000 014B     		ldr	r3, .L43
+ 461 0002 1870     		strb	r0, [r3]
+ 462 0004 7047     		bx	lr
+ 463              	.L44:
+ 464 0006 00BF     		.align	2
+ 465              	.L43:
+ 466 0008 78640040 		.word	1073767544
+ 467              		.cfi_endproc
+ 468              	.LFE12:
+ 469              		.size	PWM_Steer_WriteControlRegister, .-PWM_Steer_WriteControlRegister
+ 470              		.section	.text.PWM_Steer_ReadCapture,"ax",%progbits
+ 471              		.align	1
+ 472              		.global	PWM_Steer_ReadCapture
+ 473              		.thumb
+ 474              		.thumb_func
+ 475              		.type	PWM_Steer_ReadCapture, %function
+ 476              	PWM_Steer_ReadCapture:
+ 477              	.LFB13:
+ 791:Generated_Source\PSoC5/PWM_Steer.c ****         return (CY_GET_REG16(PWM_Steer_CAPTURE_LSB_PTR));
+ 478              		.loc 1 791 0
+ 479              		.cfi_startproc
+ 480              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 24
+
+
+ 481              		@ frame_needed = 0, uses_anonymous_args = 0
+ 482              		@ link register save eliminated.
+ 483              		.loc 1 792 0
+ 484 0000 014B     		ldr	r3, .L46
+ 485 0002 1888     		ldrh	r0, [r3]
+ 793:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 486              		.loc 1 793 0
+ 487 0004 80B2     		uxth	r0, r0
+ 488 0006 7047     		bx	lr
+ 489              	.L47:
+ 490              		.align	2
+ 491              	.L46:
+ 492 0008 B2680040 		.word	1073768626
+ 493              		.cfi_endproc
+ 494              	.LFE13:
+ 495              		.size	PWM_Steer_ReadCapture, .-PWM_Steer_ReadCapture
+ 496              		.section	.text.PWM_Steer_ReadCompare,"ax",%progbits
+ 497              		.align	1
+ 498              		.global	PWM_Steer_ReadCompare
+ 499              		.thumb
+ 500              		.thumb_func
+ 501              		.type	PWM_Steer_ReadCompare, %function
+ 502              	PWM_Steer_ReadCompare:
+ 503              	.LFB14:
+ 794:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 795:Generated_Source\PSoC5/PWM_Steer.c **** #endif /* (!PWM_Steer_UsingFixedFunction) */
+ 796:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 797:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 798:Generated_Source\PSoC5/PWM_Steer.c **** #if (PWM_Steer_UseOneCompareMode)
+ 799:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 800:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 801:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 802:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_ReadCompare
+ 803:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 804:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 805:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 806:Generated_Source\PSoC5/PWM_Steer.c ****     *  Reads the compare value for the compare output when the PWM Mode parameter is
+ 807:Generated_Source\PSoC5/PWM_Steer.c ****     *  set to Dither mode, Center Aligned mode, or One Output mode.
+ 808:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 809:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 810:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 811:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 812:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 813:Generated_Source\PSoC5/PWM_Steer.c ****     *  uint8/uint16: Current compare value
+ 814:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 815:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 816:Generated_Source\PSoC5/PWM_Steer.c ****     uint16 PWM_Steer_ReadCompare(void) 
+ 817:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 504              		.loc 1 817 0
+ 505              		.cfi_startproc
+ 506              		@ args = 0, pretend = 0, frame = 0
+ 507              		@ frame_needed = 0, uses_anonymous_args = 0
+ 508              		@ link register save eliminated.
+ 818:Generated_Source\PSoC5/PWM_Steer.c ****         #if(PWM_Steer_UsingFixedFunction)
+ 819:Generated_Source\PSoC5/PWM_Steer.c ****             return ((uint16)CY_GET_REG16(PWM_Steer_COMPARE1_LSB_PTR));
+ 820:Generated_Source\PSoC5/PWM_Steer.c ****         #else
+ 821:Generated_Source\PSoC5/PWM_Steer.c ****             return (CY_GET_REG16(PWM_Steer_COMPARE1_LSB_PTR));
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 25
+
+
+ 509              		.loc 1 821 0
+ 510 0000 014B     		ldr	r3, .L49
+ 511 0002 1888     		ldrh	r0, [r3]
+ 822:Generated_Source\PSoC5/PWM_Steer.c ****         #endif /* (PWM_Steer_UsingFixedFunction) */
+ 823:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 512              		.loc 1 823 0
+ 513 0004 80B2     		uxth	r0, r0
+ 514 0006 7047     		bx	lr
+ 515              	.L50:
+ 516              		.align	2
+ 517              	.L49:
+ 518 0008 52680040 		.word	1073768530
+ 519              		.cfi_endproc
+ 520              	.LFE14:
+ 521              		.size	PWM_Steer_ReadCompare, .-PWM_Steer_ReadCompare
+ 522              		.section	.text.PWM_Steer_ReadPeriod,"ax",%progbits
+ 523              		.align	1
+ 524              		.global	PWM_Steer_ReadPeriod
+ 525              		.thumb
+ 526              		.thumb_func
+ 527              		.type	PWM_Steer_ReadPeriod, %function
+ 528              	PWM_Steer_ReadPeriod:
+ 529              	.LFB15:
+ 824:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 825:Generated_Source\PSoC5/PWM_Steer.c **** #else
+ 826:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 827:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 828:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 829:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_ReadCompare1
+ 830:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 831:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 832:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 833:Generated_Source\PSoC5/PWM_Steer.c ****     *  Reads the compare value for the compare1 output.
+ 834:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 835:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 836:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 837:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 838:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 839:Generated_Source\PSoC5/PWM_Steer.c ****     *  uint8/uint16: Current compare value.
+ 840:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 841:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 842:Generated_Source\PSoC5/PWM_Steer.c ****     uint16 PWM_Steer_ReadCompare1(void) 
+ 843:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 844:Generated_Source\PSoC5/PWM_Steer.c ****         return (CY_GET_REG16(PWM_Steer_COMPARE1_LSB_PTR));
+ 845:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 846:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 847:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 848:Generated_Source\PSoC5/PWM_Steer.c ****     /*******************************************************************************
+ 849:Generated_Source\PSoC5/PWM_Steer.c ****     * Function Name: PWM_Steer_ReadCompare2
+ 850:Generated_Source\PSoC5/PWM_Steer.c ****     ********************************************************************************
+ 851:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 852:Generated_Source\PSoC5/PWM_Steer.c ****     * Summary:
+ 853:Generated_Source\PSoC5/PWM_Steer.c ****     *  Reads the compare value for the compare2 output.
+ 854:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 855:Generated_Source\PSoC5/PWM_Steer.c ****     * Parameters:
+ 856:Generated_Source\PSoC5/PWM_Steer.c ****     *  None
+ 857:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 26
+
+
+ 858:Generated_Source\PSoC5/PWM_Steer.c ****     * Return:
+ 859:Generated_Source\PSoC5/PWM_Steer.c ****     *  uint8/uint16: Current compare value.
+ 860:Generated_Source\PSoC5/PWM_Steer.c ****     *
+ 861:Generated_Source\PSoC5/PWM_Steer.c ****     *******************************************************************************/
+ 862:Generated_Source\PSoC5/PWM_Steer.c ****     uint16 PWM_Steer_ReadCompare2(void) 
+ 863:Generated_Source\PSoC5/PWM_Steer.c ****     {
+ 864:Generated_Source\PSoC5/PWM_Steer.c ****         return (CY_GET_REG16(PWM_Steer_COMPARE2_LSB_PTR));
+ 865:Generated_Source\PSoC5/PWM_Steer.c ****     }
+ 866:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 867:Generated_Source\PSoC5/PWM_Steer.c **** #endif /* (PWM_Steer_UseOneCompareMode) */
+ 868:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 869:Generated_Source\PSoC5/PWM_Steer.c **** 
+ 870:Generated_Source\PSoC5/PWM_Steer.c **** /*******************************************************************************
+ 871:Generated_Source\PSoC5/PWM_Steer.c **** * Function Name: PWM_Steer_ReadPeriod
+ 872:Generated_Source\PSoC5/PWM_Steer.c **** ********************************************************************************
+ 873:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 874:Generated_Source\PSoC5/PWM_Steer.c **** * Summary:
+ 875:Generated_Source\PSoC5/PWM_Steer.c **** *  Reads the period value used by the PWM hardware.
+ 876:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 877:Generated_Source\PSoC5/PWM_Steer.c **** * Parameters:
+ 878:Generated_Source\PSoC5/PWM_Steer.c **** *  None
+ 879:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 880:Generated_Source\PSoC5/PWM_Steer.c **** * Return:
+ 881:Generated_Source\PSoC5/PWM_Steer.c **** *  uint8/16: Period value
+ 882:Generated_Source\PSoC5/PWM_Steer.c **** *
+ 883:Generated_Source\PSoC5/PWM_Steer.c **** *******************************************************************************/
+ 884:Generated_Source\PSoC5/PWM_Steer.c **** uint16 PWM_Steer_ReadPeriod(void) 
+ 885:Generated_Source\PSoC5/PWM_Steer.c **** {
+ 530              		.loc 1 885 0
+ 531              		.cfi_startproc
+ 532              		@ args = 0, pretend = 0, frame = 0
+ 533              		@ frame_needed = 0, uses_anonymous_args = 0
+ 534              		@ link register save eliminated.
+ 886:Generated_Source\PSoC5/PWM_Steer.c ****     #if(PWM_Steer_UsingFixedFunction)
+ 887:Generated_Source\PSoC5/PWM_Steer.c ****         return ((uint16)CY_GET_REG16(PWM_Steer_PERIOD_LSB_PTR));
+ 888:Generated_Source\PSoC5/PWM_Steer.c ****     #else
+ 889:Generated_Source\PSoC5/PWM_Steer.c ****         return (CY_GET_REG16(PWM_Steer_PERIOD_LSB_PTR));
+ 535              		.loc 1 889 0
+ 536 0000 014B     		ldr	r3, .L52
+ 537 0002 1888     		ldrh	r0, [r3]
+ 890:Generated_Source\PSoC5/PWM_Steer.c ****     #endif /* (PWM_Steer_UsingFixedFunction) */
+ 891:Generated_Source\PSoC5/PWM_Steer.c **** }
+ 538              		.loc 1 891 0
+ 539 0004 80B2     		uxth	r0, r0
+ 540 0006 7047     		bx	lr
+ 541              	.L53:
+ 542              		.align	2
+ 543              	.L52:
+ 544 0008 92680040 		.word	1073768594
+ 545              		.cfi_endproc
+ 546              	.LFE15:
+ 547              		.size	PWM_Steer_ReadPeriod, .-PWM_Steer_ReadPeriod
+ 548              		.global	PWM_Steer_initVar
+ 549              		.bss
+ 550              		.set	.LANCHOR0,. + 0
+ 551              		.type	PWM_Steer_initVar, %object
+ 552              		.size	PWM_Steer_initVar, 1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 27
+
+
+ 553              	PWM_Steer_initVar:
+ 554 0000 00       		.space	1
+ 555              		.text
+ 556              	.Letext0:
+ 557              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 558              		.file 3 "Generated_Source\\PSoC5\\CyLib.h"
+ 559              		.section	.debug_info,"",%progbits
+ 560              	.Ldebug_info0:
+ 561 0000 CC030000 		.4byte	0x3cc
+ 562 0004 0400     		.2byte	0x4
+ 563 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 564 000a 04       		.byte	0x4
+ 565 000b 01       		.uleb128 0x1
+ 566 000c 6A010000 		.4byte	.LASF42
+ 567 0010 0C       		.byte	0xc
+ 568 0011 15000000 		.4byte	.LASF43
+ 569 0015 66000000 		.4byte	.LASF44
+ 570 0019 48000000 		.4byte	.Ldebug_ranges0+0x48
+ 571 001d 00000000 		.4byte	0
+ 572 0021 00000000 		.4byte	.Ldebug_line0
+ 573 0025 02       		.uleb128 0x2
+ 574 0026 01       		.byte	0x1
+ 575 0027 06       		.byte	0x6
+ 576 0028 75030000 		.4byte	.LASF0
+ 577 002c 02       		.uleb128 0x2
+ 578 002d 01       		.byte	0x1
+ 579 002e 08       		.byte	0x8
+ 580 002f 32010000 		.4byte	.LASF1
+ 581 0033 02       		.uleb128 0x2
+ 582 0034 02       		.byte	0x2
+ 583 0035 05       		.byte	0x5
+ 584 0036 40030000 		.4byte	.LASF2
+ 585 003a 02       		.uleb128 0x2
+ 586 003b 02       		.byte	0x2
+ 587 003c 07       		.byte	0x7
+ 588 003d A4000000 		.4byte	.LASF3
+ 589 0041 02       		.uleb128 0x2
+ 590 0042 04       		.byte	0x4
+ 591 0043 05       		.byte	0x5
+ 592 0044 5B030000 		.4byte	.LASF4
+ 593 0048 02       		.uleb128 0x2
+ 594 0049 04       		.byte	0x4
+ 595 004a 07       		.byte	0x7
+ 596 004b 58020000 		.4byte	.LASF5
+ 597 004f 02       		.uleb128 0x2
+ 598 0050 08       		.byte	0x8
+ 599 0051 05       		.byte	0x5
+ 600 0052 EB020000 		.4byte	.LASF6
+ 601 0056 02       		.uleb128 0x2
+ 602 0057 08       		.byte	0x8
+ 603 0058 07       		.byte	0x7
+ 604 0059 FE000000 		.4byte	.LASF7
+ 605 005d 03       		.uleb128 0x3
+ 606 005e 04       		.byte	0x4
+ 607 005f 05       		.byte	0x5
+ 608 0060 696E7400 		.ascii	"int\000"
+ 609 0064 02       		.uleb128 0x2
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 28
+
+
+ 610 0065 04       		.byte	0x4
+ 611 0066 07       		.byte	0x7
+ 612 0067 6A020000 		.4byte	.LASF8
+ 613 006b 04       		.uleb128 0x4
+ 614 006c F8010000 		.4byte	.LASF9
+ 615 0070 02       		.byte	0x2
+ 616 0071 E401     		.2byte	0x1e4
+ 617 0073 2C000000 		.4byte	0x2c
+ 618 0077 04       		.uleb128 0x4
+ 619 0078 3A020000 		.4byte	.LASF10
+ 620 007c 02       		.byte	0x2
+ 621 007d E501     		.2byte	0x1e5
+ 622 007f 3A000000 		.4byte	0x3a
+ 623 0083 02       		.uleb128 0x2
+ 624 0084 04       		.byte	0x4
+ 625 0085 04       		.byte	0x4
+ 626 0086 F0000000 		.4byte	.LASF11
+ 627 008a 02       		.uleb128 0x2
+ 628 008b 08       		.byte	0x8
+ 629 008c 04       		.byte	0x4
+ 630 008d 33020000 		.4byte	.LASF12
+ 631 0091 02       		.uleb128 0x2
+ 632 0092 01       		.byte	0x1
+ 633 0093 08       		.byte	0x8
+ 634 0094 64030000 		.4byte	.LASF13
+ 635 0098 04       		.uleb128 0x4
+ 636 0099 40010000 		.4byte	.LASF14
+ 637 009d 02       		.byte	0x2
+ 638 009e 8E02     		.2byte	0x28e
+ 639 00a0 A4000000 		.4byte	0xa4
+ 640 00a4 05       		.uleb128 0x5
+ 641 00a5 6B000000 		.4byte	0x6b
+ 642 00a9 04       		.uleb128 0x4
+ 643 00aa 00000000 		.4byte	.LASF15
+ 644 00ae 02       		.byte	0x2
+ 645 00af 8F02     		.2byte	0x28f
+ 646 00b1 B5000000 		.4byte	0xb5
+ 647 00b5 05       		.uleb128 0x5
+ 648 00b6 77000000 		.4byte	0x77
+ 649 00ba 02       		.uleb128 0x2
+ 650 00bb 08       		.byte	0x8
+ 651 00bc 04       		.byte	0x4
+ 652 00bd 69030000 		.4byte	.LASF16
+ 653 00c1 02       		.uleb128 0x2
+ 654 00c2 04       		.byte	0x4
+ 655 00c3 07       		.byte	0x7
+ 656 00c4 CE020000 		.4byte	.LASF17
+ 657 00c8 06       		.uleb128 0x6
+ 658 00c9 77020000 		.4byte	.LASF18
+ 659 00cd 01       		.byte	0x1
+ 660 00ce 1603     		.2byte	0x316
+ 661 00d0 77000000 		.4byte	0x77
+ 662 00d4 01       		.byte	0x1
+ 663 00d5 06       		.uleb128 0x6
+ 664 00d6 15010000 		.4byte	.LASF19
+ 665 00da 01       		.byte	0x1
+ 666 00db C702     		.2byte	0x2c7
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 29
+
+
+ 667 00dd 6B000000 		.4byte	0x6b
+ 668 00e1 01       		.byte	0x1
+ 669 00e2 07       		.uleb128 0x7
+ 670 00e3 B7000000 		.4byte	.LASF20
+ 671 00e7 01       		.byte	0x1
+ 672 00e8 AC02     		.2byte	0x2ac
+ 673 00ea 01       		.byte	0x1
+ 674 00eb FC000000 		.4byte	0xfc
+ 675 00ef 08       		.uleb128 0x8
+ 676 00f0 0B030000 		.4byte	.LASF22
+ 677 00f4 01       		.byte	0x1
+ 678 00f5 AC02     		.2byte	0x2ac
+ 679 00f7 6B000000 		.4byte	0x6b
+ 680 00fb 00       		.byte	0
+ 681 00fc 07       		.uleb128 0x7
+ 682 00fd 1C020000 		.4byte	.LASF21
+ 683 0101 01       		.byte	0x1
+ 684 0102 0402     		.2byte	0x204
+ 685 0104 01       		.byte	0x1
+ 686 0105 16010000 		.4byte	0x116
+ 687 0109 08       		.uleb128 0x8
+ 688 010a 81030000 		.4byte	.LASF23
+ 689 010e 01       		.byte	0x1
+ 690 010f 0402     		.2byte	0x204
+ 691 0111 77000000 		.4byte	0x77
+ 692 0115 00       		.byte	0
+ 693 0116 07       		.uleb128 0x7
+ 694 0117 89030000 		.4byte	.LASF24
+ 695 011b 01       		.byte	0x1
+ 696 011c E201     		.2byte	0x1e2
+ 697 011e 01       		.byte	0x1
+ 698 011f 30010000 		.4byte	0x130
+ 699 0123 08       		.uleb128 0x8
+ 700 0124 9D000000 		.4byte	.LASF25
+ 701 0128 01       		.byte	0x1
+ 702 0129 E201     		.2byte	0x1e2
+ 703 012b 77000000 		.4byte	0x77
+ 704 012f 00       		.byte	0
+ 705 0130 07       		.uleb128 0x7
+ 706 0131 29030000 		.4byte	.LASF26
+ 707 0135 01       		.byte	0x1
+ 708 0136 9301     		.2byte	0x193
+ 709 0138 01       		.byte	0x1
+ 710 0139 4A010000 		.4byte	0x14a
+ 711 013d 08       		.uleb128 0x8
+ 712 013e F6000000 		.4byte	.LASF27
+ 713 0142 01       		.byte	0x1
+ 714 0143 9301     		.2byte	0x193
+ 715 0145 77000000 		.4byte	0x77
+ 716 0149 00       		.byte	0
+ 717 014a 09       		.uleb128 0x9
+ 718 014b 4A030000 		.4byte	.LASF28
+ 719 014f 01       		.byte	0x1
+ 720 0150 C7       		.byte	0xc7
+ 721 0151 00000000 		.4byte	.LFB2
+ 722 0155 10000000 		.4byte	.LFE2-.LFB2
+ 723 0159 01       		.uleb128 0x1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 30
+
+
+ 724 015a 9C       		.byte	0x9c
+ 725 015b 09       		.uleb128 0x9
+ 726 015c 5B010000 		.4byte	.LASF29
+ 727 0160 01       		.byte	0x1
+ 728 0161 E9       		.byte	0xe9
+ 729 0162 00000000 		.4byte	.LFB3
+ 730 0166 10000000 		.4byte	.LFE3-.LFB3
+ 731 016a 01       		.uleb128 0x1
+ 732 016b 9C       		.byte	0x9c
+ 733 016c 0A       		.uleb128 0xa
+ 734 016d 30010000 		.4byte	0x130
+ 735 0171 00000000 		.4byte	.LFB4
+ 736 0175 0C000000 		.4byte	.LFE4-.LFB4
+ 737 0179 01       		.uleb128 0x1
+ 738 017a 9C       		.byte	0x9c
+ 739 017b 87010000 		.4byte	0x187
+ 740 017f 0B       		.uleb128 0xb
+ 741 0180 3D010000 		.4byte	0x13d
+ 742 0184 01       		.uleb128 0x1
+ 743 0185 50       		.byte	0x50
+ 744 0186 00       		.byte	0
+ 745 0187 0C       		.uleb128 0xc
+ 746 0188 45010000 		.4byte	.LASF37
+ 747 018c 01       		.byte	0x1
+ 748 018d A901     		.2byte	0x1a9
+ 749 018f 77000000 		.4byte	0x77
+ 750 0193 00000000 		.4byte	.LFB5
+ 751 0197 14000000 		.4byte	.LFE5-.LFB5
+ 752 019b 01       		.uleb128 0x1
+ 753 019c 9C       		.byte	0x9c
+ 754 019d 0D       		.uleb128 0xd
+ 755 019e D7020000 		.4byte	.LASF30
+ 756 01a2 01       		.byte	0x1
+ 757 01a3 C501     		.2byte	0x1c5
+ 758 01a5 00000000 		.4byte	.LFB6
+ 759 01a9 18000000 		.4byte	.LFE6-.LFB6
+ 760 01ad 01       		.uleb128 0x1
+ 761 01ae 9C       		.byte	0x9c
+ 762 01af D4010000 		.4byte	0x1d4
+ 763 01b3 0E       		.uleb128 0xe
+ 764 01b4 D5000000 		.4byte	0xd5
+ 765 01b8 00000000 		.4byte	.LBB14
+ 766 01bc 00000000 		.4byte	.Ldebug_ranges0+0
+ 767 01c0 01       		.byte	0x1
+ 768 01c1 C701     		.2byte	0x1c7
+ 769 01c3 0E       		.uleb128 0xe
+ 770 01c4 C8000000 		.4byte	0xc8
+ 771 01c8 02000000 		.4byte	.LBB17
+ 772 01cc 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 773 01d0 01       		.byte	0x1
+ 774 01d1 C901     		.2byte	0x1c9
+ 775 01d3 00       		.byte	0
+ 776 01d4 0F       		.uleb128 0xf
+ 777 01d5 06000000 		.4byte	.LASF31
+ 778 01d9 01       		.byte	0x1
+ 779 01da 54       		.byte	0x54
+ 780 01db 00000000 		.4byte	.LFB1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 31
+
+
+ 781 01df 5C000000 		.4byte	.LFE1-.LFB1
+ 782 01e3 01       		.uleb128 0x1
+ 783 01e4 9C       		.byte	0x9c
+ 784 01e5 97020000 		.4byte	0x297
+ 785 01e9 10       		.uleb128 0x10
+ 786 01ea AA020000 		.4byte	.LASF32
+ 787 01ee 01       		.byte	0x1
+ 788 01ef 57       		.byte	0x57
+ 789 01f0 6B000000 		.4byte	0x6b
+ 790 01f4 00000000 		.4byte	.LLST0
+ 791 01f8 10       		.uleb128 0x10
+ 792 01f9 4D000000 		.4byte	.LASF33
+ 793 01fd 01       		.byte	0x1
+ 794 01fe 5D       		.byte	0x5d
+ 795 01ff 6B000000 		.4byte	0x6b
+ 796 0203 18000000 		.4byte	.LLST1
+ 797 0207 11       		.uleb128 0x11
+ 798 0208 E2000000 		.4byte	0xe2
+ 799 020c 06000000 		.4byte	.LBB22
+ 800 0210 30000000 		.4byte	.Ldebug_ranges0+0x30
+ 801 0214 01       		.byte	0x1
+ 802 0215 9A       		.byte	0x9a
+ 803 0216 24020000 		.4byte	0x224
+ 804 021a 12       		.uleb128 0x12
+ 805 021b EF000000 		.4byte	0xef
+ 806 021f 2B000000 		.4byte	.LLST2
+ 807 0223 00       		.byte	0
+ 808 0224 13       		.uleb128 0x13
+ 809 0225 30010000 		.4byte	0x130
+ 810 0229 24000000 		.4byte	.LBB25
+ 811 022d 08000000 		.4byte	.LBE25-.LBB25
+ 812 0231 01       		.byte	0x1
+ 813 0232 85       		.byte	0x85
+ 814 0233 41020000 		.4byte	0x241
+ 815 0237 12       		.uleb128 0x12
+ 816 0238 3D010000 		.4byte	0x13d
+ 817 023c 3F000000 		.4byte	.LLST3
+ 818 0240 00       		.byte	0
+ 819 0241 13       		.uleb128 0x13
+ 820 0242 16010000 		.4byte	0x116
+ 821 0246 2C000000 		.4byte	.LBB27
+ 822 024a 04000000 		.4byte	.LBE27-.LBB27
+ 823 024e 01       		.byte	0x1
+ 824 024f 88       		.byte	0x88
+ 825 0250 5E020000 		.4byte	0x25e
+ 826 0254 12       		.uleb128 0x12
+ 827 0255 23010000 		.4byte	0x123
+ 828 0259 55000000 		.4byte	.LLST4
+ 829 025d 00       		.byte	0
+ 830 025e 13       		.uleb128 0x13
+ 831 025f FC000000 		.4byte	0xfc
+ 832 0263 30000000 		.4byte	.LBB29
+ 833 0267 06000000 		.4byte	.LBE29-.LBB29
+ 834 026b 01       		.byte	0x1
+ 835 026c 8B       		.byte	0x8b
+ 836 026d 7B020000 		.4byte	0x27b
+ 837 0271 12       		.uleb128 0x12
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 32
+
+
+ 838 0272 09010000 		.4byte	0x109
+ 839 0276 6B000000 		.4byte	.LLST5
+ 840 027a 00       		.byte	0
+ 841 027b 14       		.uleb128 0x14
+ 842 027c 3C000000 		.4byte	.LVL8
+ 843 0280 B9030000 		.4byte	0x3b9
+ 844 0284 14       		.uleb128 0x14
+ 845 0285 4A000000 		.4byte	.LVL9
+ 846 0289 C4030000 		.4byte	0x3c4
+ 847 028d 15       		.uleb128 0x15
+ 848 028e 52000000 		.4byte	.LVL10
+ 849 0292 9D010000 		.4byte	0x19d
+ 850 0296 00       		.byte	0
+ 851 0297 0F       		.uleb128 0xf
+ 852 0298 19030000 		.4byte	.LASF34
+ 853 029c 01       		.byte	0x1
+ 854 029d 37       		.byte	0x37
+ 855 029e 00000000 		.4byte	.LFB0
+ 856 02a2 1C000000 		.4byte	.LFE0-.LFB0
+ 857 02a6 01       		.uleb128 0x1
+ 858 02a7 9C       		.byte	0x9c
+ 859 02a8 BF020000 		.4byte	0x2bf
+ 860 02ac 14       		.uleb128 0x14
+ 861 02ad 0C000000 		.4byte	.LVL11
+ 862 02b1 D4010000 		.4byte	0x1d4
+ 863 02b5 15       		.uleb128 0x15
+ 864 02b6 18000000 		.4byte	.LVL12
+ 865 02ba 4A010000 		.4byte	0x14a
+ 866 02be 00       		.byte	0
+ 867 02bf 0A       		.uleb128 0xa
+ 868 02c0 16010000 		.4byte	0x116
+ 869 02c4 00000000 		.4byte	.LFB7
+ 870 02c8 0C000000 		.4byte	.LFE7-.LFB7
+ 871 02cc 01       		.uleb128 0x1
+ 872 02cd 9C       		.byte	0x9c
+ 873 02ce DA020000 		.4byte	0x2da
+ 874 02d2 0B       		.uleb128 0xb
+ 875 02d3 23010000 		.4byte	0x123
+ 876 02d7 01       		.uleb128 0x1
+ 877 02d8 50       		.byte	0x50
+ 878 02d9 00       		.byte	0
+ 879 02da 0A       		.uleb128 0xa
+ 880 02db FC000000 		.4byte	0xfc
+ 881 02df 00000000 		.4byte	.LFB8
+ 882 02e3 0C000000 		.4byte	.LFE8-.LFB8
+ 883 02e7 01       		.uleb128 0x1
+ 884 02e8 9C       		.byte	0x9c
+ 885 02e9 F5020000 		.4byte	0x2f5
+ 886 02ed 0B       		.uleb128 0xb
+ 887 02ee 09010000 		.4byte	0x109
+ 888 02f2 01       		.uleb128 0x1
+ 889 02f3 50       		.byte	0x50
+ 890 02f4 00       		.byte	0
+ 891 02f5 0A       		.uleb128 0xa
+ 892 02f6 E2000000 		.4byte	0xe2
+ 893 02fa 00000000 		.4byte	.LFB9
+ 894 02fe 0C000000 		.4byte	.LFE9-.LFB9
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 33
+
+
+ 895 0302 01       		.uleb128 0x1
+ 896 0303 9C       		.byte	0x9c
+ 897 0304 10030000 		.4byte	0x310
+ 898 0308 0B       		.uleb128 0xb
+ 899 0309 EF000000 		.4byte	0xef
+ 900 030d 01       		.uleb128 0x1
+ 901 030e 50       		.byte	0x50
+ 902 030f 00       		.byte	0
+ 903 0310 16       		.uleb128 0x16
+ 904 0311 D5000000 		.4byte	0xd5
+ 905 0315 00000000 		.4byte	.LFB10
+ 906 0319 0C000000 		.4byte	.LFE10-.LFB10
+ 907 031d 01       		.uleb128 0x1
+ 908 031e 9C       		.byte	0x9c
+ 909 031f 17       		.uleb128 0x17
+ 910 0320 D2000000 		.4byte	.LASF45
+ 911 0324 01       		.byte	0x1
+ 912 0325 E102     		.2byte	0x2e1
+ 913 0327 6B000000 		.4byte	0x6b
+ 914 032b 00000000 		.4byte	.LFB11
+ 915 032f 0C000000 		.4byte	.LFE11-.LFB11
+ 916 0333 01       		.uleb128 0x1
+ 917 0334 9C       		.byte	0x9c
+ 918 0335 48030000 		.4byte	0x348
+ 919 0339 18       		.uleb128 0x18
+ 920 033a A3020000 		.4byte	.LASF35
+ 921 033e 01       		.byte	0x1
+ 922 033f E302     		.2byte	0x2e3
+ 923 0341 6B000000 		.4byte	0x6b
+ 924 0345 01       		.uleb128 0x1
+ 925 0346 50       		.byte	0x50
+ 926 0347 00       		.byte	0
+ 927 0348 0D       		.uleb128 0xd
+ 928 0349 AF020000 		.4byte	.LASF36
+ 929 034d 01       		.byte	0x1
+ 930 034e FD02     		.2byte	0x2fd
+ 931 0350 00000000 		.4byte	.LFB12
+ 932 0354 0C000000 		.4byte	.LFE12-.LFB12
+ 933 0358 01       		.uleb128 0x1
+ 934 0359 9C       		.byte	0x9c
+ 935 035a 6D030000 		.4byte	0x36d
+ 936 035e 19       		.uleb128 0x19
+ 937 035f FE010000 		.4byte	.LASF46
+ 938 0363 01       		.byte	0x1
+ 939 0364 FD02     		.2byte	0x2fd
+ 940 0366 6B000000 		.4byte	0x6b
+ 941 036a 01       		.uleb128 0x1
+ 942 036b 50       		.byte	0x50
+ 943 036c 00       		.byte	0
+ 944 036d 16       		.uleb128 0x16
+ 945 036e C8000000 		.4byte	0xc8
+ 946 0372 00000000 		.4byte	.LFB13
+ 947 0376 0C000000 		.4byte	.LFE13-.LFB13
+ 948 037a 01       		.uleb128 0x1
+ 949 037b 9C       		.byte	0x9c
+ 950 037c 0C       		.uleb128 0xc
+ 951 037d 06020000 		.4byte	.LASF38
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 34
+
+
+ 952 0381 01       		.byte	0x1
+ 953 0382 3003     		.2byte	0x330
+ 954 0384 77000000 		.4byte	0x77
+ 955 0388 00000000 		.4byte	.LFB14
+ 956 038c 0C000000 		.4byte	.LFE14-.LFB14
+ 957 0390 01       		.uleb128 0x1
+ 958 0391 9C       		.byte	0x9c
+ 959 0392 0C       		.uleb128 0xc
+ 960 0393 38000000 		.4byte	.LASF39
+ 961 0397 01       		.byte	0x1
+ 962 0398 7403     		.2byte	0x374
+ 963 039a 77000000 		.4byte	0x77
+ 964 039e 00000000 		.4byte	.LFB15
+ 965 03a2 0C000000 		.4byte	.LFE15-.LFB15
+ 966 03a6 01       		.uleb128 0x1
+ 967 03a7 9C       		.byte	0x9c
+ 968 03a8 1A       		.uleb128 0x1a
+ 969 03a9 F9020000 		.4byte	.LASF47
+ 970 03ad 01       		.byte	0x1
+ 971 03ae 20       		.byte	0x20
+ 972 03af 6B000000 		.4byte	0x6b
+ 973 03b3 05       		.uleb128 0x5
+ 974 03b4 03       		.byte	0x3
+ 975 03b5 00000000 		.4byte	PWM_Steer_initVar
+ 976 03b9 1B       		.uleb128 0x1b
+ 977 03ba 41020000 		.4byte	.LASF40
+ 978 03be 41020000 		.4byte	.LASF40
+ 979 03c2 03       		.byte	0x3
+ 980 03c3 7D       		.byte	0x7d
+ 981 03c4 1B       		.uleb128 0x1b
+ 982 03c5 8D020000 		.4byte	.LASF41
+ 983 03c9 8D020000 		.4byte	.LASF41
+ 984 03cd 03       		.byte	0x3
+ 985 03ce 7E       		.byte	0x7e
+ 986 03cf 00       		.byte	0
+ 987              		.section	.debug_abbrev,"",%progbits
+ 988              	.Ldebug_abbrev0:
+ 989 0000 01       		.uleb128 0x1
+ 990 0001 11       		.uleb128 0x11
+ 991 0002 01       		.byte	0x1
+ 992 0003 25       		.uleb128 0x25
+ 993 0004 0E       		.uleb128 0xe
+ 994 0005 13       		.uleb128 0x13
+ 995 0006 0B       		.uleb128 0xb
+ 996 0007 03       		.uleb128 0x3
+ 997 0008 0E       		.uleb128 0xe
+ 998 0009 1B       		.uleb128 0x1b
+ 999 000a 0E       		.uleb128 0xe
+ 1000 000b 55       		.uleb128 0x55
+ 1001 000c 17       		.uleb128 0x17
+ 1002 000d 11       		.uleb128 0x11
+ 1003 000e 01       		.uleb128 0x1
+ 1004 000f 10       		.uleb128 0x10
+ 1005 0010 17       		.uleb128 0x17
+ 1006 0011 00       		.byte	0
+ 1007 0012 00       		.byte	0
+ 1008 0013 02       		.uleb128 0x2
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 35
+
+
+ 1009 0014 24       		.uleb128 0x24
+ 1010 0015 00       		.byte	0
+ 1011 0016 0B       		.uleb128 0xb
+ 1012 0017 0B       		.uleb128 0xb
+ 1013 0018 3E       		.uleb128 0x3e
+ 1014 0019 0B       		.uleb128 0xb
+ 1015 001a 03       		.uleb128 0x3
+ 1016 001b 0E       		.uleb128 0xe
+ 1017 001c 00       		.byte	0
+ 1018 001d 00       		.byte	0
+ 1019 001e 03       		.uleb128 0x3
+ 1020 001f 24       		.uleb128 0x24
+ 1021 0020 00       		.byte	0
+ 1022 0021 0B       		.uleb128 0xb
+ 1023 0022 0B       		.uleb128 0xb
+ 1024 0023 3E       		.uleb128 0x3e
+ 1025 0024 0B       		.uleb128 0xb
+ 1026 0025 03       		.uleb128 0x3
+ 1027 0026 08       		.uleb128 0x8
+ 1028 0027 00       		.byte	0
+ 1029 0028 00       		.byte	0
+ 1030 0029 04       		.uleb128 0x4
+ 1031 002a 16       		.uleb128 0x16
+ 1032 002b 00       		.byte	0
+ 1033 002c 03       		.uleb128 0x3
+ 1034 002d 0E       		.uleb128 0xe
+ 1035 002e 3A       		.uleb128 0x3a
+ 1036 002f 0B       		.uleb128 0xb
+ 1037 0030 3B       		.uleb128 0x3b
+ 1038 0031 05       		.uleb128 0x5
+ 1039 0032 49       		.uleb128 0x49
+ 1040 0033 13       		.uleb128 0x13
+ 1041 0034 00       		.byte	0
+ 1042 0035 00       		.byte	0
+ 1043 0036 05       		.uleb128 0x5
+ 1044 0037 35       		.uleb128 0x35
+ 1045 0038 00       		.byte	0
+ 1046 0039 49       		.uleb128 0x49
+ 1047 003a 13       		.uleb128 0x13
+ 1048 003b 00       		.byte	0
+ 1049 003c 00       		.byte	0
+ 1050 003d 06       		.uleb128 0x6
+ 1051 003e 2E       		.uleb128 0x2e
+ 1052 003f 00       		.byte	0
+ 1053 0040 3F       		.uleb128 0x3f
+ 1054 0041 19       		.uleb128 0x19
+ 1055 0042 03       		.uleb128 0x3
+ 1056 0043 0E       		.uleb128 0xe
+ 1057 0044 3A       		.uleb128 0x3a
+ 1058 0045 0B       		.uleb128 0xb
+ 1059 0046 3B       		.uleb128 0x3b
+ 1060 0047 05       		.uleb128 0x5
+ 1061 0048 27       		.uleb128 0x27
+ 1062 0049 19       		.uleb128 0x19
+ 1063 004a 49       		.uleb128 0x49
+ 1064 004b 13       		.uleb128 0x13
+ 1065 004c 20       		.uleb128 0x20
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 36
+
+
+ 1066 004d 0B       		.uleb128 0xb
+ 1067 004e 00       		.byte	0
+ 1068 004f 00       		.byte	0
+ 1069 0050 07       		.uleb128 0x7
+ 1070 0051 2E       		.uleb128 0x2e
+ 1071 0052 01       		.byte	0x1
+ 1072 0053 3F       		.uleb128 0x3f
+ 1073 0054 19       		.uleb128 0x19
+ 1074 0055 03       		.uleb128 0x3
+ 1075 0056 0E       		.uleb128 0xe
+ 1076 0057 3A       		.uleb128 0x3a
+ 1077 0058 0B       		.uleb128 0xb
+ 1078 0059 3B       		.uleb128 0x3b
+ 1079 005a 05       		.uleb128 0x5
+ 1080 005b 27       		.uleb128 0x27
+ 1081 005c 19       		.uleb128 0x19
+ 1082 005d 20       		.uleb128 0x20
+ 1083 005e 0B       		.uleb128 0xb
+ 1084 005f 01       		.uleb128 0x1
+ 1085 0060 13       		.uleb128 0x13
+ 1086 0061 00       		.byte	0
+ 1087 0062 00       		.byte	0
+ 1088 0063 08       		.uleb128 0x8
+ 1089 0064 05       		.uleb128 0x5
+ 1090 0065 00       		.byte	0
+ 1091 0066 03       		.uleb128 0x3
+ 1092 0067 0E       		.uleb128 0xe
+ 1093 0068 3A       		.uleb128 0x3a
+ 1094 0069 0B       		.uleb128 0xb
+ 1095 006a 3B       		.uleb128 0x3b
+ 1096 006b 05       		.uleb128 0x5
+ 1097 006c 49       		.uleb128 0x49
+ 1098 006d 13       		.uleb128 0x13
+ 1099 006e 00       		.byte	0
+ 1100 006f 00       		.byte	0
+ 1101 0070 09       		.uleb128 0x9
+ 1102 0071 2E       		.uleb128 0x2e
+ 1103 0072 00       		.byte	0
+ 1104 0073 3F       		.uleb128 0x3f
+ 1105 0074 19       		.uleb128 0x19
+ 1106 0075 03       		.uleb128 0x3
+ 1107 0076 0E       		.uleb128 0xe
+ 1108 0077 3A       		.uleb128 0x3a
+ 1109 0078 0B       		.uleb128 0xb
+ 1110 0079 3B       		.uleb128 0x3b
+ 1111 007a 0B       		.uleb128 0xb
+ 1112 007b 27       		.uleb128 0x27
+ 1113 007c 19       		.uleb128 0x19
+ 1114 007d 11       		.uleb128 0x11
+ 1115 007e 01       		.uleb128 0x1
+ 1116 007f 12       		.uleb128 0x12
+ 1117 0080 06       		.uleb128 0x6
+ 1118 0081 40       		.uleb128 0x40
+ 1119 0082 18       		.uleb128 0x18
+ 1120 0083 9742     		.uleb128 0x2117
+ 1121 0085 19       		.uleb128 0x19
+ 1122 0086 00       		.byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 37
+
+
+ 1123 0087 00       		.byte	0
+ 1124 0088 0A       		.uleb128 0xa
+ 1125 0089 2E       		.uleb128 0x2e
+ 1126 008a 01       		.byte	0x1
+ 1127 008b 31       		.uleb128 0x31
+ 1128 008c 13       		.uleb128 0x13
+ 1129 008d 11       		.uleb128 0x11
+ 1130 008e 01       		.uleb128 0x1
+ 1131 008f 12       		.uleb128 0x12
+ 1132 0090 06       		.uleb128 0x6
+ 1133 0091 40       		.uleb128 0x40
+ 1134 0092 18       		.uleb128 0x18
+ 1135 0093 9742     		.uleb128 0x2117
+ 1136 0095 19       		.uleb128 0x19
+ 1137 0096 01       		.uleb128 0x1
+ 1138 0097 13       		.uleb128 0x13
+ 1139 0098 00       		.byte	0
+ 1140 0099 00       		.byte	0
+ 1141 009a 0B       		.uleb128 0xb
+ 1142 009b 05       		.uleb128 0x5
+ 1143 009c 00       		.byte	0
+ 1144 009d 31       		.uleb128 0x31
+ 1145 009e 13       		.uleb128 0x13
+ 1146 009f 02       		.uleb128 0x2
+ 1147 00a0 18       		.uleb128 0x18
+ 1148 00a1 00       		.byte	0
+ 1149 00a2 00       		.byte	0
+ 1150 00a3 0C       		.uleb128 0xc
+ 1151 00a4 2E       		.uleb128 0x2e
+ 1152 00a5 00       		.byte	0
+ 1153 00a6 3F       		.uleb128 0x3f
+ 1154 00a7 19       		.uleb128 0x19
+ 1155 00a8 03       		.uleb128 0x3
+ 1156 00a9 0E       		.uleb128 0xe
+ 1157 00aa 3A       		.uleb128 0x3a
+ 1158 00ab 0B       		.uleb128 0xb
+ 1159 00ac 3B       		.uleb128 0x3b
+ 1160 00ad 05       		.uleb128 0x5
+ 1161 00ae 27       		.uleb128 0x27
+ 1162 00af 19       		.uleb128 0x19
+ 1163 00b0 49       		.uleb128 0x49
+ 1164 00b1 13       		.uleb128 0x13
+ 1165 00b2 11       		.uleb128 0x11
+ 1166 00b3 01       		.uleb128 0x1
+ 1167 00b4 12       		.uleb128 0x12
+ 1168 00b5 06       		.uleb128 0x6
+ 1169 00b6 40       		.uleb128 0x40
+ 1170 00b7 18       		.uleb128 0x18
+ 1171 00b8 9742     		.uleb128 0x2117
+ 1172 00ba 19       		.uleb128 0x19
+ 1173 00bb 00       		.byte	0
+ 1174 00bc 00       		.byte	0
+ 1175 00bd 0D       		.uleb128 0xd
+ 1176 00be 2E       		.uleb128 0x2e
+ 1177 00bf 01       		.byte	0x1
+ 1178 00c0 3F       		.uleb128 0x3f
+ 1179 00c1 19       		.uleb128 0x19
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 38
+
+
+ 1180 00c2 03       		.uleb128 0x3
+ 1181 00c3 0E       		.uleb128 0xe
+ 1182 00c4 3A       		.uleb128 0x3a
+ 1183 00c5 0B       		.uleb128 0xb
+ 1184 00c6 3B       		.uleb128 0x3b
+ 1185 00c7 05       		.uleb128 0x5
+ 1186 00c8 27       		.uleb128 0x27
+ 1187 00c9 19       		.uleb128 0x19
+ 1188 00ca 11       		.uleb128 0x11
+ 1189 00cb 01       		.uleb128 0x1
+ 1190 00cc 12       		.uleb128 0x12
+ 1191 00cd 06       		.uleb128 0x6
+ 1192 00ce 40       		.uleb128 0x40
+ 1193 00cf 18       		.uleb128 0x18
+ 1194 00d0 9742     		.uleb128 0x2117
+ 1195 00d2 19       		.uleb128 0x19
+ 1196 00d3 01       		.uleb128 0x1
+ 1197 00d4 13       		.uleb128 0x13
+ 1198 00d5 00       		.byte	0
+ 1199 00d6 00       		.byte	0
+ 1200 00d7 0E       		.uleb128 0xe
+ 1201 00d8 1D       		.uleb128 0x1d
+ 1202 00d9 00       		.byte	0
+ 1203 00da 31       		.uleb128 0x31
+ 1204 00db 13       		.uleb128 0x13
+ 1205 00dc 52       		.uleb128 0x52
+ 1206 00dd 01       		.uleb128 0x1
+ 1207 00de 55       		.uleb128 0x55
+ 1208 00df 17       		.uleb128 0x17
+ 1209 00e0 58       		.uleb128 0x58
+ 1210 00e1 0B       		.uleb128 0xb
+ 1211 00e2 59       		.uleb128 0x59
+ 1212 00e3 05       		.uleb128 0x5
+ 1213 00e4 00       		.byte	0
+ 1214 00e5 00       		.byte	0
+ 1215 00e6 0F       		.uleb128 0xf
+ 1216 00e7 2E       		.uleb128 0x2e
+ 1217 00e8 01       		.byte	0x1
+ 1218 00e9 3F       		.uleb128 0x3f
+ 1219 00ea 19       		.uleb128 0x19
+ 1220 00eb 03       		.uleb128 0x3
+ 1221 00ec 0E       		.uleb128 0xe
+ 1222 00ed 3A       		.uleb128 0x3a
+ 1223 00ee 0B       		.uleb128 0xb
+ 1224 00ef 3B       		.uleb128 0x3b
+ 1225 00f0 0B       		.uleb128 0xb
+ 1226 00f1 27       		.uleb128 0x27
+ 1227 00f2 19       		.uleb128 0x19
+ 1228 00f3 11       		.uleb128 0x11
+ 1229 00f4 01       		.uleb128 0x1
+ 1230 00f5 12       		.uleb128 0x12
+ 1231 00f6 06       		.uleb128 0x6
+ 1232 00f7 40       		.uleb128 0x40
+ 1233 00f8 18       		.uleb128 0x18
+ 1234 00f9 9742     		.uleb128 0x2117
+ 1235 00fb 19       		.uleb128 0x19
+ 1236 00fc 01       		.uleb128 0x1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 39
+
+
+ 1237 00fd 13       		.uleb128 0x13
+ 1238 00fe 00       		.byte	0
+ 1239 00ff 00       		.byte	0
+ 1240 0100 10       		.uleb128 0x10
+ 1241 0101 34       		.uleb128 0x34
+ 1242 0102 00       		.byte	0
+ 1243 0103 03       		.uleb128 0x3
+ 1244 0104 0E       		.uleb128 0xe
+ 1245 0105 3A       		.uleb128 0x3a
+ 1246 0106 0B       		.uleb128 0xb
+ 1247 0107 3B       		.uleb128 0x3b
+ 1248 0108 0B       		.uleb128 0xb
+ 1249 0109 49       		.uleb128 0x49
+ 1250 010a 13       		.uleb128 0x13
+ 1251 010b 02       		.uleb128 0x2
+ 1252 010c 17       		.uleb128 0x17
+ 1253 010d 00       		.byte	0
+ 1254 010e 00       		.byte	0
+ 1255 010f 11       		.uleb128 0x11
+ 1256 0110 1D       		.uleb128 0x1d
+ 1257 0111 01       		.byte	0x1
+ 1258 0112 31       		.uleb128 0x31
+ 1259 0113 13       		.uleb128 0x13
+ 1260 0114 52       		.uleb128 0x52
+ 1261 0115 01       		.uleb128 0x1
+ 1262 0116 55       		.uleb128 0x55
+ 1263 0117 17       		.uleb128 0x17
+ 1264 0118 58       		.uleb128 0x58
+ 1265 0119 0B       		.uleb128 0xb
+ 1266 011a 59       		.uleb128 0x59
+ 1267 011b 0B       		.uleb128 0xb
+ 1268 011c 01       		.uleb128 0x1
+ 1269 011d 13       		.uleb128 0x13
+ 1270 011e 00       		.byte	0
+ 1271 011f 00       		.byte	0
+ 1272 0120 12       		.uleb128 0x12
+ 1273 0121 05       		.uleb128 0x5
+ 1274 0122 00       		.byte	0
+ 1275 0123 31       		.uleb128 0x31
+ 1276 0124 13       		.uleb128 0x13
+ 1277 0125 02       		.uleb128 0x2
+ 1278 0126 17       		.uleb128 0x17
+ 1279 0127 00       		.byte	0
+ 1280 0128 00       		.byte	0
+ 1281 0129 13       		.uleb128 0x13
+ 1282 012a 1D       		.uleb128 0x1d
+ 1283 012b 01       		.byte	0x1
+ 1284 012c 31       		.uleb128 0x31
+ 1285 012d 13       		.uleb128 0x13
+ 1286 012e 11       		.uleb128 0x11
+ 1287 012f 01       		.uleb128 0x1
+ 1288 0130 12       		.uleb128 0x12
+ 1289 0131 06       		.uleb128 0x6
+ 1290 0132 58       		.uleb128 0x58
+ 1291 0133 0B       		.uleb128 0xb
+ 1292 0134 59       		.uleb128 0x59
+ 1293 0135 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 40
+
+
+ 1294 0136 01       		.uleb128 0x1
+ 1295 0137 13       		.uleb128 0x13
+ 1296 0138 00       		.byte	0
+ 1297 0139 00       		.byte	0
+ 1298 013a 14       		.uleb128 0x14
+ 1299 013b 898201   		.uleb128 0x4109
+ 1300 013e 00       		.byte	0
+ 1301 013f 11       		.uleb128 0x11
+ 1302 0140 01       		.uleb128 0x1
+ 1303 0141 31       		.uleb128 0x31
+ 1304 0142 13       		.uleb128 0x13
+ 1305 0143 00       		.byte	0
+ 1306 0144 00       		.byte	0
+ 1307 0145 15       		.uleb128 0x15
+ 1308 0146 898201   		.uleb128 0x4109
+ 1309 0149 00       		.byte	0
+ 1310 014a 11       		.uleb128 0x11
+ 1311 014b 01       		.uleb128 0x1
+ 1312 014c 9542     		.uleb128 0x2115
+ 1313 014e 19       		.uleb128 0x19
+ 1314 014f 31       		.uleb128 0x31
+ 1315 0150 13       		.uleb128 0x13
+ 1316 0151 00       		.byte	0
+ 1317 0152 00       		.byte	0
+ 1318 0153 16       		.uleb128 0x16
+ 1319 0154 2E       		.uleb128 0x2e
+ 1320 0155 00       		.byte	0
+ 1321 0156 31       		.uleb128 0x31
+ 1322 0157 13       		.uleb128 0x13
+ 1323 0158 11       		.uleb128 0x11
+ 1324 0159 01       		.uleb128 0x1
+ 1325 015a 12       		.uleb128 0x12
+ 1326 015b 06       		.uleb128 0x6
+ 1327 015c 40       		.uleb128 0x40
+ 1328 015d 18       		.uleb128 0x18
+ 1329 015e 9742     		.uleb128 0x2117
+ 1330 0160 19       		.uleb128 0x19
+ 1331 0161 00       		.byte	0
+ 1332 0162 00       		.byte	0
+ 1333 0163 17       		.uleb128 0x17
+ 1334 0164 2E       		.uleb128 0x2e
+ 1335 0165 01       		.byte	0x1
+ 1336 0166 3F       		.uleb128 0x3f
+ 1337 0167 19       		.uleb128 0x19
+ 1338 0168 03       		.uleb128 0x3
+ 1339 0169 0E       		.uleb128 0xe
+ 1340 016a 3A       		.uleb128 0x3a
+ 1341 016b 0B       		.uleb128 0xb
+ 1342 016c 3B       		.uleb128 0x3b
+ 1343 016d 05       		.uleb128 0x5
+ 1344 016e 27       		.uleb128 0x27
+ 1345 016f 19       		.uleb128 0x19
+ 1346 0170 49       		.uleb128 0x49
+ 1347 0171 13       		.uleb128 0x13
+ 1348 0172 11       		.uleb128 0x11
+ 1349 0173 01       		.uleb128 0x1
+ 1350 0174 12       		.uleb128 0x12
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 41
+
+
+ 1351 0175 06       		.uleb128 0x6
+ 1352 0176 40       		.uleb128 0x40
+ 1353 0177 18       		.uleb128 0x18
+ 1354 0178 9742     		.uleb128 0x2117
+ 1355 017a 19       		.uleb128 0x19
+ 1356 017b 01       		.uleb128 0x1
+ 1357 017c 13       		.uleb128 0x13
+ 1358 017d 00       		.byte	0
+ 1359 017e 00       		.byte	0
+ 1360 017f 18       		.uleb128 0x18
+ 1361 0180 34       		.uleb128 0x34
+ 1362 0181 00       		.byte	0
+ 1363 0182 03       		.uleb128 0x3
+ 1364 0183 0E       		.uleb128 0xe
+ 1365 0184 3A       		.uleb128 0x3a
+ 1366 0185 0B       		.uleb128 0xb
+ 1367 0186 3B       		.uleb128 0x3b
+ 1368 0187 05       		.uleb128 0x5
+ 1369 0188 49       		.uleb128 0x49
+ 1370 0189 13       		.uleb128 0x13
+ 1371 018a 02       		.uleb128 0x2
+ 1372 018b 18       		.uleb128 0x18
+ 1373 018c 00       		.byte	0
+ 1374 018d 00       		.byte	0
+ 1375 018e 19       		.uleb128 0x19
+ 1376 018f 05       		.uleb128 0x5
+ 1377 0190 00       		.byte	0
+ 1378 0191 03       		.uleb128 0x3
+ 1379 0192 0E       		.uleb128 0xe
+ 1380 0193 3A       		.uleb128 0x3a
+ 1381 0194 0B       		.uleb128 0xb
+ 1382 0195 3B       		.uleb128 0x3b
+ 1383 0196 05       		.uleb128 0x5
+ 1384 0197 49       		.uleb128 0x49
+ 1385 0198 13       		.uleb128 0x13
+ 1386 0199 02       		.uleb128 0x2
+ 1387 019a 18       		.uleb128 0x18
+ 1388 019b 00       		.byte	0
+ 1389 019c 00       		.byte	0
+ 1390 019d 1A       		.uleb128 0x1a
+ 1391 019e 34       		.uleb128 0x34
+ 1392 019f 00       		.byte	0
+ 1393 01a0 03       		.uleb128 0x3
+ 1394 01a1 0E       		.uleb128 0xe
+ 1395 01a2 3A       		.uleb128 0x3a
+ 1396 01a3 0B       		.uleb128 0xb
+ 1397 01a4 3B       		.uleb128 0x3b
+ 1398 01a5 0B       		.uleb128 0xb
+ 1399 01a6 49       		.uleb128 0x49
+ 1400 01a7 13       		.uleb128 0x13
+ 1401 01a8 3F       		.uleb128 0x3f
+ 1402 01a9 19       		.uleb128 0x19
+ 1403 01aa 02       		.uleb128 0x2
+ 1404 01ab 18       		.uleb128 0x18
+ 1405 01ac 00       		.byte	0
+ 1406 01ad 00       		.byte	0
+ 1407 01ae 1B       		.uleb128 0x1b
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 42
+
+
+ 1408 01af 2E       		.uleb128 0x2e
+ 1409 01b0 00       		.byte	0
+ 1410 01b1 3F       		.uleb128 0x3f
+ 1411 01b2 19       		.uleb128 0x19
+ 1412 01b3 3C       		.uleb128 0x3c
+ 1413 01b4 19       		.uleb128 0x19
+ 1414 01b5 6E       		.uleb128 0x6e
+ 1415 01b6 0E       		.uleb128 0xe
+ 1416 01b7 03       		.uleb128 0x3
+ 1417 01b8 0E       		.uleb128 0xe
+ 1418 01b9 3A       		.uleb128 0x3a
+ 1419 01ba 0B       		.uleb128 0xb
+ 1420 01bb 3B       		.uleb128 0x3b
+ 1421 01bc 0B       		.uleb128 0xb
+ 1422 01bd 00       		.byte	0
+ 1423 01be 00       		.byte	0
+ 1424 01bf 00       		.byte	0
+ 1425              		.section	.debug_loc,"",%progbits
+ 1426              	.Ldebug_loc0:
+ 1427              	.LLST0:
+ 1428 0000 06000000 		.4byte	.LVL1
+ 1429 0004 0C000000 		.4byte	.LVL2
+ 1430 0008 0600     		.2byte	0x6
+ 1431 000a 73       		.byte	0x73
+ 1432 000b 00       		.sleb128 0
+ 1433 000c 09       		.byte	0x9
+ 1434 000d C0       		.byte	0xc0
+ 1435 000e 1A       		.byte	0x1a
+ 1436 000f 9F       		.byte	0x9f
+ 1437 0010 00000000 		.4byte	0
+ 1438 0014 00000000 		.4byte	0
+ 1439              	.LLST1:
+ 1440 0018 3C000000 		.4byte	.LVL8
+ 1441 001c 49000000 		.4byte	.LVL9-1
+ 1442 0020 0100     		.2byte	0x1
+ 1443 0022 50       		.byte	0x50
+ 1444 0023 00000000 		.4byte	0
+ 1445 0027 00000000 		.4byte	0
+ 1446              	.LLST2:
+ 1447 002b 36000000 		.4byte	.LVL6
+ 1448 002f 38000000 		.4byte	.LVL7
+ 1449 0033 0200     		.2byte	0x2
+ 1450 0035 30       		.byte	0x30
+ 1451 0036 9F       		.byte	0x9f
+ 1452 0037 00000000 		.4byte	0
+ 1453 003b 00000000 		.4byte	0
+ 1454              	.LLST3:
+ 1455 003f 24000000 		.4byte	.LVL3
+ 1456 0043 2C000000 		.4byte	.LVL4
+ 1457 0047 0400     		.2byte	0x4
+ 1458 0049 0A       		.byte	0xa
+ 1459 004a C409     		.2byte	0x9c4
+ 1460 004c 9F       		.byte	0x9f
+ 1461 004d 00000000 		.4byte	0
+ 1462 0051 00000000 		.4byte	0
+ 1463              	.LLST4:
+ 1464 0055 2C000000 		.4byte	.LVL4
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 43
+
+
+ 1465 0059 30000000 		.4byte	.LVL5
+ 1466 005d 0400     		.2byte	0x4
+ 1467 005f 0A       		.byte	0xa
+ 1468 0060 C409     		.2byte	0x9c4
+ 1469 0062 9F       		.byte	0x9f
+ 1470 0063 00000000 		.4byte	0
+ 1471 0067 00000000 		.4byte	0
+ 1472              	.LLST5:
+ 1473 006b 30000000 		.4byte	.LVL5
+ 1474 006f 36000000 		.4byte	.LVL6
+ 1475 0073 0200     		.2byte	0x2
+ 1476 0075 30       		.byte	0x30
+ 1477 0076 9F       		.byte	0x9f
+ 1478 0077 00000000 		.4byte	0
+ 1479 007b 00000000 		.4byte	0
+ 1480              		.section	.debug_aranges,"",%progbits
+ 1481 0000 94000000 		.4byte	0x94
+ 1482 0004 0200     		.2byte	0x2
+ 1483 0006 00000000 		.4byte	.Ldebug_info0
+ 1484 000a 04       		.byte	0x4
+ 1485 000b 00       		.byte	0
+ 1486 000c 0000     		.2byte	0
+ 1487 000e 0000     		.2byte	0
+ 1488 0010 00000000 		.4byte	.LFB2
+ 1489 0014 10000000 		.4byte	.LFE2-.LFB2
+ 1490 0018 00000000 		.4byte	.LFB3
+ 1491 001c 10000000 		.4byte	.LFE3-.LFB3
+ 1492 0020 00000000 		.4byte	.LFB4
+ 1493 0024 0C000000 		.4byte	.LFE4-.LFB4
+ 1494 0028 00000000 		.4byte	.LFB5
+ 1495 002c 14000000 		.4byte	.LFE5-.LFB5
+ 1496 0030 00000000 		.4byte	.LFB6
+ 1497 0034 18000000 		.4byte	.LFE6-.LFB6
+ 1498 0038 00000000 		.4byte	.LFB1
+ 1499 003c 5C000000 		.4byte	.LFE1-.LFB1
+ 1500 0040 00000000 		.4byte	.LFB0
+ 1501 0044 1C000000 		.4byte	.LFE0-.LFB0
+ 1502 0048 00000000 		.4byte	.LFB7
+ 1503 004c 0C000000 		.4byte	.LFE7-.LFB7
+ 1504 0050 00000000 		.4byte	.LFB8
+ 1505 0054 0C000000 		.4byte	.LFE8-.LFB8
+ 1506 0058 00000000 		.4byte	.LFB9
+ 1507 005c 0C000000 		.4byte	.LFE9-.LFB9
+ 1508 0060 00000000 		.4byte	.LFB10
+ 1509 0064 0C000000 		.4byte	.LFE10-.LFB10
+ 1510 0068 00000000 		.4byte	.LFB11
+ 1511 006c 0C000000 		.4byte	.LFE11-.LFB11
+ 1512 0070 00000000 		.4byte	.LFB12
+ 1513 0074 0C000000 		.4byte	.LFE12-.LFB12
+ 1514 0078 00000000 		.4byte	.LFB13
+ 1515 007c 0C000000 		.4byte	.LFE13-.LFB13
+ 1516 0080 00000000 		.4byte	.LFB14
+ 1517 0084 0C000000 		.4byte	.LFE14-.LFB14
+ 1518 0088 00000000 		.4byte	.LFB15
+ 1519 008c 0C000000 		.4byte	.LFE15-.LFB15
+ 1520 0090 00000000 		.4byte	0
+ 1521 0094 00000000 		.4byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 44
+
+
+ 1522              		.section	.debug_ranges,"",%progbits
+ 1523              	.Ldebug_ranges0:
+ 1524 0000 00000000 		.4byte	.LBB14
+ 1525 0004 02000000 		.4byte	.LBE14
+ 1526 0008 04000000 		.4byte	.LBB20
+ 1527 000c 06000000 		.4byte	.LBE20
+ 1528 0010 00000000 		.4byte	0
+ 1529 0014 00000000 		.4byte	0
+ 1530 0018 02000000 		.4byte	.LBB17
+ 1531 001c 04000000 		.4byte	.LBE17
+ 1532 0020 0A000000 		.4byte	.LBB21
+ 1533 0024 0E000000 		.4byte	.LBE21
+ 1534 0028 00000000 		.4byte	0
+ 1535 002c 00000000 		.4byte	0
+ 1536 0030 06000000 		.4byte	.LBB22
+ 1537 0034 08000000 		.4byte	.LBE22
+ 1538 0038 36000000 		.4byte	.LBB31
+ 1539 003c 38000000 		.4byte	.LBE31
+ 1540 0040 00000000 		.4byte	0
+ 1541 0044 00000000 		.4byte	0
+ 1542 0048 00000000 		.4byte	.LFB2
+ 1543 004c 10000000 		.4byte	.LFE2
+ 1544 0050 00000000 		.4byte	.LFB3
+ 1545 0054 10000000 		.4byte	.LFE3
+ 1546 0058 00000000 		.4byte	.LFB4
+ 1547 005c 0C000000 		.4byte	.LFE4
+ 1548 0060 00000000 		.4byte	.LFB5
+ 1549 0064 14000000 		.4byte	.LFE5
+ 1550 0068 00000000 		.4byte	.LFB6
+ 1551 006c 18000000 		.4byte	.LFE6
+ 1552 0070 00000000 		.4byte	.LFB1
+ 1553 0074 5C000000 		.4byte	.LFE1
+ 1554 0078 00000000 		.4byte	.LFB0
+ 1555 007c 1C000000 		.4byte	.LFE0
+ 1556 0080 00000000 		.4byte	.LFB7
+ 1557 0084 0C000000 		.4byte	.LFE7
+ 1558 0088 00000000 		.4byte	.LFB8
+ 1559 008c 0C000000 		.4byte	.LFE8
+ 1560 0090 00000000 		.4byte	.LFB9
+ 1561 0094 0C000000 		.4byte	.LFE9
+ 1562 0098 00000000 		.4byte	.LFB10
+ 1563 009c 0C000000 		.4byte	.LFE10
+ 1564 00a0 00000000 		.4byte	.LFB11
+ 1565 00a4 0C000000 		.4byte	.LFE11
+ 1566 00a8 00000000 		.4byte	.LFB12
+ 1567 00ac 0C000000 		.4byte	.LFE12
+ 1568 00b0 00000000 		.4byte	.LFB13
+ 1569 00b4 0C000000 		.4byte	.LFE13
+ 1570 00b8 00000000 		.4byte	.LFB14
+ 1571 00bc 0C000000 		.4byte	.LFE14
+ 1572 00c0 00000000 		.4byte	.LFB15
+ 1573 00c4 0C000000 		.4byte	.LFE15
+ 1574 00c8 00000000 		.4byte	0
+ 1575 00cc 00000000 		.4byte	0
+ 1576              		.section	.debug_line,"",%progbits
+ 1577              	.Ldebug_line0:
+ 1578 0000 AF010000 		.section	.debug_str,"MS",%progbits,1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 45
+
+
+ 1578      02005100 
+ 1578      00000201 
+ 1578      FB0E0D00 
+ 1578      01010101 
+ 1579              	.LASF15:
+ 1580 0000 72656731 		.ascii	"reg16\000"
+ 1580      3600
+ 1581              	.LASF31:
+ 1582 0006 50574D5F 		.ascii	"PWM_Steer_Init\000"
+ 1582      53746565 
+ 1582      725F496E 
+ 1582      697400
+ 1583              	.LASF43:
+ 1584 0015 47656E65 		.ascii	"Generated_Source\\PSoC5\\PWM_Steer.c\000"
+ 1584      72617465 
+ 1584      645F536F 
+ 1584      75726365 
+ 1584      5C50536F 
+ 1585              	.LASF39:
+ 1586 0038 50574D5F 		.ascii	"PWM_Steer_ReadPeriod\000"
+ 1586      53746565 
+ 1586      725F5265 
+ 1586      61645065 
+ 1586      72696F64 
+ 1587              	.LASF33:
+ 1588 004d 50574D5F 		.ascii	"PWM_Steer_interruptState\000"
+ 1588      53746565 
+ 1588      725F696E 
+ 1588      74657272 
+ 1588      75707453 
+ 1589              	.LASF44:
+ 1590 0066 433A5C55 		.ascii	"C:\\Users\\jon\\Sync\\Research\\PSoC Projects\\Bala"
+ 1590      73657273 
+ 1590      5C6A6F6E 
+ 1590      5C53796E 
+ 1590      635C5265 
+ 1591 0093 6E63652E 		.ascii	"nce.cydsn\000"
+ 1591      63796473 
+ 1591      6E00
+ 1592              	.LASF25:
+ 1593 009d 70657269 		.ascii	"period\000"
+ 1593      6F6400
+ 1594              	.LASF3:
+ 1595 00a4 73686F72 		.ascii	"short unsigned int\000"
+ 1595      7420756E 
+ 1595      7369676E 
+ 1595      65642069 
+ 1595      6E7400
+ 1596              	.LASF20:
+ 1597 00b7 50574D5F 		.ascii	"PWM_Steer_SetInterruptMode\000"
+ 1597      53746565 
+ 1597      725F5365 
+ 1597      74496E74 
+ 1597      65727275 
+ 1598              	.LASF45:
+ 1599 00d2 50574D5F 		.ascii	"PWM_Steer_ReadControlRegister\000"
+ 1599      53746565 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 46
+
+
+ 1599      725F5265 
+ 1599      6164436F 
+ 1599      6E74726F 
+ 1600              	.LASF11:
+ 1601 00f0 666C6F61 		.ascii	"float\000"
+ 1601      7400
+ 1602              	.LASF27:
+ 1603 00f6 636F756E 		.ascii	"counter\000"
+ 1603      74657200 
+ 1604              	.LASF7:
+ 1605 00fe 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1605      206C6F6E 
+ 1605      6720756E 
+ 1605      7369676E 
+ 1605      65642069 
+ 1606              	.LASF19:
+ 1607 0115 50574D5F 		.ascii	"PWM_Steer_ReadStatusRegister\000"
+ 1607      53746565 
+ 1607      725F5265 
+ 1607      61645374 
+ 1607      61747573 
+ 1608              	.LASF1:
+ 1609 0132 756E7369 		.ascii	"unsigned char\000"
+ 1609      676E6564 
+ 1609      20636861 
+ 1609      7200
+ 1610              	.LASF14:
+ 1611 0140 72656738 		.ascii	"reg8\000"
+ 1611      00
+ 1612              	.LASF37:
+ 1613 0145 50574D5F 		.ascii	"PWM_Steer_ReadCounter\000"
+ 1613      53746565 
+ 1613      725F5265 
+ 1613      6164436F 
+ 1613      756E7465 
+ 1614              	.LASF29:
+ 1615 015b 50574D5F 		.ascii	"PWM_Steer_Stop\000"
+ 1615      53746565 
+ 1615      725F5374 
+ 1615      6F7000
+ 1616              	.LASF42:
+ 1617 016a 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1617      43313120 
+ 1617      352E342E 
+ 1617      31203230 
+ 1617      31363036 
+ 1618 019d 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1618      20726576 
+ 1618      6973696F 
+ 1618      6E203233 
+ 1618      37373135 
+ 1619 01d0 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 1619      66756E63 
+ 1619      74696F6E 
+ 1619      2D736563 
+ 1619      74696F6E 
+ 1620              	.LASF9:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 47
+
+
+ 1621 01f8 75696E74 		.ascii	"uint8\000"
+ 1621      3800
+ 1622              	.LASF46:
+ 1623 01fe 636F6E74 		.ascii	"control\000"
+ 1623      726F6C00 
+ 1624              	.LASF38:
+ 1625 0206 50574D5F 		.ascii	"PWM_Steer_ReadCompare\000"
+ 1625      53746565 
+ 1625      725F5265 
+ 1625      6164436F 
+ 1625      6D706172 
+ 1626              	.LASF21:
+ 1627 021c 50574D5F 		.ascii	"PWM_Steer_WriteCompare\000"
+ 1627      53746565 
+ 1627      725F5772 
+ 1627      69746543 
+ 1627      6F6D7061 
+ 1628              	.LASF12:
+ 1629 0233 646F7562 		.ascii	"double\000"
+ 1629      6C6500
+ 1630              	.LASF10:
+ 1631 023a 75696E74 		.ascii	"uint16\000"
+ 1631      313600
+ 1632              	.LASF40:
+ 1633 0241 4379456E 		.ascii	"CyEnterCriticalSection\000"
+ 1633      74657243 
+ 1633      72697469 
+ 1633      63616C53 
+ 1633      65637469 
+ 1634              	.LASF5:
+ 1635 0258 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1635      20756E73 
+ 1635      69676E65 
+ 1635      6420696E 
+ 1635      7400
+ 1636              	.LASF8:
+ 1637 026a 756E7369 		.ascii	"unsigned int\000"
+ 1637      676E6564 
+ 1637      20696E74 
+ 1637      00
+ 1638              	.LASF18:
+ 1639 0277 50574D5F 		.ascii	"PWM_Steer_ReadCapture\000"
+ 1639      53746565 
+ 1639      725F5265 
+ 1639      61644361 
+ 1639      70747572 
+ 1640              	.LASF41:
+ 1641 028d 43794578 		.ascii	"CyExitCriticalSection\000"
+ 1641      69744372 
+ 1641      69746963 
+ 1641      616C5365 
+ 1641      6374696F 
+ 1642              	.LASF35:
+ 1643 02a3 72657375 		.ascii	"result\000"
+ 1643      6C7400
+ 1644              	.LASF32:
+ 1645 02aa 6374726C 		.ascii	"ctrl\000"
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 48
+
+
+ 1645      00
+ 1646              	.LASF36:
+ 1647 02af 50574D5F 		.ascii	"PWM_Steer_WriteControlRegister\000"
+ 1647      53746565 
+ 1647      725F5772 
+ 1647      69746543 
+ 1647      6F6E7472 
+ 1648              	.LASF17:
+ 1649 02ce 73697A65 		.ascii	"sizetype\000"
+ 1649      74797065 
+ 1649      00
+ 1650              	.LASF30:
+ 1651 02d7 50574D5F 		.ascii	"PWM_Steer_ClearFIFO\000"
+ 1651      53746565 
+ 1651      725F436C 
+ 1651      65617246 
+ 1651      49464F00 
+ 1652              	.LASF6:
+ 1653 02eb 6C6F6E67 		.ascii	"long long int\000"
+ 1653      206C6F6E 
+ 1653      6720696E 
+ 1653      7400
+ 1654              	.LASF47:
+ 1655 02f9 50574D5F 		.ascii	"PWM_Steer_initVar\000"
+ 1655      53746565 
+ 1655      725F696E 
+ 1655      69745661 
+ 1655      7200
+ 1656              	.LASF22:
+ 1657 030b 696E7465 		.ascii	"interruptMode\000"
+ 1657      72727570 
+ 1657      744D6F64 
+ 1657      6500
+ 1658              	.LASF34:
+ 1659 0319 50574D5F 		.ascii	"PWM_Steer_Start\000"
+ 1659      53746565 
+ 1659      725F5374 
+ 1659      61727400 
+ 1660              	.LASF26:
+ 1661 0329 50574D5F 		.ascii	"PWM_Steer_WriteCounter\000"
+ 1661      53746565 
+ 1661      725F5772 
+ 1661      69746543 
+ 1661      6F756E74 
+ 1662              	.LASF2:
+ 1663 0340 73686F72 		.ascii	"short int\000"
+ 1663      7420696E 
+ 1663      7400
+ 1664              	.LASF28:
+ 1665 034a 50574D5F 		.ascii	"PWM_Steer_Enable\000"
+ 1665      53746565 
+ 1665      725F456E 
+ 1665      61626C65 
+ 1665      00
+ 1666              	.LASF4:
+ 1667 035b 6C6F6E67 		.ascii	"long int\000"
+ 1667      20696E74 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccX3NSO9.s 			page 49
+
+
+ 1667      00
+ 1668              	.LASF13:
+ 1669 0364 63686172 		.ascii	"char\000"
+ 1669      00
+ 1670              	.LASF16:
+ 1671 0369 6C6F6E67 		.ascii	"long double\000"
+ 1671      20646F75 
+ 1671      626C6500 
+ 1672              	.LASF0:
+ 1673 0375 7369676E 		.ascii	"signed char\000"
+ 1673      65642063 
+ 1673      68617200 
+ 1674              	.LASF23:
+ 1675 0381 636F6D70 		.ascii	"compare\000"
+ 1675      61726500 
+ 1676              	.LASF24:
+ 1677 0389 50574D5F 		.ascii	"PWM_Steer_WritePeriod\000"
+ 1677      53746565 
+ 1677      725F5772 
+ 1677      69746550 
+ 1677      6572696F 
+ 1678              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

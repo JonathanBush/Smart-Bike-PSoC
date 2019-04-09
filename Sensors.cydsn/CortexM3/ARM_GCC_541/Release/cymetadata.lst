@@ -1,0 +1,737 @@
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccbHyvCY.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cymetadata.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	cy_metadata
+  20              		.global	cy_meta_flashprotect
+  21              		.global	cy_meta_wonvl
+  22              		.global	cy_meta_custnvl
+  23              		.global	cy_meta_configecc
+  24              		.section	.cyconfigecc,"a",%progbits
+  25              		.type	cy_meta_configecc, %object
+  26              		.size	cy_meta_configecc, 252
+  27              	cy_meta_configecc:
+  28 0000 01       		.byte	1
+  29 0001 45       		.byte	69
+  30 0002 00       		.byte	0
+  31 0003 40       		.byte	64
+  32 0004 02       		.byte	2
+  33 0005 4F       		.byte	79
+  34 0006 00       		.byte	0
+  35 0007 40       		.byte	64
+  36 0008 01       		.byte	1
+  37 0009 52       		.byte	82
+  38 000a 00       		.byte	0
+  39 000b 40       		.byte	64
+  40 000c 08       		.byte	8
+  41 000d 02       		.byte	2
+  42 000e 01       		.byte	1
+  43 000f 40       		.byte	64
+  44 0010 06       		.byte	6
+  45 0011 03       		.byte	3
+  46 0012 01       		.byte	1
+  47 0013 40       		.byte	64
+  48 0014 04       		.byte	4
+  49 0015 05       		.byte	5
+  50 0016 01       		.byte	1
+  51 0017 40       		.byte	64
+  52 0018 01       		.byte	1
+  53 0019 07       		.byte	7
+  54 001a 01       		.byte	1
+  55 001b 40       		.byte	64
+  56 001c 01       		.byte	1
+  57 001d 09       		.byte	9
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccbHyvCY.s 			page 2
+
+
+  58 001e 01       		.byte	1
+  59 001f 40       		.byte	64
+  60 0020 01       		.byte	1
+  61 0021 0D       		.byte	13
+  62 0022 01       		.byte	1
+  63 0023 40       		.byte	64
+  64 0024 01       		.byte	1
+  65 0025 17       		.byte	23
+  66 0026 01       		.byte	1
+  67 0027 40       		.byte	64
+  68 0028 01       		.byte	1
+  69 0029 19       		.byte	25
+  70 002a 01       		.byte	1
+  71 002b 40       		.byte	64
+  72 002c 05       		.byte	5
+  73 002d 40       		.byte	64
+  74 002e 01       		.byte	1
+  75 002f 40       		.byte	64
+  76 0030 08       		.byte	8
+  77 0031 41       		.byte	65
+  78 0032 01       		.byte	1
+  79 0033 40       		.byte	64
+  80 0034 09       		.byte	9
+  81 0035 42       		.byte	66
+  82 0036 01       		.byte	1
+  83 0037 40       		.byte	64
+  84 0038 04       		.byte	4
+  85 0039 43       		.byte	67
+  86 003a 01       		.byte	1
+  87 003b 40       		.byte	64
+  88 003c 01       		.byte	1
+  89 003d 45       		.byte	69
+  90 003e 01       		.byte	1
+  91 003f 40       		.byte	64
+  92 0040 01       		.byte	1
+  93 0041 46       		.byte	70
+  94 0042 01       		.byte	1
+  95 0043 40       		.byte	64
+  96 0044 06       		.byte	6
+  97 0045 47       		.byte	71
+  98 0046 01       		.byte	1
+  99 0047 40       		.byte	64
+ 100 0048 02       		.byte	2
+ 101 0049 48       		.byte	72
+ 102 004a 01       		.byte	1
+ 103 004b 40       		.byte	64
+ 104 004c 01       		.byte	1
+ 105 004d 4C       		.byte	76
+ 106 004e 01       		.byte	1
+ 107 004f 40       		.byte	64
+ 108 0050 02       		.byte	2
+ 109 0051 50       		.byte	80
+ 110 0052 01       		.byte	1
+ 111 0053 40       		.byte	64
+ 112 0054 01       		.byte	1
+ 113 0055 51       		.byte	81
+ 114 0056 01       		.byte	1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccbHyvCY.s 			page 3
+
+
+ 115 0057 40       		.byte	64
+ 116 0058 7E       		.byte	126
+ 117 0059 02       		.byte	2
+ 118 005a 01       		.byte	1
+ 119 005b 10       		.byte	16
+ 120 005c 0A       		.byte	10
+ 121 005d 4B       		.byte	75
+ 122 005e 7C       		.byte	124
+ 123 005f 40       		.byte	64
+ 124 0060 08       		.byte	8
+ 125 0061 01       		.byte	1
+ 126 0062 0A       		.byte	10
+ 127 0063 02       		.byte	2
+ 128 0064 0E       		.byte	14
+ 129 0065 01       		.byte	1
+ 130 0066 30       		.byte	48
+ 131 0067 02       		.byte	2
+ 132 0068 34       		.byte	52
+ 133 0069 01       		.byte	1
+ 134 006a 3E       		.byte	62
+ 135 006b 14       		.byte	20
+ 136 006c 58       		.byte	88
+ 137 006d 04       		.byte	4
+ 138 006e 5F       		.byte	95
+ 139 006f 01       		.byte	1
+ 140 0070 04       		.byte	4
+ 141 0071 40       		.byte	64
+ 142 0072 05       		.byte	5
+ 143 0073 20       		.byte	32
+ 144 0074 1C       		.byte	28
+ 145 0075 40       		.byte	64
+ 146 0076 1F       		.byte	31
+ 147 0077 28       		.byte	40
+ 148 0078 C0       		.byte	-64
+ 149 0079 C0       		.byte	-64
+ 150 007a E6       		.byte	-26
+ 151 007b 02       		.byte	2
+ 152 007c AB       		.byte	-85
+ 153 007d 08       		.byte	8
+ 154 007e AF       		.byte	-81
+ 155 007f 20       		.byte	32
+ 156 0080 B5       		.byte	-75
+ 157 0081 20       		.byte	32
+ 158 0082 E8       		.byte	-24
+ 159 0083 10       		.byte	16
+ 160 0084 E2       		.byte	-30
+ 161 0085 02       		.byte	2
+ 162 0086 E2       		.byte	-30
+ 163 0087 02       		.byte	2
+ 164 0088 E6       		.byte	-26
+ 165 0089 02       		.byte	2
+ 166 008a EE       		.byte	-18
+ 167 008b 02       		.byte	2
+ 168 008c EE       		.byte	-18
+ 169 008d 02       		.byte	2
+ 170 008e 31       		.byte	49
+ 171 008f 08       		.byte	8
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccbHyvCY.s 			page 4
+
+
+ 172 0090 33       		.byte	51
+ 173 0091 80       		.byte	-128
+ 174 0092 34       		.byte	52
+ 175 0093 02       		.byte	2
+ 176 0094 36       		.byte	54
+ 177 0095 40       		.byte	64
+ 178 0096 CC       		.byte	-52
+ 179 0097 F0       		.byte	-16
+ 180 0098 03       		.byte	3
+ 181 0099 40       		.byte	64
+ 182 009a 84       		.byte	-124
+ 183 009b 02       		.byte	2
+ 184 009c 9C       		.byte	-100
+ 185 009d 02       		.byte	2
+ 186 009e A5       		.byte	-91
+ 187 009f 08       		.byte	8
+ 188 00a0 A6       		.byte	-90
+ 189 00a1 40       		.byte	64
+ 190 00a2 A7       		.byte	-89
+ 191 00a3 80       		.byte	-128
+ 192 00a4 C0       		.byte	-64
+ 193 00a5 10       		.byte	16
+ 194 00a6 E6       		.byte	-26
+ 195 00a7 40       		.byte	64
+ 196 00a8 5B       		.byte	91
+ 197 00a9 02       		.byte	2
+ 198 00aa 9B       		.byte	-101
+ 199 00ab 02       		.byte	2
+ 200 00ac A5       		.byte	-91
+ 201 00ad 08       		.byte	8
+ 202 00ae A6       		.byte	-90
+ 203 00af 40       		.byte	64
+ 204 00b0 AB       		.byte	-85
+ 205 00b1 02       		.byte	2
+ 206 00b2 AF       		.byte	-81
+ 207 00b3 80       		.byte	-128
+ 208 00b4 B7       		.byte	-73
+ 209 00b5 40       		.byte	64
+ 210 00b6 D6       		.byte	-42
+ 211 00b7 40       		.byte	64
+ 212 00b8 EE       		.byte	-18
+ 213 00b9 90       		.byte	-112
+ 214 00ba 85       		.byte	-123
+ 215 00bb 08       		.byte	8
+ 216 00bc A5       		.byte	-91
+ 217 00bd 08       		.byte	8
+ 218 00be A6       		.byte	-90
+ 219 00bf 40       		.byte	64
+ 220 00c0 E2       		.byte	-30
+ 221 00c1 40       		.byte	64
+ 222 00c2 84       		.byte	-124
+ 223 00c3 80       		.byte	-128
+ 224 00c4 9C       		.byte	-100
+ 225 00c5 80       		.byte	-128
+ 226 00c6 08       		.byte	8
+ 227 00c7 80       		.byte	-128
+ 228 00c8 0B       		.byte	11
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccbHyvCY.s 			page 5
+
+
+ 229 00c9 40       		.byte	64
+ 230 00ca 0D       		.byte	13
+ 231 00cb 02       		.byte	2
+ 232 00cc 85       		.byte	-123
+ 233 00cd 02       		.byte	2
+ 234 00ce 9C       		.byte	-100
+ 235 00cf 80       		.byte	-128
+ 236 00d0 C2       		.byte	-62
+ 237 00d1 0E       		.byte	14
+ 238 00d2 AE       		.byte	-82
+ 239 00d3 40       		.byte	64
+ 240 00d4 EE       		.byte	-18
+ 241 00d5 40       		.byte	64
+ 242 00d6 AF       		.byte	-81
+ 243 00d7 40       		.byte	64
+ 244 00d8 00       		.byte	0
+ 245 00d9 01       		.byte	1
+ 246 00da 08       		.byte	8
+ 247 00db 01       		.byte	1
+ 248 00dc 00       		.byte	0
+ 249 00dd AB       		.byte	-85
+ 250 00de 00       		.byte	0
+ 251 00df 00       		.byte	0
+ 252 00e0 01       		.byte	1
+ 253 00e1 00       		.byte	0
+ 254 00e2 00       		.byte	0
+ 255 00e3 00       		.byte	0
+ 256 00e4 00       		.byte	0
+ 257 00e5 00       		.byte	0
+ 258 00e6 00       		.byte	0
+ 259 00e7 00       		.byte	0
+ 260 00e8 40       		.byte	64
+ 261 00e9 00       		.byte	0
+ 262 00ea 00       		.byte	0
+ 263 00eb 00       		.byte	0
+ 264 00ec 00       		.byte	0
+ 265 00ed 00       		.byte	0
+ 266 00ee 00       		.byte	0
+ 267 00ef 00       		.byte	0
+ 268 00f0 C0       		.byte	-64
+ 269 00f1 00       		.byte	0
+ 270 00f2 00       		.byte	0
+ 271 00f3 00       		.byte	0
+ 272 00f4 00       		.byte	0
+ 273 00f5 0B       		.byte	11
+ 274 00f6 0B       		.byte	11
+ 275 00f7 00       		.byte	0
+ 276 00f8 00       		.byte	0
+ 277 00f9 00       		.byte	0
+ 278 00fa 00       		.byte	0
+ 279 00fb 00       		.byte	0
+ 280              		.section	.cywolatch,"a",%progbits
+ 281              		.type	cy_meta_wonvl, %object
+ 282              		.size	cy_meta_wonvl, 4
+ 283              	cy_meta_wonvl:
+ 284 0000 BC       		.byte	-68
+ 285 0001 90       		.byte	-112
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccbHyvCY.s 			page 6
+
+
+ 286 0002 AC       		.byte	-84
+ 287 0003 AF       		.byte	-81
+ 288              		.section	.cycustnvl,"a",%progbits
+ 289              		.type	cy_meta_custnvl, %object
+ 290              		.size	cy_meta_custnvl, 4
+ 291              	cy_meta_custnvl:
+ 292 0000 00       		.byte	0
+ 293 0001 00       		.byte	0
+ 294 0002 40       		.byte	64
+ 295 0003 05       		.byte	5
+ 296              		.section	.cymeta,"a",%progbits
+ 297              		.type	cy_metadata, %object
+ 298              		.size	cy_metadata, 12
+ 299              	cy_metadata:
+ 300 0000 00       		.byte	0
+ 301 0001 01       		.byte	1
+ 302 0002 2E       		.byte	46
+ 303 0003 16       		.byte	22
+ 304 0004 10       		.byte	16
+ 305 0005 69       		.byte	105
+ 306 0006 00       		.byte	0
+ 307 0007 01       		.byte	1
+ 308 0008 00       		.byte	0
+ 309 0009 00       		.byte	0
+ 310 000a 00       		.byte	0
+ 311 000b 00       		.byte	0
+ 312              		.section	.cyflashprotect,"a",%progbits
+ 313              		.type	cy_meta_flashprotect, %object
+ 314              		.size	cy_meta_flashprotect, 256
+ 315              	cy_meta_flashprotect:
+ 316 0000 00000000 		.space	256
+ 316      00000000 
+ 316      00000000 
+ 316      00000000 
+ 316      00000000 
+ 317              		.text
+ 318              	.Letext0:
+ 319              		.file 1 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 320              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 321              		.file 3 "Generated_Source\\PSoC5\\cymetadata.c"
+ 322              		.section	.debug_info,"",%progbits
+ 323              	.Ldebug_info0:
+ 324 0000 30010000 		.4byte	0x130
+ 325 0004 0400     		.2byte	0x4
+ 326 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 327 000a 04       		.byte	0x4
+ 328 000b 01       		.uleb128 0x1
+ 329 000c C6000000 		.4byte	.LASF17
+ 330 0010 0C       		.byte	0xc
+ 331 0011 B5010000 		.4byte	.LASF18
+ 332 0015 0A000000 		.4byte	.LASF19
+ 333 0019 00000000 		.4byte	.Ldebug_line0
+ 334 001d 02       		.uleb128 0x2
+ 335 001e 01       		.byte	0x1
+ 336 001f 06       		.byte	0x6
+ 337 0020 A9010000 		.4byte	.LASF0
+ 338 0024 03       		.uleb128 0x3
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccbHyvCY.s 			page 7
+
+
+ 339 0025 00000000 		.4byte	.LASF9
+ 340 0029 01       		.byte	0x1
+ 341 002a 1D       		.byte	0x1d
+ 342 002b 2F000000 		.4byte	0x2f
+ 343 002f 02       		.uleb128 0x2
+ 344 0030 01       		.byte	0x1
+ 345 0031 08       		.byte	0x8
+ 346 0032 64000000 		.4byte	.LASF1
+ 347 0036 02       		.uleb128 0x2
+ 348 0037 02       		.byte	0x2
+ 349 0038 05       		.byte	0x5
+ 350 0039 96010000 		.4byte	.LASF2
+ 351 003d 02       		.uleb128 0x2
+ 352 003e 02       		.byte	0x2
+ 353 003f 07       		.byte	0x7
+ 354 0040 84000000 		.4byte	.LASF3
+ 355 0044 02       		.uleb128 0x2
+ 356 0045 04       		.byte	0x4
+ 357 0046 05       		.byte	0x5
+ 358 0047 A0010000 		.4byte	.LASF4
+ 359 004b 02       		.uleb128 0x2
+ 360 004c 04       		.byte	0x4
+ 361 004d 07       		.byte	0x7
+ 362 004e 72000000 		.4byte	.LASF5
+ 363 0052 02       		.uleb128 0x2
+ 364 0053 08       		.byte	0x8
+ 365 0054 05       		.byte	0x5
+ 366 0055 88010000 		.4byte	.LASF6
+ 367 0059 02       		.uleb128 0x2
+ 368 005a 08       		.byte	0x8
+ 369 005b 07       		.byte	0x7
+ 370 005c 4D000000 		.4byte	.LASF7
+ 371 0060 04       		.uleb128 0x4
+ 372 0061 04       		.byte	0x4
+ 373 0062 05       		.byte	0x5
+ 374 0063 696E7400 		.ascii	"int\000"
+ 375 0067 02       		.uleb128 0x2
+ 376 0068 04       		.byte	0x4
+ 377 0069 07       		.byte	0x7
+ 378 006a B9000000 		.4byte	.LASF8
+ 379 006e 03       		.uleb128 0x3
+ 380 006f 54010000 		.4byte	.LASF10
+ 381 0073 02       		.byte	0x2
+ 382 0074 18       		.byte	0x18
+ 383 0075 24000000 		.4byte	0x24
+ 384 0079 05       		.uleb128 0x5
+ 385 007a 90000000 		.4byte	0x90
+ 386 007e 89000000 		.4byte	0x89
+ 387 0082 06       		.uleb128 0x6
+ 388 0083 89000000 		.4byte	0x89
+ 389 0087 FB       		.byte	0xfb
+ 390 0088 00       		.byte	0
+ 391 0089 02       		.uleb128 0x2
+ 392 008a 04       		.byte	0x4
+ 393 008b 07       		.byte	0x7
+ 394 008c 7F010000 		.4byte	.LASF11
+ 395 0090 07       		.uleb128 0x7
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccbHyvCY.s 			page 8
+
+
+ 396 0091 6E000000 		.4byte	0x6e
+ 397 0095 08       		.uleb128 0x8
+ 398 0096 A7000000 		.4byte	.LASF12
+ 399 009a 03       		.byte	0x3
+ 400 009b 1F       		.byte	0x1f
+ 401 009c A6000000 		.4byte	0xa6
+ 402 00a0 05       		.uleb128 0x5
+ 403 00a1 03       		.byte	0x3
+ 404 00a2 00000000 		.4byte	cy_meta_configecc
+ 405 00a6 07       		.uleb128 0x7
+ 406 00a7 79000000 		.4byte	0x79
+ 407 00ab 05       		.uleb128 0x5
+ 408 00ac 90000000 		.4byte	0x90
+ 409 00b0 BB000000 		.4byte	0xbb
+ 410 00b4 06       		.uleb128 0x6
+ 411 00b5 89000000 		.4byte	0x89
+ 412 00b9 03       		.byte	0x3
+ 413 00ba 00       		.byte	0
+ 414 00bb 08       		.uleb128 0x8
+ 415 00bc 97000000 		.4byte	.LASF13
+ 416 00c0 03       		.byte	0x3
+ 417 00c1 4C       		.byte	0x4c
+ 418 00c2 CC000000 		.4byte	0xcc
+ 419 00c6 05       		.uleb128 0x5
+ 420 00c7 03       		.byte	0x3
+ 421 00c8 00000000 		.4byte	cy_meta_custnvl
+ 422 00cc 07       		.uleb128 0x7
+ 423 00cd AB000000 		.4byte	0xab
+ 424 00d1 08       		.uleb128 0x8
+ 425 00d2 71010000 		.4byte	.LASF14
+ 426 00d6 03       		.byte	0x3
+ 427 00d7 5A       		.byte	0x5a
+ 428 00d8 E2000000 		.4byte	0xe2
+ 429 00dc 05       		.uleb128 0x5
+ 430 00dd 03       		.byte	0x3
+ 431 00de 00000000 		.4byte	cy_meta_wonvl
+ 432 00e2 07       		.uleb128 0x7
+ 433 00e3 AB000000 		.4byte	0xab
+ 434 00e7 05       		.uleb128 0x5
+ 435 00e8 90000000 		.4byte	0x90
+ 436 00ec F7000000 		.4byte	0xf7
+ 437 00f0 06       		.uleb128 0x6
+ 438 00f1 89000000 		.4byte	0x89
+ 439 00f5 FF       		.byte	0xff
+ 440 00f6 00       		.byte	0
+ 441 00f7 08       		.uleb128 0x8
+ 442 00f8 5C010000 		.4byte	.LASF15
+ 443 00fc 03       		.byte	0x3
+ 444 00fd 68       		.byte	0x68
+ 445 00fe 08010000 		.4byte	0x108
+ 446 0102 05       		.uleb128 0x5
+ 447 0103 03       		.byte	0x3
+ 448 0104 00000000 		.4byte	cy_meta_flashprotect
+ 449 0108 07       		.uleb128 0x7
+ 450 0109 E7000000 		.4byte	0xe7
+ 451 010d 05       		.uleb128 0x5
+ 452 010e 90000000 		.4byte	0x90
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccbHyvCY.s 			page 9
+
+
+ 453 0112 1D010000 		.4byte	0x11d
+ 454 0116 06       		.uleb128 0x6
+ 455 0117 89000000 		.4byte	0x89
+ 456 011b 0B       		.byte	0xb
+ 457 011c 00       		.byte	0
+ 458 011d 08       		.uleb128 0x8
+ 459 011e 41000000 		.4byte	.LASF16
+ 460 0122 03       		.byte	0x3
+ 461 0123 95       		.byte	0x95
+ 462 0124 2E010000 		.4byte	0x12e
+ 463 0128 05       		.uleb128 0x5
+ 464 0129 03       		.byte	0x3
+ 465 012a 00000000 		.4byte	cy_metadata
+ 466 012e 07       		.uleb128 0x7
+ 467 012f 0D010000 		.4byte	0x10d
+ 468 0133 00       		.byte	0
+ 469              		.section	.debug_abbrev,"",%progbits
+ 470              	.Ldebug_abbrev0:
+ 471 0000 01       		.uleb128 0x1
+ 472 0001 11       		.uleb128 0x11
+ 473 0002 01       		.byte	0x1
+ 474 0003 25       		.uleb128 0x25
+ 475 0004 0E       		.uleb128 0xe
+ 476 0005 13       		.uleb128 0x13
+ 477 0006 0B       		.uleb128 0xb
+ 478 0007 03       		.uleb128 0x3
+ 479 0008 0E       		.uleb128 0xe
+ 480 0009 1B       		.uleb128 0x1b
+ 481 000a 0E       		.uleb128 0xe
+ 482 000b 10       		.uleb128 0x10
+ 483 000c 17       		.uleb128 0x17
+ 484 000d 00       		.byte	0
+ 485 000e 00       		.byte	0
+ 486 000f 02       		.uleb128 0x2
+ 487 0010 24       		.uleb128 0x24
+ 488 0011 00       		.byte	0
+ 489 0012 0B       		.uleb128 0xb
+ 490 0013 0B       		.uleb128 0xb
+ 491 0014 3E       		.uleb128 0x3e
+ 492 0015 0B       		.uleb128 0xb
+ 493 0016 03       		.uleb128 0x3
+ 494 0017 0E       		.uleb128 0xe
+ 495 0018 00       		.byte	0
+ 496 0019 00       		.byte	0
+ 497 001a 03       		.uleb128 0x3
+ 498 001b 16       		.uleb128 0x16
+ 499 001c 00       		.byte	0
+ 500 001d 03       		.uleb128 0x3
+ 501 001e 0E       		.uleb128 0xe
+ 502 001f 3A       		.uleb128 0x3a
+ 503 0020 0B       		.uleb128 0xb
+ 504 0021 3B       		.uleb128 0x3b
+ 505 0022 0B       		.uleb128 0xb
+ 506 0023 49       		.uleb128 0x49
+ 507 0024 13       		.uleb128 0x13
+ 508 0025 00       		.byte	0
+ 509 0026 00       		.byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccbHyvCY.s 			page 10
+
+
+ 510 0027 04       		.uleb128 0x4
+ 511 0028 24       		.uleb128 0x24
+ 512 0029 00       		.byte	0
+ 513 002a 0B       		.uleb128 0xb
+ 514 002b 0B       		.uleb128 0xb
+ 515 002c 3E       		.uleb128 0x3e
+ 516 002d 0B       		.uleb128 0xb
+ 517 002e 03       		.uleb128 0x3
+ 518 002f 08       		.uleb128 0x8
+ 519 0030 00       		.byte	0
+ 520 0031 00       		.byte	0
+ 521 0032 05       		.uleb128 0x5
+ 522 0033 01       		.uleb128 0x1
+ 523 0034 01       		.byte	0x1
+ 524 0035 49       		.uleb128 0x49
+ 525 0036 13       		.uleb128 0x13
+ 526 0037 01       		.uleb128 0x1
+ 527 0038 13       		.uleb128 0x13
+ 528 0039 00       		.byte	0
+ 529 003a 00       		.byte	0
+ 530 003b 06       		.uleb128 0x6
+ 531 003c 21       		.uleb128 0x21
+ 532 003d 00       		.byte	0
+ 533 003e 49       		.uleb128 0x49
+ 534 003f 13       		.uleb128 0x13
+ 535 0040 2F       		.uleb128 0x2f
+ 536 0041 0B       		.uleb128 0xb
+ 537 0042 00       		.byte	0
+ 538 0043 00       		.byte	0
+ 539 0044 07       		.uleb128 0x7
+ 540 0045 26       		.uleb128 0x26
+ 541 0046 00       		.byte	0
+ 542 0047 49       		.uleb128 0x49
+ 543 0048 13       		.uleb128 0x13
+ 544 0049 00       		.byte	0
+ 545 004a 00       		.byte	0
+ 546 004b 08       		.uleb128 0x8
+ 547 004c 34       		.uleb128 0x34
+ 548 004d 00       		.byte	0
+ 549 004e 03       		.uleb128 0x3
+ 550 004f 0E       		.uleb128 0xe
+ 551 0050 3A       		.uleb128 0x3a
+ 552 0051 0B       		.uleb128 0xb
+ 553 0052 3B       		.uleb128 0x3b
+ 554 0053 0B       		.uleb128 0xb
+ 555 0054 49       		.uleb128 0x49
+ 556 0055 13       		.uleb128 0x13
+ 557 0056 3F       		.uleb128 0x3f
+ 558 0057 19       		.uleb128 0x19
+ 559 0058 02       		.uleb128 0x2
+ 560 0059 18       		.uleb128 0x18
+ 561 005a 00       		.byte	0
+ 562 005b 00       		.byte	0
+ 563 005c 00       		.byte	0
+ 564              		.section	.debug_aranges,"",%progbits
+ 565 0000 14000000 		.4byte	0x14
+ 566 0004 0200     		.2byte	0x2
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccbHyvCY.s 			page 11
+
+
+ 567 0006 00000000 		.4byte	.Ldebug_info0
+ 568 000a 04       		.byte	0x4
+ 569 000b 00       		.byte	0
+ 570 000c 0000     		.2byte	0
+ 571 000e 0000     		.2byte	0
+ 572 0010 00000000 		.4byte	0
+ 573 0014 00000000 		.4byte	0
+ 574              		.section	.debug_line,"",%progbits
+ 575              	.Ldebug_line0:
+ 576 0000 3D010000 		.section	.debug_str,"MS",%progbits,1
+ 576      02003701 
+ 576      00000201 
+ 576      FB0E0D00 
+ 576      01010101 
+ 577              	.LASF9:
+ 578 0000 5F5F7569 		.ascii	"__uint8_t\000"
+ 578      6E74385F 
+ 578      7400
+ 579              	.LASF19:
+ 580 000a 433A5C55 		.ascii	"C:\\Users\\jon\\Sync\\Research\\PSoC Projects\\Sens"
+ 580      73657273 
+ 580      5C6A6F6E 
+ 580      5C53796E 
+ 580      635C5265 
+ 581 0037 6F72732E 		.ascii	"ors.cydsn\000"
+ 581      63796473 
+ 581      6E00
+ 582              	.LASF16:
+ 583 0041 63795F6D 		.ascii	"cy_metadata\000"
+ 583      65746164 
+ 583      61746100 
+ 584              	.LASF7:
+ 585 004d 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 585      206C6F6E 
+ 585      6720756E 
+ 585      7369676E 
+ 585      65642069 
+ 586              	.LASF1:
+ 587 0064 756E7369 		.ascii	"unsigned char\000"
+ 587      676E6564 
+ 587      20636861 
+ 587      7200
+ 588              	.LASF5:
+ 589 0072 6C6F6E67 		.ascii	"long unsigned int\000"
+ 589      20756E73 
+ 589      69676E65 
+ 589      6420696E 
+ 589      7400
+ 590              	.LASF3:
+ 591 0084 73686F72 		.ascii	"short unsigned int\000"
+ 591      7420756E 
+ 591      7369676E 
+ 591      65642069 
+ 591      6E7400
+ 592              	.LASF13:
+ 593 0097 63795F6D 		.ascii	"cy_meta_custnvl\000"
+ 593      6574615F 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccbHyvCY.s 			page 12
+
+
+ 593      63757374 
+ 593      6E766C00 
+ 594              	.LASF12:
+ 595 00a7 63795F6D 		.ascii	"cy_meta_configecc\000"
+ 595      6574615F 
+ 595      636F6E66 
+ 595      69676563 
+ 595      6300
+ 596              	.LASF8:
+ 597 00b9 756E7369 		.ascii	"unsigned int\000"
+ 597      676E6564 
+ 597      20696E74 
+ 597      00
+ 598              	.LASF17:
+ 599 00c6 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 599      43313120 
+ 599      352E342E 
+ 599      31203230 
+ 599      31363036 
+ 600 00f9 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 600      20726576 
+ 600      6973696F 
+ 600      6E203233 
+ 600      37373135 
+ 601 012c 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 601      66756E63 
+ 601      74696F6E 
+ 601      2D736563 
+ 601      74696F6E 
+ 602              	.LASF10:
+ 603 0154 75696E74 		.ascii	"uint8_t\000"
+ 603      385F7400 
+ 604              	.LASF15:
+ 605 015c 63795F6D 		.ascii	"cy_meta_flashprotect\000"
+ 605      6574615F 
+ 605      666C6173 
+ 605      6870726F 
+ 605      74656374 
+ 606              	.LASF14:
+ 607 0171 63795F6D 		.ascii	"cy_meta_wonvl\000"
+ 607      6574615F 
+ 607      776F6E76 
+ 607      6C00
+ 608              	.LASF11:
+ 609 017f 73697A65 		.ascii	"sizetype\000"
+ 609      74797065 
+ 609      00
+ 610              	.LASF6:
+ 611 0188 6C6F6E67 		.ascii	"long long int\000"
+ 611      206C6F6E 
+ 611      6720696E 
+ 611      7400
+ 612              	.LASF2:
+ 613 0196 73686F72 		.ascii	"short int\000"
+ 613      7420696E 
+ 613      7400
+ 614              	.LASF4:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccbHyvCY.s 			page 13
+
+
+ 615 01a0 6C6F6E67 		.ascii	"long int\000"
+ 615      20696E74 
+ 615      00
+ 616              	.LASF0:
+ 617 01a9 7369676E 		.ascii	"signed char\000"
+ 617      65642063 
+ 617      68617200 
+ 618              	.LASF18:
+ 619 01b5 47656E65 		.ascii	"Generated_Source\\PSoC5\\cymetadata.c\000"
+ 619      72617465 
+ 619      645F536F 
+ 619      75726365 
+ 619      5C50536F 
+ 620              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

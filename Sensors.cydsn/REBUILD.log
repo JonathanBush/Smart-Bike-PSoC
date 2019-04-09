@@ -1,0 +1,118 @@
+--------------- Rebuild Started: 03/06/2018 12:02:46 Project: Sensors, Configuration: ARM GCC 5.4-2016-q2-update Release ---------------
+Deleting file ".\CortexM3\ARM_GCC_541\Release\main.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\pressure_pad.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\cyfitter_cfg.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\cymetadata.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Handle_Encoder.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Handle_Encoder_PM.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Handle_Encoder_A.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Handle_Encoder_B.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Clock_1.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_audio.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_boot.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_cdc.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_cls.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_descr.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_drv.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_episr.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_hid.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_pm.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_std.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_vnd.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_midi.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_msc.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Handle_Encoder_Cnt16.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Handle_Encoder_Cnt16_PM.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_Dm.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\USBUART_1_Dp.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Cm3Start.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\CyBootAsmGnu.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\CyDmac.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\CyFlash.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\CyLib.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\cyPm.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\CySpc.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\cyutils.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Timer.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Timer_PM.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\RearHall_Pin.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Clock_2.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Clock_3.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Hall_Interrupt.o"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Sensors.hex"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Sensors.elf"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\Sensors.map"
+Deleting file ".\Sensors.cycdx"
+Deleting file ".\Sensors.svd"
+Deleting file ".\Sensors.rpt"
+Deleting file ".\Sensors_timing.html"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\.deps\SOURCE_C__ARM_GCC_GENERIC.P"
+Deleting file ".\CortexM3\ARM_GCC_541\Release\.deps\SOURCE_ASM__ARM_GCC_GENERIC.P"
+cydsfit.exe -.appdatapath "C:\Users\jon\AppData\Local\Cypress Semiconductor\PSoC Creator\4.1" -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p "C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\Sensors.cyprj" -d CY8C5888LTI-LP097 -s "C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\Generated_Source\PSoC5" -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
+Elaborating Design...
+HDL Generation...
+Synthesis...
+Tech Mapping...
+ADD: pft.M0040: information: The following 1 pin(s) will be assigned a location by the fitter: RearHall_Pin(0)
+Analog Placement...
+Analog Routing...
+Analog Code Generation...
+Digital Placement...
+Digital Routing...
+Bitstream Generation...
+Bitstream Verification...
+Static timing analysis...
+API Generation...
+Dependency Generation...
+Cleanup...
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/main.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c main.c -o .\CortexM3\ARM_GCC_541\Release\main.o
+main.c: In function 'main':
+main.c:26:5: warning: implicit declaration of function 'Handle_Encoder_Start' [-Wimplicit-function-declaration]
+     Handle_Encoder_Start();
+     ^
+main.c:37:36: warning: implicit declaration of function 'Handle_Encoder_GetCounter' [-Wimplicit-function-declaration]
+         sprintf(sendStr, "%d\n\r", Handle_Encoder_GetCounter());
+                                    ^
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/pressure_pad.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c pressure_pad.c -o .\CortexM3\ARM_GCC_541\Release\pressure_pad.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/cyfitter_cfg.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\cyfitter_cfg.c -o .\CortexM3\ARM_GCC_541\Release\cyfitter_cfg.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/cymetadata.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\cymetadata.c -o .\CortexM3\ARM_GCC_541\Release\cymetadata.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_audio.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_audio.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_audio.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_boot.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_boot.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_boot.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_cdc.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_cdc.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_cdc.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_cls.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_cls.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_cls.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_descr.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_descr.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_descr.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_drv.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_drv.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_drv.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_episr.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_episr.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_episr.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_hid.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_hid.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_hid.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_pm.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_pm.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_pm.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_std.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_std.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_std.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_vnd.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_vnd.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_vnd.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_midi.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_midi.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_midi.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_msc.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_msc.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_msc.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_Dm.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_Dm.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_Dm.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/USBUART_1_Dp.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\USBUART_1_Dp.c -o .\CortexM3\ARM_GCC_541\Release\USBUART_1_Dp.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/Cm3Start.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\Cm3Start.c -o .\CortexM3\ARM_GCC_541\Release\Cm3Start.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/CyDmac.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\CyDmac.c -o .\CortexM3\ARM_GCC_541\Release\CyDmac.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/CyFlash.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\CyFlash.c -o .\CortexM3\ARM_GCC_541\Release\CyFlash.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/CyLib.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\CyLib.c -o .\CortexM3\ARM_GCC_541\Release\CyLib.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/cyPm.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\cyPm.c -o .\CortexM3\ARM_GCC_541\Release\cyPm.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/CySpc.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\CySpc.c -o .\CortexM3\ARM_GCC_541\Release\CySpc.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/cyutils.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\cyutils.c -o .\CortexM3\ARM_GCC_541\Release\cyutils.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/Timer.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\Timer.c -o .\CortexM3\ARM_GCC_541\Release\Timer.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/Timer_PM.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\Timer_PM.c -o .\CortexM3\ARM_GCC_541\Release\Timer_PM.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/RearHall_Pin.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\RearHall_Pin.c -o .\CortexM3\ARM_GCC_541\Release\RearHall_Pin.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/Clock_2.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\Clock_2.c -o .\CortexM3\ARM_GCC_541\Release\Clock_2.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/Clock_3.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\Clock_3.c -o .\CortexM3\ARM_GCC_541\Release\Clock_3.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/Hall_Interrupt.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c Generated_Source\PSoC5\Hall_Interrupt.c -o .\CortexM3\ARM_GCC_541\Release\Hall_Interrupt.o
+arm-none-eabi-as.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -alh=.\CortexM3\ARM_GCC_541\Release/CyBootAsmGnu.lst -g -W -o .\CortexM3\ARM_GCC_541\Release\CyBootAsmGnu.o Generated_Source\PSoC5\CyBootAsmGnu.s
+arm-none-eabi-ar.exe -rs .\CortexM3\ARM_GCC_541\Release\Sensors.a .\CortexM3\ARM_GCC_541\Release\USBUART_1.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_audio.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_boot.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_cdc.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_cls.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_descr.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_drv.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_episr.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_hid.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_pm.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_std.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_vnd.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_midi.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_msc.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_Dm.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_Dp.o .\CortexM3\ARM_GCC_541\Release\CyDmac.o .\CortexM3\ARM_GCC_541\Release\CyFlash.o .\CortexM3\ARM_GCC_541\Release\CyLib.o .\CortexM3\ARM_GCC_541\Release\cyPm.o .\CortexM3\ARM_GCC_541\Release\CySpc.o .\CortexM3\ARM_GCC_541\Release\cyutils.o .\CortexM3\ARM_GCC_541\Release\Timer.o .\CortexM3\ARM_GCC_541\Release\Timer_PM.o .\CortexM3\ARM_GCC_541\Release\RearHall_Pin.o .\CortexM3\ARM_GCC_541\Release\Clock_2.o .\CortexM3\ARM_GCC_541\Release\Clock_3.o .\CortexM3\ARM_GCC_541\Release\Hall_Interrupt.o .\CortexM3\ARM_GCC_541\Release\CyBootAsmGnu.o
+arm-none-eabi-ar.exe: creating .\CortexM3\ARM_GCC_541\Release\Sensors.a
+arm-none-eabi-gcc.exe -Wl,--start-group -o "C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\CortexM3\ARM_GCC_541\Release\Sensors.elf" .\CortexM3\ARM_GCC_541\Release\main.o .\CortexM3\ARM_GCC_541\Release\pressure_pad.o .\CortexM3\ARM_GCC_541\Release\cyfitter_cfg.o .\CortexM3\ARM_GCC_541\Release\cymetadata.o .\CortexM3\ARM_GCC_541\Release\Cm3Start.o .\CortexM3\ARM_GCC_541\Release\Sensors.a "C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CortexM3\ARM_GCC_541\Release\CyComponentLibrary.a" -mcpu=cortex-m3 -mthumb -L Generated_Source\PSoC5 -Wl,-Map,.\CortexM3\ARM_GCC_541\Release/Sensors.map -T Generated_Source\PSoC5\cm3gcc.ld -specs=nano.specs -Wl,--gc-sections -g -ffunction-sections -Os -ffat-lto-objects -Wl,--end-group
+.\CortexM3\ARM_GCC_541\Release\main.o: In function `main':
+C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn/main.c:26: undefined reference to `Handle_Encoder_Start'
+C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn/main.c:37: undefined reference to `Handle_Encoder_GetCounter'
+collect2.exe: error: ld returned 1 exit status
+The command 'arm-none-eabi-gcc.exe' failed with exit code '1'.
+--------------- Rebuild Failed: 03/06/2018 12:03:41 ---------------

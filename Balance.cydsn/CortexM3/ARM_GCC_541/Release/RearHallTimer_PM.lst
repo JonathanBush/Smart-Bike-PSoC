@@ -1,0 +1,1066 @@
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"RearHallTimer_PM.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.RearHallTimer_SaveConfig,"ax",%progbits
+  20              		.align	1
+  21              		.global	RearHallTimer_SaveConfig
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	RearHallTimer_SaveConfig, %function
+  25              	RearHallTimer_SaveConfig:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\RearHallTimer_PM.c"
+   1:Generated_Source\PSoC5/RearHallTimer_PM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/RearHallTimer_PM.c **** * File Name: RearHallTimer_PM.c
+   3:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Version 2.80
+   4:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+   5:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  Description:
+   6:Generated_Source\PSoC5/RearHallTimer_PM.c **** *     This file provides the power management source code to API for the
+   7:Generated_Source\PSoC5/RearHallTimer_PM.c **** *     Timer.
+   8:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+   9:Generated_Source\PSoC5/RearHallTimer_PM.c **** *   Note:
+  10:Generated_Source\PSoC5/RearHallTimer_PM.c **** *     None
+  11:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+  12:Generated_Source\PSoC5/RearHallTimer_PM.c **** *******************************************************************************
+  13:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Copyright 2008-2017, Cypress Semiconductor Corporation.  All rights reserved.
+  14:Generated_Source\PSoC5/RearHallTimer_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  15:Generated_Source\PSoC5/RearHallTimer_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  16:Generated_Source\PSoC5/RearHallTimer_PM.c **** * the software package with which this file was provided.
+  17:Generated_Source\PSoC5/RearHallTimer_PM.c **** ********************************************************************************/
+  18:Generated_Source\PSoC5/RearHallTimer_PM.c **** 
+  19:Generated_Source\PSoC5/RearHallTimer_PM.c **** #include "RearHallTimer.h"
+  20:Generated_Source\PSoC5/RearHallTimer_PM.c **** 
+  21:Generated_Source\PSoC5/RearHallTimer_PM.c **** static RearHallTimer_backupStruct RearHallTimer_backup;
+  22:Generated_Source\PSoC5/RearHallTimer_PM.c **** 
+  23:Generated_Source\PSoC5/RearHallTimer_PM.c **** 
+  24:Generated_Source\PSoC5/RearHallTimer_PM.c **** /*******************************************************************************
+  25:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Function Name: RearHallTimer_SaveConfig
+  26:Generated_Source\PSoC5/RearHallTimer_PM.c **** ********************************************************************************
+  27:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+  28:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Summary:
+  29:Generated_Source\PSoC5/RearHallTimer_PM.c **** *     Save the current user configuration
+  30:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 2
+
+
+  31:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Parameters:
+  32:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  void
+  33:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+  34:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Return:
+  35:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  void
+  36:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+  37:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Global variables:
+  38:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  RearHallTimer_backup:  Variables of this global structure are modified to
+  39:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  store the values of non retention configuration registers when Sleep() API is
+  40:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  called.
+  41:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+  42:Generated_Source\PSoC5/RearHallTimer_PM.c **** *******************************************************************************/
+  43:Generated_Source\PSoC5/RearHallTimer_PM.c **** void RearHallTimer_SaveConfig(void) 
+  44:Generated_Source\PSoC5/RearHallTimer_PM.c **** {
+  28              		.loc 1 44 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 10B5     		push	{r4, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 4, -8
+  35              		.cfi_offset 14, -4
+  45:Generated_Source\PSoC5/RearHallTimer_PM.c ****     #if (!RearHallTimer_UsingFixedFunction)
+  46:Generated_Source\PSoC5/RearHallTimer_PM.c ****         RearHallTimer_backup.TimerUdb = RearHallTimer_ReadCounter();
+  36              		.loc 1 46 0
+  37 0002 FFF7FEFF 		bl	RearHallTimer_ReadCounter
+  38              	.LVL0:
+  39 0006 044C     		ldr	r4, .L2
+  47:Generated_Source\PSoC5/RearHallTimer_PM.c ****         RearHallTimer_backup.InterruptMaskValue = RearHallTimer_STATUS_MASK;
+  40              		.loc 1 47 0
+  41 0008 044B     		ldr	r3, .L2+4
+  46:Generated_Source\PSoC5/RearHallTimer_PM.c ****         RearHallTimer_backup.InterruptMaskValue = RearHallTimer_STATUS_MASK;
+  42              		.loc 1 46 0
+  43 000a 6060     		str	r0, [r4, #4]
+  44              		.loc 1 47 0
+  45 000c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  46 000e 2372     		strb	r3, [r4, #8]
+  48:Generated_Source\PSoC5/RearHallTimer_PM.c ****         #if (RearHallTimer_UsingHWCaptureCounter)
+  49:Generated_Source\PSoC5/RearHallTimer_PM.c ****             RearHallTimer_backup.TimerCaptureCounter = RearHallTimer_ReadCaptureCount();
+  50:Generated_Source\PSoC5/RearHallTimer_PM.c ****         #endif /* Back Up capture counter register  */
+  51:Generated_Source\PSoC5/RearHallTimer_PM.c **** 
+  52:Generated_Source\PSoC5/RearHallTimer_PM.c ****         #if(!RearHallTimer_UDB_CONTROL_REG_REMOVED)
+  53:Generated_Source\PSoC5/RearHallTimer_PM.c ****             RearHallTimer_backup.TimerControlRegister = RearHallTimer_ReadControlRegister();
+  47              		.loc 1 53 0
+  48 0010 FFF7FEFF 		bl	RearHallTimer_ReadControlRegister
+  49              	.LVL1:
+  50 0014 6072     		strb	r0, [r4, #9]
+  51 0016 10BD     		pop	{r4, pc}
+  52              	.L3:
+  53              		.align	2
+  54              	.L2:
+  55 0018 00000000 		.word	.LANCHOR0
+  56 001c 87650040 		.word	1073767815
+  57              		.cfi_endproc
+  58              	.LFE0:
+  59              		.size	RearHallTimer_SaveConfig, .-RearHallTimer_SaveConfig
+  60              		.section	.text.RearHallTimer_RestoreConfig,"ax",%progbits
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 3
+
+
+  61              		.align	1
+  62              		.global	RearHallTimer_RestoreConfig
+  63              		.thumb
+  64              		.thumb_func
+  65              		.type	RearHallTimer_RestoreConfig, %function
+  66              	RearHallTimer_RestoreConfig:
+  67              	.LFB1:
+  54:Generated_Source\PSoC5/RearHallTimer_PM.c ****         #endif /* Backup the enable state of the Timer component */
+  55:Generated_Source\PSoC5/RearHallTimer_PM.c ****     #endif /* Backup non retention registers in UDB implementation. All fixed function registers ar
+  56:Generated_Source\PSoC5/RearHallTimer_PM.c **** }
+  57:Generated_Source\PSoC5/RearHallTimer_PM.c **** 
+  58:Generated_Source\PSoC5/RearHallTimer_PM.c **** 
+  59:Generated_Source\PSoC5/RearHallTimer_PM.c **** /*******************************************************************************
+  60:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Function Name: RearHallTimer_RestoreConfig
+  61:Generated_Source\PSoC5/RearHallTimer_PM.c **** ********************************************************************************
+  62:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+  63:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Summary:
+  64:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  Restores the current user configuration.
+  65:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+  66:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Parameters:
+  67:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  void
+  68:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+  69:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Return:
+  70:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  void
+  71:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+  72:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Global variables:
+  73:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  RearHallTimer_backup:  Variables of this global structure are used to
+  74:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  restore the values of non retention registers on wakeup from sleep mode.
+  75:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+  76:Generated_Source\PSoC5/RearHallTimer_PM.c **** *******************************************************************************/
+  77:Generated_Source\PSoC5/RearHallTimer_PM.c **** void RearHallTimer_RestoreConfig(void) 
+  78:Generated_Source\PSoC5/RearHallTimer_PM.c **** {   
+  68              		.loc 1 78 0
+  69              		.cfi_startproc
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72 0000 10B5     		push	{r4, lr}
+  73              		.cfi_def_cfa_offset 8
+  74              		.cfi_offset 4, -8
+  75              		.cfi_offset 14, -4
+  79:Generated_Source\PSoC5/RearHallTimer_PM.c ****     #if (!RearHallTimer_UsingFixedFunction)
+  80:Generated_Source\PSoC5/RearHallTimer_PM.c **** 
+  81:Generated_Source\PSoC5/RearHallTimer_PM.c ****         RearHallTimer_WriteCounter(RearHallTimer_backup.TimerUdb);
+  76              		.loc 1 81 0
+  77 0002 064C     		ldr	r4, .L5
+  78 0004 6068     		ldr	r0, [r4, #4]
+  79 0006 FFF7FEFF 		bl	RearHallTimer_WriteCounter
+  80              	.LVL2:
+  82:Generated_Source\PSoC5/RearHallTimer_PM.c ****         RearHallTimer_STATUS_MASK =RearHallTimer_backup.InterruptMaskValue;
+  81              		.loc 1 82 0
+  82 000a 227A     		ldrb	r2, [r4, #8]	@ zero_extendqisi2
+  83 000c 044B     		ldr	r3, .L5+4
+  84 000e 1A70     		strb	r2, [r3]
+  83:Generated_Source\PSoC5/RearHallTimer_PM.c ****         #if (RearHallTimer_UsingHWCaptureCounter)
+  84:Generated_Source\PSoC5/RearHallTimer_PM.c ****             RearHallTimer_SetCaptureCount(RearHallTimer_backup.TimerCaptureCounter);
+  85:Generated_Source\PSoC5/RearHallTimer_PM.c ****         #endif /* Restore Capture counter register*/
+  86:Generated_Source\PSoC5/RearHallTimer_PM.c **** 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 4
+
+
+  87:Generated_Source\PSoC5/RearHallTimer_PM.c ****         #if(!RearHallTimer_UDB_CONTROL_REG_REMOVED)
+  88:Generated_Source\PSoC5/RearHallTimer_PM.c ****             RearHallTimer_WriteControlRegister(RearHallTimer_backup.TimerControlRegister);
+  85              		.loc 1 88 0
+  86 0010 607A     		ldrb	r0, [r4, #9]	@ zero_extendqisi2
+  89:Generated_Source\PSoC5/RearHallTimer_PM.c ****         #endif /* Restore the enable state of the Timer component */
+  90:Generated_Source\PSoC5/RearHallTimer_PM.c ****     #endif /* Restore non retention registers in the UDB implementation only */
+  91:Generated_Source\PSoC5/RearHallTimer_PM.c **** }
+  87              		.loc 1 91 0
+  88 0012 BDE81040 		pop	{r4, lr}
+  89              		.cfi_restore 14
+  90              		.cfi_restore 4
+  91              		.cfi_def_cfa_offset 0
+  88:Generated_Source\PSoC5/RearHallTimer_PM.c ****         #endif /* Restore the enable state of the Timer component */
+  92              		.loc 1 88 0
+  93 0016 FFF7FEBF 		b	RearHallTimer_WriteControlRegister
+  94              	.LVL3:
+  95              	.L6:
+  96 001a 00BF     		.align	2
+  97              	.L5:
+  98 001c 00000000 		.word	.LANCHOR0
+  99 0020 87650040 		.word	1073767815
+ 100              		.cfi_endproc
+ 101              	.LFE1:
+ 102              		.size	RearHallTimer_RestoreConfig, .-RearHallTimer_RestoreConfig
+ 103              		.section	.text.RearHallTimer_Sleep,"ax",%progbits
+ 104              		.align	1
+ 105              		.global	RearHallTimer_Sleep
+ 106              		.thumb
+ 107              		.thumb_func
+ 108              		.type	RearHallTimer_Sleep, %function
+ 109              	RearHallTimer_Sleep:
+ 110              	.LFB2:
+  92:Generated_Source\PSoC5/RearHallTimer_PM.c **** 
+  93:Generated_Source\PSoC5/RearHallTimer_PM.c **** 
+  94:Generated_Source\PSoC5/RearHallTimer_PM.c **** /*******************************************************************************
+  95:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Function Name: RearHallTimer_Sleep
+  96:Generated_Source\PSoC5/RearHallTimer_PM.c **** ********************************************************************************
+  97:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+  98:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Summary:
+  99:Generated_Source\PSoC5/RearHallTimer_PM.c **** *     Stop and Save the user configuration
+ 100:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+ 101:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Parameters:
+ 102:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  void
+ 103:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+ 104:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Return:
+ 105:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  void
+ 106:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+ 107:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Global variables:
+ 108:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  RearHallTimer_backup.TimerEnableState:  Is modified depending on the
+ 109:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  enable state of the block before entering sleep mode.
+ 110:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+ 111:Generated_Source\PSoC5/RearHallTimer_PM.c **** *******************************************************************************/
+ 112:Generated_Source\PSoC5/RearHallTimer_PM.c **** void RearHallTimer_Sleep(void) 
+ 113:Generated_Source\PSoC5/RearHallTimer_PM.c **** {
+ 111              		.loc 1 113 0
+ 112              		.cfi_startproc
+ 113              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 5
+
+
+ 114              		@ frame_needed = 0, uses_anonymous_args = 0
+ 115 0000 08B5     		push	{r3, lr}
+ 116              		.cfi_def_cfa_offset 8
+ 117              		.cfi_offset 3, -8
+ 118              		.cfi_offset 14, -4
+ 114:Generated_Source\PSoC5/RearHallTimer_PM.c ****     #if(!RearHallTimer_UDB_CONTROL_REG_REMOVED)
+ 115:Generated_Source\PSoC5/RearHallTimer_PM.c ****         /* Save Counter's enable state */
+ 116:Generated_Source\PSoC5/RearHallTimer_PM.c ****         if(RearHallTimer_CTRL_ENABLE == (RearHallTimer_CONTROL & RearHallTimer_CTRL_ENABLE))
+ 119              		.loc 1 116 0
+ 120 0002 074B     		ldr	r3, .L11
+ 121 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 122 0006 13F0800F 		tst	r3, #128
+ 123 000a 064B     		ldr	r3, .L11+4
+ 117:Generated_Source\PSoC5/RearHallTimer_PM.c ****         {
+ 118:Generated_Source\PSoC5/RearHallTimer_PM.c ****             /* Timer is enabled */
+ 119:Generated_Source\PSoC5/RearHallTimer_PM.c ****             RearHallTimer_backup.TimerEnableState = 1u;
+ 124              		.loc 1 119 0
+ 125 000c 14BF     		ite	ne
+ 126 000e 0122     		movne	r2, #1
+ 120:Generated_Source\PSoC5/RearHallTimer_PM.c ****         }
+ 121:Generated_Source\PSoC5/RearHallTimer_PM.c ****         else
+ 122:Generated_Source\PSoC5/RearHallTimer_PM.c ****         {
+ 123:Generated_Source\PSoC5/RearHallTimer_PM.c ****             /* Timer is disabled */
+ 124:Generated_Source\PSoC5/RearHallTimer_PM.c ****             RearHallTimer_backup.TimerEnableState = 0u;
+ 127              		.loc 1 124 0
+ 128 0010 0022     		moveq	r2, #0
+ 129 0012 1A70     		strb	r2, [r3]
+ 125:Generated_Source\PSoC5/RearHallTimer_PM.c ****         }
+ 126:Generated_Source\PSoC5/RearHallTimer_PM.c ****     #endif /* Back up enable state from the Timer control register */
+ 127:Generated_Source\PSoC5/RearHallTimer_PM.c ****     RearHallTimer_Stop();
+ 130              		.loc 1 127 0
+ 131 0014 FFF7FEFF 		bl	RearHallTimer_Stop
+ 132              	.LVL4:
+ 128:Generated_Source\PSoC5/RearHallTimer_PM.c ****     RearHallTimer_SaveConfig();
+ 129:Generated_Source\PSoC5/RearHallTimer_PM.c **** }
+ 133              		.loc 1 129 0
+ 134 0018 BDE80840 		pop	{r3, lr}
+ 135              		.cfi_restore 14
+ 136              		.cfi_restore 3
+ 137              		.cfi_def_cfa_offset 0
+ 128:Generated_Source\PSoC5/RearHallTimer_PM.c ****     RearHallTimer_SaveConfig();
+ 138              		.loc 1 128 0
+ 139 001c FFF7FEBF 		b	RearHallTimer_SaveConfig
+ 140              	.LVL5:
+ 141              	.L12:
+ 142              		.align	2
+ 143              	.L11:
+ 144 0020 74650040 		.word	1073767796
+ 145 0024 00000000 		.word	.LANCHOR0
+ 146              		.cfi_endproc
+ 147              	.LFE2:
+ 148              		.size	RearHallTimer_Sleep, .-RearHallTimer_Sleep
+ 149              		.section	.text.RearHallTimer_Wakeup,"ax",%progbits
+ 150              		.align	1
+ 151              		.global	RearHallTimer_Wakeup
+ 152              		.thumb
+ 153              		.thumb_func
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 6
+
+
+ 154              		.type	RearHallTimer_Wakeup, %function
+ 155              	RearHallTimer_Wakeup:
+ 156              	.LFB3:
+ 130:Generated_Source\PSoC5/RearHallTimer_PM.c **** 
+ 131:Generated_Source\PSoC5/RearHallTimer_PM.c **** 
+ 132:Generated_Source\PSoC5/RearHallTimer_PM.c **** /*******************************************************************************
+ 133:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Function Name: RearHallTimer_Wakeup
+ 134:Generated_Source\PSoC5/RearHallTimer_PM.c **** ********************************************************************************
+ 135:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+ 136:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Summary:
+ 137:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  Restores and enables the user configuration
+ 138:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+ 139:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Parameters:
+ 140:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  void
+ 141:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+ 142:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Return:
+ 143:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  void
+ 144:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+ 145:Generated_Source\PSoC5/RearHallTimer_PM.c **** * Global variables:
+ 146:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  RearHallTimer_backup.enableState:  Is used to restore the enable state of
+ 147:Generated_Source\PSoC5/RearHallTimer_PM.c **** *  block on wakeup from sleep mode.
+ 148:Generated_Source\PSoC5/RearHallTimer_PM.c **** *
+ 149:Generated_Source\PSoC5/RearHallTimer_PM.c **** *******************************************************************************/
+ 150:Generated_Source\PSoC5/RearHallTimer_PM.c **** void RearHallTimer_Wakeup(void) 
+ 151:Generated_Source\PSoC5/RearHallTimer_PM.c **** {
+ 157              		.loc 1 151 0
+ 158              		.cfi_startproc
+ 159              		@ args = 0, pretend = 0, frame = 0
+ 160              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161 0000 08B5     		push	{r3, lr}
+ 162              		.cfi_def_cfa_offset 8
+ 163              		.cfi_offset 3, -8
+ 164              		.cfi_offset 14, -4
+ 152:Generated_Source\PSoC5/RearHallTimer_PM.c ****     RearHallTimer_RestoreConfig();
+ 165              		.loc 1 152 0
+ 166 0002 FFF7FEFF 		bl	RearHallTimer_RestoreConfig
+ 167              	.LVL6:
+ 153:Generated_Source\PSoC5/RearHallTimer_PM.c ****     #if(!RearHallTimer_UDB_CONTROL_REG_REMOVED)
+ 154:Generated_Source\PSoC5/RearHallTimer_PM.c ****         if(RearHallTimer_backup.TimerEnableState == 1u)
+ 168              		.loc 1 154 0
+ 169 0006 044B     		ldr	r3, .L16
+ 170 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 171 000a 012B     		cmp	r3, #1
+ 172 000c 03D1     		bne	.L13
+ 155:Generated_Source\PSoC5/RearHallTimer_PM.c ****         {     /* Enable Timer's operation */
+ 156:Generated_Source\PSoC5/RearHallTimer_PM.c ****                 RearHallTimer_Enable();
+ 157:Generated_Source\PSoC5/RearHallTimer_PM.c ****         } /* Do nothing if Timer was disabled before */
+ 158:Generated_Source\PSoC5/RearHallTimer_PM.c ****     #endif /* Remove this code section if Control register is removed */
+ 159:Generated_Source\PSoC5/RearHallTimer_PM.c **** }
+ 173              		.loc 1 159 0
+ 174 000e BDE80840 		pop	{r3, lr}
+ 175              		.cfi_remember_state
+ 176              		.cfi_restore 14
+ 177              		.cfi_restore 3
+ 178              		.cfi_def_cfa_offset 0
+ 156:Generated_Source\PSoC5/RearHallTimer_PM.c ****         } /* Do nothing if Timer was disabled before */
+ 179              		.loc 1 156 0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 7
+
+
+ 180 0012 FFF7FEBF 		b	RearHallTimer_Enable
+ 181              	.LVL7:
+ 182              	.L13:
+ 183              		.cfi_restore_state
+ 184 0016 08BD     		pop	{r3, pc}
+ 185              	.L17:
+ 186              		.align	2
+ 187              	.L16:
+ 188 0018 00000000 		.word	.LANCHOR0
+ 189              		.cfi_endproc
+ 190              	.LFE3:
+ 191              		.size	RearHallTimer_Wakeup, .-RearHallTimer_Wakeup
+ 192              		.bss
+ 193              		.align	2
+ 194              		.set	.LANCHOR0,. + 0
+ 195              		.type	RearHallTimer_backup, %object
+ 196              		.size	RearHallTimer_backup, 12
+ 197              	RearHallTimer_backup:
+ 198 0000 00000000 		.space	12
+ 198      00000000 
+ 198      00000000 
+ 199              		.text
+ 200              	.Letext0:
+ 201              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 202              		.file 3 "Generated_Source\\PSoC5\\RearHallTimer.h"
+ 203              		.section	.debug_info,"",%progbits
+ 204              	.Ldebug_info0:
+ 205 0000 EB010000 		.4byte	0x1eb
+ 206 0004 0400     		.2byte	0x4
+ 207 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 208 000a 04       		.byte	0x4
+ 209 000b 01       		.uleb128 0x1
+ 210 000c E2000000 		.4byte	.LASF32
+ 211 0010 0C       		.byte	0xc
+ 212 0011 45020000 		.4byte	.LASF33
+ 213 0015 2C000000 		.4byte	.LASF34
+ 214 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 215 001d 00000000 		.4byte	0
+ 216 0021 00000000 		.4byte	.Ldebug_line0
+ 217 0025 02       		.uleb128 0x2
+ 218 0026 01       		.byte	0x1
+ 219 0027 06       		.byte	0x6
+ 220 0028 C9020000 		.4byte	.LASF0
+ 221 002c 02       		.uleb128 0x2
+ 222 002d 01       		.byte	0x1
+ 223 002e 08       		.byte	0x8
+ 224 002f CF000000 		.4byte	.LASF1
+ 225 0033 02       		.uleb128 0x2
+ 226 0034 02       		.byte	0x2
+ 227 0035 05       		.byte	0x5
+ 228 0036 87020000 		.4byte	.LASF2
+ 229 003a 02       		.uleb128 0x2
+ 230 003b 02       		.byte	0x2
+ 231 003c 07       		.byte	0x7
+ 232 003d 7F000000 		.4byte	.LASF3
+ 233 0041 02       		.uleb128 0x2
+ 234 0042 04       		.byte	0x4
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 8
+
+
+ 235 0043 05       		.byte	0x5
+ 236 0044 B4020000 		.4byte	.LASF4
+ 237 0048 02       		.uleb128 0x2
+ 238 0049 04       		.byte	0x4
+ 239 004a 07       		.byte	0x7
+ 240 004b 1C020000 		.4byte	.LASF5
+ 241 004f 02       		.uleb128 0x2
+ 242 0050 08       		.byte	0x8
+ 243 0051 05       		.byte	0x5
+ 244 0052 37020000 		.4byte	.LASF6
+ 245 0056 02       		.uleb128 0x2
+ 246 0057 08       		.byte	0x8
+ 247 0058 07       		.byte	0x7
+ 248 0059 DC010000 		.4byte	.LASF7
+ 249 005d 03       		.uleb128 0x3
+ 250 005e 04       		.byte	0x4
+ 251 005f 05       		.byte	0x5
+ 252 0060 696E7400 		.ascii	"int\000"
+ 253 0064 02       		.uleb128 0x2
+ 254 0065 04       		.byte	0x4
+ 255 0066 07       		.byte	0x7
+ 256 0067 CF010000 		.4byte	.LASF8
+ 257 006b 04       		.uleb128 0x4
+ 258 006c 70010000 		.4byte	.LASF9
+ 259 0070 02       		.byte	0x2
+ 260 0071 E401     		.2byte	0x1e4
+ 261 0073 2C000000 		.4byte	0x2c
+ 262 0077 04       		.uleb128 0x4
+ 263 0078 A6010000 		.4byte	.LASF10
+ 264 007c 02       		.byte	0x2
+ 265 007d E601     		.2byte	0x1e6
+ 266 007f 48000000 		.4byte	0x48
+ 267 0083 02       		.uleb128 0x2
+ 268 0084 04       		.byte	0x4
+ 269 0085 04       		.byte	0x4
+ 270 0086 B0000000 		.4byte	.LASF11
+ 271 008a 02       		.uleb128 0x2
+ 272 008b 08       		.byte	0x8
+ 273 008c 04       		.byte	0x4
+ 274 008d D5020000 		.4byte	.LASF12
+ 275 0091 02       		.uleb128 0x2
+ 276 0092 01       		.byte	0x1
+ 277 0093 08       		.byte	0x8
+ 278 0094 6F020000 		.4byte	.LASF13
+ 279 0098 04       		.uleb128 0x4
+ 280 0099 DD000000 		.4byte	.LASF14
+ 281 009d 02       		.byte	0x2
+ 282 009e 8E02     		.2byte	0x28e
+ 283 00a0 A4000000 		.4byte	0xa4
+ 284 00a4 05       		.uleb128 0x5
+ 285 00a5 6B000000 		.4byte	0x6b
+ 286 00a9 02       		.uleb128 0x2
+ 287 00aa 08       		.byte	0x8
+ 288 00ab 04       		.byte	0x4
+ 289 00ac BD020000 		.4byte	.LASF15
+ 290 00b0 02       		.uleb128 0x2
+ 291 00b1 04       		.byte	0x4
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 9
+
+
+ 292 00b2 07       		.byte	0x7
+ 293 00b3 2E020000 		.4byte	.LASF16
+ 294 00b7 06       		.uleb128 0x6
+ 295 00b8 0C       		.byte	0xc
+ 296 00b9 03       		.byte	0x3
+ 297 00ba 43       		.byte	0x43
+ 298 00bb F0000000 		.4byte	0xf0
+ 299 00bf 07       		.uleb128 0x7
+ 300 00c0 00000000 		.4byte	.LASF17
+ 301 00c4 03       		.byte	0x3
+ 302 00c5 45       		.byte	0x45
+ 303 00c6 6B000000 		.4byte	0x6b
+ 304 00ca 00       		.byte	0
+ 305 00cb 07       		.uleb128 0x7
+ 306 00cc A7000000 		.4byte	.LASF18
+ 307 00d0 03       		.byte	0x3
+ 308 00d1 48       		.byte	0x48
+ 309 00d2 77000000 		.4byte	0x77
+ 310 00d6 04       		.byte	0x4
+ 311 00d7 07       		.uleb128 0x7
+ 312 00d8 F6020000 		.4byte	.LASF19
+ 313 00dc 03       		.byte	0x3
+ 314 00dd 49       		.byte	0x49
+ 315 00de 6B000000 		.4byte	0x6b
+ 316 00e2 08       		.byte	0x8
+ 317 00e3 07       		.uleb128 0x7
+ 318 00e4 09030000 		.4byte	.LASF20
+ 319 00e8 03       		.byte	0x3
+ 320 00e9 4F       		.byte	0x4f
+ 321 00ea 6B000000 		.4byte	0x6b
+ 322 00ee 09       		.byte	0x9
+ 323 00ef 00       		.byte	0
+ 324 00f0 08       		.uleb128 0x8
+ 325 00f1 76010000 		.4byte	.LASF21
+ 326 00f5 03       		.byte	0x3
+ 327 00f6 53       		.byte	0x53
+ 328 00f7 B7000000 		.4byte	0xb7
+ 329 00fb 09       		.uleb128 0x9
+ 330 00fc B6000000 		.4byte	.LASF22
+ 331 0100 01       		.byte	0x1
+ 332 0101 2B       		.byte	0x2b
+ 333 0102 00000000 		.4byte	.LFB0
+ 334 0106 20000000 		.4byte	.LFE0-.LFB0
+ 335 010a 01       		.uleb128 0x1
+ 336 010b 9C       		.byte	0x9c
+ 337 010c 23010000 		.4byte	0x123
+ 338 0110 0A       		.uleb128 0xa
+ 339 0111 06000000 		.4byte	.LVL0
+ 340 0115 AC010000 		.4byte	0x1ac
+ 341 0119 0A       		.uleb128 0xa
+ 342 011a 14000000 		.4byte	.LVL1
+ 343 011e B7010000 		.4byte	0x1b7
+ 344 0122 00       		.byte	0
+ 345 0123 09       		.uleb128 0x9
+ 346 0124 63000000 		.4byte	.LASF23
+ 347 0128 01       		.byte	0x1
+ 348 0129 4D       		.byte	0x4d
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 10
+
+
+ 349 012a 00000000 		.4byte	.LFB1
+ 350 012e 24000000 		.4byte	.LFE1-.LFB1
+ 351 0132 01       		.uleb128 0x1
+ 352 0133 9C       		.byte	0x9c
+ 353 0134 4B010000 		.4byte	0x14b
+ 354 0138 0A       		.uleb128 0xa
+ 355 0139 0A000000 		.4byte	.LVL2
+ 356 013d C2010000 		.4byte	0x1c2
+ 357 0141 0B       		.uleb128 0xb
+ 358 0142 1A000000 		.4byte	.LVL3
+ 359 0146 CD010000 		.4byte	0x1cd
+ 360 014a 00       		.byte	0
+ 361 014b 09       		.uleb128 0x9
+ 362 014c F3010000 		.4byte	.LASF24
+ 363 0150 01       		.byte	0x1
+ 364 0151 70       		.byte	0x70
+ 365 0152 00000000 		.4byte	.LFB2
+ 366 0156 28000000 		.4byte	.LFE2-.LFB2
+ 367 015a 01       		.uleb128 0x1
+ 368 015b 9C       		.byte	0x9c
+ 369 015c 73010000 		.4byte	0x173
+ 370 0160 0A       		.uleb128 0xa
+ 371 0161 18000000 		.4byte	.LVL4
+ 372 0165 D8010000 		.4byte	0x1d8
+ 373 0169 0B       		.uleb128 0xb
+ 374 016a 20000000 		.4byte	.LVL5
+ 375 016e FB000000 		.4byte	0xfb
+ 376 0172 00       		.byte	0
+ 377 0173 09       		.uleb128 0x9
+ 378 0174 07020000 		.4byte	.LASF25
+ 379 0178 01       		.byte	0x1
+ 380 0179 96       		.byte	0x96
+ 381 017a 00000000 		.4byte	.LFB3
+ 382 017e 1C000000 		.4byte	.LFE3-.LFB3
+ 383 0182 01       		.uleb128 0x1
+ 384 0183 9C       		.byte	0x9c
+ 385 0184 9B010000 		.4byte	0x19b
+ 386 0188 0A       		.uleb128 0xa
+ 387 0189 06000000 		.4byte	.LVL6
+ 388 018d 23010000 		.4byte	0x123
+ 389 0191 0B       		.uleb128 0xb
+ 390 0192 16000000 		.4byte	.LVL7
+ 391 0196 E3010000 		.4byte	0x1e3
+ 392 019a 00       		.byte	0
+ 393 019b 0C       		.uleb128 0xc
+ 394 019c 91010000 		.4byte	.LASF35
+ 395 01a0 01       		.byte	0x1
+ 396 01a1 15       		.byte	0x15
+ 397 01a2 F0000000 		.4byte	0xf0
+ 398 01a6 05       		.uleb128 0x5
+ 399 01a7 03       		.byte	0x3
+ 400 01a8 00000000 		.4byte	RearHallTimer_backup
+ 401 01ac 0D       		.uleb128 0xd
+ 402 01ad DC020000 		.4byte	.LASF26
+ 403 01b1 DC020000 		.4byte	.LASF26
+ 404 01b5 03       		.byte	0x3
+ 405 01b6 69       		.byte	0x69
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 11
+
+
+ 406 01b7 0D       		.uleb128 0xd
+ 407 01b8 AD010000 		.4byte	.LASF27
+ 408 01bc AD010000 		.4byte	.LASF27
+ 409 01c0 03       		.byte	0x3
+ 410 01c1 63       		.byte	0x63
+ 411 01c2 0D       		.uleb128 0xd
+ 412 01c3 11000000 		.4byte	.LASF28
+ 413 01c7 11000000 		.4byte	.LASF28
+ 414 01cb 03       		.byte	0x3
+ 415 01cc 6A       		.byte	0x6a
+ 416 01cd 0D       		.uleb128 0xd
+ 417 01ce 91020000 		.4byte	.LASF29
+ 418 01d2 91020000 		.4byte	.LASF29
+ 419 01d6 03       		.byte	0x3
+ 420 01d7 64       		.byte	0x64
+ 421 01d8 0D       		.uleb128 0xd
+ 422 01d9 74020000 		.4byte	.LASF30
+ 423 01dd 74020000 		.4byte	.LASF30
+ 424 01e1 03       		.byte	0x3
+ 425 01e2 5B       		.byte	0x5b
+ 426 01e3 0D       		.uleb128 0xd
+ 427 01e4 92000000 		.4byte	.LASF31
+ 428 01e8 92000000 		.4byte	.LASF31
+ 429 01ec 03       		.byte	0x3
+ 430 01ed 8B       		.byte	0x8b
+ 431 01ee 00       		.byte	0
+ 432              		.section	.debug_abbrev,"",%progbits
+ 433              	.Ldebug_abbrev0:
+ 434 0000 01       		.uleb128 0x1
+ 435 0001 11       		.uleb128 0x11
+ 436 0002 01       		.byte	0x1
+ 437 0003 25       		.uleb128 0x25
+ 438 0004 0E       		.uleb128 0xe
+ 439 0005 13       		.uleb128 0x13
+ 440 0006 0B       		.uleb128 0xb
+ 441 0007 03       		.uleb128 0x3
+ 442 0008 0E       		.uleb128 0xe
+ 443 0009 1B       		.uleb128 0x1b
+ 444 000a 0E       		.uleb128 0xe
+ 445 000b 55       		.uleb128 0x55
+ 446 000c 17       		.uleb128 0x17
+ 447 000d 11       		.uleb128 0x11
+ 448 000e 01       		.uleb128 0x1
+ 449 000f 10       		.uleb128 0x10
+ 450 0010 17       		.uleb128 0x17
+ 451 0011 00       		.byte	0
+ 452 0012 00       		.byte	0
+ 453 0013 02       		.uleb128 0x2
+ 454 0014 24       		.uleb128 0x24
+ 455 0015 00       		.byte	0
+ 456 0016 0B       		.uleb128 0xb
+ 457 0017 0B       		.uleb128 0xb
+ 458 0018 3E       		.uleb128 0x3e
+ 459 0019 0B       		.uleb128 0xb
+ 460 001a 03       		.uleb128 0x3
+ 461 001b 0E       		.uleb128 0xe
+ 462 001c 00       		.byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 12
+
+
+ 463 001d 00       		.byte	0
+ 464 001e 03       		.uleb128 0x3
+ 465 001f 24       		.uleb128 0x24
+ 466 0020 00       		.byte	0
+ 467 0021 0B       		.uleb128 0xb
+ 468 0022 0B       		.uleb128 0xb
+ 469 0023 3E       		.uleb128 0x3e
+ 470 0024 0B       		.uleb128 0xb
+ 471 0025 03       		.uleb128 0x3
+ 472 0026 08       		.uleb128 0x8
+ 473 0027 00       		.byte	0
+ 474 0028 00       		.byte	0
+ 475 0029 04       		.uleb128 0x4
+ 476 002a 16       		.uleb128 0x16
+ 477 002b 00       		.byte	0
+ 478 002c 03       		.uleb128 0x3
+ 479 002d 0E       		.uleb128 0xe
+ 480 002e 3A       		.uleb128 0x3a
+ 481 002f 0B       		.uleb128 0xb
+ 482 0030 3B       		.uleb128 0x3b
+ 483 0031 05       		.uleb128 0x5
+ 484 0032 49       		.uleb128 0x49
+ 485 0033 13       		.uleb128 0x13
+ 486 0034 00       		.byte	0
+ 487 0035 00       		.byte	0
+ 488 0036 05       		.uleb128 0x5
+ 489 0037 35       		.uleb128 0x35
+ 490 0038 00       		.byte	0
+ 491 0039 49       		.uleb128 0x49
+ 492 003a 13       		.uleb128 0x13
+ 493 003b 00       		.byte	0
+ 494 003c 00       		.byte	0
+ 495 003d 06       		.uleb128 0x6
+ 496 003e 13       		.uleb128 0x13
+ 497 003f 01       		.byte	0x1
+ 498 0040 0B       		.uleb128 0xb
+ 499 0041 0B       		.uleb128 0xb
+ 500 0042 3A       		.uleb128 0x3a
+ 501 0043 0B       		.uleb128 0xb
+ 502 0044 3B       		.uleb128 0x3b
+ 503 0045 0B       		.uleb128 0xb
+ 504 0046 01       		.uleb128 0x1
+ 505 0047 13       		.uleb128 0x13
+ 506 0048 00       		.byte	0
+ 507 0049 00       		.byte	0
+ 508 004a 07       		.uleb128 0x7
+ 509 004b 0D       		.uleb128 0xd
+ 510 004c 00       		.byte	0
+ 511 004d 03       		.uleb128 0x3
+ 512 004e 0E       		.uleb128 0xe
+ 513 004f 3A       		.uleb128 0x3a
+ 514 0050 0B       		.uleb128 0xb
+ 515 0051 3B       		.uleb128 0x3b
+ 516 0052 0B       		.uleb128 0xb
+ 517 0053 49       		.uleb128 0x49
+ 518 0054 13       		.uleb128 0x13
+ 519 0055 38       		.uleb128 0x38
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 13
+
+
+ 520 0056 0B       		.uleb128 0xb
+ 521 0057 00       		.byte	0
+ 522 0058 00       		.byte	0
+ 523 0059 08       		.uleb128 0x8
+ 524 005a 16       		.uleb128 0x16
+ 525 005b 00       		.byte	0
+ 526 005c 03       		.uleb128 0x3
+ 527 005d 0E       		.uleb128 0xe
+ 528 005e 3A       		.uleb128 0x3a
+ 529 005f 0B       		.uleb128 0xb
+ 530 0060 3B       		.uleb128 0x3b
+ 531 0061 0B       		.uleb128 0xb
+ 532 0062 49       		.uleb128 0x49
+ 533 0063 13       		.uleb128 0x13
+ 534 0064 00       		.byte	0
+ 535 0065 00       		.byte	0
+ 536 0066 09       		.uleb128 0x9
+ 537 0067 2E       		.uleb128 0x2e
+ 538 0068 01       		.byte	0x1
+ 539 0069 3F       		.uleb128 0x3f
+ 540 006a 19       		.uleb128 0x19
+ 541 006b 03       		.uleb128 0x3
+ 542 006c 0E       		.uleb128 0xe
+ 543 006d 3A       		.uleb128 0x3a
+ 544 006e 0B       		.uleb128 0xb
+ 545 006f 3B       		.uleb128 0x3b
+ 546 0070 0B       		.uleb128 0xb
+ 547 0071 27       		.uleb128 0x27
+ 548 0072 19       		.uleb128 0x19
+ 549 0073 11       		.uleb128 0x11
+ 550 0074 01       		.uleb128 0x1
+ 551 0075 12       		.uleb128 0x12
+ 552 0076 06       		.uleb128 0x6
+ 553 0077 40       		.uleb128 0x40
+ 554 0078 18       		.uleb128 0x18
+ 555 0079 9742     		.uleb128 0x2117
+ 556 007b 19       		.uleb128 0x19
+ 557 007c 01       		.uleb128 0x1
+ 558 007d 13       		.uleb128 0x13
+ 559 007e 00       		.byte	0
+ 560 007f 00       		.byte	0
+ 561 0080 0A       		.uleb128 0xa
+ 562 0081 898201   		.uleb128 0x4109
+ 563 0084 00       		.byte	0
+ 564 0085 11       		.uleb128 0x11
+ 565 0086 01       		.uleb128 0x1
+ 566 0087 31       		.uleb128 0x31
+ 567 0088 13       		.uleb128 0x13
+ 568 0089 00       		.byte	0
+ 569 008a 00       		.byte	0
+ 570 008b 0B       		.uleb128 0xb
+ 571 008c 898201   		.uleb128 0x4109
+ 572 008f 00       		.byte	0
+ 573 0090 11       		.uleb128 0x11
+ 574 0091 01       		.uleb128 0x1
+ 575 0092 9542     		.uleb128 0x2115
+ 576 0094 19       		.uleb128 0x19
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 14
+
+
+ 577 0095 31       		.uleb128 0x31
+ 578 0096 13       		.uleb128 0x13
+ 579 0097 00       		.byte	0
+ 580 0098 00       		.byte	0
+ 581 0099 0C       		.uleb128 0xc
+ 582 009a 34       		.uleb128 0x34
+ 583 009b 00       		.byte	0
+ 584 009c 03       		.uleb128 0x3
+ 585 009d 0E       		.uleb128 0xe
+ 586 009e 3A       		.uleb128 0x3a
+ 587 009f 0B       		.uleb128 0xb
+ 588 00a0 3B       		.uleb128 0x3b
+ 589 00a1 0B       		.uleb128 0xb
+ 590 00a2 49       		.uleb128 0x49
+ 591 00a3 13       		.uleb128 0x13
+ 592 00a4 02       		.uleb128 0x2
+ 593 00a5 18       		.uleb128 0x18
+ 594 00a6 00       		.byte	0
+ 595 00a7 00       		.byte	0
+ 596 00a8 0D       		.uleb128 0xd
+ 597 00a9 2E       		.uleb128 0x2e
+ 598 00aa 00       		.byte	0
+ 599 00ab 3F       		.uleb128 0x3f
+ 600 00ac 19       		.uleb128 0x19
+ 601 00ad 3C       		.uleb128 0x3c
+ 602 00ae 19       		.uleb128 0x19
+ 603 00af 6E       		.uleb128 0x6e
+ 604 00b0 0E       		.uleb128 0xe
+ 605 00b1 03       		.uleb128 0x3
+ 606 00b2 0E       		.uleb128 0xe
+ 607 00b3 3A       		.uleb128 0x3a
+ 608 00b4 0B       		.uleb128 0xb
+ 609 00b5 3B       		.uleb128 0x3b
+ 610 00b6 0B       		.uleb128 0xb
+ 611 00b7 00       		.byte	0
+ 612 00b8 00       		.byte	0
+ 613 00b9 00       		.byte	0
+ 614              		.section	.debug_aranges,"",%progbits
+ 615 0000 34000000 		.4byte	0x34
+ 616 0004 0200     		.2byte	0x2
+ 617 0006 00000000 		.4byte	.Ldebug_info0
+ 618 000a 04       		.byte	0x4
+ 619 000b 00       		.byte	0
+ 620 000c 0000     		.2byte	0
+ 621 000e 0000     		.2byte	0
+ 622 0010 00000000 		.4byte	.LFB0
+ 623 0014 20000000 		.4byte	.LFE0-.LFB0
+ 624 0018 00000000 		.4byte	.LFB1
+ 625 001c 24000000 		.4byte	.LFE1-.LFB1
+ 626 0020 00000000 		.4byte	.LFB2
+ 627 0024 28000000 		.4byte	.LFE2-.LFB2
+ 628 0028 00000000 		.4byte	.LFB3
+ 629 002c 1C000000 		.4byte	.LFE3-.LFB3
+ 630 0030 00000000 		.4byte	0
+ 631 0034 00000000 		.4byte	0
+ 632              		.section	.debug_ranges,"",%progbits
+ 633              	.Ldebug_ranges0:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 15
+
+
+ 634 0000 00000000 		.4byte	.LFB0
+ 635 0004 20000000 		.4byte	.LFE0
+ 636 0008 00000000 		.4byte	.LFB1
+ 637 000c 24000000 		.4byte	.LFE1
+ 638 0010 00000000 		.4byte	.LFB2
+ 639 0014 28000000 		.4byte	.LFE2
+ 640 0018 00000000 		.4byte	.LFB3
+ 641 001c 1C000000 		.4byte	.LFE3
+ 642 0020 00000000 		.4byte	0
+ 643 0024 00000000 		.4byte	0
+ 644              		.section	.debug_line,"",%progbits
+ 645              	.Ldebug_line0:
+ 646 0000 B9000000 		.section	.debug_str,"MS",%progbits,1
+ 646      02006000 
+ 646      00000201 
+ 646      FB0E0D00 
+ 646      01010101 
+ 647              	.LASF17:
+ 648 0000 54696D65 		.ascii	"TimerEnableState\000"
+ 648      72456E61 
+ 648      626C6553 
+ 648      74617465 
+ 648      00
+ 649              	.LASF28:
+ 650 0011 52656172 		.ascii	"RearHallTimer_WriteCounter\000"
+ 650      48616C6C 
+ 650      54696D65 
+ 650      725F5772 
+ 650      69746543 
+ 651              	.LASF34:
+ 652 002c 433A5C55 		.ascii	"C:\\Users\\jon\\Sync\\Research\\PSoC Projects\\Bala"
+ 652      73657273 
+ 652      5C6A6F6E 
+ 652      5C53796E 
+ 652      635C5265 
+ 653 0059 6E63652E 		.ascii	"nce.cydsn\000"
+ 653      63796473 
+ 653      6E00
+ 654              	.LASF23:
+ 655 0063 52656172 		.ascii	"RearHallTimer_RestoreConfig\000"
+ 655      48616C6C 
+ 655      54696D65 
+ 655      725F5265 
+ 655      73746F72 
+ 656              	.LASF3:
+ 657 007f 73686F72 		.ascii	"short unsigned int\000"
+ 657      7420756E 
+ 657      7369676E 
+ 657      65642069 
+ 657      6E7400
+ 658              	.LASF31:
+ 659 0092 52656172 		.ascii	"RearHallTimer_Enable\000"
+ 659      48616C6C 
+ 659      54696D65 
+ 659      725F456E 
+ 659      61626C65 
+ 660              	.LASF18:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 16
+
+
+ 661 00a7 54696D65 		.ascii	"TimerUdb\000"
+ 661      72556462 
+ 661      00
+ 662              	.LASF11:
+ 663 00b0 666C6F61 		.ascii	"float\000"
+ 663      7400
+ 664              	.LASF22:
+ 665 00b6 52656172 		.ascii	"RearHallTimer_SaveConfig\000"
+ 665      48616C6C 
+ 665      54696D65 
+ 665      725F5361 
+ 665      7665436F 
+ 666              	.LASF1:
+ 667 00cf 756E7369 		.ascii	"unsigned char\000"
+ 667      676E6564 
+ 667      20636861 
+ 667      7200
+ 668              	.LASF14:
+ 669 00dd 72656738 		.ascii	"reg8\000"
+ 669      00
+ 670              	.LASF32:
+ 671 00e2 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 671      43313120 
+ 671      352E342E 
+ 671      31203230 
+ 671      31363036 
+ 672 0115 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 672      20726576 
+ 672      6973696F 
+ 672      6E203233 
+ 672      37373135 
+ 673 0148 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 673      66756E63 
+ 673      74696F6E 
+ 673      2D736563 
+ 673      74696F6E 
+ 674              	.LASF9:
+ 675 0170 75696E74 		.ascii	"uint8\000"
+ 675      3800
+ 676              	.LASF21:
+ 677 0176 52656172 		.ascii	"RearHallTimer_backupStruct\000"
+ 677      48616C6C 
+ 677      54696D65 
+ 677      725F6261 
+ 677      636B7570 
+ 678              	.LASF35:
+ 679 0191 52656172 		.ascii	"RearHallTimer_backup\000"
+ 679      48616C6C 
+ 679      54696D65 
+ 679      725F6261 
+ 679      636B7570 
+ 680              	.LASF10:
+ 681 01a6 75696E74 		.ascii	"uint32\000"
+ 681      333200
+ 682              	.LASF27:
+ 683 01ad 52656172 		.ascii	"RearHallTimer_ReadControlRegister\000"
+ 683      48616C6C 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 17
+
+
+ 683      54696D65 
+ 683      725F5265 
+ 683      6164436F 
+ 684              	.LASF8:
+ 685 01cf 756E7369 		.ascii	"unsigned int\000"
+ 685      676E6564 
+ 685      20696E74 
+ 685      00
+ 686              	.LASF7:
+ 687 01dc 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 687      206C6F6E 
+ 687      6720756E 
+ 687      7369676E 
+ 687      65642069 
+ 688              	.LASF24:
+ 689 01f3 52656172 		.ascii	"RearHallTimer_Sleep\000"
+ 689      48616C6C 
+ 689      54696D65 
+ 689      725F536C 
+ 689      65657000 
+ 690              	.LASF25:
+ 691 0207 52656172 		.ascii	"RearHallTimer_Wakeup\000"
+ 691      48616C6C 
+ 691      54696D65 
+ 691      725F5761 
+ 691      6B657570 
+ 692              	.LASF5:
+ 693 021c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 693      20756E73 
+ 693      69676E65 
+ 693      6420696E 
+ 693      7400
+ 694              	.LASF16:
+ 695 022e 73697A65 		.ascii	"sizetype\000"
+ 695      74797065 
+ 695      00
+ 696              	.LASF6:
+ 697 0237 6C6F6E67 		.ascii	"long long int\000"
+ 697      206C6F6E 
+ 697      6720696E 
+ 697      7400
+ 698              	.LASF33:
+ 699 0245 47656E65 		.ascii	"Generated_Source\\PSoC5\\RearHallTimer_PM.c\000"
+ 699      72617465 
+ 699      645F536F 
+ 699      75726365 
+ 699      5C50536F 
+ 700              	.LASF13:
+ 701 026f 63686172 		.ascii	"char\000"
+ 701      00
+ 702              	.LASF30:
+ 703 0274 52656172 		.ascii	"RearHallTimer_Stop\000"
+ 703      48616C6C 
+ 703      54696D65 
+ 703      725F5374 
+ 703      6F7000
+ 704              	.LASF2:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccnGyLhA.s 			page 18
+
+
+ 705 0287 73686F72 		.ascii	"short int\000"
+ 705      7420696E 
+ 705      7400
+ 706              	.LASF29:
+ 707 0291 52656172 		.ascii	"RearHallTimer_WriteControlRegister\000"
+ 707      48616C6C 
+ 707      54696D65 
+ 707      725F5772 
+ 707      69746543 
+ 708              	.LASF4:
+ 709 02b4 6C6F6E67 		.ascii	"long int\000"
+ 709      20696E74 
+ 709      00
+ 710              	.LASF15:
+ 711 02bd 6C6F6E67 		.ascii	"long double\000"
+ 711      20646F75 
+ 711      626C6500 
+ 712              	.LASF0:
+ 713 02c9 7369676E 		.ascii	"signed char\000"
+ 713      65642063 
+ 713      68617200 
+ 714              	.LASF12:
+ 715 02d5 646F7562 		.ascii	"double\000"
+ 715      6C6500
+ 716              	.LASF26:
+ 717 02dc 52656172 		.ascii	"RearHallTimer_ReadCounter\000"
+ 717      48616C6C 
+ 717      54696D65 
+ 717      725F5265 
+ 717      6164436F 
+ 718              	.LASF19:
+ 719 02f6 496E7465 		.ascii	"InterruptMaskValue\000"
+ 719      72727570 
+ 719      744D6173 
+ 719      6B56616C 
+ 719      756500
+ 720              	.LASF20:
+ 721 0309 54696D65 		.ascii	"TimerControlRegister\000"
+ 721      72436F6E 
+ 721      74726F6C 
+ 721      52656769 
+ 721      73746572 
+ 722              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

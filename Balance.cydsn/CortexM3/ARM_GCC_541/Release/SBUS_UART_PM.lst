@@ -1,0 +1,965 @@
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"SBUS_UART_PM.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.SBUS_UART_SaveConfig,"ax",%progbits
+  20              		.align	1
+  21              		.global	SBUS_UART_SaveConfig
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	SBUS_UART_SaveConfig, %function
+  25              	SBUS_UART_SaveConfig:
+  26              	.LFB5:
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31 0000 7047     		bx	lr
+  32              		.cfi_endproc
+  33              	.LFE5:
+  34              		.size	SBUS_UART_SaveConfig, .-SBUS_UART_SaveConfig
+  35              		.section	.text.SBUS_UART_RestoreConfig,"ax",%progbits
+  36              		.align	1
+  37              		.global	SBUS_UART_RestoreConfig
+  38              		.thumb
+  39              		.thumb_func
+  40              		.type	SBUS_UART_RestoreConfig, %function
+  41              	SBUS_UART_RestoreConfig:
+  42              	.LFB1:
+  43              		.file 1 "Generated_Source\\PSoC5\\SBUS_UART_PM.c"
+   1:Generated_Source\PSoC5/SBUS_UART_PM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/SBUS_UART_PM.c **** * File Name: SBUS_UART_PM.c
+   3:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Version 2.50
+   4:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+   5:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Description:
+   6:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  This file provides Sleep/WakeUp APIs functionality.
+   7:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+   8:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Note:
+   9:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  10:Generated_Source\PSoC5/SBUS_UART_PM.c **** ********************************************************************************
+  11:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  12:Generated_Source\PSoC5/SBUS_UART_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  13:Generated_Source\PSoC5/SBUS_UART_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  14:Generated_Source\PSoC5/SBUS_UART_PM.c **** * the software package with which this file was provided.
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 2
+
+
+  15:Generated_Source\PSoC5/SBUS_UART_PM.c **** *******************************************************************************/
+  16:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+  17:Generated_Source\PSoC5/SBUS_UART_PM.c **** #include "SBUS_UART.h"
+  18:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+  19:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+  20:Generated_Source\PSoC5/SBUS_UART_PM.c **** /***************************************
+  21:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Local data allocation
+  22:Generated_Source\PSoC5/SBUS_UART_PM.c **** ***************************************/
+  23:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+  24:Generated_Source\PSoC5/SBUS_UART_PM.c **** static SBUS_UART_BACKUP_STRUCT  SBUS_UART_backup =
+  25:Generated_Source\PSoC5/SBUS_UART_PM.c **** {
+  26:Generated_Source\PSoC5/SBUS_UART_PM.c ****     /* enableState - disabled */
+  27:Generated_Source\PSoC5/SBUS_UART_PM.c ****     0u,
+  28:Generated_Source\PSoC5/SBUS_UART_PM.c **** };
+  29:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+  30:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+  31:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+  32:Generated_Source\PSoC5/SBUS_UART_PM.c **** /*******************************************************************************
+  33:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Function Name: SBUS_UART_SaveConfig
+  34:Generated_Source\PSoC5/SBUS_UART_PM.c **** ********************************************************************************
+  35:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  36:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Summary:
+  37:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  This function saves the component nonretention control register.
+  38:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  Does not save the FIFO which is a set of nonretention registers.
+  39:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  This function is called by the SBUS_UART_Sleep() function.
+  40:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  41:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Parameters:
+  42:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  None.
+  43:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  44:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Return:
+  45:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  None.
+  46:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  47:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Global Variables:
+  48:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  SBUS_UART_backup - modified when non-retention registers are saved.
+  49:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  50:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Reentrant:
+  51:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  No.
+  52:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  53:Generated_Source\PSoC5/SBUS_UART_PM.c **** *******************************************************************************/
+  54:Generated_Source\PSoC5/SBUS_UART_PM.c **** void SBUS_UART_SaveConfig(void)
+  55:Generated_Source\PSoC5/SBUS_UART_PM.c **** {
+  56:Generated_Source\PSoC5/SBUS_UART_PM.c ****     #if(SBUS_UART_CONTROL_REG_REMOVED == 0u)
+  57:Generated_Source\PSoC5/SBUS_UART_PM.c ****         SBUS_UART_backup.cr = SBUS_UART_CONTROL_REG;
+  58:Generated_Source\PSoC5/SBUS_UART_PM.c ****     #endif /* End SBUS_UART_CONTROL_REG_REMOVED */
+  59:Generated_Source\PSoC5/SBUS_UART_PM.c **** }
+  60:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+  61:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+  62:Generated_Source\PSoC5/SBUS_UART_PM.c **** /*******************************************************************************
+  63:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Function Name: SBUS_UART_RestoreConfig
+  64:Generated_Source\PSoC5/SBUS_UART_PM.c **** ********************************************************************************
+  65:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  66:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Summary:
+  67:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  Restores the nonretention control register except FIFO.
+  68:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  Does not restore the FIFO which is a set of nonretention registers.
+  69:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  70:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Parameters:
+  71:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  None.
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 3
+
+
+  72:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  73:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Return:
+  74:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  None.
+  75:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  76:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Global Variables:
+  77:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  SBUS_UART_backup - used when non-retention registers are restored.
+  78:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  79:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Reentrant:
+  80:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  No.
+  81:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  82:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Notes:
+  83:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  If this function is called without calling SBUS_UART_SaveConfig() 
+  84:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  first, the data loaded may be incorrect.
+  85:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  86:Generated_Source\PSoC5/SBUS_UART_PM.c **** *******************************************************************************/
+  87:Generated_Source\PSoC5/SBUS_UART_PM.c **** void SBUS_UART_RestoreConfig(void)
+  88:Generated_Source\PSoC5/SBUS_UART_PM.c **** {
+  44              		.loc 1 88 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 7047     		bx	lr
+  50              		.cfi_endproc
+  51              	.LFE1:
+  52              		.size	SBUS_UART_RestoreConfig, .-SBUS_UART_RestoreConfig
+  53              		.section	.text.SBUS_UART_Sleep,"ax",%progbits
+  54              		.align	1
+  55              		.global	SBUS_UART_Sleep
+  56              		.thumb
+  57              		.thumb_func
+  58              		.type	SBUS_UART_Sleep, %function
+  59              	SBUS_UART_Sleep:
+  60              	.LFB2:
+  89:Generated_Source\PSoC5/SBUS_UART_PM.c ****     #if(SBUS_UART_CONTROL_REG_REMOVED == 0u)
+  90:Generated_Source\PSoC5/SBUS_UART_PM.c ****         SBUS_UART_CONTROL_REG = SBUS_UART_backup.cr;
+  91:Generated_Source\PSoC5/SBUS_UART_PM.c ****     #endif /* End SBUS_UART_CONTROL_REG_REMOVED */
+  92:Generated_Source\PSoC5/SBUS_UART_PM.c **** }
+  93:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+  94:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+  95:Generated_Source\PSoC5/SBUS_UART_PM.c **** /*******************************************************************************
+  96:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Function Name: SBUS_UART_Sleep
+  97:Generated_Source\PSoC5/SBUS_UART_PM.c **** ********************************************************************************
+  98:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+  99:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Summary:
+ 100:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  This is the preferred API to prepare the component for sleep. 
+ 101:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  The SBUS_UART_Sleep() API saves the current component state. Then it
+ 102:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  calls the SBUS_UART_Stop() function and calls 
+ 103:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  SBUS_UART_SaveConfig() to save the hardware configuration.
+ 104:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  Call the SBUS_UART_Sleep() function before calling the CyPmSleep() 
+ 105:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  or the CyPmHibernate() function. 
+ 106:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+ 107:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Parameters:
+ 108:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  None.
+ 109:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+ 110:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Return:
+ 111:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  None.
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 4
+
+
+ 112:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+ 113:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Global Variables:
+ 114:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  SBUS_UART_backup - modified when non-retention registers are saved.
+ 115:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+ 116:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Reentrant:
+ 117:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  No.
+ 118:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+ 119:Generated_Source\PSoC5/SBUS_UART_PM.c **** *******************************************************************************/
+ 120:Generated_Source\PSoC5/SBUS_UART_PM.c **** void SBUS_UART_Sleep(void)
+ 121:Generated_Source\PSoC5/SBUS_UART_PM.c **** {
+  61              		.loc 1 121 0
+  62              		.cfi_startproc
+  63              		@ args = 0, pretend = 0, frame = 0
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  65              		@ link register save eliminated.
+ 122:Generated_Source\PSoC5/SBUS_UART_PM.c ****     #if(SBUS_UART_RX_ENABLED || SBUS_UART_HD_ENABLED)
+ 123:Generated_Source\PSoC5/SBUS_UART_PM.c ****         if((SBUS_UART_RXSTATUS_ACTL_REG  & SBUS_UART_INT_ENABLE) != 0u)
+  66              		.loc 1 123 0
+  67 0000 064B     		ldr	r3, .L7
+  68 0002 074A     		ldr	r2, .L7+4
+  69 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  70 0006 03F01003 		and	r3, r3, #16
+  71 000a 03F0FF01 		and	r1, r3, #255
+  72 000e 13B1     		cbz	r3, .L4
+ 124:Generated_Source\PSoC5/SBUS_UART_PM.c ****         {
+ 125:Generated_Source\PSoC5/SBUS_UART_PM.c ****             SBUS_UART_backup.enableState = 1u;
+  73              		.loc 1 125 0
+  74 0010 0123     		movs	r3, #1
+  75 0012 1370     		strb	r3, [r2]
+  76 0014 00E0     		b	.L5
+  77              	.L4:
+ 126:Generated_Source\PSoC5/SBUS_UART_PM.c ****         }
+ 127:Generated_Source\PSoC5/SBUS_UART_PM.c ****         else
+ 128:Generated_Source\PSoC5/SBUS_UART_PM.c ****         {
+ 129:Generated_Source\PSoC5/SBUS_UART_PM.c ****             SBUS_UART_backup.enableState = 0u;
+  78              		.loc 1 129 0
+  79 0016 1170     		strb	r1, [r2]
+  80              	.L5:
+ 130:Generated_Source\PSoC5/SBUS_UART_PM.c ****         }
+ 131:Generated_Source\PSoC5/SBUS_UART_PM.c ****     #else
+ 132:Generated_Source\PSoC5/SBUS_UART_PM.c ****         if((SBUS_UART_TXSTATUS_ACTL_REG  & SBUS_UART_INT_ENABLE) !=0u)
+ 133:Generated_Source\PSoC5/SBUS_UART_PM.c ****         {
+ 134:Generated_Source\PSoC5/SBUS_UART_PM.c ****             SBUS_UART_backup.enableState = 1u;
+ 135:Generated_Source\PSoC5/SBUS_UART_PM.c ****         }
+ 136:Generated_Source\PSoC5/SBUS_UART_PM.c ****         else
+ 137:Generated_Source\PSoC5/SBUS_UART_PM.c ****         {
+ 138:Generated_Source\PSoC5/SBUS_UART_PM.c ****             SBUS_UART_backup.enableState = 0u;
+ 139:Generated_Source\PSoC5/SBUS_UART_PM.c ****         }
+ 140:Generated_Source\PSoC5/SBUS_UART_PM.c ****     #endif /* End SBUS_UART_RX_ENABLED || SBUS_UART_HD_ENABLED*/
+ 141:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+ 142:Generated_Source\PSoC5/SBUS_UART_PM.c ****     SBUS_UART_Stop();
+  81              		.loc 1 142 0
+  82 0018 FFF7FEBF 		b	SBUS_UART_Stop
+  83              	.LVL0:
+  84              	.L8:
+  85              		.align	2
+  86              	.L7:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 5
+
+
+  87 001c 94650040 		.word	1073767828
+  88 0020 00000000 		.word	.LANCHOR0
+  89              		.cfi_endproc
+  90              	.LFE2:
+  91              		.size	SBUS_UART_Sleep, .-SBUS_UART_Sleep
+  92              		.section	.text.SBUS_UART_Wakeup,"ax",%progbits
+  93              		.align	1
+  94              		.global	SBUS_UART_Wakeup
+  95              		.thumb
+  96              		.thumb_func
+  97              		.type	SBUS_UART_Wakeup, %function
+  98              	SBUS_UART_Wakeup:
+  99              	.LFB3:
+ 143:Generated_Source\PSoC5/SBUS_UART_PM.c ****     SBUS_UART_SaveConfig();
+ 144:Generated_Source\PSoC5/SBUS_UART_PM.c **** }
+ 145:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+ 146:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+ 147:Generated_Source\PSoC5/SBUS_UART_PM.c **** /*******************************************************************************
+ 148:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Function Name: SBUS_UART_Wakeup
+ 149:Generated_Source\PSoC5/SBUS_UART_PM.c **** ********************************************************************************
+ 150:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+ 151:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Summary:
+ 152:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  This is the preferred API to restore the component to the state when 
+ 153:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  SBUS_UART_Sleep() was called. The SBUS_UART_Wakeup() function
+ 154:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  calls the SBUS_UART_RestoreConfig() function to restore the 
+ 155:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  configuration. If the component was enabled before the 
+ 156:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  SBUS_UART_Sleep() function was called, the SBUS_UART_Wakeup()
+ 157:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  function will also re-enable the component.
+ 158:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+ 159:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Parameters:
+ 160:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  None.
+ 161:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+ 162:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Return:
+ 163:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  None.
+ 164:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+ 165:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Global Variables:
+ 166:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  SBUS_UART_backup - used when non-retention registers are restored.
+ 167:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+ 168:Generated_Source\PSoC5/SBUS_UART_PM.c **** * Reentrant:
+ 169:Generated_Source\PSoC5/SBUS_UART_PM.c **** *  No.
+ 170:Generated_Source\PSoC5/SBUS_UART_PM.c **** *
+ 171:Generated_Source\PSoC5/SBUS_UART_PM.c **** *******************************************************************************/
+ 172:Generated_Source\PSoC5/SBUS_UART_PM.c **** void SBUS_UART_Wakeup(void)
+ 173:Generated_Source\PSoC5/SBUS_UART_PM.c **** {
+ 100              		.loc 1 173 0
+ 101              		.cfi_startproc
+ 102              		@ args = 0, pretend = 0, frame = 0
+ 103              		@ frame_needed = 0, uses_anonymous_args = 0
+ 104 0000 08B5     		push	{r3, lr}
+ 105              		.cfi_def_cfa_offset 8
+ 106              		.cfi_offset 3, -8
+ 107              		.cfi_offset 14, -4
+ 174:Generated_Source\PSoC5/SBUS_UART_PM.c ****     SBUS_UART_RestoreConfig();
+ 175:Generated_Source\PSoC5/SBUS_UART_PM.c ****     #if( (SBUS_UART_RX_ENABLED) || (SBUS_UART_HD_ENABLED) )
+ 176:Generated_Source\PSoC5/SBUS_UART_PM.c ****         SBUS_UART_ClearRxBuffer();
+ 108              		.loc 1 176 0
+ 109 0002 FFF7FEFF 		bl	SBUS_UART_ClearRxBuffer
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 6
+
+
+ 110              	.LVL1:
+ 177:Generated_Source\PSoC5/SBUS_UART_PM.c ****     #endif /* End (SBUS_UART_RX_ENABLED) || (SBUS_UART_HD_ENABLED) */
+ 178:Generated_Source\PSoC5/SBUS_UART_PM.c ****     #if(SBUS_UART_TX_ENABLED || SBUS_UART_HD_ENABLED)
+ 179:Generated_Source\PSoC5/SBUS_UART_PM.c ****         SBUS_UART_ClearTxBuffer();
+ 180:Generated_Source\PSoC5/SBUS_UART_PM.c ****     #endif /* End SBUS_UART_TX_ENABLED || SBUS_UART_HD_ENABLED */
+ 181:Generated_Source\PSoC5/SBUS_UART_PM.c **** 
+ 182:Generated_Source\PSoC5/SBUS_UART_PM.c ****     if(SBUS_UART_backup.enableState != 0u)
+ 111              		.loc 1 182 0
+ 112 0006 044B     		ldr	r3, .L11
+ 113 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 114 000a 1BB1     		cbz	r3, .L9
+ 183:Generated_Source\PSoC5/SBUS_UART_PM.c ****     {
+ 184:Generated_Source\PSoC5/SBUS_UART_PM.c ****         SBUS_UART_Enable();
+ 185:Generated_Source\PSoC5/SBUS_UART_PM.c ****     }
+ 186:Generated_Source\PSoC5/SBUS_UART_PM.c **** }
+ 115              		.loc 1 186 0
+ 116 000c BDE80840 		pop	{r3, lr}
+ 117              		.cfi_remember_state
+ 118              		.cfi_restore 14
+ 119              		.cfi_restore 3
+ 120              		.cfi_def_cfa_offset 0
+ 184:Generated_Source\PSoC5/SBUS_UART_PM.c ****     }
+ 121              		.loc 1 184 0
+ 122 0010 FFF7FEBF 		b	SBUS_UART_Enable
+ 123              	.LVL2:
+ 124              	.L9:
+ 125              		.cfi_restore_state
+ 126 0014 08BD     		pop	{r3, pc}
+ 127              	.L12:
+ 128 0016 00BF     		.align	2
+ 129              	.L11:
+ 130 0018 00000000 		.word	.LANCHOR0
+ 131              		.cfi_endproc
+ 132              	.LFE3:
+ 133              		.size	SBUS_UART_Wakeup, .-SBUS_UART_Wakeup
+ 134              		.bss
+ 135              		.set	.LANCHOR0,. + 0
+ 136              		.type	SBUS_UART_backup, %object
+ 137              		.size	SBUS_UART_backup, 1
+ 138              	SBUS_UART_backup:
+ 139 0000 00       		.space	1
+ 140              		.text
+ 141              	.Letext0:
+ 142              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 143              		.file 3 "Generated_Source\\PSoC5\\SBUS_UART.h"
+ 144              		.section	.debug_info,"",%progbits
+ 145              	.Ldebug_info0:
+ 146 0000 64010000 		.4byte	0x164
+ 147 0004 0400     		.2byte	0x4
+ 148 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 149 000a 04       		.byte	0x4
+ 150 000b 01       		.uleb128 0x1
+ 151 000c BB000000 		.4byte	.LASF24
+ 152 0010 0C       		.byte	0xc
+ 153 0011 6B000000 		.4byte	.LASF25
+ 154 0015 00000000 		.4byte	.LASF26
+ 155 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 7
+
+
+ 156 001d 00000000 		.4byte	0
+ 157 0021 00000000 		.4byte	.Ldebug_line0
+ 158 0025 02       		.uleb128 0x2
+ 159 0026 01       		.byte	0x1
+ 160 0027 06       		.byte	0x6
+ 161 0028 59020000 		.4byte	.LASF0
+ 162 002c 02       		.uleb128 0x2
+ 163 002d 01       		.byte	0x1
+ 164 002e 08       		.byte	0x8
+ 165 002f A8000000 		.4byte	.LASF1
+ 166 0033 02       		.uleb128 0x2
+ 167 0034 02       		.byte	0x2
+ 168 0035 05       		.byte	0x5
+ 169 0036 35020000 		.4byte	.LASF2
+ 170 003a 02       		.uleb128 0x2
+ 171 003b 02       		.byte	0x2
+ 172 003c 07       		.byte	0x7
+ 173 003d 58000000 		.4byte	.LASF3
+ 174 0041 02       		.uleb128 0x2
+ 175 0042 04       		.byte	0x4
+ 176 0043 05       		.byte	0x5
+ 177 0044 3F020000 		.4byte	.LASF4
+ 178 0048 02       		.uleb128 0x2
+ 179 0049 04       		.byte	0x4
+ 180 004a 07       		.byte	0x7
+ 181 004b 7A010000 		.4byte	.LASF5
+ 182 004f 02       		.uleb128 0x2
+ 183 0050 08       		.byte	0x8
+ 184 0051 05       		.byte	0x5
+ 185 0052 D1010000 		.4byte	.LASF6
+ 186 0056 02       		.uleb128 0x2
+ 187 0057 08       		.byte	0x8
+ 188 0058 07       		.byte	0x7
+ 189 0059 B1010000 		.4byte	.LASF7
+ 190 005d 03       		.uleb128 0x3
+ 191 005e 04       		.byte	0x4
+ 192 005f 05       		.byte	0x5
+ 193 0060 696E7400 		.ascii	"int\000"
+ 194 0064 02       		.uleb128 0x2
+ 195 0065 04       		.byte	0x4
+ 196 0066 07       		.byte	0x7
+ 197 0067 8C010000 		.4byte	.LASF8
+ 198 006b 04       		.uleb128 0x4
+ 199 006c 49010000 		.4byte	.LASF12
+ 200 0070 02       		.byte	0x2
+ 201 0071 E401     		.2byte	0x1e4
+ 202 0073 2C000000 		.4byte	0x2c
+ 203 0077 02       		.uleb128 0x2
+ 204 0078 04       		.byte	0x4
+ 205 0079 04       		.byte	0x4
+ 206 007a A2000000 		.4byte	.LASF9
+ 207 007e 02       		.uleb128 0x2
+ 208 007f 08       		.byte	0x8
+ 209 0080 04       		.byte	0x4
+ 210 0081 67010000 		.4byte	.LASF10
+ 211 0085 02       		.uleb128 0x2
+ 212 0086 01       		.byte	0x1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 8
+
+
+ 213 0087 08       		.byte	0x8
+ 214 0088 48020000 		.4byte	.LASF11
+ 215 008c 04       		.uleb128 0x4
+ 216 008d B6000000 		.4byte	.LASF13
+ 217 0091 02       		.byte	0x2
+ 218 0092 8E02     		.2byte	0x28e
+ 219 0094 98000000 		.4byte	0x98
+ 220 0098 05       		.uleb128 0x5
+ 221 0099 6B000000 		.4byte	0x6b
+ 222 009d 02       		.uleb128 0x2
+ 223 009e 08       		.byte	0x8
+ 224 009f 04       		.byte	0x4
+ 225 00a0 4D020000 		.4byte	.LASF14
+ 226 00a4 02       		.uleb128 0x2
+ 227 00a5 04       		.byte	0x4
+ 228 00a6 07       		.byte	0x7
+ 229 00a7 C8010000 		.4byte	.LASF15
+ 230 00ab 06       		.uleb128 0x6
+ 231 00ac 4F010000 		.4byte	.LASF27
+ 232 00b0 01       		.byte	0x1
+ 233 00b1 03       		.byte	0x3
+ 234 00b2 45       		.byte	0x45
+ 235 00b3 C4000000 		.4byte	0xc4
+ 236 00b7 07       		.uleb128 0x7
+ 237 00b8 6E010000 		.4byte	.LASF28
+ 238 00bc 03       		.byte	0x3
+ 239 00bd 47       		.byte	0x47
+ 240 00be 6B000000 		.4byte	0x6b
+ 241 00c2 00       		.byte	0
+ 242 00c3 00       		.byte	0
+ 243 00c4 08       		.uleb128 0x8
+ 244 00c5 99010000 		.4byte	.LASF16
+ 245 00c9 03       		.byte	0x3
+ 246 00ca 4D       		.byte	0x4d
+ 247 00cb AB000000 		.4byte	0xab
+ 248 00cf 09       		.uleb128 0x9
+ 249 00d0 F7010000 		.4byte	.LASF17
+ 250 00d4 01       		.byte	0x1
+ 251 00d5 36       		.byte	0x36
+ 252 00d6 01       		.byte	0x1
+ 253 00d7 09       		.uleb128 0x9
+ 254 00d8 DF010000 		.4byte	.LASF18
+ 255 00dc 01       		.byte	0x1
+ 256 00dd 57       		.byte	0x57
+ 257 00de 01       		.byte	0x1
+ 258 00df 0A       		.uleb128 0xa
+ 259 00e0 D7000000 		.4byte	0xd7
+ 260 00e4 00000000 		.4byte	.LFB1
+ 261 00e8 02000000 		.4byte	.LFE1-.LFB1
+ 262 00ec 01       		.uleb128 0x1
+ 263 00ed 9C       		.byte	0x9c
+ 264 00ee 0B       		.uleb128 0xb
+ 265 00ef 37000000 		.4byte	.LASF19
+ 266 00f3 01       		.byte	0x1
+ 267 00f4 78       		.byte	0x78
+ 268 00f5 00000000 		.4byte	.LFB2
+ 269 00f9 24000000 		.4byte	.LFE2-.LFB2
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 9
+
+
+ 270 00fd 01       		.uleb128 0x1
+ 271 00fe 9C       		.byte	0x9c
+ 272 00ff 0D010000 		.4byte	0x10d
+ 273 0103 0C       		.uleb128 0xc
+ 274 0104 1C000000 		.4byte	.LVL0
+ 275 0108 46010000 		.4byte	0x146
+ 276 010c 00       		.byte	0
+ 277 010d 0B       		.uleb128 0xb
+ 278 010e 91000000 		.4byte	.LASF20
+ 279 0112 01       		.byte	0x1
+ 280 0113 AC       		.byte	0xac
+ 281 0114 00000000 		.4byte	.LFB3
+ 282 0118 1C000000 		.4byte	.LFE3-.LFB3
+ 283 011c 01       		.uleb128 0x1
+ 284 011d 9C       		.byte	0x9c
+ 285 011e 35010000 		.4byte	0x135
+ 286 0122 0D       		.uleb128 0xd
+ 287 0123 06000000 		.4byte	.LVL1
+ 288 0127 51010000 		.4byte	0x151
+ 289 012b 0C       		.uleb128 0xc
+ 290 012c 14000000 		.4byte	.LVL2
+ 291 0130 5C010000 		.4byte	0x15c
+ 292 0134 00       		.byte	0
+ 293 0135 0E       		.uleb128 0xe
+ 294 0136 47000000 		.4byte	.LASF29
+ 295 013a 01       		.byte	0x1
+ 296 013b 18       		.byte	0x18
+ 297 013c C4000000 		.4byte	0xc4
+ 298 0140 05       		.uleb128 0x5
+ 299 0141 03       		.byte	0x3
+ 300 0142 00000000 		.4byte	SBUS_UART_backup
+ 301 0146 0F       		.uleb128 0xf
+ 302 0147 65020000 		.4byte	.LASF21
+ 303 014b 65020000 		.4byte	.LASF21
+ 304 014f 03       		.byte	0x3
+ 305 0150 55       		.byte	0x55
+ 306 0151 0F       		.uleb128 0xf
+ 307 0152 0C020000 		.4byte	.LASF22
+ 308 0156 0C020000 		.4byte	.LASF22
+ 309 015a 03       		.byte	0x3
+ 310 015b 75       		.byte	0x75
+ 311 015c 0F       		.uleb128 0xf
+ 312 015d 24020000 		.4byte	.LASF23
+ 313 0161 24020000 		.4byte	.LASF23
+ 314 0165 03       		.byte	0x3
+ 315 0166 5A       		.byte	0x5a
+ 316 0167 00       		.byte	0
+ 317              		.section	.debug_abbrev,"",%progbits
+ 318              	.Ldebug_abbrev0:
+ 319 0000 01       		.uleb128 0x1
+ 320 0001 11       		.uleb128 0x11
+ 321 0002 01       		.byte	0x1
+ 322 0003 25       		.uleb128 0x25
+ 323 0004 0E       		.uleb128 0xe
+ 324 0005 13       		.uleb128 0x13
+ 325 0006 0B       		.uleb128 0xb
+ 326 0007 03       		.uleb128 0x3
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 10
+
+
+ 327 0008 0E       		.uleb128 0xe
+ 328 0009 1B       		.uleb128 0x1b
+ 329 000a 0E       		.uleb128 0xe
+ 330 000b 55       		.uleb128 0x55
+ 331 000c 17       		.uleb128 0x17
+ 332 000d 11       		.uleb128 0x11
+ 333 000e 01       		.uleb128 0x1
+ 334 000f 10       		.uleb128 0x10
+ 335 0010 17       		.uleb128 0x17
+ 336 0011 00       		.byte	0
+ 337 0012 00       		.byte	0
+ 338 0013 02       		.uleb128 0x2
+ 339 0014 24       		.uleb128 0x24
+ 340 0015 00       		.byte	0
+ 341 0016 0B       		.uleb128 0xb
+ 342 0017 0B       		.uleb128 0xb
+ 343 0018 3E       		.uleb128 0x3e
+ 344 0019 0B       		.uleb128 0xb
+ 345 001a 03       		.uleb128 0x3
+ 346 001b 0E       		.uleb128 0xe
+ 347 001c 00       		.byte	0
+ 348 001d 00       		.byte	0
+ 349 001e 03       		.uleb128 0x3
+ 350 001f 24       		.uleb128 0x24
+ 351 0020 00       		.byte	0
+ 352 0021 0B       		.uleb128 0xb
+ 353 0022 0B       		.uleb128 0xb
+ 354 0023 3E       		.uleb128 0x3e
+ 355 0024 0B       		.uleb128 0xb
+ 356 0025 03       		.uleb128 0x3
+ 357 0026 08       		.uleb128 0x8
+ 358 0027 00       		.byte	0
+ 359 0028 00       		.byte	0
+ 360 0029 04       		.uleb128 0x4
+ 361 002a 16       		.uleb128 0x16
+ 362 002b 00       		.byte	0
+ 363 002c 03       		.uleb128 0x3
+ 364 002d 0E       		.uleb128 0xe
+ 365 002e 3A       		.uleb128 0x3a
+ 366 002f 0B       		.uleb128 0xb
+ 367 0030 3B       		.uleb128 0x3b
+ 368 0031 05       		.uleb128 0x5
+ 369 0032 49       		.uleb128 0x49
+ 370 0033 13       		.uleb128 0x13
+ 371 0034 00       		.byte	0
+ 372 0035 00       		.byte	0
+ 373 0036 05       		.uleb128 0x5
+ 374 0037 35       		.uleb128 0x35
+ 375 0038 00       		.byte	0
+ 376 0039 49       		.uleb128 0x49
+ 377 003a 13       		.uleb128 0x13
+ 378 003b 00       		.byte	0
+ 379 003c 00       		.byte	0
+ 380 003d 06       		.uleb128 0x6
+ 381 003e 13       		.uleb128 0x13
+ 382 003f 01       		.byte	0x1
+ 383 0040 03       		.uleb128 0x3
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 11
+
+
+ 384 0041 0E       		.uleb128 0xe
+ 385 0042 0B       		.uleb128 0xb
+ 386 0043 0B       		.uleb128 0xb
+ 387 0044 3A       		.uleb128 0x3a
+ 388 0045 0B       		.uleb128 0xb
+ 389 0046 3B       		.uleb128 0x3b
+ 390 0047 0B       		.uleb128 0xb
+ 391 0048 01       		.uleb128 0x1
+ 392 0049 13       		.uleb128 0x13
+ 393 004a 00       		.byte	0
+ 394 004b 00       		.byte	0
+ 395 004c 07       		.uleb128 0x7
+ 396 004d 0D       		.uleb128 0xd
+ 397 004e 00       		.byte	0
+ 398 004f 03       		.uleb128 0x3
+ 399 0050 0E       		.uleb128 0xe
+ 400 0051 3A       		.uleb128 0x3a
+ 401 0052 0B       		.uleb128 0xb
+ 402 0053 3B       		.uleb128 0x3b
+ 403 0054 0B       		.uleb128 0xb
+ 404 0055 49       		.uleb128 0x49
+ 405 0056 13       		.uleb128 0x13
+ 406 0057 38       		.uleb128 0x38
+ 407 0058 0B       		.uleb128 0xb
+ 408 0059 00       		.byte	0
+ 409 005a 00       		.byte	0
+ 410 005b 08       		.uleb128 0x8
+ 411 005c 16       		.uleb128 0x16
+ 412 005d 00       		.byte	0
+ 413 005e 03       		.uleb128 0x3
+ 414 005f 0E       		.uleb128 0xe
+ 415 0060 3A       		.uleb128 0x3a
+ 416 0061 0B       		.uleb128 0xb
+ 417 0062 3B       		.uleb128 0x3b
+ 418 0063 0B       		.uleb128 0xb
+ 419 0064 49       		.uleb128 0x49
+ 420 0065 13       		.uleb128 0x13
+ 421 0066 00       		.byte	0
+ 422 0067 00       		.byte	0
+ 423 0068 09       		.uleb128 0x9
+ 424 0069 2E       		.uleb128 0x2e
+ 425 006a 00       		.byte	0
+ 426 006b 3F       		.uleb128 0x3f
+ 427 006c 19       		.uleb128 0x19
+ 428 006d 03       		.uleb128 0x3
+ 429 006e 0E       		.uleb128 0xe
+ 430 006f 3A       		.uleb128 0x3a
+ 431 0070 0B       		.uleb128 0xb
+ 432 0071 3B       		.uleb128 0x3b
+ 433 0072 0B       		.uleb128 0xb
+ 434 0073 27       		.uleb128 0x27
+ 435 0074 19       		.uleb128 0x19
+ 436 0075 20       		.uleb128 0x20
+ 437 0076 0B       		.uleb128 0xb
+ 438 0077 00       		.byte	0
+ 439 0078 00       		.byte	0
+ 440 0079 0A       		.uleb128 0xa
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 12
+
+
+ 441 007a 2E       		.uleb128 0x2e
+ 442 007b 00       		.byte	0
+ 443 007c 31       		.uleb128 0x31
+ 444 007d 13       		.uleb128 0x13
+ 445 007e 11       		.uleb128 0x11
+ 446 007f 01       		.uleb128 0x1
+ 447 0080 12       		.uleb128 0x12
+ 448 0081 06       		.uleb128 0x6
+ 449 0082 40       		.uleb128 0x40
+ 450 0083 18       		.uleb128 0x18
+ 451 0084 9742     		.uleb128 0x2117
+ 452 0086 19       		.uleb128 0x19
+ 453 0087 00       		.byte	0
+ 454 0088 00       		.byte	0
+ 455 0089 0B       		.uleb128 0xb
+ 456 008a 2E       		.uleb128 0x2e
+ 457 008b 01       		.byte	0x1
+ 458 008c 3F       		.uleb128 0x3f
+ 459 008d 19       		.uleb128 0x19
+ 460 008e 03       		.uleb128 0x3
+ 461 008f 0E       		.uleb128 0xe
+ 462 0090 3A       		.uleb128 0x3a
+ 463 0091 0B       		.uleb128 0xb
+ 464 0092 3B       		.uleb128 0x3b
+ 465 0093 0B       		.uleb128 0xb
+ 466 0094 27       		.uleb128 0x27
+ 467 0095 19       		.uleb128 0x19
+ 468 0096 11       		.uleb128 0x11
+ 469 0097 01       		.uleb128 0x1
+ 470 0098 12       		.uleb128 0x12
+ 471 0099 06       		.uleb128 0x6
+ 472 009a 40       		.uleb128 0x40
+ 473 009b 18       		.uleb128 0x18
+ 474 009c 9742     		.uleb128 0x2117
+ 475 009e 19       		.uleb128 0x19
+ 476 009f 01       		.uleb128 0x1
+ 477 00a0 13       		.uleb128 0x13
+ 478 00a1 00       		.byte	0
+ 479 00a2 00       		.byte	0
+ 480 00a3 0C       		.uleb128 0xc
+ 481 00a4 898201   		.uleb128 0x4109
+ 482 00a7 00       		.byte	0
+ 483 00a8 11       		.uleb128 0x11
+ 484 00a9 01       		.uleb128 0x1
+ 485 00aa 9542     		.uleb128 0x2115
+ 486 00ac 19       		.uleb128 0x19
+ 487 00ad 31       		.uleb128 0x31
+ 488 00ae 13       		.uleb128 0x13
+ 489 00af 00       		.byte	0
+ 490 00b0 00       		.byte	0
+ 491 00b1 0D       		.uleb128 0xd
+ 492 00b2 898201   		.uleb128 0x4109
+ 493 00b5 00       		.byte	0
+ 494 00b6 11       		.uleb128 0x11
+ 495 00b7 01       		.uleb128 0x1
+ 496 00b8 31       		.uleb128 0x31
+ 497 00b9 13       		.uleb128 0x13
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 13
+
+
+ 498 00ba 00       		.byte	0
+ 499 00bb 00       		.byte	0
+ 500 00bc 0E       		.uleb128 0xe
+ 501 00bd 34       		.uleb128 0x34
+ 502 00be 00       		.byte	0
+ 503 00bf 03       		.uleb128 0x3
+ 504 00c0 0E       		.uleb128 0xe
+ 505 00c1 3A       		.uleb128 0x3a
+ 506 00c2 0B       		.uleb128 0xb
+ 507 00c3 3B       		.uleb128 0x3b
+ 508 00c4 0B       		.uleb128 0xb
+ 509 00c5 49       		.uleb128 0x49
+ 510 00c6 13       		.uleb128 0x13
+ 511 00c7 02       		.uleb128 0x2
+ 512 00c8 18       		.uleb128 0x18
+ 513 00c9 00       		.byte	0
+ 514 00ca 00       		.byte	0
+ 515 00cb 0F       		.uleb128 0xf
+ 516 00cc 2E       		.uleb128 0x2e
+ 517 00cd 00       		.byte	0
+ 518 00ce 3F       		.uleb128 0x3f
+ 519 00cf 19       		.uleb128 0x19
+ 520 00d0 3C       		.uleb128 0x3c
+ 521 00d1 19       		.uleb128 0x19
+ 522 00d2 6E       		.uleb128 0x6e
+ 523 00d3 0E       		.uleb128 0xe
+ 524 00d4 03       		.uleb128 0x3
+ 525 00d5 0E       		.uleb128 0xe
+ 526 00d6 3A       		.uleb128 0x3a
+ 527 00d7 0B       		.uleb128 0xb
+ 528 00d8 3B       		.uleb128 0x3b
+ 529 00d9 0B       		.uleb128 0xb
+ 530 00da 00       		.byte	0
+ 531 00db 00       		.byte	0
+ 532 00dc 00       		.byte	0
+ 533              		.section	.debug_aranges,"",%progbits
+ 534 0000 2C000000 		.4byte	0x2c
+ 535 0004 0200     		.2byte	0x2
+ 536 0006 00000000 		.4byte	.Ldebug_info0
+ 537 000a 04       		.byte	0x4
+ 538 000b 00       		.byte	0
+ 539 000c 0000     		.2byte	0
+ 540 000e 0000     		.2byte	0
+ 541 0010 00000000 		.4byte	.LFB1
+ 542 0014 02000000 		.4byte	.LFE1-.LFB1
+ 543 0018 00000000 		.4byte	.LFB2
+ 544 001c 24000000 		.4byte	.LFE2-.LFB2
+ 545 0020 00000000 		.4byte	.LFB3
+ 546 0024 1C000000 		.4byte	.LFE3-.LFB3
+ 547 0028 00000000 		.4byte	0
+ 548 002c 00000000 		.4byte	0
+ 549              		.section	.debug_ranges,"",%progbits
+ 550              	.Ldebug_ranges0:
+ 551 0000 00000000 		.4byte	.LFB1
+ 552 0004 02000000 		.4byte	.LFE1
+ 553 0008 00000000 		.4byte	.LFB2
+ 554 000c 24000000 		.4byte	.LFE2
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 14
+
+
+ 555 0010 00000000 		.4byte	.LFB3
+ 556 0014 1C000000 		.4byte	.LFE3
+ 557 0018 00000000 		.4byte	0
+ 558 001c 00000000 		.4byte	0
+ 559              		.section	.debug_line,"",%progbits
+ 560              	.Ldebug_line0:
+ 561 0000 98000000 		.section	.debug_str,"MS",%progbits,1
+ 561      02005800 
+ 561      00000201 
+ 561      FB0E0D00 
+ 561      01010101 
+ 562              	.LASF26:
+ 563 0000 433A5C55 		.ascii	"C:\\Users\\jon\\Sync\\Research\\PSoC Projects\\Bala"
+ 563      73657273 
+ 563      5C6A6F6E 
+ 563      5C53796E 
+ 563      635C5265 
+ 564 002d 6E63652E 		.ascii	"nce.cydsn\000"
+ 564      63796473 
+ 564      6E00
+ 565              	.LASF19:
+ 566 0037 53425553 		.ascii	"SBUS_UART_Sleep\000"
+ 566      5F554152 
+ 566      545F536C 
+ 566      65657000 
+ 567              	.LASF29:
+ 568 0047 53425553 		.ascii	"SBUS_UART_backup\000"
+ 568      5F554152 
+ 568      545F6261 
+ 568      636B7570 
+ 568      00
+ 569              	.LASF3:
+ 570 0058 73686F72 		.ascii	"short unsigned int\000"
+ 570      7420756E 
+ 570      7369676E 
+ 570      65642069 
+ 570      6E7400
+ 571              	.LASF25:
+ 572 006b 47656E65 		.ascii	"Generated_Source\\PSoC5\\SBUS_UART_PM.c\000"
+ 572      72617465 
+ 572      645F536F 
+ 572      75726365 
+ 572      5C50536F 
+ 573              	.LASF20:
+ 574 0091 53425553 		.ascii	"SBUS_UART_Wakeup\000"
+ 574      5F554152 
+ 574      545F5761 
+ 574      6B657570 
+ 574      00
+ 575              	.LASF9:
+ 576 00a2 666C6F61 		.ascii	"float\000"
+ 576      7400
+ 577              	.LASF1:
+ 578 00a8 756E7369 		.ascii	"unsigned char\000"
+ 578      676E6564 
+ 578      20636861 
+ 578      7200
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 15
+
+
+ 579              	.LASF13:
+ 580 00b6 72656738 		.ascii	"reg8\000"
+ 580      00
+ 581              	.LASF24:
+ 582 00bb 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 582      43313120 
+ 582      352E342E 
+ 582      31203230 
+ 582      31363036 
+ 583 00ee 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 583      20726576 
+ 583      6973696F 
+ 583      6E203233 
+ 583      37373135 
+ 584 0121 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 584      66756E63 
+ 584      74696F6E 
+ 584      2D736563 
+ 584      74696F6E 
+ 585              	.LASF12:
+ 586 0149 75696E74 		.ascii	"uint8\000"
+ 586      3800
+ 587              	.LASF27:
+ 588 014f 53425553 		.ascii	"SBUS_UART_backupStruct_\000"
+ 588      5F554152 
+ 588      545F6261 
+ 588      636B7570 
+ 588      53747275 
+ 589              	.LASF10:
+ 590 0167 646F7562 		.ascii	"double\000"
+ 590      6C6500
+ 591              	.LASF28:
+ 592 016e 656E6162 		.ascii	"enableState\000"
+ 592      6C655374 
+ 592      61746500 
+ 593              	.LASF5:
+ 594 017a 6C6F6E67 		.ascii	"long unsigned int\000"
+ 594      20756E73 
+ 594      69676E65 
+ 594      6420696E 
+ 594      7400
+ 595              	.LASF8:
+ 596 018c 756E7369 		.ascii	"unsigned int\000"
+ 596      676E6564 
+ 596      20696E74 
+ 596      00
+ 597              	.LASF16:
+ 598 0199 53425553 		.ascii	"SBUS_UART_BACKUP_STRUCT\000"
+ 598      5F554152 
+ 598      545F4241 
+ 598      434B5550 
+ 598      5F535452 
+ 599              	.LASF7:
+ 600 01b1 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 600      206C6F6E 
+ 600      6720756E 
+ 600      7369676E 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 16
+
+
+ 600      65642069 
+ 601              	.LASF15:
+ 602 01c8 73697A65 		.ascii	"sizetype\000"
+ 602      74797065 
+ 602      00
+ 603              	.LASF6:
+ 604 01d1 6C6F6E67 		.ascii	"long long int\000"
+ 604      206C6F6E 
+ 604      6720696E 
+ 604      7400
+ 605              	.LASF18:
+ 606 01df 53425553 		.ascii	"SBUS_UART_RestoreConfig\000"
+ 606      5F554152 
+ 606      545F5265 
+ 606      73746F72 
+ 606      65436F6E 
+ 607              	.LASF17:
+ 608 01f7 53425553 		.ascii	"SBUS_UART_SaveConfig\000"
+ 608      5F554152 
+ 608      545F5361 
+ 608      7665436F 
+ 608      6E666967 
+ 609              	.LASF22:
+ 610 020c 53425553 		.ascii	"SBUS_UART_ClearRxBuffer\000"
+ 610      5F554152 
+ 610      545F436C 
+ 610      65617252 
+ 610      78427566 
+ 611              	.LASF23:
+ 612 0224 53425553 		.ascii	"SBUS_UART_Enable\000"
+ 612      5F554152 
+ 612      545F456E 
+ 612      61626C65 
+ 612      00
+ 613              	.LASF2:
+ 614 0235 73686F72 		.ascii	"short int\000"
+ 614      7420696E 
+ 614      7400
+ 615              	.LASF4:
+ 616 023f 6C6F6E67 		.ascii	"long int\000"
+ 616      20696E74 
+ 616      00
+ 617              	.LASF11:
+ 618 0248 63686172 		.ascii	"char\000"
+ 618      00
+ 619              	.LASF14:
+ 620 024d 6C6F6E67 		.ascii	"long double\000"
+ 620      20646F75 
+ 620      626C6500 
+ 621              	.LASF0:
+ 622 0259 7369676E 		.ascii	"signed char\000"
+ 622      65642063 
+ 622      68617200 
+ 623              	.LASF21:
+ 624 0265 53425553 		.ascii	"SBUS_UART_Stop\000"
+ 624      5F554152 
+ 624      545F5374 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccUGoIMh.s 			page 17
+
+
+ 624      6F7000
+ 625              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

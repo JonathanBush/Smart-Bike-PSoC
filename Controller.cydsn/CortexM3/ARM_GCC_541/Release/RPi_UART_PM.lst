@@ -1,0 +1,985 @@
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"RPi_UART_PM.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.RPi_UART_SaveConfig,"ax",%progbits
+  20              		.align	2
+  21              		.global	RPi_UART_SaveConfig
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	RPi_UART_SaveConfig, %function
+  25              	RPi_UART_SaveConfig:
+  26              	.LFB5:
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31 0000 7047     		bx	lr
+  32              		.cfi_endproc
+  33              	.LFE5:
+  34              		.size	RPi_UART_SaveConfig, .-RPi_UART_SaveConfig
+  35 0002 00BF     		.section	.text.RPi_UART_RestoreConfig,"ax",%progbits
+  36              		.align	2
+  37              		.global	RPi_UART_RestoreConfig
+  38              		.thumb
+  39              		.thumb_func
+  40              		.type	RPi_UART_RestoreConfig, %function
+  41              	RPi_UART_RestoreConfig:
+  42              	.LFB1:
+  43              		.file 1 "Generated_Source\\PSoC5\\RPi_UART_PM.c"
+   1:Generated_Source\PSoC5/RPi_UART_PM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/RPi_UART_PM.c **** * File Name: RPi_UART_PM.c
+   3:Generated_Source\PSoC5/RPi_UART_PM.c **** * Version 2.50
+   4:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+   5:Generated_Source\PSoC5/RPi_UART_PM.c **** * Description:
+   6:Generated_Source\PSoC5/RPi_UART_PM.c **** *  This file provides Sleep/WakeUp APIs functionality.
+   7:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+   8:Generated_Source\PSoC5/RPi_UART_PM.c **** * Note:
+   9:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  10:Generated_Source\PSoC5/RPi_UART_PM.c **** ********************************************************************************
+  11:Generated_Source\PSoC5/RPi_UART_PM.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  12:Generated_Source\PSoC5/RPi_UART_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  13:Generated_Source\PSoC5/RPi_UART_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  14:Generated_Source\PSoC5/RPi_UART_PM.c **** * the software package with which this file was provided.
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 2
+
+
+  15:Generated_Source\PSoC5/RPi_UART_PM.c **** *******************************************************************************/
+  16:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+  17:Generated_Source\PSoC5/RPi_UART_PM.c **** #include "RPi_UART.h"
+  18:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+  19:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+  20:Generated_Source\PSoC5/RPi_UART_PM.c **** /***************************************
+  21:Generated_Source\PSoC5/RPi_UART_PM.c **** * Local data allocation
+  22:Generated_Source\PSoC5/RPi_UART_PM.c **** ***************************************/
+  23:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+  24:Generated_Source\PSoC5/RPi_UART_PM.c **** static RPi_UART_BACKUP_STRUCT  RPi_UART_backup =
+  25:Generated_Source\PSoC5/RPi_UART_PM.c **** {
+  26:Generated_Source\PSoC5/RPi_UART_PM.c ****     /* enableState - disabled */
+  27:Generated_Source\PSoC5/RPi_UART_PM.c ****     0u,
+  28:Generated_Source\PSoC5/RPi_UART_PM.c **** };
+  29:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+  30:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+  31:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+  32:Generated_Source\PSoC5/RPi_UART_PM.c **** /*******************************************************************************
+  33:Generated_Source\PSoC5/RPi_UART_PM.c **** * Function Name: RPi_UART_SaveConfig
+  34:Generated_Source\PSoC5/RPi_UART_PM.c **** ********************************************************************************
+  35:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  36:Generated_Source\PSoC5/RPi_UART_PM.c **** * Summary:
+  37:Generated_Source\PSoC5/RPi_UART_PM.c **** *  This function saves the component nonretention control register.
+  38:Generated_Source\PSoC5/RPi_UART_PM.c **** *  Does not save the FIFO which is a set of nonretention registers.
+  39:Generated_Source\PSoC5/RPi_UART_PM.c **** *  This function is called by the RPi_UART_Sleep() function.
+  40:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  41:Generated_Source\PSoC5/RPi_UART_PM.c **** * Parameters:
+  42:Generated_Source\PSoC5/RPi_UART_PM.c **** *  None.
+  43:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  44:Generated_Source\PSoC5/RPi_UART_PM.c **** * Return:
+  45:Generated_Source\PSoC5/RPi_UART_PM.c **** *  None.
+  46:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  47:Generated_Source\PSoC5/RPi_UART_PM.c **** * Global Variables:
+  48:Generated_Source\PSoC5/RPi_UART_PM.c **** *  RPi_UART_backup - modified when non-retention registers are saved.
+  49:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  50:Generated_Source\PSoC5/RPi_UART_PM.c **** * Reentrant:
+  51:Generated_Source\PSoC5/RPi_UART_PM.c **** *  No.
+  52:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  53:Generated_Source\PSoC5/RPi_UART_PM.c **** *******************************************************************************/
+  54:Generated_Source\PSoC5/RPi_UART_PM.c **** void RPi_UART_SaveConfig(void)
+  55:Generated_Source\PSoC5/RPi_UART_PM.c **** {
+  56:Generated_Source\PSoC5/RPi_UART_PM.c ****     #if(RPi_UART_CONTROL_REG_REMOVED == 0u)
+  57:Generated_Source\PSoC5/RPi_UART_PM.c ****         RPi_UART_backup.cr = RPi_UART_CONTROL_REG;
+  58:Generated_Source\PSoC5/RPi_UART_PM.c ****     #endif /* End RPi_UART_CONTROL_REG_REMOVED */
+  59:Generated_Source\PSoC5/RPi_UART_PM.c **** }
+  60:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+  61:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+  62:Generated_Source\PSoC5/RPi_UART_PM.c **** /*******************************************************************************
+  63:Generated_Source\PSoC5/RPi_UART_PM.c **** * Function Name: RPi_UART_RestoreConfig
+  64:Generated_Source\PSoC5/RPi_UART_PM.c **** ********************************************************************************
+  65:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  66:Generated_Source\PSoC5/RPi_UART_PM.c **** * Summary:
+  67:Generated_Source\PSoC5/RPi_UART_PM.c **** *  Restores the nonretention control register except FIFO.
+  68:Generated_Source\PSoC5/RPi_UART_PM.c **** *  Does not restore the FIFO which is a set of nonretention registers.
+  69:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  70:Generated_Source\PSoC5/RPi_UART_PM.c **** * Parameters:
+  71:Generated_Source\PSoC5/RPi_UART_PM.c **** *  None.
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 3
+
+
+  72:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  73:Generated_Source\PSoC5/RPi_UART_PM.c **** * Return:
+  74:Generated_Source\PSoC5/RPi_UART_PM.c **** *  None.
+  75:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  76:Generated_Source\PSoC5/RPi_UART_PM.c **** * Global Variables:
+  77:Generated_Source\PSoC5/RPi_UART_PM.c **** *  RPi_UART_backup - used when non-retention registers are restored.
+  78:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  79:Generated_Source\PSoC5/RPi_UART_PM.c **** * Reentrant:
+  80:Generated_Source\PSoC5/RPi_UART_PM.c **** *  No.
+  81:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  82:Generated_Source\PSoC5/RPi_UART_PM.c **** * Notes:
+  83:Generated_Source\PSoC5/RPi_UART_PM.c **** *  If this function is called without calling RPi_UART_SaveConfig() 
+  84:Generated_Source\PSoC5/RPi_UART_PM.c **** *  first, the data loaded may be incorrect.
+  85:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  86:Generated_Source\PSoC5/RPi_UART_PM.c **** *******************************************************************************/
+  87:Generated_Source\PSoC5/RPi_UART_PM.c **** void RPi_UART_RestoreConfig(void)
+  88:Generated_Source\PSoC5/RPi_UART_PM.c **** {
+  44              		.loc 1 88 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 7047     		bx	lr
+  50              		.cfi_endproc
+  51              	.LFE1:
+  52              		.size	RPi_UART_RestoreConfig, .-RPi_UART_RestoreConfig
+  53 0002 00BF     		.section	.text.RPi_UART_Sleep,"ax",%progbits
+  54              		.align	2
+  55              		.global	RPi_UART_Sleep
+  56              		.thumb
+  57              		.thumb_func
+  58              		.type	RPi_UART_Sleep, %function
+  59              	RPi_UART_Sleep:
+  60              	.LFB2:
+  89:Generated_Source\PSoC5/RPi_UART_PM.c ****     #if(RPi_UART_CONTROL_REG_REMOVED == 0u)
+  90:Generated_Source\PSoC5/RPi_UART_PM.c ****         RPi_UART_CONTROL_REG = RPi_UART_backup.cr;
+  91:Generated_Source\PSoC5/RPi_UART_PM.c ****     #endif /* End RPi_UART_CONTROL_REG_REMOVED */
+  92:Generated_Source\PSoC5/RPi_UART_PM.c **** }
+  93:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+  94:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+  95:Generated_Source\PSoC5/RPi_UART_PM.c **** /*******************************************************************************
+  96:Generated_Source\PSoC5/RPi_UART_PM.c **** * Function Name: RPi_UART_Sleep
+  97:Generated_Source\PSoC5/RPi_UART_PM.c **** ********************************************************************************
+  98:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+  99:Generated_Source\PSoC5/RPi_UART_PM.c **** * Summary:
+ 100:Generated_Source\PSoC5/RPi_UART_PM.c **** *  This is the preferred API to prepare the component for sleep. 
+ 101:Generated_Source\PSoC5/RPi_UART_PM.c **** *  The RPi_UART_Sleep() API saves the current component state. Then it
+ 102:Generated_Source\PSoC5/RPi_UART_PM.c **** *  calls the RPi_UART_Stop() function and calls 
+ 103:Generated_Source\PSoC5/RPi_UART_PM.c **** *  RPi_UART_SaveConfig() to save the hardware configuration.
+ 104:Generated_Source\PSoC5/RPi_UART_PM.c **** *  Call the RPi_UART_Sleep() function before calling the CyPmSleep() 
+ 105:Generated_Source\PSoC5/RPi_UART_PM.c **** *  or the CyPmHibernate() function. 
+ 106:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+ 107:Generated_Source\PSoC5/RPi_UART_PM.c **** * Parameters:
+ 108:Generated_Source\PSoC5/RPi_UART_PM.c **** *  None.
+ 109:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+ 110:Generated_Source\PSoC5/RPi_UART_PM.c **** * Return:
+ 111:Generated_Source\PSoC5/RPi_UART_PM.c **** *  None.
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 4
+
+
+ 112:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+ 113:Generated_Source\PSoC5/RPi_UART_PM.c **** * Global Variables:
+ 114:Generated_Source\PSoC5/RPi_UART_PM.c **** *  RPi_UART_backup - modified when non-retention registers are saved.
+ 115:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+ 116:Generated_Source\PSoC5/RPi_UART_PM.c **** * Reentrant:
+ 117:Generated_Source\PSoC5/RPi_UART_PM.c **** *  No.
+ 118:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+ 119:Generated_Source\PSoC5/RPi_UART_PM.c **** *******************************************************************************/
+ 120:Generated_Source\PSoC5/RPi_UART_PM.c **** void RPi_UART_Sleep(void)
+ 121:Generated_Source\PSoC5/RPi_UART_PM.c **** {
+  61              		.loc 1 121 0
+  62              		.cfi_startproc
+  63              		@ args = 0, pretend = 0, frame = 0
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  65              		@ link register save eliminated.
+ 122:Generated_Source\PSoC5/RPi_UART_PM.c ****     #if(RPi_UART_RX_ENABLED || RPi_UART_HD_ENABLED)
+ 123:Generated_Source\PSoC5/RPi_UART_PM.c ****         if((RPi_UART_RXSTATUS_ACTL_REG  & RPi_UART_INT_ENABLE) != 0u)
+  66              		.loc 1 123 0
+  67 0000 074B     		ldr	r3, .L8
+  68 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  69 0004 03F01003 		and	r3, r3, #16
+  70 0008 03F0FF02 		and	r2, r3, #255
+  71 000c 1BB9     		cbnz	r3, .L7
+ 124:Generated_Source\PSoC5/RPi_UART_PM.c ****         {
+ 125:Generated_Source\PSoC5/RPi_UART_PM.c ****             RPi_UART_backup.enableState = 1u;
+ 126:Generated_Source\PSoC5/RPi_UART_PM.c ****         }
+ 127:Generated_Source\PSoC5/RPi_UART_PM.c ****         else
+ 128:Generated_Source\PSoC5/RPi_UART_PM.c ****         {
+ 129:Generated_Source\PSoC5/RPi_UART_PM.c ****             RPi_UART_backup.enableState = 0u;
+  72              		.loc 1 129 0
+  73 000e 054B     		ldr	r3, .L8+4
+  74 0010 1A70     		strb	r2, [r3]
+ 130:Generated_Source\PSoC5/RPi_UART_PM.c ****         }
+ 131:Generated_Source\PSoC5/RPi_UART_PM.c ****     #else
+ 132:Generated_Source\PSoC5/RPi_UART_PM.c ****         if((RPi_UART_TXSTATUS_ACTL_REG  & RPi_UART_INT_ENABLE) !=0u)
+ 133:Generated_Source\PSoC5/RPi_UART_PM.c ****         {
+ 134:Generated_Source\PSoC5/RPi_UART_PM.c ****             RPi_UART_backup.enableState = 1u;
+ 135:Generated_Source\PSoC5/RPi_UART_PM.c ****         }
+ 136:Generated_Source\PSoC5/RPi_UART_PM.c ****         else
+ 137:Generated_Source\PSoC5/RPi_UART_PM.c ****         {
+ 138:Generated_Source\PSoC5/RPi_UART_PM.c ****             RPi_UART_backup.enableState = 0u;
+ 139:Generated_Source\PSoC5/RPi_UART_PM.c ****         }
+ 140:Generated_Source\PSoC5/RPi_UART_PM.c ****     #endif /* End RPi_UART_RX_ENABLED || RPi_UART_HD_ENABLED*/
+ 141:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+ 142:Generated_Source\PSoC5/RPi_UART_PM.c ****     RPi_UART_Stop();
+  75              		.loc 1 142 0
+  76 0012 FFF7FEBF 		b	RPi_UART_Stop
+  77              	.LVL0:
+  78              	.L7:
+ 125:Generated_Source\PSoC5/RPi_UART_PM.c ****         }
+  79              		.loc 1 125 0
+  80 0016 034B     		ldr	r3, .L8+4
+  81 0018 0122     		movs	r2, #1
+  82 001a 1A70     		strb	r2, [r3]
+  83              		.loc 1 142 0
+  84 001c FFF7FEBF 		b	RPi_UART_Stop
+  85              	.LVL1:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 5
+
+
+  86              	.L9:
+  87              		.align	2
+  88              	.L8:
+  89 0020 96640040 		.word	1073767574
+  90 0024 00000000 		.word	.LANCHOR0
+  91              		.cfi_endproc
+  92              	.LFE2:
+  93              		.size	RPi_UART_Sleep, .-RPi_UART_Sleep
+  94              		.section	.text.RPi_UART_Wakeup,"ax",%progbits
+  95              		.align	2
+  96              		.global	RPi_UART_Wakeup
+  97              		.thumb
+  98              		.thumb_func
+  99              		.type	RPi_UART_Wakeup, %function
+ 100              	RPi_UART_Wakeup:
+ 101              	.LFB3:
+ 143:Generated_Source\PSoC5/RPi_UART_PM.c ****     RPi_UART_SaveConfig();
+ 144:Generated_Source\PSoC5/RPi_UART_PM.c **** }
+ 145:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+ 146:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+ 147:Generated_Source\PSoC5/RPi_UART_PM.c **** /*******************************************************************************
+ 148:Generated_Source\PSoC5/RPi_UART_PM.c **** * Function Name: RPi_UART_Wakeup
+ 149:Generated_Source\PSoC5/RPi_UART_PM.c **** ********************************************************************************
+ 150:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+ 151:Generated_Source\PSoC5/RPi_UART_PM.c **** * Summary:
+ 152:Generated_Source\PSoC5/RPi_UART_PM.c **** *  This is the preferred API to restore the component to the state when 
+ 153:Generated_Source\PSoC5/RPi_UART_PM.c **** *  RPi_UART_Sleep() was called. The RPi_UART_Wakeup() function
+ 154:Generated_Source\PSoC5/RPi_UART_PM.c **** *  calls the RPi_UART_RestoreConfig() function to restore the 
+ 155:Generated_Source\PSoC5/RPi_UART_PM.c **** *  configuration. If the component was enabled before the 
+ 156:Generated_Source\PSoC5/RPi_UART_PM.c **** *  RPi_UART_Sleep() function was called, the RPi_UART_Wakeup()
+ 157:Generated_Source\PSoC5/RPi_UART_PM.c **** *  function will also re-enable the component.
+ 158:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+ 159:Generated_Source\PSoC5/RPi_UART_PM.c **** * Parameters:
+ 160:Generated_Source\PSoC5/RPi_UART_PM.c **** *  None.
+ 161:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+ 162:Generated_Source\PSoC5/RPi_UART_PM.c **** * Return:
+ 163:Generated_Source\PSoC5/RPi_UART_PM.c **** *  None.
+ 164:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+ 165:Generated_Source\PSoC5/RPi_UART_PM.c **** * Global Variables:
+ 166:Generated_Source\PSoC5/RPi_UART_PM.c **** *  RPi_UART_backup - used when non-retention registers are restored.
+ 167:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+ 168:Generated_Source\PSoC5/RPi_UART_PM.c **** * Reentrant:
+ 169:Generated_Source\PSoC5/RPi_UART_PM.c **** *  No.
+ 170:Generated_Source\PSoC5/RPi_UART_PM.c **** *
+ 171:Generated_Source\PSoC5/RPi_UART_PM.c **** *******************************************************************************/
+ 172:Generated_Source\PSoC5/RPi_UART_PM.c **** void RPi_UART_Wakeup(void)
+ 173:Generated_Source\PSoC5/RPi_UART_PM.c **** {
+ 102              		.loc 1 173 0
+ 103              		.cfi_startproc
+ 104              		@ args = 0, pretend = 0, frame = 0
+ 105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106 0000 08B5     		push	{r3, lr}
+ 107              		.cfi_def_cfa_offset 8
+ 108              		.cfi_offset 3, -8
+ 109              		.cfi_offset 14, -4
+ 174:Generated_Source\PSoC5/RPi_UART_PM.c ****     RPi_UART_RestoreConfig();
+ 175:Generated_Source\PSoC5/RPi_UART_PM.c ****     #if( (RPi_UART_RX_ENABLED) || (RPi_UART_HD_ENABLED) )
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 6
+
+
+ 176:Generated_Source\PSoC5/RPi_UART_PM.c ****         RPi_UART_ClearRxBuffer();
+ 110              		.loc 1 176 0
+ 111 0002 FFF7FEFF 		bl	RPi_UART_ClearRxBuffer
+ 112              	.LVL2:
+ 177:Generated_Source\PSoC5/RPi_UART_PM.c ****     #endif /* End (RPi_UART_RX_ENABLED) || (RPi_UART_HD_ENABLED) */
+ 178:Generated_Source\PSoC5/RPi_UART_PM.c ****     #if(RPi_UART_TX_ENABLED || RPi_UART_HD_ENABLED)
+ 179:Generated_Source\PSoC5/RPi_UART_PM.c ****         RPi_UART_ClearTxBuffer();
+ 113              		.loc 1 179 0
+ 114 0006 FFF7FEFF 		bl	RPi_UART_ClearTxBuffer
+ 115              	.LVL3:
+ 180:Generated_Source\PSoC5/RPi_UART_PM.c ****     #endif /* End RPi_UART_TX_ENABLED || RPi_UART_HD_ENABLED */
+ 181:Generated_Source\PSoC5/RPi_UART_PM.c **** 
+ 182:Generated_Source\PSoC5/RPi_UART_PM.c ****     if(RPi_UART_backup.enableState != 0u)
+ 116              		.loc 1 182 0
+ 117 000a 044B     		ldr	r3, .L14
+ 118 000c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 119 000e 03B9     		cbnz	r3, .L13
+ 120 0010 08BD     		pop	{r3, pc}
+ 121              	.L13:
+ 183:Generated_Source\PSoC5/RPi_UART_PM.c ****     {
+ 184:Generated_Source\PSoC5/RPi_UART_PM.c ****         RPi_UART_Enable();
+ 185:Generated_Source\PSoC5/RPi_UART_PM.c ****     }
+ 186:Generated_Source\PSoC5/RPi_UART_PM.c **** }
+ 122              		.loc 1 186 0
+ 123 0012 BDE80840 		pop	{r3, lr}
+ 124              		.cfi_restore 14
+ 125              		.cfi_restore 3
+ 126              		.cfi_def_cfa_offset 0
+ 184:Generated_Source\PSoC5/RPi_UART_PM.c ****     }
+ 127              		.loc 1 184 0
+ 128 0016 FFF7FEBF 		b	RPi_UART_Enable
+ 129              	.LVL4:
+ 130              	.L15:
+ 131 001a 00BF     		.align	2
+ 132              	.L14:
+ 133 001c 00000000 		.word	.LANCHOR0
+ 134              		.cfi_endproc
+ 135              	.LFE3:
+ 136              		.size	RPi_UART_Wakeup, .-RPi_UART_Wakeup
+ 137              		.bss
+ 138              		.align	2
+ 139              		.set	.LANCHOR0,. + 0
+ 140              		.type	RPi_UART_backup, %object
+ 141              		.size	RPi_UART_backup, 1
+ 142              	RPi_UART_backup:
+ 143 0000 00       		.space	1
+ 144              		.text
+ 145              	.Letext0:
+ 146              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 147              		.file 3 "Generated_Source\\PSoC5\\RPi_UART.h"
+ 148              		.section	.debug_info,"",%progbits
+ 149              	.Ldebug_info0:
+ 150 0000 81010000 		.4byte	0x181
+ 151 0004 0400     		.2byte	0x4
+ 152 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 153 000a 04       		.byte	0x4
+ 154 000b 01       		.uleb128 0x1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 7
+
+
+ 155 000c 57000000 		.4byte	.LASF25
+ 156 0010 0C       		.byte	0xc
+ 157 0011 8F010000 		.4byte	.LASF26
+ 158 0015 1E020000 		.4byte	.LASF27
+ 159 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 160 001d 00000000 		.4byte	0
+ 161 0021 00000000 		.4byte	.Ldebug_line0
+ 162 0025 02       		.uleb128 0x2
+ 163 0026 01       		.byte	0x1
+ 164 0027 06       		.byte	0x6
+ 165 0028 12020000 		.4byte	.LASF0
+ 166 002c 02       		.uleb128 0x2
+ 167 002d 01       		.byte	0x1
+ 168 002e 08       		.byte	0x8
+ 169 002f 19010000 		.4byte	.LASF1
+ 170 0033 02       		.uleb128 0x2
+ 171 0034 02       		.byte	0x2
+ 172 0035 05       		.byte	0x5
+ 173 0036 E7010000 		.4byte	.LASF2
+ 174 003a 02       		.uleb128 0x2
+ 175 003b 02       		.byte	0x2
+ 176 003c 07       		.byte	0x7
+ 177 003d 44000000 		.4byte	.LASF3
+ 178 0041 02       		.uleb128 0x2
+ 179 0042 04       		.byte	0x4
+ 180 0043 05       		.byte	0x5
+ 181 0044 F1010000 		.4byte	.LASF4
+ 182 0048 02       		.uleb128 0x2
+ 183 0049 04       		.byte	0x4
+ 184 004a 07       		.byte	0x7
+ 185 004b 2C010000 		.4byte	.LASF5
+ 186 004f 02       		.uleb128 0x2
+ 187 0050 08       		.byte	0x8
+ 188 0051 05       		.byte	0x5
+ 189 0052 BD010000 		.4byte	.LASF6
+ 190 0056 02       		.uleb128 0x2
+ 191 0057 08       		.byte	0x8
+ 192 0058 07       		.byte	0x7
+ 193 0059 78010000 		.4byte	.LASF7
+ 194 005d 03       		.uleb128 0x3
+ 195 005e 04       		.byte	0x4
+ 196 005f 05       		.byte	0x5
+ 197 0060 696E7400 		.ascii	"int\000"
+ 198 0064 02       		.uleb128 0x2
+ 199 0065 04       		.byte	0x4
+ 200 0066 07       		.byte	0x7
+ 201 0067 5B010000 		.4byte	.LASF8
+ 202 006b 04       		.uleb128 0x4
+ 203 006c 3E010000 		.4byte	.LASF12
+ 204 0070 02       		.byte	0x2
+ 205 0071 9201     		.2byte	0x192
+ 206 0073 2C000000 		.4byte	0x2c
+ 207 0077 02       		.uleb128 0x2
+ 208 0078 04       		.byte	0x4
+ 209 0079 04       		.byte	0x4
+ 210 007a 13010000 		.4byte	.LASF9
+ 211 007e 02       		.uleb128 0x2
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 8
+
+
+ 212 007f 08       		.byte	0x8
+ 213 0080 04       		.byte	0x4
+ 214 0081 44010000 		.4byte	.LASF10
+ 215 0085 02       		.uleb128 0x2
+ 216 0086 01       		.byte	0x1
+ 217 0087 08       		.byte	0x8
+ 218 0088 CB010000 		.4byte	.LASF11
+ 219 008c 04       		.uleb128 0x4
+ 220 008d 27010000 		.4byte	.LASF13
+ 221 0091 02       		.byte	0x2
+ 222 0092 3C02     		.2byte	0x23c
+ 223 0094 98000000 		.4byte	0x98
+ 224 0098 05       		.uleb128 0x5
+ 225 0099 6B000000 		.4byte	0x6b
+ 226 009d 02       		.uleb128 0x2
+ 227 009e 08       		.byte	0x8
+ 228 009f 04       		.byte	0x4
+ 229 00a0 06020000 		.4byte	.LASF14
+ 230 00a4 02       		.uleb128 0x2
+ 231 00a5 04       		.byte	0x4
+ 232 00a6 07       		.byte	0x7
+ 233 00a7 B4010000 		.4byte	.LASF15
+ 234 00ab 06       		.uleb128 0x6
+ 235 00ac 6C020000 		.4byte	.LASF28
+ 236 00b0 01       		.byte	0x1
+ 237 00b1 03       		.byte	0x3
+ 238 00b2 45       		.byte	0x45
+ 239 00b3 C4000000 		.4byte	0xc4
+ 240 00b7 07       		.uleb128 0x7
+ 241 00b8 FA010000 		.4byte	.LASF29
+ 242 00bc 03       		.byte	0x3
+ 243 00bd 47       		.byte	0x47
+ 244 00be 6B000000 		.4byte	0x6b
+ 245 00c2 00       		.byte	0
+ 246 00c3 00       		.byte	0
+ 247 00c4 08       		.uleb128 0x8
+ 248 00c5 E5000000 		.4byte	.LASF16
+ 249 00c9 03       		.byte	0x3
+ 250 00ca 4D       		.byte	0x4d
+ 251 00cb AB000000 		.4byte	0xab
+ 252 00cf 09       		.uleb128 0x9
+ 253 00d0 58020000 		.4byte	.LASF17
+ 254 00d4 01       		.byte	0x1
+ 255 00d5 36       		.byte	0x36
+ 256 00d6 01       		.byte	0x1
+ 257 00d7 09       		.uleb128 0x9
+ 258 00d8 FC000000 		.4byte	.LASF18
+ 259 00dc 01       		.byte	0x1
+ 260 00dd 57       		.byte	0x57
+ 261 00de 01       		.byte	0x1
+ 262 00df 0A       		.uleb128 0xa
+ 263 00e0 D7000000 		.4byte	0xd7
+ 264 00e4 00000000 		.4byte	.LFB1
+ 265 00e8 02000000 		.4byte	.LFE1-.LFB1
+ 266 00ec 01       		.uleb128 0x1
+ 267 00ed 9C       		.byte	0x9c
+ 268 00ee 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 9
+
+
+ 269 00ef 35000000 		.4byte	.LASF19
+ 270 00f3 01       		.byte	0x1
+ 271 00f4 78       		.byte	0x78
+ 272 00f5 00000000 		.4byte	.LFB2
+ 273 00f9 28000000 		.4byte	.LFE2-.LFB2
+ 274 00fd 01       		.uleb128 0x1
+ 275 00fe 9C       		.byte	0x9c
+ 276 00ff 16010000 		.4byte	0x116
+ 277 0103 0C       		.uleb128 0xc
+ 278 0104 16000000 		.4byte	.LVL0
+ 279 0108 58010000 		.4byte	0x158
+ 280 010c 0C       		.uleb128 0xc
+ 281 010d 20000000 		.4byte	.LVL1
+ 282 0111 58010000 		.4byte	0x158
+ 283 0115 00       		.byte	0
+ 284 0116 0B       		.uleb128 0xb
+ 285 0117 68010000 		.4byte	.LASF20
+ 286 011b 01       		.byte	0x1
+ 287 011c AC       		.byte	0xac
+ 288 011d 00000000 		.4byte	.LFB3
+ 289 0121 20000000 		.4byte	.LFE3-.LFB3
+ 290 0125 01       		.uleb128 0x1
+ 291 0126 9C       		.byte	0x9c
+ 292 0127 47010000 		.4byte	0x147
+ 293 012b 0D       		.uleb128 0xd
+ 294 012c 06000000 		.4byte	.LVL2
+ 295 0130 63010000 		.4byte	0x163
+ 296 0134 0D       		.uleb128 0xd
+ 297 0135 0A000000 		.4byte	.LVL3
+ 298 0139 6E010000 		.4byte	0x16e
+ 299 013d 0C       		.uleb128 0xc
+ 300 013e 1A000000 		.4byte	.LVL4
+ 301 0142 79010000 		.4byte	0x179
+ 302 0146 00       		.byte	0
+ 303 0147 0E       		.uleb128 0xe
+ 304 0148 4B010000 		.4byte	.LASF30
+ 305 014c 01       		.byte	0x1
+ 306 014d 18       		.byte	0x18
+ 307 014e C4000000 		.4byte	0xc4
+ 308 0152 05       		.uleb128 0x5
+ 309 0153 03       		.byte	0x3
+ 310 0154 00000000 		.4byte	RPi_UART_backup
+ 311 0158 0F       		.uleb128 0xf
+ 312 0159 00000000 		.4byte	.LASF21
+ 313 015d 00000000 		.4byte	.LASF21
+ 314 0161 03       		.byte	0x3
+ 315 0162 55       		.byte	0x55
+ 316 0163 0F       		.uleb128 0xf
+ 317 0164 D0010000 		.4byte	.LASF22
+ 318 0168 D0010000 		.4byte	.LASF22
+ 319 016c 03       		.byte	0x3
+ 320 016d 75       		.byte	0x75
+ 321 016e 0F       		.uleb128 0xf
+ 322 016f 0E000000 		.4byte	.LASF23
+ 323 0173 0E000000 		.4byte	.LASF23
+ 324 0177 03       		.byte	0x3
+ 325 0178 8F       		.byte	0x8f
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 10
+
+
+ 326 0179 0F       		.uleb128 0xf
+ 327 017a 25000000 		.4byte	.LASF24
+ 328 017e 25000000 		.4byte	.LASF24
+ 329 0182 03       		.byte	0x3
+ 330 0183 5A       		.byte	0x5a
+ 331 0184 00       		.byte	0
+ 332              		.section	.debug_abbrev,"",%progbits
+ 333              	.Ldebug_abbrev0:
+ 334 0000 01       		.uleb128 0x1
+ 335 0001 11       		.uleb128 0x11
+ 336 0002 01       		.byte	0x1
+ 337 0003 25       		.uleb128 0x25
+ 338 0004 0E       		.uleb128 0xe
+ 339 0005 13       		.uleb128 0x13
+ 340 0006 0B       		.uleb128 0xb
+ 341 0007 03       		.uleb128 0x3
+ 342 0008 0E       		.uleb128 0xe
+ 343 0009 1B       		.uleb128 0x1b
+ 344 000a 0E       		.uleb128 0xe
+ 345 000b 55       		.uleb128 0x55
+ 346 000c 17       		.uleb128 0x17
+ 347 000d 11       		.uleb128 0x11
+ 348 000e 01       		.uleb128 0x1
+ 349 000f 10       		.uleb128 0x10
+ 350 0010 17       		.uleb128 0x17
+ 351 0011 00       		.byte	0
+ 352 0012 00       		.byte	0
+ 353 0013 02       		.uleb128 0x2
+ 354 0014 24       		.uleb128 0x24
+ 355 0015 00       		.byte	0
+ 356 0016 0B       		.uleb128 0xb
+ 357 0017 0B       		.uleb128 0xb
+ 358 0018 3E       		.uleb128 0x3e
+ 359 0019 0B       		.uleb128 0xb
+ 360 001a 03       		.uleb128 0x3
+ 361 001b 0E       		.uleb128 0xe
+ 362 001c 00       		.byte	0
+ 363 001d 00       		.byte	0
+ 364 001e 03       		.uleb128 0x3
+ 365 001f 24       		.uleb128 0x24
+ 366 0020 00       		.byte	0
+ 367 0021 0B       		.uleb128 0xb
+ 368 0022 0B       		.uleb128 0xb
+ 369 0023 3E       		.uleb128 0x3e
+ 370 0024 0B       		.uleb128 0xb
+ 371 0025 03       		.uleb128 0x3
+ 372 0026 08       		.uleb128 0x8
+ 373 0027 00       		.byte	0
+ 374 0028 00       		.byte	0
+ 375 0029 04       		.uleb128 0x4
+ 376 002a 16       		.uleb128 0x16
+ 377 002b 00       		.byte	0
+ 378 002c 03       		.uleb128 0x3
+ 379 002d 0E       		.uleb128 0xe
+ 380 002e 3A       		.uleb128 0x3a
+ 381 002f 0B       		.uleb128 0xb
+ 382 0030 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 11
+
+
+ 383 0031 05       		.uleb128 0x5
+ 384 0032 49       		.uleb128 0x49
+ 385 0033 13       		.uleb128 0x13
+ 386 0034 00       		.byte	0
+ 387 0035 00       		.byte	0
+ 388 0036 05       		.uleb128 0x5
+ 389 0037 35       		.uleb128 0x35
+ 390 0038 00       		.byte	0
+ 391 0039 49       		.uleb128 0x49
+ 392 003a 13       		.uleb128 0x13
+ 393 003b 00       		.byte	0
+ 394 003c 00       		.byte	0
+ 395 003d 06       		.uleb128 0x6
+ 396 003e 13       		.uleb128 0x13
+ 397 003f 01       		.byte	0x1
+ 398 0040 03       		.uleb128 0x3
+ 399 0041 0E       		.uleb128 0xe
+ 400 0042 0B       		.uleb128 0xb
+ 401 0043 0B       		.uleb128 0xb
+ 402 0044 3A       		.uleb128 0x3a
+ 403 0045 0B       		.uleb128 0xb
+ 404 0046 3B       		.uleb128 0x3b
+ 405 0047 0B       		.uleb128 0xb
+ 406 0048 01       		.uleb128 0x1
+ 407 0049 13       		.uleb128 0x13
+ 408 004a 00       		.byte	0
+ 409 004b 00       		.byte	0
+ 410 004c 07       		.uleb128 0x7
+ 411 004d 0D       		.uleb128 0xd
+ 412 004e 00       		.byte	0
+ 413 004f 03       		.uleb128 0x3
+ 414 0050 0E       		.uleb128 0xe
+ 415 0051 3A       		.uleb128 0x3a
+ 416 0052 0B       		.uleb128 0xb
+ 417 0053 3B       		.uleb128 0x3b
+ 418 0054 0B       		.uleb128 0xb
+ 419 0055 49       		.uleb128 0x49
+ 420 0056 13       		.uleb128 0x13
+ 421 0057 38       		.uleb128 0x38
+ 422 0058 0B       		.uleb128 0xb
+ 423 0059 00       		.byte	0
+ 424 005a 00       		.byte	0
+ 425 005b 08       		.uleb128 0x8
+ 426 005c 16       		.uleb128 0x16
+ 427 005d 00       		.byte	0
+ 428 005e 03       		.uleb128 0x3
+ 429 005f 0E       		.uleb128 0xe
+ 430 0060 3A       		.uleb128 0x3a
+ 431 0061 0B       		.uleb128 0xb
+ 432 0062 3B       		.uleb128 0x3b
+ 433 0063 0B       		.uleb128 0xb
+ 434 0064 49       		.uleb128 0x49
+ 435 0065 13       		.uleb128 0x13
+ 436 0066 00       		.byte	0
+ 437 0067 00       		.byte	0
+ 438 0068 09       		.uleb128 0x9
+ 439 0069 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 12
+
+
+ 440 006a 00       		.byte	0
+ 441 006b 3F       		.uleb128 0x3f
+ 442 006c 19       		.uleb128 0x19
+ 443 006d 03       		.uleb128 0x3
+ 444 006e 0E       		.uleb128 0xe
+ 445 006f 3A       		.uleb128 0x3a
+ 446 0070 0B       		.uleb128 0xb
+ 447 0071 3B       		.uleb128 0x3b
+ 448 0072 0B       		.uleb128 0xb
+ 449 0073 27       		.uleb128 0x27
+ 450 0074 19       		.uleb128 0x19
+ 451 0075 20       		.uleb128 0x20
+ 452 0076 0B       		.uleb128 0xb
+ 453 0077 00       		.byte	0
+ 454 0078 00       		.byte	0
+ 455 0079 0A       		.uleb128 0xa
+ 456 007a 2E       		.uleb128 0x2e
+ 457 007b 00       		.byte	0
+ 458 007c 31       		.uleb128 0x31
+ 459 007d 13       		.uleb128 0x13
+ 460 007e 11       		.uleb128 0x11
+ 461 007f 01       		.uleb128 0x1
+ 462 0080 12       		.uleb128 0x12
+ 463 0081 06       		.uleb128 0x6
+ 464 0082 40       		.uleb128 0x40
+ 465 0083 18       		.uleb128 0x18
+ 466 0084 9742     		.uleb128 0x2117
+ 467 0086 19       		.uleb128 0x19
+ 468 0087 00       		.byte	0
+ 469 0088 00       		.byte	0
+ 470 0089 0B       		.uleb128 0xb
+ 471 008a 2E       		.uleb128 0x2e
+ 472 008b 01       		.byte	0x1
+ 473 008c 3F       		.uleb128 0x3f
+ 474 008d 19       		.uleb128 0x19
+ 475 008e 03       		.uleb128 0x3
+ 476 008f 0E       		.uleb128 0xe
+ 477 0090 3A       		.uleb128 0x3a
+ 478 0091 0B       		.uleb128 0xb
+ 479 0092 3B       		.uleb128 0x3b
+ 480 0093 0B       		.uleb128 0xb
+ 481 0094 27       		.uleb128 0x27
+ 482 0095 19       		.uleb128 0x19
+ 483 0096 11       		.uleb128 0x11
+ 484 0097 01       		.uleb128 0x1
+ 485 0098 12       		.uleb128 0x12
+ 486 0099 06       		.uleb128 0x6
+ 487 009a 40       		.uleb128 0x40
+ 488 009b 18       		.uleb128 0x18
+ 489 009c 9742     		.uleb128 0x2117
+ 490 009e 19       		.uleb128 0x19
+ 491 009f 01       		.uleb128 0x1
+ 492 00a0 13       		.uleb128 0x13
+ 493 00a1 00       		.byte	0
+ 494 00a2 00       		.byte	0
+ 495 00a3 0C       		.uleb128 0xc
+ 496 00a4 898201   		.uleb128 0x4109
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 13
+
+
+ 497 00a7 00       		.byte	0
+ 498 00a8 11       		.uleb128 0x11
+ 499 00a9 01       		.uleb128 0x1
+ 500 00aa 9542     		.uleb128 0x2115
+ 501 00ac 19       		.uleb128 0x19
+ 502 00ad 31       		.uleb128 0x31
+ 503 00ae 13       		.uleb128 0x13
+ 504 00af 00       		.byte	0
+ 505 00b0 00       		.byte	0
+ 506 00b1 0D       		.uleb128 0xd
+ 507 00b2 898201   		.uleb128 0x4109
+ 508 00b5 00       		.byte	0
+ 509 00b6 11       		.uleb128 0x11
+ 510 00b7 01       		.uleb128 0x1
+ 511 00b8 31       		.uleb128 0x31
+ 512 00b9 13       		.uleb128 0x13
+ 513 00ba 00       		.byte	0
+ 514 00bb 00       		.byte	0
+ 515 00bc 0E       		.uleb128 0xe
+ 516 00bd 34       		.uleb128 0x34
+ 517 00be 00       		.byte	0
+ 518 00bf 03       		.uleb128 0x3
+ 519 00c0 0E       		.uleb128 0xe
+ 520 00c1 3A       		.uleb128 0x3a
+ 521 00c2 0B       		.uleb128 0xb
+ 522 00c3 3B       		.uleb128 0x3b
+ 523 00c4 0B       		.uleb128 0xb
+ 524 00c5 49       		.uleb128 0x49
+ 525 00c6 13       		.uleb128 0x13
+ 526 00c7 02       		.uleb128 0x2
+ 527 00c8 18       		.uleb128 0x18
+ 528 00c9 00       		.byte	0
+ 529 00ca 00       		.byte	0
+ 530 00cb 0F       		.uleb128 0xf
+ 531 00cc 2E       		.uleb128 0x2e
+ 532 00cd 00       		.byte	0
+ 533 00ce 3F       		.uleb128 0x3f
+ 534 00cf 19       		.uleb128 0x19
+ 535 00d0 3C       		.uleb128 0x3c
+ 536 00d1 19       		.uleb128 0x19
+ 537 00d2 6E       		.uleb128 0x6e
+ 538 00d3 0E       		.uleb128 0xe
+ 539 00d4 03       		.uleb128 0x3
+ 540 00d5 0E       		.uleb128 0xe
+ 541 00d6 3A       		.uleb128 0x3a
+ 542 00d7 0B       		.uleb128 0xb
+ 543 00d8 3B       		.uleb128 0x3b
+ 544 00d9 0B       		.uleb128 0xb
+ 545 00da 00       		.byte	0
+ 546 00db 00       		.byte	0
+ 547 00dc 00       		.byte	0
+ 548              		.section	.debug_aranges,"",%progbits
+ 549 0000 2C000000 		.4byte	0x2c
+ 550 0004 0200     		.2byte	0x2
+ 551 0006 00000000 		.4byte	.Ldebug_info0
+ 552 000a 04       		.byte	0x4
+ 553 000b 00       		.byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 14
+
+
+ 554 000c 0000     		.2byte	0
+ 555 000e 0000     		.2byte	0
+ 556 0010 00000000 		.4byte	.LFB1
+ 557 0014 02000000 		.4byte	.LFE1-.LFB1
+ 558 0018 00000000 		.4byte	.LFB2
+ 559 001c 28000000 		.4byte	.LFE2-.LFB2
+ 560 0020 00000000 		.4byte	.LFB3
+ 561 0024 20000000 		.4byte	.LFE3-.LFB3
+ 562 0028 00000000 		.4byte	0
+ 563 002c 00000000 		.4byte	0
+ 564              		.section	.debug_ranges,"",%progbits
+ 565              	.Ldebug_ranges0:
+ 566 0000 00000000 		.4byte	.LFB1
+ 567 0004 02000000 		.4byte	.LFE1
+ 568 0008 00000000 		.4byte	.LFB2
+ 569 000c 28000000 		.4byte	.LFE2
+ 570 0010 00000000 		.4byte	.LFB3
+ 571 0014 20000000 		.4byte	.LFE3
+ 572 0018 00000000 		.4byte	0
+ 573 001c 00000000 		.4byte	0
+ 574              		.section	.debug_line,"",%progbits
+ 575              	.Ldebug_line0:
+ 576 0000 9C000000 		.section	.debug_str,"MS",%progbits,1
+ 576      02005600 
+ 576      00000201 
+ 576      FB0E0D00 
+ 576      01010101 
+ 577              	.LASF21:
+ 578 0000 5250695F 		.ascii	"RPi_UART_Stop\000"
+ 578      55415254 
+ 578      5F53746F 
+ 578      7000
+ 579              	.LASF23:
+ 580 000e 5250695F 		.ascii	"RPi_UART_ClearTxBuffer\000"
+ 580      55415254 
+ 580      5F436C65 
+ 580      61725478 
+ 580      42756666 
+ 581              	.LASF24:
+ 582 0025 5250695F 		.ascii	"RPi_UART_Enable\000"
+ 582      55415254 
+ 582      5F456E61 
+ 582      626C6500 
+ 583              	.LASF19:
+ 584 0035 5250695F 		.ascii	"RPi_UART_Sleep\000"
+ 584      55415254 
+ 584      5F536C65 
+ 584      657000
+ 585              	.LASF3:
+ 586 0044 73686F72 		.ascii	"short unsigned int\000"
+ 586      7420756E 
+ 586      7369676E 
+ 586      65642069 
+ 586      6E7400
+ 587              	.LASF25:
+ 588 0057 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 588      43313120 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 15
+
+
+ 588      352E342E 
+ 588      31203230 
+ 588      31363036 
+ 589 008a 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 589      20726576 
+ 589      6973696F 
+ 589      6E203233 
+ 589      37373135 
+ 590 00bd 32202D66 		.ascii	"2 -ffunction-sections -ffat-lto-objects\000"
+ 590      66756E63 
+ 590      74696F6E 
+ 590      2D736563 
+ 590      74696F6E 
+ 591              	.LASF16:
+ 592 00e5 5250695F 		.ascii	"RPi_UART_BACKUP_STRUCT\000"
+ 592      55415254 
+ 592      5F424143 
+ 592      4B55505F 
+ 592      53545255 
+ 593              	.LASF18:
+ 594 00fc 5250695F 		.ascii	"RPi_UART_RestoreConfig\000"
+ 594      55415254 
+ 594      5F526573 
+ 594      746F7265 
+ 594      436F6E66 
+ 595              	.LASF9:
+ 596 0113 666C6F61 		.ascii	"float\000"
+ 596      7400
+ 597              	.LASF1:
+ 598 0119 756E7369 		.ascii	"unsigned char\000"
+ 598      676E6564 
+ 598      20636861 
+ 598      7200
+ 599              	.LASF13:
+ 600 0127 72656738 		.ascii	"reg8\000"
+ 600      00
+ 601              	.LASF5:
+ 602 012c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 602      20756E73 
+ 602      69676E65 
+ 602      6420696E 
+ 602      7400
+ 603              	.LASF12:
+ 604 013e 75696E74 		.ascii	"uint8\000"
+ 604      3800
+ 605              	.LASF10:
+ 606 0144 646F7562 		.ascii	"double\000"
+ 606      6C6500
+ 607              	.LASF30:
+ 608 014b 5250695F 		.ascii	"RPi_UART_backup\000"
+ 608      55415254 
+ 608      5F626163 
+ 608      6B757000 
+ 609              	.LASF8:
+ 610 015b 756E7369 		.ascii	"unsigned int\000"
+ 610      676E6564 
+ 610      20696E74 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 16
+
+
+ 610      00
+ 611              	.LASF20:
+ 612 0168 5250695F 		.ascii	"RPi_UART_Wakeup\000"
+ 612      55415254 
+ 612      5F57616B 
+ 612      65757000 
+ 613              	.LASF7:
+ 614 0178 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 614      206C6F6E 
+ 614      6720756E 
+ 614      7369676E 
+ 614      65642069 
+ 615              	.LASF26:
+ 616 018f 47656E65 		.ascii	"Generated_Source\\PSoC5\\RPi_UART_PM.c\000"
+ 616      72617465 
+ 616      645F536F 
+ 616      75726365 
+ 616      5C50536F 
+ 617              	.LASF15:
+ 618 01b4 73697A65 		.ascii	"sizetype\000"
+ 618      74797065 
+ 618      00
+ 619              	.LASF6:
+ 620 01bd 6C6F6E67 		.ascii	"long long int\000"
+ 620      206C6F6E 
+ 620      6720696E 
+ 620      7400
+ 621              	.LASF11:
+ 622 01cb 63686172 		.ascii	"char\000"
+ 622      00
+ 623              	.LASF22:
+ 624 01d0 5250695F 		.ascii	"RPi_UART_ClearRxBuffer\000"
+ 624      55415254 
+ 624      5F436C65 
+ 624      61725278 
+ 624      42756666 
+ 625              	.LASF2:
+ 626 01e7 73686F72 		.ascii	"short int\000"
+ 626      7420696E 
+ 626      7400
+ 627              	.LASF4:
+ 628 01f1 6C6F6E67 		.ascii	"long int\000"
+ 628      20696E74 
+ 628      00
+ 629              	.LASF29:
+ 630 01fa 656E6162 		.ascii	"enableState\000"
+ 630      6C655374 
+ 630      61746500 
+ 631              	.LASF14:
+ 632 0206 6C6F6E67 		.ascii	"long double\000"
+ 632      20646F75 
+ 632      626C6500 
+ 633              	.LASF0:
+ 634 0212 7369676E 		.ascii	"signed char\000"
+ 634      65642063 
+ 634      68617200 
+ 635              	.LASF27:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc6QkMGJ.s 			page 17
+
+
+ 636 021e 433A5C55 		.ascii	"C:\\Users\\jon\\Sync\\Research\\PSoC Projects\\Cont"
+ 636      73657273 
+ 636      5C6A6F6E 
+ 636      5C53796E 
+ 636      635C5265 
+ 637 024b 726F6C6C 		.ascii	"roller.cydsn\000"
+ 637      65722E63 
+ 637      7964736E 
+ 637      00
+ 638              	.LASF17:
+ 639 0258 5250695F 		.ascii	"RPi_UART_SaveConfig\000"
+ 639      55415254 
+ 639      5F536176 
+ 639      65436F6E 
+ 639      66696700 
+ 640              	.LASF28:
+ 641 026c 5250695F 		.ascii	"RPi_UART_backupStruct_\000"
+ 641      55415254 
+ 641      5F626163 
+ 641      6B757053 
+ 641      74727563 
+ 642              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

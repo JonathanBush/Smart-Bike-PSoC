@@ -1,0 +1,2249 @@
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	__aeabi_i2f
+  20              		.global	__aeabi_fmul
+  21              		.global	__aeabi_fadd
+  22              		.global	__aeabi_fdiv
+  23              		.global	__aeabi_f2iz
+  24              		.section	.text.control_loop,"ax",%progbits
+  25              		.align	2
+  26              		.global	control_loop
+  27              		.thumb
+  28              		.thumb_func
+  29              		.type	control_loop, %function
+  30              	control_loop:
+  31              	.LFB67:
+  32              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** #include <stdio.h>
+  13:main.c        **** #include <string.h>
+  14:main.c        **** #include <stdlib.h>
+  15:main.c        **** #include <math.h>
+  16:main.c        **** #include "project.h"
+  17:main.c        **** #include "sbus.h"
+  18:main.c        **** #define MIN_THROTTLE_VOLTAGE 0.902
+  19:main.c        **** #define MAX_THROTTLE_VOLTAGE 4.0
+  20:main.c        **** // 3.659
+  21:main.c        **** 
+  22:main.c        **** #define CUTOFF_CH 5
+  23:main.c        **** #define THROTTLE_CH 1
+  24:main.c        **** #define STEERING_CH 2
+  25:main.c        **** #define BRAKE_CH 3
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 2
+
+
+  26:main.c        **** 
+  27:main.c        **** #define MAX_BRAKE_VAL (6500)
+  28:main.c        **** #define MIN_BRAKE_VAL (2300)
+  29:main.c        **** 
+  30:main.c        **** #define MOTOR_MAX_COMPARE (2200)
+  31:main.c        **** #define MOTOR_CUTOFF  (300)
+  32:main.c        **** 
+  33:main.c        **** 
+  34:main.c        **** /* power between 0 and 1 */
+  35:main.c        **** void set_throttle(float power);
+  36:main.c        **** void set_brake(float brake);
+  37:main.c        **** ///void set_steering(int setpoint);
+  38:main.c        **** 
+  39:main.c        **** CY_ISR_PROTO(control_loop);
+  40:main.c        **** 
+  41:main.c        **** volatile int steeringTarget;
+  42:main.c        **** 
+  43:main.c        **** 
+  44:main.c        **** 
+  45:main.c        **** int main(void)
+  46:main.c        **** {
+  47:main.c        ****     PWM_Steer_WriteCompare(0);
+  48:main.c        ****     steeringTarget = 0;
+  49:main.c        ****     char sendStr[50];
+  50:main.c        ****     CyGlobalIntEnable; /* Enable interrupts. */
+  51:main.c        ****     //float speed;
+  52:main.c        ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+  53:main.c        ****     Throttle_Start();
+  54:main.c        ****     
+  55:main.c        ****     Handle_Encoder_Start();
+  56:main.c        ****     Handle_Encoder_SetCounter(0);
+  57:main.c        ****     
+  58:main.c        ****     PWM_Brake_Start();
+  59:main.c        ****     PWM_Steer_Start();
+  60:main.c        ****     Opamp_Throttle_Start();
+  61:main.c        ****     
+  62:main.c        ****     sbus_init();
+  63:main.c        ****     
+  64:main.c        ****     //sbus_begin();
+  65:main.c        ****     CyDelay(50); // Wait for the SBUS to receive data
+  66:main.c        ****     //USBUART_1_Init();
+  67:main.c        ****     //USBUART_1_Start(0, USBUART_1_5V_OPERATION); // Start the USB UART
+  68:main.c        ****     //while(!USBUART_1_bGetConfiguration());
+  69:main.c        ****     //USBUART_1_CDC_Init();
+  70:main.c        ****     
+  71:main.c        ****     Control_Loop_Interrupt_StartEx(control_loop);
+  72:main.c        ****     Timer_1_Enable();
+  73:main.c        ****     Timer_1_Start();
+  74:main.c        ****     
+  75:main.c        ****     
+  76:main.c        ****     for(;;)
+  77:main.c        ****     {
+  78:main.c        ****         
+  79:main.c        ****         if (sbus_getNormalizedChannel(CUTOFF_CH) < 0 && !sbus_getFailsafeStatus()) { // cutoff swit
+  80:main.c        ****             steeringTarget = sbus_getNormalizedChannel(STEERING_CH);
+  81:main.c        ****             if (sbus_getNormalizedChannel(BRAKE_CH) > -5) { // brake is not applied
+  82:main.c        ****                 set_brake(0);
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 3
+
+
+  83:main.c        ****                 set_throttle((float)(sbus_getNormalizedChannel(THROTTLE_CH) + 100) / 200.);
+  84:main.c        ****                 
+  85:main.c        ****             } else { // brake is applied
+  86:main.c        ****                 set_throttle(0);
+  87:main.c        ****                 set_brake(((float)sbus_getNormalizedChannel(BRAKE_CH))/-100.0);
+  88:main.c        ****                 // braking action here
+  89:main.c        ****             }
+  90:main.c        ****         } else {
+  91:main.c        ****             //steeringTarget = 0;
+  92:main.c        ****             set_throttle(0);
+  93:main.c        ****             set_brake(.7);
+  94:main.c        ****             // emergency braking and actions
+  95:main.c        ****         }
+  96:main.c        ****         
+  97:main.c        **** //        if (USBUART_1_DataIsReady()) {
+  98:main.c        **** //            steeringTarget = ((int)((signed char)USBUART_1_GetChar() - (signed char)127) * 100) /
+  99:main.c        **** //        }
+ 100:main.c        ****         
+ 101:main.c        **** 
+ 102:main.c        ****         //CyDelay(50);
+ 103:main.c        ****         //sprintf(sendStr, "%ld\n\n", sbus_getDecoderErrorFrames());
+ 104:main.c        ****         //sprintf(sendStr, "%04d %04d\r", Handle_Encoder_GetCounter(), steeringTarget);
+ 105:main.c        ****         
+ 106:main.c        ****         //USBUART_1_PutString("hello");
+ 107:main.c        ****         //USBUART_1_PutString(sendStr);
+ 108:main.c        ****         //CyDelay(100);        
+ 109:main.c        **** 
+ 110:main.c        ****     }
+ 111:main.c        **** }
+ 112:main.c        **** 
+ 113:main.c        **** void inline set_throttle(float power)
+ 114:main.c        **** {
+ 115:main.c        ****     Throttle_SetValue((char)(255.0 * (((MAX_THROTTLE_VOLTAGE - MIN_THROTTLE_VOLTAGE) * power + MIN_
+ 116:main.c        **** }
+ 117:main.c        **** 
+ 118:main.c        **** void inline set_brake(float brake) {
+ 119:main.c        ****     PWM_Brake_WriteCompare(MIN_BRAKE_VAL + (int)((MAX_BRAKE_VAL-MIN_BRAKE_VAL)*brake));
+ 120:main.c        **** }
+ 121:main.c        **** 
+ 122:main.c        **** 
+ 123:main.c        **** static const float Kp = 3.0;
+ 124:main.c        **** static const float Ki = 0.0;
+ 125:main.c        **** static const float Kd = 0;//-0.05;//0.05;
+ 126:main.c        **** static const float dt = 0.02;
+ 127:main.c        **** 
+ 128:main.c        **** static int previous_error = 0;
+ 129:main.c        ****     static float integral = 0;
+ 130:main.c        ****     static float derivative = 0;
+ 131:main.c        **** 
+ 132:main.c        **** 
+ 133:main.c        **** CY_ISR(control_loop)
+ 134:main.c        **** {
+  33              		.loc 1 134 0
+  34              		.cfi_startproc
+  35              		@ args = 0, pretend = 0, frame = 0
+  36              		@ frame_needed = 0, uses_anonymous_args = 0
+  37 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 4
+
+
+  38              		.cfi_def_cfa_offset 24
+  39              		.cfi_offset 4, -24
+  40              		.cfi_offset 5, -20
+  41              		.cfi_offset 6, -16
+  42              		.cfi_offset 7, -12
+  43              		.cfi_offset 8, -8
+  44              		.cfi_offset 14, -4
+ 135:main.c        ****     
+ 136:main.c        ****     steeringTarget = sbus_getNormalizedChannel(STEERING_CH);
+  45              		.loc 1 136 0
+  46 0004 0220     		movs	r0, #2
+  47 0006 FFF7FEFF 		bl	sbus_getNormalizedChannel
+  48              	.LVL0:
+  49 000a 254B     		ldr	r3, .L6
+ 137:main.c        ****     //steeringTarget = 0;
+ 138:main.c        ****     int error = 3*steeringTarget - Handle_Encoder_GetCounter();
+ 139:main.c        ****     integral += error * dt;
+  50              		.loc 1 139 0
+  51 000c 254E     		ldr	r6, .L6+4
+ 136:main.c        ****     //steeringTarget = 0;
+  52              		.loc 1 136 0
+  53 000e 1860     		str	r0, [r3]
+ 138:main.c        ****     integral += error * dt;
+  54              		.loc 1 138 0
+  55 0010 1C68     		ldr	r4, [r3]
+  56 0012 FFF7FEFF 		bl	Handle_Encoder_GetCounter
+  57              	.LVL1:
+  58 0016 04EB4404 		add	r4, r4, r4, lsl #1
+  59 001a 241A     		subs	r4, r4, r0
+  60              	.LVL2:
+  61              		.loc 1 139 0
+  62 001c 2046     		mov	r0, r4
+  63 001e FFF7FEFF 		bl	__aeabi_i2f
+  64              	.LVL3:
+  65 0022 2149     		ldr	r1, .L6+8
+  66 0024 8046     		mov	r8, r0
+  67 0026 FFF7FEFF 		bl	__aeabi_fmul
+  68              	.LVL4:
+  69 002a 3168     		ldr	r1, [r6]	@ float
+  70 002c FFF7FEFF 		bl	__aeabi_fadd
+  71              	.LVL5:
+  72 0030 0546     		mov	r5, r0
+ 140:main.c        ****     derivative = (error - previous_error) / dt;
+ 141:main.c        ****     int output = (int)(Kp*error + Ki*integral + Kd*derivative);
+  73              		.loc 1 141 0
+  74 0032 7068     		ldr	r0, [r6, #4]
+ 139:main.c        ****     derivative = (error - previous_error) / dt;
+  75              		.loc 1 139 0
+  76 0034 3560     		str	r5, [r6]	@ float
+  77              		.loc 1 141 0
+  78 0036 201A     		subs	r0, r4, r0
+  79 0038 FFF7FEFF 		bl	__aeabi_i2f
+  80              	.LVL6:
+  81 003c 1A49     		ldr	r1, .L6+8
+  82 003e FFF7FEFF 		bl	__aeabi_fdiv
+  83              	.LVL7:
+  84 0042 0021     		movs	r1, #0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 5
+
+
+  85 0044 FFF7FEFF 		bl	__aeabi_fmul
+  86              	.LVL8:
+  87 0048 1849     		ldr	r1, .L6+12
+  88 004a 0746     		mov	r7, r0
+  89 004c 4046     		mov	r0, r8
+  90 004e FFF7FEFF 		bl	__aeabi_fmul
+  91              	.LVL9:
+  92 0052 0021     		movs	r1, #0
+  93 0054 8046     		mov	r8, r0
+  94 0056 2846     		mov	r0, r5
+  95 0058 FFF7FEFF 		bl	__aeabi_fmul
+  96              	.LVL10:
+  97 005c 0146     		mov	r1, r0
+  98 005e 4046     		mov	r0, r8
+  99 0060 FFF7FEFF 		bl	__aeabi_fadd
+ 100              	.LVL11:
+ 101 0064 0146     		mov	r1, r0
+ 102 0066 3846     		mov	r0, r7
+ 103 0068 FFF7FEFF 		bl	__aeabi_fadd
+ 104              	.LVL12:
+ 105 006c FFF7FEFF 		bl	__aeabi_f2iz
+ 106              	.LVL13:
+ 107 0070 0546     		mov	r5, r0
+ 108              	.LVL14:
+ 142:main.c        ****     previous_error = error;
+ 143:main.c        ****     
+ 144:main.c        ****     Steering_Direction_Write(output < 0);
+ 109              		.loc 1 144 0
+ 110 0072 C00F     		lsrs	r0, r0, #31
+ 111              	.LVL15:
+ 142:main.c        ****     previous_error = error;
+ 112              		.loc 1 142 0
+ 113 0074 7460     		str	r4, [r6, #4]
+ 114              		.loc 1 144 0
+ 115 0076 FFF7FEFF 		bl	Steering_Direction_Write
+ 116              	.LVL16:
+ 145:main.c        ****     output = (abs(output) > MOTOR_MAX_COMPARE) ? MOTOR_MAX_COMPARE : abs(output);
+ 117              		.loc 1 145 0
+ 118 007a 40F69803 		movw	r3, #2200
+ 119 007e 85EAE570 		eor	r0, r5, r5, asr #31
+ 120 0082 A0EBE570 		sub	r0, r0, r5, asr #31
+ 121 0086 9842     		cmp	r0, r3
+ 122 0088 A8BF     		it	ge
+ 123 008a 1846     		movge	r0, r3
+ 124              	.LVL17:
+ 146:main.c        ****     if (output < MOTOR_CUTOFF) output = 0;
+ 147:main.c        ****     PWM_Steer_WriteCompare(output);
+ 148:main.c        ****     
+ 149:main.c        **** }
+ 125              		.loc 1 149 0
+ 126 008c BDE8F041 		pop	{r4, r5, r6, r7, r8, lr}
+ 127              		.cfi_restore 14
+ 128              		.cfi_restore 8
+ 129              		.cfi_restore 7
+ 130              		.cfi_restore 6
+ 131              		.cfi_restore 5
+ 132              		.cfi_restore 4
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 6
+
+
+ 133              		.cfi_def_cfa_offset 0
+ 134              	.LVL18:
+ 146:main.c        ****     if (output < MOTOR_CUTOFF) output = 0;
+ 135              		.loc 1 146 0
+ 136 0090 B0F5967F 		cmp	r0, #300
+ 137 0094 ACBF     		ite	ge
+ 138 0096 80B2     		uxthge	r0, r0
+ 139              	.LVL19:
+ 140 0098 0020     		movlt	r0, #0
+ 147:main.c        ****     
+ 141              		.loc 1 147 0
+ 142 009a FFF7FEBF 		b	PWM_Steer_WriteCompare
+ 143              	.LVL20:
+ 144              	.L7:
+ 145 009e 00BF     		.align	2
+ 146              	.L6:
+ 147 00a0 00000000 		.word	steeringTarget
+ 148 00a4 00000000 		.word	.LANCHOR0
+ 149 00a8 0AD7A33C 		.word	1017370378
+ 150 00ac 00004040 		.word	1077936128
+ 151              		.cfi_endproc
+ 152              	.LFE67:
+ 153              		.size	control_loop, .-control_loop
+ 154              		.global	__aeabi_f2d
+ 155              		.global	__aeabi_dmul
+ 156              		.global	__aeabi_dadd
+ 157              		.global	__aeabi_ddiv
+ 158              		.global	__aeabi_d2uiz
+ 159              		.section	.text.startup.main,"ax",%progbits
+ 160              		.align	2
+ 161              		.global	main
+ 162              		.thumb
+ 163              		.thumb_func
+ 164              		.type	main, %function
+ 165              	main:
+ 166              	.LFB64:
+  46:main.c        ****     PWM_Steer_WriteCompare(0);
+ 167              		.loc 1 46 0
+ 168              		.cfi_startproc
+ 169              		@ Volatile: function does not return.
+ 170              		@ args = 0, pretend = 0, frame = 0
+ 171              		@ frame_needed = 0, uses_anonymous_args = 0
+  47:main.c        ****     steeringTarget = 0;
+ 172              		.loc 1 47 0
+ 173 0000 0020     		movs	r0, #0
+  48:main.c        ****     char sendStr[50];
+ 174              		.loc 1 48 0
+ 175 0002 0546     		mov	r5, r0
+ 176 0004 444C     		ldr	r4, .L14+32
+  46:main.c        ****     PWM_Steer_WriteCompare(0);
+ 177              		.loc 1 46 0
+ 178 0006 08B5     		push	{r3, lr}
+ 179              		.cfi_def_cfa_offset 8
+ 180              		.cfi_offset 3, -8
+ 181              		.cfi_offset 14, -4
+  47:main.c        ****     steeringTarget = 0;
+ 182              		.loc 1 47 0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 7
+
+
+ 183 0008 FFF7FEFF 		bl	PWM_Steer_WriteCompare
+ 184              	.LVL21:
+  48:main.c        ****     char sendStr[50];
+ 185              		.loc 1 48 0
+ 186 000c 2560     		str	r5, [r4]
+  50:main.c        ****     //float speed;
+ 187              		.loc 1 50 0
+ 188              		.syntax unified
+ 189              	@ 50 "main.c" 1
+ 190 000e 62B6     		CPSIE   i
+ 191              	@ 0 "" 2
+  53:main.c        ****     
+ 192              		.loc 1 53 0
+ 193              		.thumb
+ 194              		.syntax unified
+ 195 0010 FFF7FEFF 		bl	Throttle_Start
+ 196              	.LVL22:
+  55:main.c        ****     Handle_Encoder_SetCounter(0);
+ 197              		.loc 1 55 0
+ 198 0014 FFF7FEFF 		bl	Handle_Encoder_Start
+ 199              	.LVL23:
+  56:main.c        ****     
+ 200              		.loc 1 56 0
+ 201 0018 2846     		mov	r0, r5
+ 202 001a FFF7FEFF 		bl	Handle_Encoder_SetCounter
+ 203              	.LVL24:
+  58:main.c        ****     PWM_Steer_Start();
+ 204              		.loc 1 58 0
+ 205 001e FFF7FEFF 		bl	PWM_Brake_Start
+ 206              	.LVL25:
+  59:main.c        ****     Opamp_Throttle_Start();
+ 207              		.loc 1 59 0
+ 208 0022 FFF7FEFF 		bl	PWM_Steer_Start
+ 209              	.LVL26:
+  60:main.c        ****     
+ 210              		.loc 1 60 0
+ 211 0026 FFF7FEFF 		bl	Opamp_Throttle_Start
+ 212              	.LVL27:
+  62:main.c        ****     
+ 213              		.loc 1 62 0
+ 214 002a FFF7FEFF 		bl	sbus_init
+ 215              	.LVL28:
+  65:main.c        ****     //USBUART_1_Init();
+ 216              		.loc 1 65 0
+ 217 002e 3220     		movs	r0, #50
+ 218 0030 FFF7FEFF 		bl	CyDelay
+ 219              	.LVL29:
+  71:main.c        ****     Timer_1_Enable();
+ 220              		.loc 1 71 0
+ 221 0034 3948     		ldr	r0, .L14+36
+ 222 0036 FFF7FEFF 		bl	Control_Loop_Interrupt_StartEx
+ 223              	.LVL30:
+  72:main.c        ****     Timer_1_Start();
+ 224              		.loc 1 72 0
+ 225 003a FFF7FEFF 		bl	Timer_1_Enable
+ 226              	.LVL31:
+  73:main.c        ****     
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 8
+
+
+ 227              		.loc 1 73 0
+ 228 003e FFF7FEFF 		bl	Timer_1_Start
+ 229              	.LVL32:
+ 230 0042 06E0     		b	.L9
+ 231              	.L10:
+ 232              	.LVL33:
+ 233              	.LBB14:
+ 234              	.LBB15:
+ 115:main.c        **** }
+ 235              		.loc 1 115 0
+ 236 0044 3820     		movs	r0, #56
+ 237 0046 FFF7FEFF 		bl	Throttle_SetValue
+ 238              	.LVL34:
+ 239              	.LBE15:
+ 240              	.LBE14:
+ 241              	.LBB16:
+ 242              	.LBB17:
+ 119:main.c        **** }
+ 243              		.loc 1 119 0
+ 244 004a 41F27840 		movw	r0, #5240
+ 245 004e FFF7FEFF 		bl	PWM_Brake_WriteCompare
+ 246              	.LVL35:
+ 247              	.L9:
+ 248              	.LBE17:
+ 249              	.LBE16:
+  79:main.c        ****             steeringTarget = sbus_getNormalizedChannel(STEERING_CH);
+ 250              		.loc 1 79 0
+ 251 0052 0520     		movs	r0, #5
+ 252 0054 FFF7FEFF 		bl	sbus_getNormalizedChannel
+ 253              	.LVL36:
+ 254 0058 0028     		cmp	r0, #0
+ 255 005a F3DA     		bge	.L10
+  79:main.c        ****             steeringTarget = sbus_getNormalizedChannel(STEERING_CH);
+ 256              		.loc 1 79 0 is_stmt 0 discriminator 1
+ 257 005c FFF7FEFF 		bl	sbus_getFailsafeStatus
+ 258              	.LVL37:
+ 259 0060 0028     		cmp	r0, #0
+ 260 0062 EFD1     		bne	.L10
+  80:main.c        ****             if (sbus_getNormalizedChannel(BRAKE_CH) > -5) { // brake is not applied
+ 261              		.loc 1 80 0 is_stmt 1
+ 262 0064 0220     		movs	r0, #2
+ 263 0066 FFF7FEFF 		bl	sbus_getNormalizedChannel
+ 264              	.LVL38:
+ 265 006a 0346     		mov	r3, r0
+  81:main.c        ****                 set_brake(0);
+ 266              		.loc 1 81 0
+ 267 006c 0320     		movs	r0, #3
+  80:main.c        ****             if (sbus_getNormalizedChannel(BRAKE_CH) > -5) { // brake is not applied
+ 268              		.loc 1 80 0
+ 269 006e 2360     		str	r3, [r4]
+  81:main.c        ****                 set_brake(0);
+ 270              		.loc 1 81 0
+ 271 0070 FFF7FEFF 		bl	sbus_getNormalizedChannel
+ 272              	.LVL39:
+ 273 0074 0430     		adds	r0, r0, #4
+ 274              	.LBB18:
+ 275              	.LBB19:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 9
+
+
+ 115:main.c        **** }
+ 276              		.loc 1 115 0
+ 277 0076 4FF03800 		mov	r0, #56
+ 278              	.LBE19:
+ 279              	.LBE18:
+  81:main.c        ****                 set_brake(0);
+ 280              		.loc 1 81 0
+ 281 007a 28DB     		blt	.L11
+ 282              	.LBB21:
+ 283              	.LBB22:
+ 119:main.c        **** }
+ 284              		.loc 1 119 0
+ 285 007c 40F6FC00 		movw	r0, #2300
+ 286 0080 FFF7FEFF 		bl	PWM_Brake_WriteCompare
+ 287              	.LVL40:
+ 288              	.LBE22:
+ 289              	.LBE21:
+  83:main.c        ****                 
+ 290              		.loc 1 83 0
+ 291 0084 0120     		movs	r0, #1
+ 292 0086 FFF7FEFF 		bl	sbus_getNormalizedChannel
+ 293              	.LVL41:
+ 294              	.LBB23:
+ 295              	.LBB24:
+ 115:main.c        **** }
+ 296              		.loc 1 115 0
+ 297 008a 6430     		adds	r0, r0, #100
+ 298              	.LVL42:
+ 299 008c FFF7FEFF 		bl	__aeabi_i2f
+ 300              	.LVL43:
+ 301 0090 2349     		ldr	r1, .L14+40
+ 302 0092 FFF7FEFF 		bl	__aeabi_fdiv
+ 303              	.LVL44:
+ 304 0096 FFF7FEFF 		bl	__aeabi_f2d
+ 305              	.LVL45:
+ 306 009a 17A3     		adr	r3, .L14
+ 307 009c D3E90023 		ldrd	r2, [r3]
+ 308 00a0 FFF7FEFF 		bl	__aeabi_dmul
+ 309              	.LVL46:
+ 310 00a4 16A3     		adr	r3, .L14+8
+ 311 00a6 D3E90023 		ldrd	r2, [r3]
+ 312 00aa FFF7FEFF 		bl	__aeabi_dadd
+ 313              	.LVL47:
+ 314 00ae 16A3     		adr	r3, .L14+16
+ 315 00b0 D3E90023 		ldrd	r2, [r3]
+ 316 00b4 FFF7FEFF 		bl	__aeabi_ddiv
+ 317              	.LVL48:
+ 318 00b8 15A3     		adr	r3, .L14+24
+ 319 00ba D3E90023 		ldrd	r2, [r3]
+ 320 00be FFF7FEFF 		bl	__aeabi_dmul
+ 321              	.LVL49:
+ 322 00c2 FFF7FEFF 		bl	__aeabi_d2uiz
+ 323              	.LVL50:
+ 324 00c6 C0B2     		uxtb	r0, r0
+ 325 00c8 FFF7FEFF 		bl	Throttle_SetValue
+ 326              	.LVL51:
+ 327 00cc C1E7     		b	.L9
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 10
+
+
+ 328              	.LVL52:
+ 329              	.L11:
+ 330              	.LBE24:
+ 331              	.LBE23:
+ 332              	.LBB25:
+ 333              	.LBB20:
+ 334 00ce FFF7FEFF 		bl	Throttle_SetValue
+ 335              	.LVL53:
+ 336              	.LBE20:
+ 337              	.LBE25:
+  87:main.c        ****                 // braking action here
+ 338              		.loc 1 87 0
+ 339 00d2 0320     		movs	r0, #3
+ 340 00d4 FFF7FEFF 		bl	sbus_getNormalizedChannel
+ 341              	.LVL54:
+ 342              	.LBB26:
+ 343              	.LBB27:
+ 119:main.c        **** }
+ 344              		.loc 1 119 0
+ 345 00d8 FFF7FEFF 		bl	__aeabi_i2f
+ 346              	.LVL55:
+ 347 00dc 1149     		ldr	r1, .L14+44
+ 348 00de FFF7FEFF 		bl	__aeabi_fdiv
+ 349              	.LVL56:
+ 350 00e2 1149     		ldr	r1, .L14+48
+ 351 00e4 FFF7FEFF 		bl	__aeabi_fmul
+ 352              	.LVL57:
+ 353 00e8 FFF7FEFF 		bl	__aeabi_f2iz
+ 354              	.LVL58:
+ 355 00ec 00F6FC00 		addw	r0, r0, #2300
+ 356 00f0 80B2     		uxth	r0, r0
+ 357 00f2 FFF7FEFF 		bl	PWM_Brake_WriteCompare
+ 358              	.LVL59:
+ 359 00f6 ACE7     		b	.L9
+ 360              	.L15:
+ 361              		.align	3
+ 362              	.L14:
+ 363 00f8 62105839 		.word	962072674
+ 364 00fc B4C80840 		.word	1074317492
+ 365 0100 77BE9F1A 		.word	446676599
+ 366 0104 2FDDEC3F 		.word	1072487727
+ 367 0108 FCA9F1D2 		.word	-755914244
+ 368 010c 4D621040 		.word	1074815565
+ 369 0110 00000000 		.word	0
+ 370 0114 00E06F40 		.word	1081073664
+ 371 0118 00000000 		.word	steeringTarget
+ 372 011c 00000000 		.word	control_loop
+ 373 0120 00004843 		.word	1128792064
+ 374 0124 0000C8C2 		.word	-1027080192
+ 375 0128 00408345 		.word	1166229504
+ 376              	.LBE27:
+ 377              	.LBE26:
+ 378              		.cfi_endproc
+ 379              	.LFE64:
+ 380              		.size	main, .-main
+ 381              		.section	.text.set_throttle,"ax",%progbits
+ 382              		.align	2
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 11
+
+
+ 383              		.global	set_throttle
+ 384              		.thumb
+ 385              		.thumb_func
+ 386              		.type	set_throttle, %function
+ 387              	set_throttle:
+ 388              	.LFB65:
+ 114:main.c        ****     Throttle_SetValue((char)(255.0 * (((MAX_THROTTLE_VOLTAGE - MIN_THROTTLE_VOLTAGE) * power + MIN_
+ 389              		.loc 1 114 0
+ 390              		.cfi_startproc
+ 391              		@ args = 0, pretend = 0, frame = 0
+ 392              		@ frame_needed = 0, uses_anonymous_args = 0
+ 393              	.LVL60:
+ 394 0000 08B5     		push	{r3, lr}
+ 395              		.cfi_def_cfa_offset 8
+ 396              		.cfi_offset 3, -8
+ 397              		.cfi_offset 14, -4
+ 115:main.c        **** }
+ 398              		.loc 1 115 0
+ 399 0002 FFF7FEFF 		bl	__aeabi_f2d
+ 400              	.LVL61:
+ 401 0006 0EA3     		adr	r3, .L18
+ 402 0008 D3E90023 		ldrd	r2, [r3]
+ 403 000c FFF7FEFF 		bl	__aeabi_dmul
+ 404              	.LVL62:
+ 405 0010 0DA3     		adr	r3, .L18+8
+ 406 0012 D3E90023 		ldrd	r2, [r3]
+ 407 0016 FFF7FEFF 		bl	__aeabi_dadd
+ 408              	.LVL63:
+ 409 001a 0DA3     		adr	r3, .L18+16
+ 410 001c D3E90023 		ldrd	r2, [r3]
+ 411 0020 FFF7FEFF 		bl	__aeabi_ddiv
+ 412              	.LVL64:
+ 413 0024 0CA3     		adr	r3, .L18+24
+ 414 0026 D3E90023 		ldrd	r2, [r3]
+ 415 002a FFF7FEFF 		bl	__aeabi_dmul
+ 416              	.LVL65:
+ 417 002e FFF7FEFF 		bl	__aeabi_d2uiz
+ 418              	.LVL66:
+ 116:main.c        **** 
+ 419              		.loc 1 116 0
+ 420 0032 BDE80840 		pop	{r3, lr}
+ 421              		.cfi_restore 14
+ 422              		.cfi_restore 3
+ 423              		.cfi_def_cfa_offset 0
+ 115:main.c        **** }
+ 424              		.loc 1 115 0
+ 425 0036 C0B2     		uxtb	r0, r0
+ 426 0038 FFF7FEBF 		b	Throttle_SetValue
+ 427              	.LVL67:
+ 428              	.L19:
+ 429 003c AFF30080 		.align	3
+ 430              	.L18:
+ 431 0040 62105839 		.word	962072674
+ 432 0044 B4C80840 		.word	1074317492
+ 433 0048 77BE9F1A 		.word	446676599
+ 434 004c 2FDDEC3F 		.word	1072487727
+ 435 0050 FCA9F1D2 		.word	-755914244
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 12
+
+
+ 436 0054 4D621040 		.word	1074815565
+ 437 0058 00000000 		.word	0
+ 438 005c 00E06F40 		.word	1081073664
+ 439              		.cfi_endproc
+ 440              	.LFE65:
+ 441              		.size	set_throttle, .-set_throttle
+ 442              		.section	.text.set_brake,"ax",%progbits
+ 443              		.align	2
+ 444              		.global	set_brake
+ 445              		.thumb
+ 446              		.thumb_func
+ 447              		.type	set_brake, %function
+ 448              	set_brake:
+ 449              	.LFB66:
+ 118:main.c        ****     PWM_Brake_WriteCompare(MIN_BRAKE_VAL + (int)((MAX_BRAKE_VAL-MIN_BRAKE_VAL)*brake));
+ 450              		.loc 1 118 0
+ 451              		.cfi_startproc
+ 452              		@ args = 0, pretend = 0, frame = 0
+ 453              		@ frame_needed = 0, uses_anonymous_args = 0
+ 454              	.LVL68:
+ 455 0000 08B5     		push	{r3, lr}
+ 456              		.cfi_def_cfa_offset 8
+ 457              		.cfi_offset 3, -8
+ 458              		.cfi_offset 14, -4
+ 119:main.c        **** }
+ 459              		.loc 1 119 0
+ 460 0002 0649     		ldr	r1, .L22
+ 461 0004 FFF7FEFF 		bl	__aeabi_fmul
+ 462              	.LVL69:
+ 463 0008 FFF7FEFF 		bl	__aeabi_f2iz
+ 464              	.LVL70:
+ 120:main.c        **** 
+ 465              		.loc 1 120 0
+ 466 000c BDE80840 		pop	{r3, lr}
+ 467              		.cfi_restore 14
+ 468              		.cfi_restore 3
+ 469              		.cfi_def_cfa_offset 0
+ 119:main.c        **** }
+ 470              		.loc 1 119 0
+ 471 0010 00F6FC00 		addw	r0, r0, #2300
+ 472 0014 80B2     		uxth	r0, r0
+ 473 0016 FFF7FEBF 		b	PWM_Brake_WriteCompare
+ 474              	.LVL71:
+ 475              	.L23:
+ 476 001a 00BF     		.align	2
+ 477              	.L22:
+ 478 001c 00408345 		.word	1166229504
+ 479              		.cfi_endproc
+ 480              	.LFE66:
+ 481              		.size	set_brake, .-set_brake
+ 482              		.comm	steeringTarget,4,4
+ 483              		.bss
+ 484              		.align	2
+ 485              		.set	.LANCHOR0,. + 0
+ 486              		.type	integral, %object
+ 487              		.size	integral, 4
+ 488              	integral:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 13
+
+
+ 489 0000 00000000 		.space	4
+ 490              		.type	previous_error, %object
+ 491              		.size	previous_error, 4
+ 492              	previous_error:
+ 493 0004 00000000 		.space	4
+ 494              		.text
+ 495              	.Letext0:
+ 496              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 497              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 498              		.file 4 "Generated_Source\\PSoC5/core_cm3.h"
+ 499              		.file 5 "sbus.h"
+ 500              		.file 6 "Generated_Source\\PSoC5/Handle_Encoder.h"
+ 501              		.file 7 "Generated_Source\\PSoC5/Steering_Direction.h"
+ 502              		.file 8 "Generated_Source\\PSoC5/PWM_Steer.h"
+ 503              		.file 9 "Generated_Source\\PSoC5/Throttle.h"
+ 504              		.file 10 "Generated_Source\\PSoC5/PWM_Brake.h"
+ 505              		.file 11 "Generated_Source\\PSoC5/Opamp_Throttle.h"
+ 506              		.file 12 "Generated_Source\\PSoC5/CyLib.h"
+ 507              		.file 13 "Generated_Source\\PSoC5/Control_Loop_Interrupt.h"
+ 508              		.file 14 "Generated_Source\\PSoC5/Timer_1.h"
+ 509              		.section	.debug_info,"",%progbits
+ 510              	.Ldebug_info0:
+ 511 0000 16050000 		.4byte	0x516
+ 512 0004 0400     		.2byte	0x4
+ 513 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 514 000a 04       		.byte	0x4
+ 515 000b 01       		.uleb128 0x1
+ 516 000c 48000000 		.4byte	.LASF46
+ 517 0010 0C       		.byte	0xc
+ 518 0011 D8020000 		.4byte	.LASF47
+ 519 0015 0E000000 		.4byte	.LASF48
+ 520 0019 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 521 001d 00000000 		.4byte	0
+ 522 0021 00000000 		.4byte	.Ldebug_line0
+ 523 0025 02       		.uleb128 0x2
+ 524 0026 04       		.byte	0x4
+ 525 0027 04       		.byte	0x4
+ 526 0028 19010000 		.4byte	.LASF0
+ 527 002c 03       		.uleb128 0x3
+ 528 002d 04       		.byte	0x4
+ 529 002e 05       		.byte	0x5
+ 530 002f 696E7400 		.ascii	"int\000"
+ 531 0033 02       		.uleb128 0x2
+ 532 0034 01       		.byte	0x1
+ 533 0035 06       		.byte	0x6
+ 534 0036 1F010000 		.4byte	.LASF1
+ 535 003a 02       		.uleb128 0x2
+ 536 003b 01       		.byte	0x1
+ 537 003c 08       		.byte	0x8
+ 538 003d 42010000 		.4byte	.LASF2
+ 539 0041 02       		.uleb128 0x2
+ 540 0042 02       		.byte	0x2
+ 541 0043 05       		.byte	0x5
+ 542 0044 0A020000 		.4byte	.LASF3
+ 543 0048 02       		.uleb128 0x2
+ 544 0049 02       		.byte	0x2
+ 545 004a 07       		.byte	0x7
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 14
+
+
+ 546 004b 7C010000 		.4byte	.LASF4
+ 547 004f 04       		.uleb128 0x4
+ 548 0050 DF000000 		.4byte	.LASF13
+ 549 0054 02       		.byte	0x2
+ 550 0055 3F       		.byte	0x3f
+ 551 0056 5A000000 		.4byte	0x5a
+ 552 005a 02       		.uleb128 0x2
+ 553 005b 04       		.byte	0x4
+ 554 005c 05       		.byte	0x5
+ 555 005d FB000000 		.4byte	.LASF5
+ 556 0061 02       		.uleb128 0x2
+ 557 0062 04       		.byte	0x4
+ 558 0063 07       		.byte	0x7
+ 559 0064 E9010000 		.4byte	.LASF6
+ 560 0068 02       		.uleb128 0x2
+ 561 0069 08       		.byte	0x8
+ 562 006a 05       		.byte	0x5
+ 563 006b B0020000 		.4byte	.LASF7
+ 564 006f 02       		.uleb128 0x2
+ 565 0070 08       		.byte	0x8
+ 566 0071 07       		.byte	0x7
+ 567 0072 54020000 		.4byte	.LASF8
+ 568 0076 02       		.uleb128 0x2
+ 569 0077 04       		.byte	0x4
+ 570 0078 07       		.byte	0x7
+ 571 0079 32020000 		.4byte	.LASF9
+ 572 007d 02       		.uleb128 0x2
+ 573 007e 08       		.byte	0x8
+ 574 007f 04       		.byte	0x4
+ 575 0080 33030000 		.4byte	.LASF10
+ 576 0084 02       		.uleb128 0x2
+ 577 0085 04       		.byte	0x4
+ 578 0086 07       		.byte	0x7
+ 579 0087 82020000 		.4byte	.LASF11
+ 580 008b 02       		.uleb128 0x2
+ 581 008c 01       		.byte	0x1
+ 582 008d 08       		.byte	0x8
+ 583 008e DF020000 		.4byte	.LASF12
+ 584 0092 04       		.uleb128 0x4
+ 585 0093 7A020000 		.4byte	.LASF14
+ 586 0097 03       		.byte	0x3
+ 587 0098 2C       		.byte	0x2c
+ 588 0099 4F000000 		.4byte	0x4f
+ 589 009d 02       		.uleb128 0x2
+ 590 009e 08       		.byte	0x8
+ 591 009f 04       		.byte	0x4
+ 592 00a0 0C010000 		.4byte	.LASF15
+ 593 00a4 05       		.uleb128 0x5
+ 594 00a5 F4020000 		.4byte	.LASF16
+ 595 00a9 01       		.byte	0x1
+ 596 00aa 71       		.byte	0x71
+ 597 00ab 03       		.byte	0x3
+ 598 00ac BC000000 		.4byte	0xbc
+ 599 00b0 06       		.uleb128 0x6
+ 600 00b1 13010000 		.4byte	.LASF18
+ 601 00b5 01       		.byte	0x1
+ 602 00b6 71       		.byte	0x71
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 15
+
+
+ 603 00b7 25000000 		.4byte	0x25
+ 604 00bb 00       		.byte	0
+ 605 00bc 05       		.uleb128 0x5
+ 606 00bd 99010000 		.4byte	.LASF17
+ 607 00c1 01       		.byte	0x1
+ 608 00c2 76       		.byte	0x76
+ 609 00c3 03       		.byte	0x3
+ 610 00c4 D4000000 		.4byte	0xd4
+ 611 00c8 06       		.uleb128 0x6
+ 612 00c9 13030000 		.4byte	.LASF19
+ 613 00cd 01       		.byte	0x1
+ 614 00ce 76       		.byte	0x76
+ 615 00cf 25000000 		.4byte	0x25
+ 616 00d3 00       		.byte	0
+ 617 00d4 07       		.uleb128 0x7
+ 618 00d5 56030000 		.4byte	.LASF49
+ 619 00d9 01       		.byte	0x1
+ 620 00da 85       		.byte	0x85
+ 621 00db 00000000 		.4byte	.LFB67
+ 622 00df B0000000 		.4byte	.LFE67-.LFB67
+ 623 00e3 01       		.uleb128 0x1
+ 624 00e4 9C       		.byte	0x9c
+ 625 00e5 43010000 		.4byte	0x143
+ 626 00e9 08       		.uleb128 0x8
+ 627 00ea AA020000 		.4byte	.LASF20
+ 628 00ee 01       		.byte	0x1
+ 629 00ef 8A       		.byte	0x8a
+ 630 00f0 2C000000 		.4byte	0x2c
+ 631 00f4 00000000 		.4byte	.LLST0
+ 632 00f8 08       		.uleb128 0x8
+ 633 00f9 01030000 		.4byte	.LASF21
+ 634 00fd 01       		.byte	0x1
+ 635 00fe 8D       		.byte	0x8d
+ 636 00ff 2C000000 		.4byte	0x2c
+ 637 0103 13000000 		.4byte	.LLST1
+ 638 0107 09       		.uleb128 0x9
+ 639 0108 0A000000 		.4byte	.LVL0
+ 640 010c 53040000 		.4byte	0x453
+ 641 0110 1A010000 		.4byte	0x11a
+ 642 0114 0A       		.uleb128 0xa
+ 643 0115 01       		.uleb128 0x1
+ 644 0116 50       		.byte	0x50
+ 645 0117 01       		.uleb128 0x1
+ 646 0118 32       		.byte	0x32
+ 647 0119 00       		.byte	0
+ 648 011a 0B       		.uleb128 0xb
+ 649 011b 16000000 		.4byte	.LVL1
+ 650 011f 5E040000 		.4byte	0x45e
+ 651 0123 09       		.uleb128 0x9
+ 652 0124 7A000000 		.4byte	.LVL16
+ 653 0128 69040000 		.4byte	0x469
+ 654 012c 39010000 		.4byte	0x139
+ 655 0130 0A       		.uleb128 0xa
+ 656 0131 01       		.uleb128 0x1
+ 657 0132 50       		.byte	0x50
+ 658 0133 04       		.uleb128 0x4
+ 659 0134 75       		.byte	0x75
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 16
+
+
+ 660 0135 00       		.sleb128 0
+ 661 0136 4F       		.byte	0x4f
+ 662 0137 25       		.byte	0x25
+ 663 0138 00       		.byte	0
+ 664 0139 0C       		.uleb128 0xc
+ 665 013a 9E000000 		.4byte	.LVL20
+ 666 013e 74040000 		.4byte	0x474
+ 667 0142 00       		.byte	0
+ 668 0143 0D       		.uleb128 0xd
+ 669 0144 14020000 		.4byte	.LASF50
+ 670 0148 01       		.byte	0x1
+ 671 0149 2D       		.byte	0x2d
+ 672 014a 2C000000 		.4byte	0x2c
+ 673 014e 00000000 		.4byte	.LFB64
+ 674 0152 2C010000 		.4byte	.LFE64-.LFB64
+ 675 0156 01       		.uleb128 0x1
+ 676 0157 9C       		.byte	0x9c
+ 677 0158 62030000 		.4byte	0x362
+ 678 015c 0E       		.uleb128 0xe
+ 679 015d 04010000 		.4byte	.LASF24
+ 680 0161 01       		.byte	0x1
+ 681 0162 31       		.byte	0x31
+ 682 0163 62030000 		.4byte	0x362
+ 683 0167 0F       		.uleb128 0xf
+ 684 0168 A4000000 		.4byte	0xa4
+ 685 016c 44000000 		.4byte	.LBB14
+ 686 0170 06000000 		.4byte	.LBE14-.LBB14
+ 687 0174 01       		.byte	0x1
+ 688 0175 5C       		.byte	0x5c
+ 689 0176 94010000 		.4byte	0x194
+ 690 017a 10       		.uleb128 0x10
+ 691 017b B0000000 		.4byte	0xb0
+ 692 017f 3C000000 		.4byte	.LLST2
+ 693 0183 11       		.uleb128 0x11
+ 694 0184 4A000000 		.4byte	.LVL34
+ 695 0188 7F040000 		.4byte	0x47f
+ 696 018c 0A       		.uleb128 0xa
+ 697 018d 01       		.uleb128 0x1
+ 698 018e 50       		.byte	0x50
+ 699 018f 02       		.uleb128 0x2
+ 700 0190 08       		.byte	0x8
+ 701 0191 38       		.byte	0x38
+ 702 0192 00       		.byte	0
+ 703 0193 00       		.byte	0
+ 704 0194 0F       		.uleb128 0xf
+ 705 0195 BC000000 		.4byte	0xbc
+ 706 0199 4A000000 		.4byte	.LBB16
+ 707 019d 08000000 		.4byte	.LBE16-.LBB16
+ 708 01a1 01       		.byte	0x1
+ 709 01a2 5D       		.byte	0x5d
+ 710 01a3 C2010000 		.4byte	0x1c2
+ 711 01a7 10       		.uleb128 0x10
+ 712 01a8 C8000000 		.4byte	0xc8
+ 713 01ac 54000000 		.4byte	.LLST3
+ 714 01b0 11       		.uleb128 0x11
+ 715 01b1 52000000 		.4byte	.LVL35
+ 716 01b5 8A040000 		.4byte	0x48a
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 17
+
+
+ 717 01b9 0A       		.uleb128 0xa
+ 718 01ba 01       		.uleb128 0x1
+ 719 01bb 50       		.byte	0x50
+ 720 01bc 03       		.uleb128 0x3
+ 721 01bd 0A       		.byte	0xa
+ 722 01be 7814     		.2byte	0x1478
+ 723 01c0 00       		.byte	0
+ 724 01c1 00       		.byte	0
+ 725 01c2 12       		.uleb128 0x12
+ 726 01c3 A4000000 		.4byte	0xa4
+ 727 01c7 76000000 		.4byte	.LBB18
+ 728 01cb 00000000 		.4byte	.Ldebug_ranges0+0
+ 729 01cf 01       		.byte	0x1
+ 730 01d0 56       		.byte	0x56
+ 731 01d1 E8010000 		.4byte	0x1e8
+ 732 01d5 10       		.uleb128 0x10
+ 733 01d6 B0000000 		.4byte	0xb0
+ 734 01da 6C000000 		.4byte	.LLST4
+ 735 01de 0B       		.uleb128 0xb
+ 736 01df D2000000 		.4byte	.LVL53
+ 737 01e3 7F040000 		.4byte	0x47f
+ 738 01e7 00       		.byte	0
+ 739 01e8 0F       		.uleb128 0xf
+ 740 01e9 BC000000 		.4byte	0xbc
+ 741 01ed 7C000000 		.4byte	.LBB21
+ 742 01f1 08000000 		.4byte	.LBE21-.LBB21
+ 743 01f5 01       		.byte	0x1
+ 744 01f6 52       		.byte	0x52
+ 745 01f7 16020000 		.4byte	0x216
+ 746 01fb 10       		.uleb128 0x10
+ 747 01fc C8000000 		.4byte	0xc8
+ 748 0200 84000000 		.4byte	.LLST5
+ 749 0204 11       		.uleb128 0x11
+ 750 0205 84000000 		.4byte	.LVL40
+ 751 0209 8A040000 		.4byte	0x48a
+ 752 020d 0A       		.uleb128 0xa
+ 753 020e 01       		.uleb128 0x1
+ 754 020f 50       		.byte	0x50
+ 755 0210 03       		.uleb128 0x3
+ 756 0211 0A       		.byte	0xa
+ 757 0212 FC08     		.2byte	0x8fc
+ 758 0214 00       		.byte	0
+ 759 0215 00       		.byte	0
+ 760 0216 0F       		.uleb128 0xf
+ 761 0217 A4000000 		.4byte	0xa4
+ 762 021b 8A000000 		.4byte	.LBB23
+ 763 021f 44000000 		.4byte	.LBE23-.LBB23
+ 764 0223 01       		.byte	0x1
+ 765 0224 53       		.byte	0x53
+ 766 0225 3C020000 		.4byte	0x23c
+ 767 0229 10       		.uleb128 0x10
+ 768 022a B0000000 		.4byte	0xb0
+ 769 022e AC000000 		.4byte	.LLST6
+ 770 0232 0B       		.uleb128 0xb
+ 771 0233 CC000000 		.4byte	.LVL51
+ 772 0237 7F040000 		.4byte	0x47f
+ 773 023b 00       		.byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 18
+
+
+ 774 023c 0F       		.uleb128 0xf
+ 775 023d BC000000 		.4byte	0xbc
+ 776 0241 D8000000 		.4byte	.LBB26
+ 777 0245 54000000 		.4byte	.LBE26-.LBB26
+ 778 0249 01       		.byte	0x1
+ 779 024a 57       		.byte	0x57
+ 780 024b 62020000 		.4byte	0x262
+ 781 024f 10       		.uleb128 0x10
+ 782 0250 C8000000 		.4byte	0xc8
+ 783 0254 E7000000 		.4byte	.LLST7
+ 784 0258 0B       		.uleb128 0xb
+ 785 0259 F6000000 		.4byte	.LVL59
+ 786 025d 8A040000 		.4byte	0x48a
+ 787 0261 00       		.byte	0
+ 788 0262 09       		.uleb128 0x9
+ 789 0263 0C000000 		.4byte	.LVL21
+ 790 0267 74040000 		.4byte	0x474
+ 791 026b 76020000 		.4byte	0x276
+ 792 026f 0A       		.uleb128 0xa
+ 793 0270 01       		.uleb128 0x1
+ 794 0271 50       		.byte	0x50
+ 795 0272 02       		.uleb128 0x2
+ 796 0273 75       		.byte	0x75
+ 797 0274 00       		.sleb128 0
+ 798 0275 00       		.byte	0
+ 799 0276 0B       		.uleb128 0xb
+ 800 0277 14000000 		.4byte	.LVL22
+ 801 027b 95040000 		.4byte	0x495
+ 802 027f 0B       		.uleb128 0xb
+ 803 0280 18000000 		.4byte	.LVL23
+ 804 0284 A0040000 		.4byte	0x4a0
+ 805 0288 09       		.uleb128 0x9
+ 806 0289 1E000000 		.4byte	.LVL24
+ 807 028d AB040000 		.4byte	0x4ab
+ 808 0291 9C020000 		.4byte	0x29c
+ 809 0295 0A       		.uleb128 0xa
+ 810 0296 01       		.uleb128 0x1
+ 811 0297 50       		.byte	0x50
+ 812 0298 02       		.uleb128 0x2
+ 813 0299 75       		.byte	0x75
+ 814 029a 00       		.sleb128 0
+ 815 029b 00       		.byte	0
+ 816 029c 0B       		.uleb128 0xb
+ 817 029d 22000000 		.4byte	.LVL25
+ 818 02a1 B6040000 		.4byte	0x4b6
+ 819 02a5 0B       		.uleb128 0xb
+ 820 02a6 26000000 		.4byte	.LVL26
+ 821 02aa C1040000 		.4byte	0x4c1
+ 822 02ae 0B       		.uleb128 0xb
+ 823 02af 2A000000 		.4byte	.LVL27
+ 824 02b3 CC040000 		.4byte	0x4cc
+ 825 02b7 0B       		.uleb128 0xb
+ 826 02b8 2E000000 		.4byte	.LVL28
+ 827 02bc D7040000 		.4byte	0x4d7
+ 828 02c0 09       		.uleb128 0x9
+ 829 02c1 34000000 		.4byte	.LVL29
+ 830 02c5 E2040000 		.4byte	0x4e2
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 19
+
+
+ 831 02c9 D4020000 		.4byte	0x2d4
+ 832 02cd 0A       		.uleb128 0xa
+ 833 02ce 01       		.uleb128 0x1
+ 834 02cf 50       		.byte	0x50
+ 835 02d0 02       		.uleb128 0x2
+ 836 02d1 08       		.byte	0x8
+ 837 02d2 32       		.byte	0x32
+ 838 02d3 00       		.byte	0
+ 839 02d4 09       		.uleb128 0x9
+ 840 02d5 3A000000 		.4byte	.LVL30
+ 841 02d9 ED040000 		.4byte	0x4ed
+ 842 02dd EB020000 		.4byte	0x2eb
+ 843 02e1 0A       		.uleb128 0xa
+ 844 02e2 01       		.uleb128 0x1
+ 845 02e3 50       		.byte	0x50
+ 846 02e4 05       		.uleb128 0x5
+ 847 02e5 03       		.byte	0x3
+ 848 02e6 00000000 		.4byte	control_loop
+ 849 02ea 00       		.byte	0
+ 850 02eb 0B       		.uleb128 0xb
+ 851 02ec 3E000000 		.4byte	.LVL31
+ 852 02f0 F8040000 		.4byte	0x4f8
+ 853 02f4 0B       		.uleb128 0xb
+ 854 02f5 42000000 		.4byte	.LVL32
+ 855 02f9 03050000 		.4byte	0x503
+ 856 02fd 09       		.uleb128 0x9
+ 857 02fe 58000000 		.4byte	.LVL36
+ 858 0302 53040000 		.4byte	0x453
+ 859 0306 10030000 		.4byte	0x310
+ 860 030a 0A       		.uleb128 0xa
+ 861 030b 01       		.uleb128 0x1
+ 862 030c 50       		.byte	0x50
+ 863 030d 01       		.uleb128 0x1
+ 864 030e 35       		.byte	0x35
+ 865 030f 00       		.byte	0
+ 866 0310 0B       		.uleb128 0xb
+ 867 0311 60000000 		.4byte	.LVL37
+ 868 0315 0E050000 		.4byte	0x50e
+ 869 0319 09       		.uleb128 0x9
+ 870 031a 6A000000 		.4byte	.LVL38
+ 871 031e 53040000 		.4byte	0x453
+ 872 0322 2C030000 		.4byte	0x32c
+ 873 0326 0A       		.uleb128 0xa
+ 874 0327 01       		.uleb128 0x1
+ 875 0328 50       		.byte	0x50
+ 876 0329 01       		.uleb128 0x1
+ 877 032a 32       		.byte	0x32
+ 878 032b 00       		.byte	0
+ 879 032c 09       		.uleb128 0x9
+ 880 032d 74000000 		.4byte	.LVL39
+ 881 0331 53040000 		.4byte	0x453
+ 882 0335 3F030000 		.4byte	0x33f
+ 883 0339 0A       		.uleb128 0xa
+ 884 033a 01       		.uleb128 0x1
+ 885 033b 50       		.byte	0x50
+ 886 033c 01       		.uleb128 0x1
+ 887 033d 33       		.byte	0x33
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 20
+
+
+ 888 033e 00       		.byte	0
+ 889 033f 09       		.uleb128 0x9
+ 890 0340 8A000000 		.4byte	.LVL41
+ 891 0344 53040000 		.4byte	0x453
+ 892 0348 52030000 		.4byte	0x352
+ 893 034c 0A       		.uleb128 0xa
+ 894 034d 01       		.uleb128 0x1
+ 895 034e 50       		.byte	0x50
+ 896 034f 01       		.uleb128 0x1
+ 897 0350 31       		.byte	0x31
+ 898 0351 00       		.byte	0
+ 899 0352 11       		.uleb128 0x11
+ 900 0353 D8000000 		.4byte	.LVL54
+ 901 0357 53040000 		.4byte	0x453
+ 902 035b 0A       		.uleb128 0xa
+ 903 035c 01       		.uleb128 0x1
+ 904 035d 50       		.byte	0x50
+ 905 035e 01       		.uleb128 0x1
+ 906 035f 33       		.byte	0x33
+ 907 0360 00       		.byte	0
+ 908 0361 00       		.byte	0
+ 909 0362 13       		.uleb128 0x13
+ 910 0363 8B000000 		.4byte	0x8b
+ 911 0367 72030000 		.4byte	0x372
+ 912 036b 14       		.uleb128 0x14
+ 913 036c 84000000 		.4byte	0x84
+ 914 0370 31       		.byte	0x31
+ 915 0371 00       		.byte	0
+ 916 0372 15       		.uleb128 0x15
+ 917 0373 A4000000 		.4byte	0xa4
+ 918 0377 00000000 		.4byte	.LFB65
+ 919 037b 60000000 		.4byte	.LFE65-.LFB65
+ 920 037f 01       		.uleb128 0x1
+ 921 0380 9C       		.byte	0x9c
+ 922 0381 98030000 		.4byte	0x398
+ 923 0385 10       		.uleb128 0x10
+ 924 0386 B0000000 		.4byte	0xb0
+ 925 038a 08010000 		.4byte	.LLST8
+ 926 038e 0C       		.uleb128 0xc
+ 927 038f 3C000000 		.4byte	.LVL67
+ 928 0393 7F040000 		.4byte	0x47f
+ 929 0397 00       		.byte	0
+ 930 0398 15       		.uleb128 0x15
+ 931 0399 BC000000 		.4byte	0xbc
+ 932 039d 00000000 		.4byte	.LFB66
+ 933 03a1 20000000 		.4byte	.LFE66-.LFB66
+ 934 03a5 01       		.uleb128 0x1
+ 935 03a6 9C       		.byte	0x9c
+ 936 03a7 BE030000 		.4byte	0x3be
+ 937 03ab 10       		.uleb128 0x10
+ 938 03ac C8000000 		.4byte	0xc8
+ 939 03b0 2B010000 		.4byte	.LLST9
+ 940 03b4 0C       		.uleb128 0xc
+ 941 03b5 1A000000 		.4byte	.LVL71
+ 942 03b9 8A040000 		.4byte	0x48a
+ 943 03bd 00       		.byte	0
+ 944 03be 16       		.uleb128 0x16
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 21
+
+
+ 945 03bf 4B7000   		.ascii	"Kp\000"
+ 946 03c2 01       		.byte	0x1
+ 947 03c3 7B       		.byte	0x7b
+ 948 03c4 CD030000 		.4byte	0x3cd
+ 949 03c8 04       		.byte	0x4
+ 950 03c9 00004040 		.4byte	0x40400000
+ 951 03cd 17       		.uleb128 0x17
+ 952 03ce 25000000 		.4byte	0x25
+ 953 03d2 16       		.uleb128 0x16
+ 954 03d3 4B6900   		.ascii	"Ki\000"
+ 955 03d6 01       		.byte	0x1
+ 956 03d7 7C       		.byte	0x7c
+ 957 03d8 CD030000 		.4byte	0x3cd
+ 958 03dc 04       		.byte	0x4
+ 959 03dd 00000000 		.4byte	0
+ 960 03e1 16       		.uleb128 0x16
+ 961 03e2 4B6400   		.ascii	"Kd\000"
+ 962 03e5 01       		.byte	0x1
+ 963 03e6 7D       		.byte	0x7d
+ 964 03e7 CD030000 		.4byte	0x3cd
+ 965 03eb 04       		.byte	0x4
+ 966 03ec 00000000 		.4byte	0
+ 967 03f0 16       		.uleb128 0x16
+ 968 03f1 647400   		.ascii	"dt\000"
+ 969 03f4 01       		.byte	0x1
+ 970 03f5 7E       		.byte	0x7e
+ 971 03f6 CD030000 		.4byte	0x3cd
+ 972 03fa 04       		.byte	0x4
+ 973 03fb 0AD7A33C 		.4byte	0x3ca3d70a
+ 974 03ff 18       		.uleb128 0x18
+ 975 0400 6B030000 		.4byte	.LASF22
+ 976 0404 01       		.byte	0x1
+ 977 0405 80       		.byte	0x80
+ 978 0406 2C000000 		.4byte	0x2c
+ 979 040a 05       		.uleb128 0x5
+ 980 040b 03       		.byte	0x3
+ 981 040c 04000000 		.4byte	previous_error
+ 982 0410 18       		.uleb128 0x18
+ 983 0411 D6000000 		.4byte	.LASF23
+ 984 0415 01       		.byte	0x1
+ 985 0416 81       		.byte	0x81
+ 986 0417 25000000 		.4byte	0x25
+ 987 041b 05       		.uleb128 0x5
+ 988 041c 03       		.byte	0x3
+ 989 041d 00000000 		.4byte	integral
+ 990 0421 0E       		.uleb128 0xe
+ 991 0422 08030000 		.4byte	.LASF25
+ 992 0426 01       		.byte	0x1
+ 993 0427 82       		.byte	0x82
+ 994 0428 25000000 		.4byte	0x25
+ 995 042c 19       		.uleb128 0x19
+ 996 042d BD010000 		.4byte	.LASF26
+ 997 0431 04       		.byte	0x4
+ 998 0432 1207     		.2byte	0x712
+ 999 0434 38040000 		.4byte	0x438
+ 1000 0438 1A       		.uleb128 0x1a
+ 1001 0439 92000000 		.4byte	0x92
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 22
+
+
+ 1002 043d 1B       		.uleb128 0x1b
+ 1003 043e FB010000 		.4byte	.LASF27
+ 1004 0442 01       		.byte	0x1
+ 1005 0443 29       		.byte	0x29
+ 1006 0444 4E040000 		.4byte	0x44e
+ 1007 0448 05       		.uleb128 0x5
+ 1008 0449 03       		.byte	0x3
+ 1009 044a 00000000 		.4byte	steeringTarget
+ 1010 044e 1A       		.uleb128 0x1a
+ 1011 044f 2C000000 		.4byte	0x2c
+ 1012 0453 1C       		.uleb128 0x1c
+ 1013 0454 19030000 		.4byte	.LASF28
+ 1014 0458 19030000 		.4byte	.LASF28
+ 1015 045c 05       		.byte	0x5
+ 1016 045d 0E       		.byte	0xe
+ 1017 045e 1C       		.uleb128 0x1c
+ 1018 045f A3010000 		.4byte	.LASF29
+ 1019 0463 A3010000 		.4byte	.LASF29
+ 1020 0467 06       		.byte	0x6
+ 1021 0468 4E       		.byte	0x4e
+ 1022 0469 1C       		.uleb128 0x1c
+ 1023 046a 19020000 		.4byte	.LASF30
+ 1024 046e 19020000 		.4byte	.LASF30
+ 1025 0472 07       		.byte	0x7
+ 1026 0473 26       		.byte	0x26
+ 1027 0474 1C       		.uleb128 0x1c
+ 1028 0475 65010000 		.4byte	.LASF31
+ 1029 0479 65010000 		.4byte	.LASF31
+ 1030 047d 08       		.byte	0x8
+ 1031 047e C3       		.byte	0xc3
+ 1032 047f 1C       		.uleb128 0x1c
+ 1033 0480 E9000000 		.4byte	.LASF32
+ 1034 0484 E9000000 		.4byte	.LASF32
+ 1035 0488 09       		.byte	0x9
+ 1036 0489 37       		.byte	0x37
+ 1037 048a 1C       		.uleb128 0x1c
+ 1038 048b 3F030000 		.4byte	.LASF33
+ 1039 048f 3F030000 		.4byte	.LASF33
+ 1040 0493 0A       		.byte	0xa
+ 1041 0494 C3       		.byte	0xc3
+ 1042 0495 1C       		.uleb128 0x1c
+ 1043 0496 DA010000 		.4byte	.LASF34
+ 1044 049a DA010000 		.4byte	.LASF34
+ 1045 049e 09       		.byte	0x9
+ 1046 049f 33       		.byte	0x33
+ 1047 04a0 1C       		.uleb128 0x1c
+ 1048 04a1 3F020000 		.4byte	.LASF35
+ 1049 04a5 3F020000 		.4byte	.LASF35
+ 1050 04a9 06       		.byte	0x6
+ 1051 04aa 48       		.byte	0x48
+ 1052 04ab 1C       		.uleb128 0x1c
+ 1053 04ac BE020000 		.4byte	.LASF36
+ 1054 04b0 BE020000 		.4byte	.LASF36
+ 1055 04b4 06       		.byte	0x6
+ 1056 04b5 4F       		.byte	0x4f
+ 1057 04b6 1C       		.uleb128 0x1c
+ 1058 04b7 CA010000 		.4byte	.LASF37
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 23
+
+
+ 1059 04bb CA010000 		.4byte	.LASF37
+ 1060 04bf 0A       		.byte	0xa
+ 1061 04c0 92       		.byte	0x92
+ 1062 04c1 1C       		.uleb128 0x1c
+ 1063 04c2 E4020000 		.4byte	.LASF38
+ 1064 04c6 E4020000 		.4byte	.LASF38
+ 1065 04ca 08       		.byte	0x8
+ 1066 04cb 92       		.byte	0x92
+ 1067 04cc 1C       		.uleb128 0x1c
+ 1068 04cd 50010000 		.4byte	.LASF39
+ 1069 04d1 50010000 		.4byte	.LASF39
+ 1070 04d5 0B       		.byte	0xb
+ 1071 04d6 33       		.byte	0x33
+ 1072 04d7 1C       		.uleb128 0x1c
+ 1073 04d8 8F010000 		.4byte	.LASF40
+ 1074 04dc 8F010000 		.4byte	.LASF40
+ 1075 04e0 05       		.byte	0x5
+ 1076 04e1 05       		.byte	0x5
+ 1077 04e2 1C       		.uleb128 0x1c
+ 1078 04e3 63030000 		.4byte	.LASF41
+ 1079 04e7 63030000 		.4byte	.LASF41
+ 1080 04eb 0C       		.byte	0xc
+ 1081 04ec 76       		.byte	0x76
+ 1082 04ed 1C       		.uleb128 0x1c
+ 1083 04ee 8B020000 		.4byte	.LASF42
+ 1084 04f2 8B020000 		.4byte	.LASF42
+ 1085 04f6 0D       		.byte	0xd
+ 1086 04f7 18       		.byte	0x18
+ 1087 04f8 1C       		.uleb128 0x1c
+ 1088 04f9 6B020000 		.4byte	.LASF43
+ 1089 04fd 6B020000 		.4byte	.LASF43
+ 1090 0501 0E       		.byte	0xe
+ 1091 0502 8B       		.byte	0x8b
+ 1092 0503 1C       		.uleb128 0x1c
+ 1093 0504 00000000 		.4byte	.LASF44
+ 1094 0508 00000000 		.4byte	.LASF44
+ 1095 050c 0E       		.byte	0xe
+ 1096 050d 5A       		.byte	0x5a
+ 1097 050e 1C       		.uleb128 0x1c
+ 1098 050f 2B010000 		.4byte	.LASF45
+ 1099 0513 2B010000 		.4byte	.LASF45
+ 1100 0517 05       		.byte	0x5
+ 1101 0518 10       		.byte	0x10
+ 1102 0519 00       		.byte	0
+ 1103              		.section	.debug_abbrev,"",%progbits
+ 1104              	.Ldebug_abbrev0:
+ 1105 0000 01       		.uleb128 0x1
+ 1106 0001 11       		.uleb128 0x11
+ 1107 0002 01       		.byte	0x1
+ 1108 0003 25       		.uleb128 0x25
+ 1109 0004 0E       		.uleb128 0xe
+ 1110 0005 13       		.uleb128 0x13
+ 1111 0006 0B       		.uleb128 0xb
+ 1112 0007 03       		.uleb128 0x3
+ 1113 0008 0E       		.uleb128 0xe
+ 1114 0009 1B       		.uleb128 0x1b
+ 1115 000a 0E       		.uleb128 0xe
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 24
+
+
+ 1116 000b 55       		.uleb128 0x55
+ 1117 000c 17       		.uleb128 0x17
+ 1118 000d 11       		.uleb128 0x11
+ 1119 000e 01       		.uleb128 0x1
+ 1120 000f 10       		.uleb128 0x10
+ 1121 0010 17       		.uleb128 0x17
+ 1122 0011 00       		.byte	0
+ 1123 0012 00       		.byte	0
+ 1124 0013 02       		.uleb128 0x2
+ 1125 0014 24       		.uleb128 0x24
+ 1126 0015 00       		.byte	0
+ 1127 0016 0B       		.uleb128 0xb
+ 1128 0017 0B       		.uleb128 0xb
+ 1129 0018 3E       		.uleb128 0x3e
+ 1130 0019 0B       		.uleb128 0xb
+ 1131 001a 03       		.uleb128 0x3
+ 1132 001b 0E       		.uleb128 0xe
+ 1133 001c 00       		.byte	0
+ 1134 001d 00       		.byte	0
+ 1135 001e 03       		.uleb128 0x3
+ 1136 001f 24       		.uleb128 0x24
+ 1137 0020 00       		.byte	0
+ 1138 0021 0B       		.uleb128 0xb
+ 1139 0022 0B       		.uleb128 0xb
+ 1140 0023 3E       		.uleb128 0x3e
+ 1141 0024 0B       		.uleb128 0xb
+ 1142 0025 03       		.uleb128 0x3
+ 1143 0026 08       		.uleb128 0x8
+ 1144 0027 00       		.byte	0
+ 1145 0028 00       		.byte	0
+ 1146 0029 04       		.uleb128 0x4
+ 1147 002a 16       		.uleb128 0x16
+ 1148 002b 00       		.byte	0
+ 1149 002c 03       		.uleb128 0x3
+ 1150 002d 0E       		.uleb128 0xe
+ 1151 002e 3A       		.uleb128 0x3a
+ 1152 002f 0B       		.uleb128 0xb
+ 1153 0030 3B       		.uleb128 0x3b
+ 1154 0031 0B       		.uleb128 0xb
+ 1155 0032 49       		.uleb128 0x49
+ 1156 0033 13       		.uleb128 0x13
+ 1157 0034 00       		.byte	0
+ 1158 0035 00       		.byte	0
+ 1159 0036 05       		.uleb128 0x5
+ 1160 0037 2E       		.uleb128 0x2e
+ 1161 0038 01       		.byte	0x1
+ 1162 0039 3F       		.uleb128 0x3f
+ 1163 003a 19       		.uleb128 0x19
+ 1164 003b 03       		.uleb128 0x3
+ 1165 003c 0E       		.uleb128 0xe
+ 1166 003d 3A       		.uleb128 0x3a
+ 1167 003e 0B       		.uleb128 0xb
+ 1168 003f 3B       		.uleb128 0x3b
+ 1169 0040 0B       		.uleb128 0xb
+ 1170 0041 27       		.uleb128 0x27
+ 1171 0042 19       		.uleb128 0x19
+ 1172 0043 20       		.uleb128 0x20
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 25
+
+
+ 1173 0044 0B       		.uleb128 0xb
+ 1174 0045 01       		.uleb128 0x1
+ 1175 0046 13       		.uleb128 0x13
+ 1176 0047 00       		.byte	0
+ 1177 0048 00       		.byte	0
+ 1178 0049 06       		.uleb128 0x6
+ 1179 004a 05       		.uleb128 0x5
+ 1180 004b 00       		.byte	0
+ 1181 004c 03       		.uleb128 0x3
+ 1182 004d 0E       		.uleb128 0xe
+ 1183 004e 3A       		.uleb128 0x3a
+ 1184 004f 0B       		.uleb128 0xb
+ 1185 0050 3B       		.uleb128 0x3b
+ 1186 0051 0B       		.uleb128 0xb
+ 1187 0052 49       		.uleb128 0x49
+ 1188 0053 13       		.uleb128 0x13
+ 1189 0054 00       		.byte	0
+ 1190 0055 00       		.byte	0
+ 1191 0056 07       		.uleb128 0x7
+ 1192 0057 2E       		.uleb128 0x2e
+ 1193 0058 01       		.byte	0x1
+ 1194 0059 3F       		.uleb128 0x3f
+ 1195 005a 19       		.uleb128 0x19
+ 1196 005b 03       		.uleb128 0x3
+ 1197 005c 0E       		.uleb128 0xe
+ 1198 005d 3A       		.uleb128 0x3a
+ 1199 005e 0B       		.uleb128 0xb
+ 1200 005f 3B       		.uleb128 0x3b
+ 1201 0060 0B       		.uleb128 0xb
+ 1202 0061 27       		.uleb128 0x27
+ 1203 0062 19       		.uleb128 0x19
+ 1204 0063 11       		.uleb128 0x11
+ 1205 0064 01       		.uleb128 0x1
+ 1206 0065 12       		.uleb128 0x12
+ 1207 0066 06       		.uleb128 0x6
+ 1208 0067 40       		.uleb128 0x40
+ 1209 0068 18       		.uleb128 0x18
+ 1210 0069 9642     		.uleb128 0x2116
+ 1211 006b 19       		.uleb128 0x19
+ 1212 006c 01       		.uleb128 0x1
+ 1213 006d 13       		.uleb128 0x13
+ 1214 006e 00       		.byte	0
+ 1215 006f 00       		.byte	0
+ 1216 0070 08       		.uleb128 0x8
+ 1217 0071 34       		.uleb128 0x34
+ 1218 0072 00       		.byte	0
+ 1219 0073 03       		.uleb128 0x3
+ 1220 0074 0E       		.uleb128 0xe
+ 1221 0075 3A       		.uleb128 0x3a
+ 1222 0076 0B       		.uleb128 0xb
+ 1223 0077 3B       		.uleb128 0x3b
+ 1224 0078 0B       		.uleb128 0xb
+ 1225 0079 49       		.uleb128 0x49
+ 1226 007a 13       		.uleb128 0x13
+ 1227 007b 02       		.uleb128 0x2
+ 1228 007c 17       		.uleb128 0x17
+ 1229 007d 00       		.byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 26
+
+
+ 1230 007e 00       		.byte	0
+ 1231 007f 09       		.uleb128 0x9
+ 1232 0080 898201   		.uleb128 0x4109
+ 1233 0083 01       		.byte	0x1
+ 1234 0084 11       		.uleb128 0x11
+ 1235 0085 01       		.uleb128 0x1
+ 1236 0086 31       		.uleb128 0x31
+ 1237 0087 13       		.uleb128 0x13
+ 1238 0088 01       		.uleb128 0x1
+ 1239 0089 13       		.uleb128 0x13
+ 1240 008a 00       		.byte	0
+ 1241 008b 00       		.byte	0
+ 1242 008c 0A       		.uleb128 0xa
+ 1243 008d 8A8201   		.uleb128 0x410a
+ 1244 0090 00       		.byte	0
+ 1245 0091 02       		.uleb128 0x2
+ 1246 0092 18       		.uleb128 0x18
+ 1247 0093 9142     		.uleb128 0x2111
+ 1248 0095 18       		.uleb128 0x18
+ 1249 0096 00       		.byte	0
+ 1250 0097 00       		.byte	0
+ 1251 0098 0B       		.uleb128 0xb
+ 1252 0099 898201   		.uleb128 0x4109
+ 1253 009c 00       		.byte	0
+ 1254 009d 11       		.uleb128 0x11
+ 1255 009e 01       		.uleb128 0x1
+ 1256 009f 31       		.uleb128 0x31
+ 1257 00a0 13       		.uleb128 0x13
+ 1258 00a1 00       		.byte	0
+ 1259 00a2 00       		.byte	0
+ 1260 00a3 0C       		.uleb128 0xc
+ 1261 00a4 898201   		.uleb128 0x4109
+ 1262 00a7 00       		.byte	0
+ 1263 00a8 11       		.uleb128 0x11
+ 1264 00a9 01       		.uleb128 0x1
+ 1265 00aa 9542     		.uleb128 0x2115
+ 1266 00ac 19       		.uleb128 0x19
+ 1267 00ad 31       		.uleb128 0x31
+ 1268 00ae 13       		.uleb128 0x13
+ 1269 00af 00       		.byte	0
+ 1270 00b0 00       		.byte	0
+ 1271 00b1 0D       		.uleb128 0xd
+ 1272 00b2 2E       		.uleb128 0x2e
+ 1273 00b3 01       		.byte	0x1
+ 1274 00b4 3F       		.uleb128 0x3f
+ 1275 00b5 19       		.uleb128 0x19
+ 1276 00b6 03       		.uleb128 0x3
+ 1277 00b7 0E       		.uleb128 0xe
+ 1278 00b8 3A       		.uleb128 0x3a
+ 1279 00b9 0B       		.uleb128 0xb
+ 1280 00ba 3B       		.uleb128 0x3b
+ 1281 00bb 0B       		.uleb128 0xb
+ 1282 00bc 27       		.uleb128 0x27
+ 1283 00bd 19       		.uleb128 0x19
+ 1284 00be 49       		.uleb128 0x49
+ 1285 00bf 13       		.uleb128 0x13
+ 1286 00c0 8701     		.uleb128 0x87
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 27
+
+
+ 1287 00c2 19       		.uleb128 0x19
+ 1288 00c3 11       		.uleb128 0x11
+ 1289 00c4 01       		.uleb128 0x1
+ 1290 00c5 12       		.uleb128 0x12
+ 1291 00c6 06       		.uleb128 0x6
+ 1292 00c7 40       		.uleb128 0x40
+ 1293 00c8 18       		.uleb128 0x18
+ 1294 00c9 9642     		.uleb128 0x2116
+ 1295 00cb 19       		.uleb128 0x19
+ 1296 00cc 01       		.uleb128 0x1
+ 1297 00cd 13       		.uleb128 0x13
+ 1298 00ce 00       		.byte	0
+ 1299 00cf 00       		.byte	0
+ 1300 00d0 0E       		.uleb128 0xe
+ 1301 00d1 34       		.uleb128 0x34
+ 1302 00d2 00       		.byte	0
+ 1303 00d3 03       		.uleb128 0x3
+ 1304 00d4 0E       		.uleb128 0xe
+ 1305 00d5 3A       		.uleb128 0x3a
+ 1306 00d6 0B       		.uleb128 0xb
+ 1307 00d7 3B       		.uleb128 0x3b
+ 1308 00d8 0B       		.uleb128 0xb
+ 1309 00d9 49       		.uleb128 0x49
+ 1310 00da 13       		.uleb128 0x13
+ 1311 00db 00       		.byte	0
+ 1312 00dc 00       		.byte	0
+ 1313 00dd 0F       		.uleb128 0xf
+ 1314 00de 1D       		.uleb128 0x1d
+ 1315 00df 01       		.byte	0x1
+ 1316 00e0 31       		.uleb128 0x31
+ 1317 00e1 13       		.uleb128 0x13
+ 1318 00e2 11       		.uleb128 0x11
+ 1319 00e3 01       		.uleb128 0x1
+ 1320 00e4 12       		.uleb128 0x12
+ 1321 00e5 06       		.uleb128 0x6
+ 1322 00e6 58       		.uleb128 0x58
+ 1323 00e7 0B       		.uleb128 0xb
+ 1324 00e8 59       		.uleb128 0x59
+ 1325 00e9 0B       		.uleb128 0xb
+ 1326 00ea 01       		.uleb128 0x1
+ 1327 00eb 13       		.uleb128 0x13
+ 1328 00ec 00       		.byte	0
+ 1329 00ed 00       		.byte	0
+ 1330 00ee 10       		.uleb128 0x10
+ 1331 00ef 05       		.uleb128 0x5
+ 1332 00f0 00       		.byte	0
+ 1333 00f1 31       		.uleb128 0x31
+ 1334 00f2 13       		.uleb128 0x13
+ 1335 00f3 02       		.uleb128 0x2
+ 1336 00f4 17       		.uleb128 0x17
+ 1337 00f5 00       		.byte	0
+ 1338 00f6 00       		.byte	0
+ 1339 00f7 11       		.uleb128 0x11
+ 1340 00f8 898201   		.uleb128 0x4109
+ 1341 00fb 01       		.byte	0x1
+ 1342 00fc 11       		.uleb128 0x11
+ 1343 00fd 01       		.uleb128 0x1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 28
+
+
+ 1344 00fe 31       		.uleb128 0x31
+ 1345 00ff 13       		.uleb128 0x13
+ 1346 0100 00       		.byte	0
+ 1347 0101 00       		.byte	0
+ 1348 0102 12       		.uleb128 0x12
+ 1349 0103 1D       		.uleb128 0x1d
+ 1350 0104 01       		.byte	0x1
+ 1351 0105 31       		.uleb128 0x31
+ 1352 0106 13       		.uleb128 0x13
+ 1353 0107 52       		.uleb128 0x52
+ 1354 0108 01       		.uleb128 0x1
+ 1355 0109 55       		.uleb128 0x55
+ 1356 010a 17       		.uleb128 0x17
+ 1357 010b 58       		.uleb128 0x58
+ 1358 010c 0B       		.uleb128 0xb
+ 1359 010d 59       		.uleb128 0x59
+ 1360 010e 0B       		.uleb128 0xb
+ 1361 010f 01       		.uleb128 0x1
+ 1362 0110 13       		.uleb128 0x13
+ 1363 0111 00       		.byte	0
+ 1364 0112 00       		.byte	0
+ 1365 0113 13       		.uleb128 0x13
+ 1366 0114 01       		.uleb128 0x1
+ 1367 0115 01       		.byte	0x1
+ 1368 0116 49       		.uleb128 0x49
+ 1369 0117 13       		.uleb128 0x13
+ 1370 0118 01       		.uleb128 0x1
+ 1371 0119 13       		.uleb128 0x13
+ 1372 011a 00       		.byte	0
+ 1373 011b 00       		.byte	0
+ 1374 011c 14       		.uleb128 0x14
+ 1375 011d 21       		.uleb128 0x21
+ 1376 011e 00       		.byte	0
+ 1377 011f 49       		.uleb128 0x49
+ 1378 0120 13       		.uleb128 0x13
+ 1379 0121 2F       		.uleb128 0x2f
+ 1380 0122 0B       		.uleb128 0xb
+ 1381 0123 00       		.byte	0
+ 1382 0124 00       		.byte	0
+ 1383 0125 15       		.uleb128 0x15
+ 1384 0126 2E       		.uleb128 0x2e
+ 1385 0127 01       		.byte	0x1
+ 1386 0128 31       		.uleb128 0x31
+ 1387 0129 13       		.uleb128 0x13
+ 1388 012a 11       		.uleb128 0x11
+ 1389 012b 01       		.uleb128 0x1
+ 1390 012c 12       		.uleb128 0x12
+ 1391 012d 06       		.uleb128 0x6
+ 1392 012e 40       		.uleb128 0x40
+ 1393 012f 18       		.uleb128 0x18
+ 1394 0130 9642     		.uleb128 0x2116
+ 1395 0132 19       		.uleb128 0x19
+ 1396 0133 01       		.uleb128 0x1
+ 1397 0134 13       		.uleb128 0x13
+ 1398 0135 00       		.byte	0
+ 1399 0136 00       		.byte	0
+ 1400 0137 16       		.uleb128 0x16
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 29
+
+
+ 1401 0138 34       		.uleb128 0x34
+ 1402 0139 00       		.byte	0
+ 1403 013a 03       		.uleb128 0x3
+ 1404 013b 08       		.uleb128 0x8
+ 1405 013c 3A       		.uleb128 0x3a
+ 1406 013d 0B       		.uleb128 0xb
+ 1407 013e 3B       		.uleb128 0x3b
+ 1408 013f 0B       		.uleb128 0xb
+ 1409 0140 49       		.uleb128 0x49
+ 1410 0141 13       		.uleb128 0x13
+ 1411 0142 1C       		.uleb128 0x1c
+ 1412 0143 0A       		.uleb128 0xa
+ 1413 0144 00       		.byte	0
+ 1414 0145 00       		.byte	0
+ 1415 0146 17       		.uleb128 0x17
+ 1416 0147 26       		.uleb128 0x26
+ 1417 0148 00       		.byte	0
+ 1418 0149 49       		.uleb128 0x49
+ 1419 014a 13       		.uleb128 0x13
+ 1420 014b 00       		.byte	0
+ 1421 014c 00       		.byte	0
+ 1422 014d 18       		.uleb128 0x18
+ 1423 014e 34       		.uleb128 0x34
+ 1424 014f 00       		.byte	0
+ 1425 0150 03       		.uleb128 0x3
+ 1426 0151 0E       		.uleb128 0xe
+ 1427 0152 3A       		.uleb128 0x3a
+ 1428 0153 0B       		.uleb128 0xb
+ 1429 0154 3B       		.uleb128 0x3b
+ 1430 0155 0B       		.uleb128 0xb
+ 1431 0156 49       		.uleb128 0x49
+ 1432 0157 13       		.uleb128 0x13
+ 1433 0158 02       		.uleb128 0x2
+ 1434 0159 18       		.uleb128 0x18
+ 1435 015a 00       		.byte	0
+ 1436 015b 00       		.byte	0
+ 1437 015c 19       		.uleb128 0x19
+ 1438 015d 34       		.uleb128 0x34
+ 1439 015e 00       		.byte	0
+ 1440 015f 03       		.uleb128 0x3
+ 1441 0160 0E       		.uleb128 0xe
+ 1442 0161 3A       		.uleb128 0x3a
+ 1443 0162 0B       		.uleb128 0xb
+ 1444 0163 3B       		.uleb128 0x3b
+ 1445 0164 05       		.uleb128 0x5
+ 1446 0165 49       		.uleb128 0x49
+ 1447 0166 13       		.uleb128 0x13
+ 1448 0167 3F       		.uleb128 0x3f
+ 1449 0168 19       		.uleb128 0x19
+ 1450 0169 3C       		.uleb128 0x3c
+ 1451 016a 19       		.uleb128 0x19
+ 1452 016b 00       		.byte	0
+ 1453 016c 00       		.byte	0
+ 1454 016d 1A       		.uleb128 0x1a
+ 1455 016e 35       		.uleb128 0x35
+ 1456 016f 00       		.byte	0
+ 1457 0170 49       		.uleb128 0x49
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 30
+
+
+ 1458 0171 13       		.uleb128 0x13
+ 1459 0172 00       		.byte	0
+ 1460 0173 00       		.byte	0
+ 1461 0174 1B       		.uleb128 0x1b
+ 1462 0175 34       		.uleb128 0x34
+ 1463 0176 00       		.byte	0
+ 1464 0177 03       		.uleb128 0x3
+ 1465 0178 0E       		.uleb128 0xe
+ 1466 0179 3A       		.uleb128 0x3a
+ 1467 017a 0B       		.uleb128 0xb
+ 1468 017b 3B       		.uleb128 0x3b
+ 1469 017c 0B       		.uleb128 0xb
+ 1470 017d 49       		.uleb128 0x49
+ 1471 017e 13       		.uleb128 0x13
+ 1472 017f 3F       		.uleb128 0x3f
+ 1473 0180 19       		.uleb128 0x19
+ 1474 0181 02       		.uleb128 0x2
+ 1475 0182 18       		.uleb128 0x18
+ 1476 0183 00       		.byte	0
+ 1477 0184 00       		.byte	0
+ 1478 0185 1C       		.uleb128 0x1c
+ 1479 0186 2E       		.uleb128 0x2e
+ 1480 0187 00       		.byte	0
+ 1481 0188 3F       		.uleb128 0x3f
+ 1482 0189 19       		.uleb128 0x19
+ 1483 018a 3C       		.uleb128 0x3c
+ 1484 018b 19       		.uleb128 0x19
+ 1485 018c 6E       		.uleb128 0x6e
+ 1486 018d 0E       		.uleb128 0xe
+ 1487 018e 03       		.uleb128 0x3
+ 1488 018f 0E       		.uleb128 0xe
+ 1489 0190 3A       		.uleb128 0x3a
+ 1490 0191 0B       		.uleb128 0xb
+ 1491 0192 3B       		.uleb128 0x3b
+ 1492 0193 0B       		.uleb128 0xb
+ 1493 0194 00       		.byte	0
+ 1494 0195 00       		.byte	0
+ 1495 0196 00       		.byte	0
+ 1496              		.section	.debug_loc,"",%progbits
+ 1497              	.Ldebug_loc0:
+ 1498              	.LLST0:
+ 1499 0000 1C000000 		.4byte	.LVL2
+ 1500 0004 90000000 		.4byte	.LVL18
+ 1501 0008 0100     		.2byte	0x1
+ 1502 000a 54       		.byte	0x54
+ 1503 000b 00000000 		.4byte	0
+ 1504 000f 00000000 		.4byte	0
+ 1505              	.LLST1:
+ 1506 0013 72000000 		.4byte	.LVL14
+ 1507 0017 74000000 		.4byte	.LVL15
+ 1508 001b 0100     		.2byte	0x1
+ 1509 001d 50       		.byte	0x50
+ 1510 001e 74000000 		.4byte	.LVL15
+ 1511 0022 8C000000 		.4byte	.LVL17
+ 1512 0026 0100     		.2byte	0x1
+ 1513 0028 55       		.byte	0x55
+ 1514 0029 8C000000 		.4byte	.LVL17
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 31
+
+
+ 1515 002d 98000000 		.4byte	.LVL19
+ 1516 0031 0100     		.2byte	0x1
+ 1517 0033 50       		.byte	0x50
+ 1518 0034 00000000 		.4byte	0
+ 1519 0038 00000000 		.4byte	0
+ 1520              	.LLST2:
+ 1521 003c 44000000 		.4byte	.LVL33
+ 1522 0040 4A000000 		.4byte	.LVL34
+ 1523 0044 0600     		.2byte	0x6
+ 1524 0046 9E       		.byte	0x9e
+ 1525 0047 04       		.uleb128 0x4
+ 1526 0048 00000000 		.4byte	0
+ 1527 004c 00000000 		.4byte	0
+ 1528 0050 00000000 		.4byte	0
+ 1529              	.LLST3:
+ 1530 0054 4A000000 		.4byte	.LVL34
+ 1531 0058 52000000 		.4byte	.LVL35
+ 1532 005c 0600     		.2byte	0x6
+ 1533 005e 9E       		.byte	0x9e
+ 1534 005f 04       		.uleb128 0x4
+ 1535 0060 3333333F 		.4byte	0x3f333333
+ 1536 0064 00000000 		.4byte	0
+ 1537 0068 00000000 		.4byte	0
+ 1538              	.LLST4:
+ 1539 006c 74000000 		.4byte	.LVL39
+ 1540 0070 D2000000 		.4byte	.LVL53
+ 1541 0074 0600     		.2byte	0x6
+ 1542 0076 9E       		.byte	0x9e
+ 1543 0077 04       		.uleb128 0x4
+ 1544 0078 00000000 		.4byte	0
+ 1545 007c 00000000 		.4byte	0
+ 1546 0080 00000000 		.4byte	0
+ 1547              	.LLST5:
+ 1548 0084 74000000 		.4byte	.LVL39
+ 1549 0088 84000000 		.4byte	.LVL40
+ 1550 008c 0600     		.2byte	0x6
+ 1551 008e 9E       		.byte	0x9e
+ 1552 008f 04       		.uleb128 0x4
+ 1553 0090 00000000 		.4byte	0
+ 1554 0094 CE000000 		.4byte	.LVL52
+ 1555 0098 2C010000 		.4byte	.LFE64
+ 1556 009c 0600     		.2byte	0x6
+ 1557 009e 9E       		.byte	0x9e
+ 1558 009f 04       		.uleb128 0x4
+ 1559 00a0 00000000 		.4byte	0
+ 1560 00a4 00000000 		.4byte	0
+ 1561 00a8 00000000 		.4byte	0
+ 1562              	.LLST6:
+ 1563 00ac 8A000000 		.4byte	.LVL41
+ 1564 00b0 8C000000 		.4byte	.LVL42
+ 1565 00b4 1000     		.2byte	0x10
+ 1566 00b6 70       		.byte	0x70
+ 1567 00b7 E400     		.sleb128 100
+ 1568 00b9 F7       		.byte	0xf7
+ 1569 00ba 2C       		.uleb128 0x2c
+ 1570 00bb F7       		.byte	0xf7
+ 1571 00bc 25       		.uleb128 0x25
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 32
+
+
+ 1572 00bd F4       		.byte	0xf4
+ 1573 00be 25       		.uleb128 0x25
+ 1574 00bf 04       		.byte	0x4
+ 1575 00c0 00004843 		.4byte	0x43480000
+ 1576 00c4 1B       		.byte	0x1b
+ 1577 00c5 9F       		.byte	0x9f
+ 1578 00c6 8C000000 		.4byte	.LVL42
+ 1579 00ca 8F000000 		.4byte	.LVL43-1
+ 1580 00ce 0F00     		.2byte	0xf
+ 1581 00d0 70       		.byte	0x70
+ 1582 00d1 00       		.sleb128 0
+ 1583 00d2 F7       		.byte	0xf7
+ 1584 00d3 2C       		.uleb128 0x2c
+ 1585 00d4 F7       		.byte	0xf7
+ 1586 00d5 25       		.uleb128 0x25
+ 1587 00d6 F4       		.byte	0xf4
+ 1588 00d7 25       		.uleb128 0x25
+ 1589 00d8 04       		.byte	0x4
+ 1590 00d9 00004843 		.4byte	0x43480000
+ 1591 00dd 1B       		.byte	0x1b
+ 1592 00de 9F       		.byte	0x9f
+ 1593 00df 00000000 		.4byte	0
+ 1594 00e3 00000000 		.4byte	0
+ 1595              	.LLST7:
+ 1596 00e7 D8000000 		.4byte	.LVL54
+ 1597 00eb DB000000 		.4byte	.LVL55-1
+ 1598 00ef 0F00     		.2byte	0xf
+ 1599 00f1 70       		.byte	0x70
+ 1600 00f2 00       		.sleb128 0
+ 1601 00f3 F7       		.byte	0xf7
+ 1602 00f4 2C       		.uleb128 0x2c
+ 1603 00f5 F7       		.byte	0xf7
+ 1604 00f6 25       		.uleb128 0x25
+ 1605 00f7 F4       		.byte	0xf4
+ 1606 00f8 25       		.uleb128 0x25
+ 1607 00f9 04       		.byte	0x4
+ 1608 00fa 0000C8C2 		.4byte	0xc2c80000
+ 1609 00fe 1B       		.byte	0x1b
+ 1610 00ff 9F       		.byte	0x9f
+ 1611 0100 00000000 		.4byte	0
+ 1612 0104 00000000 		.4byte	0
+ 1613              	.LLST8:
+ 1614 0108 00000000 		.4byte	.LVL60
+ 1615 010c 05000000 		.4byte	.LVL61-1
+ 1616 0110 0100     		.2byte	0x1
+ 1617 0112 50       		.byte	0x50
+ 1618 0113 05000000 		.4byte	.LVL61-1
+ 1619 0117 60000000 		.4byte	.LFE65
+ 1620 011b 0600     		.2byte	0x6
+ 1621 011d F3       		.byte	0xf3
+ 1622 011e 03       		.uleb128 0x3
+ 1623 011f F5       		.byte	0xf5
+ 1624 0120 00       		.uleb128 0
+ 1625 0121 25       		.uleb128 0x25
+ 1626 0122 9F       		.byte	0x9f
+ 1627 0123 00000000 		.4byte	0
+ 1628 0127 00000000 		.4byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 33
+
+
+ 1629              	.LLST9:
+ 1630 012b 00000000 		.4byte	.LVL68
+ 1631 012f 07000000 		.4byte	.LVL69-1
+ 1632 0133 0100     		.2byte	0x1
+ 1633 0135 50       		.byte	0x50
+ 1634 0136 07000000 		.4byte	.LVL69-1
+ 1635 013a 20000000 		.4byte	.LFE66
+ 1636 013e 0600     		.2byte	0x6
+ 1637 0140 F3       		.byte	0xf3
+ 1638 0141 03       		.uleb128 0x3
+ 1639 0142 F5       		.byte	0xf5
+ 1640 0143 00       		.uleb128 0
+ 1641 0144 25       		.uleb128 0x25
+ 1642 0145 9F       		.byte	0x9f
+ 1643 0146 00000000 		.4byte	0
+ 1644 014a 00000000 		.4byte	0
+ 1645              		.section	.debug_aranges,"",%progbits
+ 1646 0000 34000000 		.4byte	0x34
+ 1647 0004 0200     		.2byte	0x2
+ 1648 0006 00000000 		.4byte	.Ldebug_info0
+ 1649 000a 04       		.byte	0x4
+ 1650 000b 00       		.byte	0
+ 1651 000c 0000     		.2byte	0
+ 1652 000e 0000     		.2byte	0
+ 1653 0010 00000000 		.4byte	.LFB67
+ 1654 0014 B0000000 		.4byte	.LFE67-.LFB67
+ 1655 0018 00000000 		.4byte	.LFB64
+ 1656 001c 2C010000 		.4byte	.LFE64-.LFB64
+ 1657 0020 00000000 		.4byte	.LFB65
+ 1658 0024 60000000 		.4byte	.LFE65-.LFB65
+ 1659 0028 00000000 		.4byte	.LFB66
+ 1660 002c 20000000 		.4byte	.LFE66-.LFB66
+ 1661 0030 00000000 		.4byte	0
+ 1662 0034 00000000 		.4byte	0
+ 1663              		.section	.debug_ranges,"",%progbits
+ 1664              	.Ldebug_ranges0:
+ 1665 0000 76000000 		.4byte	.LBB18
+ 1666 0004 7A000000 		.4byte	.LBE18
+ 1667 0008 CE000000 		.4byte	.LBB25
+ 1668 000c D2000000 		.4byte	.LBE25
+ 1669 0010 00000000 		.4byte	0
+ 1670 0014 00000000 		.4byte	0
+ 1671 0018 00000000 		.4byte	.LFB67
+ 1672 001c B0000000 		.4byte	.LFE67
+ 1673 0020 00000000 		.4byte	.LFB64
+ 1674 0024 2C010000 		.4byte	.LFE64
+ 1675 0028 00000000 		.4byte	.LFB65
+ 1676 002c 60000000 		.4byte	.LFE65
+ 1677 0030 00000000 		.4byte	.LFB66
+ 1678 0034 20000000 		.4byte	.LFE66
+ 1679 0038 00000000 		.4byte	0
+ 1680 003c 00000000 		.4byte	0
+ 1681              		.section	.debug_line,"",%progbits
+ 1682              	.Ldebug_line0:
+ 1683 0000 7F020000 		.section	.debug_str,"MS",%progbits,1
+ 1683      0200E901 
+ 1683      00000201 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 34
+
+
+ 1683      FB0E0D00 
+ 1683      01010101 
+ 1684              	.LASF44:
+ 1685 0000 54696D65 		.ascii	"Timer_1_Start\000"
+ 1685      725F315F 
+ 1685      53746172 
+ 1685      7400
+ 1686              	.LASF48:
+ 1687 000e 433A5C55 		.ascii	"C:\\Users\\jon\\Sync\\Research\\PSoC Projects\\Cont"
+ 1687      73657273 
+ 1687      5C6A6F6E 
+ 1687      5C53796E 
+ 1687      635C5265 
+ 1688 003b 726F6C6C 		.ascii	"roller.cydsn\000"
+ 1688      65722E63 
+ 1688      7964736E 
+ 1688      00
+ 1689              	.LASF46:
+ 1690 0048 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1690      43313120 
+ 1690      352E342E 
+ 1690      31203230 
+ 1690      31363036 
+ 1691 007b 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1691      20726576 
+ 1691      6973696F 
+ 1691      6E203233 
+ 1691      37373135 
+ 1692 00ae 33202D66 		.ascii	"3 -ffunction-sections -ffat-lto-objects\000"
+ 1692      66756E63 
+ 1692      74696F6E 
+ 1692      2D736563 
+ 1692      74696F6E 
+ 1693              	.LASF23:
+ 1694 00d6 696E7465 		.ascii	"integral\000"
+ 1694      6772616C 
+ 1694      00
+ 1695              	.LASF13:
+ 1696 00df 5F5F696E 		.ascii	"__int32_t\000"
+ 1696      7433325F 
+ 1696      7400
+ 1697              	.LASF32:
+ 1698 00e9 5468726F 		.ascii	"Throttle_SetValue\000"
+ 1698      74746C65 
+ 1698      5F536574 
+ 1698      56616C75 
+ 1698      6500
+ 1699              	.LASF5:
+ 1700 00fb 6C6F6E67 		.ascii	"long int\000"
+ 1700      20696E74 
+ 1700      00
+ 1701              	.LASF24:
+ 1702 0104 73656E64 		.ascii	"sendStr\000"
+ 1702      53747200 
+ 1703              	.LASF15:
+ 1704 010c 646F7562 		.ascii	"double\000"
+ 1704      6C6500
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 35
+
+
+ 1705              	.LASF18:
+ 1706 0113 706F7765 		.ascii	"power\000"
+ 1706      7200
+ 1707              	.LASF0:
+ 1708 0119 666C6F61 		.ascii	"float\000"
+ 1708      7400
+ 1709              	.LASF1:
+ 1710 011f 7369676E 		.ascii	"signed char\000"
+ 1710      65642063 
+ 1710      68617200 
+ 1711              	.LASF45:
+ 1712 012b 73627573 		.ascii	"sbus_getFailsafeStatus\000"
+ 1712      5F676574 
+ 1712      4661696C 
+ 1712      73616665 
+ 1712      53746174 
+ 1713              	.LASF2:
+ 1714 0142 756E7369 		.ascii	"unsigned char\000"
+ 1714      676E6564 
+ 1714      20636861 
+ 1714      7200
+ 1715              	.LASF39:
+ 1716 0150 4F70616D 		.ascii	"Opamp_Throttle_Start\000"
+ 1716      705F5468 
+ 1716      726F7474 
+ 1716      6C655F53 
+ 1716      74617274 
+ 1717              	.LASF31:
+ 1718 0165 50574D5F 		.ascii	"PWM_Steer_WriteCompare\000"
+ 1718      53746565 
+ 1718      725F5772 
+ 1718      69746543 
+ 1718      6F6D7061 
+ 1719              	.LASF4:
+ 1720 017c 73686F72 		.ascii	"short unsigned int\000"
+ 1720      7420756E 
+ 1720      7369676E 
+ 1720      65642069 
+ 1720      6E7400
+ 1721              	.LASF40:
+ 1722 018f 73627573 		.ascii	"sbus_init\000"
+ 1722      5F696E69 
+ 1722      7400
+ 1723              	.LASF17:
+ 1724 0199 7365745F 		.ascii	"set_brake\000"
+ 1724      6272616B 
+ 1724      6500
+ 1725              	.LASF29:
+ 1726 01a3 48616E64 		.ascii	"Handle_Encoder_GetCounter\000"
+ 1726      6C655F45 
+ 1726      6E636F64 
+ 1726      65725F47 
+ 1726      6574436F 
+ 1727              	.LASF26:
+ 1728 01bd 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1728      52784275 
+ 1728      66666572 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 36
+
+
+ 1728      00
+ 1729              	.LASF37:
+ 1730 01ca 50574D5F 		.ascii	"PWM_Brake_Start\000"
+ 1730      4272616B 
+ 1730      655F5374 
+ 1730      61727400 
+ 1731              	.LASF34:
+ 1732 01da 5468726F 		.ascii	"Throttle_Start\000"
+ 1732      74746C65 
+ 1732      5F537461 
+ 1732      727400
+ 1733              	.LASF6:
+ 1734 01e9 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1734      20756E73 
+ 1734      69676E65 
+ 1734      6420696E 
+ 1734      7400
+ 1735              	.LASF27:
+ 1736 01fb 73746565 		.ascii	"steeringTarget\000"
+ 1736      72696E67 
+ 1736      54617267 
+ 1736      657400
+ 1737              	.LASF3:
+ 1738 020a 73686F72 		.ascii	"short int\000"
+ 1738      7420696E 
+ 1738      7400
+ 1739              	.LASF50:
+ 1740 0214 6D61696E 		.ascii	"main\000"
+ 1740      00
+ 1741              	.LASF30:
+ 1742 0219 53746565 		.ascii	"Steering_Direction_Write\000"
+ 1742      72696E67 
+ 1742      5F446972 
+ 1742      65637469 
+ 1742      6F6E5F57 
+ 1743              	.LASF9:
+ 1744 0232 756E7369 		.ascii	"unsigned int\000"
+ 1744      676E6564 
+ 1744      20696E74 
+ 1744      00
+ 1745              	.LASF35:
+ 1746 023f 48616E64 		.ascii	"Handle_Encoder_Start\000"
+ 1746      6C655F45 
+ 1746      6E636F64 
+ 1746      65725F53 
+ 1746      74617274 
+ 1747              	.LASF8:
+ 1748 0254 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1748      206C6F6E 
+ 1748      6720756E 
+ 1748      7369676E 
+ 1748      65642069 
+ 1749              	.LASF43:
+ 1750 026b 54696D65 		.ascii	"Timer_1_Enable\000"
+ 1750      725F315F 
+ 1750      456E6162 
+ 1750      6C6500
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 37
+
+
+ 1751              	.LASF14:
+ 1752 027a 696E7433 		.ascii	"int32_t\000"
+ 1752      325F7400 
+ 1753              	.LASF11:
+ 1754 0282 73697A65 		.ascii	"sizetype\000"
+ 1754      74797065 
+ 1754      00
+ 1755              	.LASF42:
+ 1756 028b 436F6E74 		.ascii	"Control_Loop_Interrupt_StartEx\000"
+ 1756      726F6C5F 
+ 1756      4C6F6F70 
+ 1756      5F496E74 
+ 1756      65727275 
+ 1757              	.LASF20:
+ 1758 02aa 6572726F 		.ascii	"error\000"
+ 1758      7200
+ 1759              	.LASF7:
+ 1760 02b0 6C6F6E67 		.ascii	"long long int\000"
+ 1760      206C6F6E 
+ 1760      6720696E 
+ 1760      7400
+ 1761              	.LASF36:
+ 1762 02be 48616E64 		.ascii	"Handle_Encoder_SetCounter\000"
+ 1762      6C655F45 
+ 1762      6E636F64 
+ 1762      65725F53 
+ 1762      6574436F 
+ 1763              	.LASF47:
+ 1764 02d8 6D61696E 		.ascii	"main.c\000"
+ 1764      2E6300
+ 1765              	.LASF12:
+ 1766 02df 63686172 		.ascii	"char\000"
+ 1766      00
+ 1767              	.LASF38:
+ 1768 02e4 50574D5F 		.ascii	"PWM_Steer_Start\000"
+ 1768      53746565 
+ 1768      725F5374 
+ 1768      61727400 
+ 1769              	.LASF16:
+ 1770 02f4 7365745F 		.ascii	"set_throttle\000"
+ 1770      7468726F 
+ 1770      74746C65 
+ 1770      00
+ 1771              	.LASF21:
+ 1772 0301 6F757470 		.ascii	"output\000"
+ 1772      757400
+ 1773              	.LASF25:
+ 1774 0308 64657269 		.ascii	"derivative\000"
+ 1774      76617469 
+ 1774      766500
+ 1775              	.LASF19:
+ 1776 0313 6272616B 		.ascii	"brake\000"
+ 1776      6500
+ 1777              	.LASF28:
+ 1778 0319 73627573 		.ascii	"sbus_getNormalizedChannel\000"
+ 1778      5F676574 
+ 1778      4E6F726D 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctoAx4t.s 			page 38
+
+
+ 1778      616C697A 
+ 1778      65644368 
+ 1779              	.LASF10:
+ 1780 0333 6C6F6E67 		.ascii	"long double\000"
+ 1780      20646F75 
+ 1780      626C6500 
+ 1781              	.LASF33:
+ 1782 033f 50574D5F 		.ascii	"PWM_Brake_WriteCompare\000"
+ 1782      4272616B 
+ 1782      655F5772 
+ 1782      69746543 
+ 1782      6F6D7061 
+ 1783              	.LASF49:
+ 1784 0356 636F6E74 		.ascii	"control_loop\000"
+ 1784      726F6C5F 
+ 1784      6C6F6F70 
+ 1784      00
+ 1785              	.LASF41:
+ 1786 0363 43794465 		.ascii	"CyDelay\000"
+ 1786      6C617900 
+ 1787              	.LASF22:
+ 1788 036b 70726576 		.ascii	"previous_error\000"
+ 1788      696F7573 
+ 1788      5F657272 
+ 1788      6F7200
+ 1789              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

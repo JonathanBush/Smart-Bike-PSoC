@@ -1,0 +1,1276 @@
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"PWM_Brake_PM.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.PWM_Brake_SaveConfig,"ax",%progbits
+  20              		.align	2
+  21              		.global	PWM_Brake_SaveConfig
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	PWM_Brake_SaveConfig, %function
+  25              	PWM_Brake_SaveConfig:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\PWM_Brake_PM.c"
+   1:Generated_Source\PSoC5/PWM_Brake_PM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/PWM_Brake_PM.c **** * File Name: PWM_Brake_PM.c
+   3:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Version 3.30
+   4:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+   5:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Description:
+   6:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  This file provides the power management source code to API for the
+   7:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  PWM.
+   8:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+   9:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Note:
+  10:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+  11:Generated_Source\PSoC5/PWM_Brake_PM.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/PWM_Brake_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:Generated_Source\PSoC5/PWM_Brake_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  15:Generated_Source\PSoC5/PWM_Brake_PM.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/PWM_Brake_PM.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+  18:Generated_Source\PSoC5/PWM_Brake_PM.c **** #include "PWM_Brake.h"
+  19:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+  20:Generated_Source\PSoC5/PWM_Brake_PM.c **** static PWM_Brake_backupStruct PWM_Brake_backup;
+  21:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+  22:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+  23:Generated_Source\PSoC5/PWM_Brake_PM.c **** /*******************************************************************************
+  24:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Function Name: PWM_Brake_SaveConfig
+  25:Generated_Source\PSoC5/PWM_Brake_PM.c **** ********************************************************************************
+  26:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+  27:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Summary:
+  28:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  Saves the current user configuration of the component.
+  29:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+  30:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Parameters:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 2
+
+
+  31:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  None
+  32:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+  33:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Return:
+  34:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  None
+  35:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+  36:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Global variables:
+  37:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  PWM_Brake_backup:  Variables of this global structure are modified to
+  38:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  store the values of non retention configuration registers when Sleep() API is
+  39:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  called.
+  40:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+  41:Generated_Source\PSoC5/PWM_Brake_PM.c **** *******************************************************************************/
+  42:Generated_Source\PSoC5/PWM_Brake_PM.c **** void PWM_Brake_SaveConfig(void) 
+  43:Generated_Source\PSoC5/PWM_Brake_PM.c **** {
+  28              		.loc 1 43 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 10B5     		push	{r4, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 4, -8
+  35              		.cfi_offset 14, -4
+  44:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+  45:Generated_Source\PSoC5/PWM_Brake_PM.c ****     #if(!PWM_Brake_UsingFixedFunction)
+  46:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #if(!PWM_Brake_PWMModeIsCenterAligned)
+  47:Generated_Source\PSoC5/PWM_Brake_PM.c ****             PWM_Brake_backup.PWMPeriod = PWM_Brake_ReadPeriod();
+  36              		.loc 1 47 0
+  37 0002 FFF7FEFF 		bl	PWM_Brake_ReadPeriod
+  38              	.LVL0:
+  39 0006 064C     		ldr	r4, .L3
+  40 0008 A080     		strh	r0, [r4, #4]	@ movhi
+  48:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #endif /* (!PWM_Brake_PWMModeIsCenterAligned) */
+  49:Generated_Source\PSoC5/PWM_Brake_PM.c ****         PWM_Brake_backup.PWMUdb = PWM_Brake_ReadCounter();
+  41              		.loc 1 49 0
+  42 000a FFF7FEFF 		bl	PWM_Brake_ReadCounter
+  43              	.LVL1:
+  50:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #if (PWM_Brake_UseStatus)
+  51:Generated_Source\PSoC5/PWM_Brake_PM.c ****             PWM_Brake_backup.InterruptMaskValue = PWM_Brake_STATUS_MASK;
+  44              		.loc 1 51 0
+  45 000e 054B     		ldr	r3, .L3+4
+  49:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #if (PWM_Brake_UseStatus)
+  46              		.loc 1 49 0
+  47 0010 6080     		strh	r0, [r4, #2]	@ movhi
+  48              		.loc 1 51 0
+  49 0012 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  50 0014 A371     		strb	r3, [r4, #6]
+  52:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #endif /* (PWM_Brake_UseStatus) */
+  53:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+  54:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #if(PWM_Brake_DeadBandMode == PWM_Brake__B_PWM__DBM_256_CLOCKS || \
+  55:Generated_Source\PSoC5/PWM_Brake_PM.c ****             PWM_Brake_DeadBandMode == PWM_Brake__B_PWM__DBM_2_4_CLOCKS)
+  56:Generated_Source\PSoC5/PWM_Brake_PM.c ****             PWM_Brake_backup.PWMdeadBandValue = PWM_Brake_ReadDeadTime();
+  57:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #endif /*  deadband count is either 2-4 clocks or 256 clocks */
+  58:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+  59:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #if(PWM_Brake_KillModeMinTime)
+  60:Generated_Source\PSoC5/PWM_Brake_PM.c ****              PWM_Brake_backup.PWMKillCounterPeriod = PWM_Brake_ReadKillTime();
+  61:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #endif /* (PWM_Brake_KillModeMinTime) */
+  62:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+  63:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #if(PWM_Brake_UseControl)
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 3
+
+
+  64:Generated_Source\PSoC5/PWM_Brake_PM.c ****             PWM_Brake_backup.PWMControlRegister = PWM_Brake_ReadControlRegister();
+  51              		.loc 1 64 0
+  52 0016 FFF7FEFF 		bl	PWM_Brake_ReadControlRegister
+  53              	.LVL2:
+  54 001a E071     		strb	r0, [r4, #7]
+  55 001c 10BD     		pop	{r4, pc}
+  56              	.L4:
+  57 001e 00BF     		.align	2
+  58              	.L3:
+  59 0020 00000000 		.word	.LANCHOR0
+  60 0024 8B640040 		.word	1073767563
+  61              		.cfi_endproc
+  62              	.LFE0:
+  63              		.size	PWM_Brake_SaveConfig, .-PWM_Brake_SaveConfig
+  64              		.section	.text.PWM_Brake_RestoreConfig,"ax",%progbits
+  65              		.align	2
+  66              		.global	PWM_Brake_RestoreConfig
+  67              		.thumb
+  68              		.thumb_func
+  69              		.type	PWM_Brake_RestoreConfig, %function
+  70              	PWM_Brake_RestoreConfig:
+  71              	.LFB1:
+  65:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #endif /* (PWM_Brake_UseControl) */
+  66:Generated_Source\PSoC5/PWM_Brake_PM.c ****     #endif  /* (!PWM_Brake_UsingFixedFunction) */
+  67:Generated_Source\PSoC5/PWM_Brake_PM.c **** }
+  68:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+  69:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+  70:Generated_Source\PSoC5/PWM_Brake_PM.c **** /*******************************************************************************
+  71:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Function Name: PWM_Brake_RestoreConfig
+  72:Generated_Source\PSoC5/PWM_Brake_PM.c **** ********************************************************************************
+  73:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+  74:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Summary:
+  75:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  Restores the current user configuration of the component.
+  76:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+  77:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Parameters:
+  78:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  None
+  79:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+  80:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Return:
+  81:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  None
+  82:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+  83:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Global variables:
+  84:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  PWM_Brake_backup:  Variables of this global structure are used to
+  85:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  restore the values of non retention registers on wakeup from sleep mode.
+  86:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+  87:Generated_Source\PSoC5/PWM_Brake_PM.c **** *******************************************************************************/
+  88:Generated_Source\PSoC5/PWM_Brake_PM.c **** void PWM_Brake_RestoreConfig(void) 
+  89:Generated_Source\PSoC5/PWM_Brake_PM.c **** {
+  72              		.loc 1 89 0
+  73              		.cfi_startproc
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76 0000 10B5     		push	{r4, lr}
+  77              		.cfi_def_cfa_offset 8
+  78              		.cfi_offset 4, -8
+  79              		.cfi_offset 14, -4
+  90:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #if(!PWM_Brake_UsingFixedFunction)
+  91:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #if(!PWM_Brake_PWMModeIsCenterAligned)
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 4
+
+
+  92:Generated_Source\PSoC5/PWM_Brake_PM.c ****                 PWM_Brake_WritePeriod(PWM_Brake_backup.PWMPeriod);
+  80              		.loc 1 92 0
+  81 0002 074C     		ldr	r4, .L7
+  82 0004 A088     		ldrh	r0, [r4, #4]
+  83 0006 FFF7FEFF 		bl	PWM_Brake_WritePeriod
+  84              	.LVL3:
+  93:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #endif /* (!PWM_Brake_PWMModeIsCenterAligned) */
+  94:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+  95:Generated_Source\PSoC5/PWM_Brake_PM.c ****             PWM_Brake_WriteCounter(PWM_Brake_backup.PWMUdb);
+  85              		.loc 1 95 0
+  86 000a 6088     		ldrh	r0, [r4, #2]
+  87 000c FFF7FEFF 		bl	PWM_Brake_WriteCounter
+  88              	.LVL4:
+  96:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+  97:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #if (PWM_Brake_UseStatus)
+  98:Generated_Source\PSoC5/PWM_Brake_PM.c ****                 PWM_Brake_STATUS_MASK = PWM_Brake_backup.InterruptMaskValue;
+  89              		.loc 1 98 0
+  90 0010 A279     		ldrb	r2, [r4, #6]	@ zero_extendqisi2
+  91 0012 044B     		ldr	r3, .L7+4
+  99:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #endif /* (PWM_Brake_UseStatus) */
+ 100:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+ 101:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #if(PWM_Brake_DeadBandMode == PWM_Brake__B_PWM__DBM_256_CLOCKS || \
+ 102:Generated_Source\PSoC5/PWM_Brake_PM.c ****                 PWM_Brake_DeadBandMode == PWM_Brake__B_PWM__DBM_2_4_CLOCKS)
+ 103:Generated_Source\PSoC5/PWM_Brake_PM.c ****                 PWM_Brake_WriteDeadTime(PWM_Brake_backup.PWMdeadBandValue);
+ 104:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #endif /* deadband count is either 2-4 clocks or 256 clocks */
+ 105:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+ 106:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #if(PWM_Brake_KillModeMinTime)
+ 107:Generated_Source\PSoC5/PWM_Brake_PM.c ****                 PWM_Brake_WriteKillTime(PWM_Brake_backup.PWMKillCounterPeriod);
+ 108:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #endif /* (PWM_Brake_KillModeMinTime) */
+ 109:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+ 110:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #if(PWM_Brake_UseControl)
+ 111:Generated_Source\PSoC5/PWM_Brake_PM.c ****                 PWM_Brake_WriteControlRegister(PWM_Brake_backup.PWMControlRegister);
+  92              		.loc 1 111 0
+  93 0014 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+  98:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #endif /* (PWM_Brake_UseStatus) */
+  94              		.loc 1 98 0
+  95 0016 1A70     		strb	r2, [r3]
+ 112:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #endif /* (PWM_Brake_UseControl) */
+ 113:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #endif  /* (!PWM_Brake_UsingFixedFunction) */
+ 114:Generated_Source\PSoC5/PWM_Brake_PM.c ****     }
+  96              		.loc 1 114 0
+  97 0018 BDE81040 		pop	{r4, lr}
+  98              		.cfi_restore 14
+  99              		.cfi_restore 4
+ 100              		.cfi_def_cfa_offset 0
+ 111:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #endif /* (PWM_Brake_UseControl) */
+ 101              		.loc 1 111 0
+ 102 001c FFF7FEBF 		b	PWM_Brake_WriteControlRegister
+ 103              	.LVL5:
+ 104              	.L8:
+ 105              		.align	2
+ 106              	.L7:
+ 107 0020 00000000 		.word	.LANCHOR0
+ 108 0024 8B640040 		.word	1073767563
+ 109              		.cfi_endproc
+ 110              	.LFE1:
+ 111              		.size	PWM_Brake_RestoreConfig, .-PWM_Brake_RestoreConfig
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 5
+
+
+ 112              		.section	.text.PWM_Brake_Sleep,"ax",%progbits
+ 113              		.align	2
+ 114              		.global	PWM_Brake_Sleep
+ 115              		.thumb
+ 116              		.thumb_func
+ 117              		.type	PWM_Brake_Sleep, %function
+ 118              	PWM_Brake_Sleep:
+ 119              	.LFB2:
+ 115:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+ 116:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+ 117:Generated_Source\PSoC5/PWM_Brake_PM.c **** /*******************************************************************************
+ 118:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Function Name: PWM_Brake_Sleep
+ 119:Generated_Source\PSoC5/PWM_Brake_PM.c **** ********************************************************************************
+ 120:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+ 121:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Summary:
+ 122:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  Disables block's operation and saves the user configuration. Should be called
+ 123:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  just prior to entering sleep.
+ 124:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+ 125:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Parameters:
+ 126:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  None
+ 127:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+ 128:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Return:
+ 129:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  None
+ 130:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+ 131:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Global variables:
+ 132:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  PWM_Brake_backup.PWMEnableState:  Is modified depending on the enable
+ 133:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  state of the block before entering sleep mode.
+ 134:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+ 135:Generated_Source\PSoC5/PWM_Brake_PM.c **** *******************************************************************************/
+ 136:Generated_Source\PSoC5/PWM_Brake_PM.c **** void PWM_Brake_Sleep(void) 
+ 137:Generated_Source\PSoC5/PWM_Brake_PM.c **** {
+ 120              		.loc 1 137 0
+ 121              		.cfi_startproc
+ 122              		@ args = 0, pretend = 0, frame = 0
+ 123              		@ frame_needed = 0, uses_anonymous_args = 0
+ 124 0000 10B5     		push	{r4, lr}
+ 125              		.cfi_def_cfa_offset 8
+ 126              		.cfi_offset 4, -8
+ 127              		.cfi_offset 14, -4
+ 138:Generated_Source\PSoC5/PWM_Brake_PM.c ****     #if(PWM_Brake_UseControl)
+ 139:Generated_Source\PSoC5/PWM_Brake_PM.c ****         if(PWM_Brake_CTRL_ENABLE == (PWM_Brake_CONTROL & PWM_Brake_CTRL_ENABLE))
+ 128              		.loc 1 139 0
+ 129 0002 0A4B     		ldr	r3, .L11
+ 130 0004 0A4C     		ldr	r4, .L11+4
+ 131 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 132 0008 DB09     		lsrs	r3, r3, #7
+ 133 000a 2370     		strb	r3, [r4]
+ 140:Generated_Source\PSoC5/PWM_Brake_PM.c ****         {
+ 141:Generated_Source\PSoC5/PWM_Brake_PM.c ****             /*Component is enabled */
+ 142:Generated_Source\PSoC5/PWM_Brake_PM.c ****             PWM_Brake_backup.PWMEnableState = 1u;
+ 143:Generated_Source\PSoC5/PWM_Brake_PM.c ****         }
+ 144:Generated_Source\PSoC5/PWM_Brake_PM.c ****         else
+ 145:Generated_Source\PSoC5/PWM_Brake_PM.c ****         {
+ 146:Generated_Source\PSoC5/PWM_Brake_PM.c ****             /* Component is disabled */
+ 147:Generated_Source\PSoC5/PWM_Brake_PM.c ****             PWM_Brake_backup.PWMEnableState = 0u;
+ 148:Generated_Source\PSoC5/PWM_Brake_PM.c ****         }
+ 149:Generated_Source\PSoC5/PWM_Brake_PM.c ****     #endif /* (PWM_Brake_UseControl) */
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 6
+
+
+ 150:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+ 151:Generated_Source\PSoC5/PWM_Brake_PM.c ****     /* Stop component */
+ 152:Generated_Source\PSoC5/PWM_Brake_PM.c ****     PWM_Brake_Stop();
+ 134              		.loc 1 152 0
+ 135 000c FFF7FEFF 		bl	PWM_Brake_Stop
+ 136              	.LVL6:
+ 137              	.LBB4:
+ 138              	.LBB5:
+  47:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #endif /* (!PWM_Brake_PWMModeIsCenterAligned) */
+ 139              		.loc 1 47 0
+ 140 0010 FFF7FEFF 		bl	PWM_Brake_ReadPeriod
+ 141              	.LVL7:
+ 142 0014 A080     		strh	r0, [r4, #4]	@ movhi
+  49:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #if (PWM_Brake_UseStatus)
+ 143              		.loc 1 49 0
+ 144 0016 FFF7FEFF 		bl	PWM_Brake_ReadCounter
+ 145              	.LVL8:
+  51:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #endif /* (PWM_Brake_UseStatus) */
+ 146              		.loc 1 51 0
+ 147 001a 064B     		ldr	r3, .L11+8
+  49:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #if (PWM_Brake_UseStatus)
+ 148              		.loc 1 49 0
+ 149 001c 6080     		strh	r0, [r4, #2]	@ movhi
+  51:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #endif /* (PWM_Brake_UseStatus) */
+ 150              		.loc 1 51 0
+ 151 001e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 152 0020 A371     		strb	r3, [r4, #6]
+  64:Generated_Source\PSoC5/PWM_Brake_PM.c ****         #endif /* (PWM_Brake_UseControl) */
+ 153              		.loc 1 64 0
+ 154 0022 FFF7FEFF 		bl	PWM_Brake_ReadControlRegister
+ 155              	.LVL9:
+ 156 0026 E071     		strb	r0, [r4, #7]
+ 157 0028 10BD     		pop	{r4, pc}
+ 158              	.L12:
+ 159 002a 00BF     		.align	2
+ 160              	.L11:
+ 161 002c 7A640040 		.word	1073767546
+ 162 0030 00000000 		.word	.LANCHOR0
+ 163 0034 8B640040 		.word	1073767563
+ 164              	.LBE5:
+ 165              	.LBE4:
+ 166              		.cfi_endproc
+ 167              	.LFE2:
+ 168              		.size	PWM_Brake_Sleep, .-PWM_Brake_Sleep
+ 169              		.section	.text.PWM_Brake_Wakeup,"ax",%progbits
+ 170              		.align	2
+ 171              		.global	PWM_Brake_Wakeup
+ 172              		.thumb
+ 173              		.thumb_func
+ 174              		.type	PWM_Brake_Wakeup, %function
+ 175              	PWM_Brake_Wakeup:
+ 176              	.LFB3:
+ 153:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+ 154:Generated_Source\PSoC5/PWM_Brake_PM.c ****     /* Save registers configuration */
+ 155:Generated_Source\PSoC5/PWM_Brake_PM.c ****     PWM_Brake_SaveConfig();
+ 156:Generated_Source\PSoC5/PWM_Brake_PM.c **** }
+ 157:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 7
+
+
+ 158:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+ 159:Generated_Source\PSoC5/PWM_Brake_PM.c **** /*******************************************************************************
+ 160:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Function Name: PWM_Brake_Wakeup
+ 161:Generated_Source\PSoC5/PWM_Brake_PM.c **** ********************************************************************************
+ 162:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+ 163:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Summary:
+ 164:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  Restores and enables the user configuration. Should be called just after
+ 165:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  awaking from sleep.
+ 166:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+ 167:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Parameters:
+ 168:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  None
+ 169:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+ 170:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Return:
+ 171:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  None
+ 172:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+ 173:Generated_Source\PSoC5/PWM_Brake_PM.c **** * Global variables:
+ 174:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  PWM_Brake_backup.pwmEnable:  Is used to restore the enable state of
+ 175:Generated_Source\PSoC5/PWM_Brake_PM.c **** *  block on wakeup from sleep mode.
+ 176:Generated_Source\PSoC5/PWM_Brake_PM.c **** *
+ 177:Generated_Source\PSoC5/PWM_Brake_PM.c **** *******************************************************************************/
+ 178:Generated_Source\PSoC5/PWM_Brake_PM.c **** void PWM_Brake_Wakeup(void) 
+ 179:Generated_Source\PSoC5/PWM_Brake_PM.c **** {
+ 177              		.loc 1 179 0
+ 178              		.cfi_startproc
+ 179              		@ args = 0, pretend = 0, frame = 0
+ 180              		@ frame_needed = 0, uses_anonymous_args = 0
+ 181 0000 10B5     		push	{r4, lr}
+ 182              		.cfi_def_cfa_offset 8
+ 183              		.cfi_offset 4, -8
+ 184              		.cfi_offset 14, -4
+ 185              	.LBB8:
+ 186              	.LBB9:
+  92:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #endif /* (!PWM_Brake_PWMModeIsCenterAligned) */
+ 187              		.loc 1 92 0
+ 188 0002 0A4C     		ldr	r4, .L18
+ 189 0004 A088     		ldrh	r0, [r4, #4]
+ 190 0006 FFF7FEFF 		bl	PWM_Brake_WritePeriod
+ 191              	.LVL10:
+  95:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+ 192              		.loc 1 95 0
+ 193 000a 6088     		ldrh	r0, [r4, #2]
+ 194 000c FFF7FEFF 		bl	PWM_Brake_WriteCounter
+ 195              	.LVL11:
+  98:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #endif /* (PWM_Brake_UseStatus) */
+ 196              		.loc 1 98 0
+ 197 0010 074B     		ldr	r3, .L18+4
+ 198 0012 A279     		ldrb	r2, [r4, #6]	@ zero_extendqisi2
+ 111:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #endif /* (PWM_Brake_UseControl) */
+ 199              		.loc 1 111 0
+ 200 0014 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+  98:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #endif /* (PWM_Brake_UseStatus) */
+ 201              		.loc 1 98 0
+ 202 0016 1A70     		strb	r2, [r3]
+ 111:Generated_Source\PSoC5/PWM_Brake_PM.c ****             #endif /* (PWM_Brake_UseControl) */
+ 203              		.loc 1 111 0
+ 204 0018 FFF7FEFF 		bl	PWM_Brake_WriteControlRegister
+ 205              	.LVL12:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 8
+
+
+ 206              	.LBE9:
+ 207              	.LBE8:
+ 180:Generated_Source\PSoC5/PWM_Brake_PM.c ****      /* Restore registers values */
+ 181:Generated_Source\PSoC5/PWM_Brake_PM.c ****     PWM_Brake_RestoreConfig();
+ 182:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+ 183:Generated_Source\PSoC5/PWM_Brake_PM.c ****     if(PWM_Brake_backup.PWMEnableState != 0u)
+ 208              		.loc 1 183 0
+ 209 001c 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 210 001e 03B9     		cbnz	r3, .L17
+ 211 0020 10BD     		pop	{r4, pc}
+ 212              	.L17:
+ 184:Generated_Source\PSoC5/PWM_Brake_PM.c ****     {
+ 185:Generated_Source\PSoC5/PWM_Brake_PM.c ****         /* Enable component's operation */
+ 186:Generated_Source\PSoC5/PWM_Brake_PM.c ****         PWM_Brake_Enable();
+ 187:Generated_Source\PSoC5/PWM_Brake_PM.c ****     } /* Do nothing if component's block was disabled before */
+ 188:Generated_Source\PSoC5/PWM_Brake_PM.c **** 
+ 189:Generated_Source\PSoC5/PWM_Brake_PM.c **** }
+ 213              		.loc 1 189 0
+ 214 0022 BDE81040 		pop	{r4, lr}
+ 215              		.cfi_restore 14
+ 216              		.cfi_restore 4
+ 217              		.cfi_def_cfa_offset 0
+ 186:Generated_Source\PSoC5/PWM_Brake_PM.c ****     } /* Do nothing if component's block was disabled before */
+ 218              		.loc 1 186 0
+ 219 0026 FFF7FEBF 		b	PWM_Brake_Enable
+ 220              	.LVL13:
+ 221              	.L19:
+ 222 002a 00BF     		.align	2
+ 223              	.L18:
+ 224 002c 00000000 		.word	.LANCHOR0
+ 225 0030 8B640040 		.word	1073767563
+ 226              		.cfi_endproc
+ 227              	.LFE3:
+ 228              		.size	PWM_Brake_Wakeup, .-PWM_Brake_Wakeup
+ 229              		.bss
+ 230              		.align	2
+ 231              		.set	.LANCHOR0,. + 0
+ 232              		.type	PWM_Brake_backup, %object
+ 233              		.size	PWM_Brake_backup, 8
+ 234              	PWM_Brake_backup:
+ 235 0000 00000000 		.space	8
+ 235      00000000 
+ 236              		.text
+ 237              	.Letext0:
+ 238              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 239              		.file 3 "Generated_Source\\PSoC5\\PWM_Brake.h"
+ 240              		.section	.debug_info,"",%progbits
+ 241              	.Ldebug_info0:
+ 242 0000 77020000 		.4byte	0x277
+ 243 0004 0400     		.2byte	0x4
+ 244 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 245 000a 04       		.byte	0x4
+ 246 000b 01       		.uleb128 0x1
+ 247 000c 43000000 		.4byte	.LASF35
+ 248 0010 0C       		.byte	0xc
+ 249 0011 31010000 		.4byte	.LASF36
+ 250 0015 CF020000 		.4byte	.LASF37
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 9
+
+
+ 251 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 252 001d 00000000 		.4byte	0
+ 253 0021 00000000 		.4byte	.Ldebug_line0
+ 254 0025 02       		.uleb128 0x2
+ 255 0026 01       		.byte	0x1
+ 256 0027 06       		.byte	0x6
+ 257 0028 C3020000 		.4byte	.LASF0
+ 258 002c 02       		.uleb128 0x2
+ 259 002d 01       		.byte	0x1
+ 260 002e 08       		.byte	0x8
+ 261 002f 23010000 		.4byte	.LASF1
+ 262 0033 02       		.uleb128 0x2
+ 263 0034 02       		.byte	0x2
+ 264 0035 05       		.byte	0x5
+ 265 0036 7D020000 		.4byte	.LASF2
+ 266 003a 02       		.uleb128 0x2
+ 267 003b 02       		.byte	0x2
+ 268 003c 07       		.byte	0x7
+ 269 003d D1000000 		.4byte	.LASF3
+ 270 0041 02       		.uleb128 0x2
+ 271 0042 04       		.byte	0x4
+ 272 0043 05       		.byte	0x5
+ 273 0044 AE020000 		.4byte	.LASF4
+ 274 0048 02       		.uleb128 0x2
+ 275 0049 04       		.byte	0x4
+ 276 004a 07       		.byte	0x7
+ 277 004b 66010000 		.4byte	.LASF5
+ 278 004f 02       		.uleb128 0x2
+ 279 0050 08       		.byte	0x8
+ 280 0051 05       		.byte	0x5
+ 281 0052 38020000 		.4byte	.LASF6
+ 282 0056 02       		.uleb128 0x2
+ 283 0057 08       		.byte	0x8
+ 284 0058 07       		.byte	0x7
+ 285 0059 DF010000 		.4byte	.LASF7
+ 286 005d 03       		.uleb128 0x3
+ 287 005e 04       		.byte	0x4
+ 288 005f 05       		.byte	0x5
+ 289 0060 696E7400 		.ascii	"int\000"
+ 290 0064 02       		.uleb128 0x2
+ 291 0065 04       		.byte	0x4
+ 292 0066 07       		.byte	0x7
+ 293 0067 D2010000 		.4byte	.LASF8
+ 294 006b 04       		.uleb128 0x4
+ 295 006c 78010000 		.4byte	.LASF9
+ 296 0070 02       		.byte	0x2
+ 297 0071 E401     		.2byte	0x1e4
+ 298 0073 2C000000 		.4byte	0x2c
+ 299 0077 04       		.uleb128 0x4
+ 300 0078 BA010000 		.4byte	.LASF10
+ 301 007c 02       		.byte	0x2
+ 302 007d E501     		.2byte	0x1e5
+ 303 007f 3A000000 		.4byte	0x3a
+ 304 0083 02       		.uleb128 0x2
+ 305 0084 04       		.byte	0x4
+ 306 0085 04       		.byte	0x4
+ 307 0086 0A010000 		.4byte	.LASF11
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 10
+
+
+ 308 008a 02       		.uleb128 0x2
+ 309 008b 08       		.byte	0x8
+ 310 008c 04       		.byte	0x4
+ 311 008d 94010000 		.4byte	.LASF12
+ 312 0091 02       		.uleb128 0x2
+ 313 0092 01       		.byte	0x1
+ 314 0093 08       		.byte	0x8
+ 315 0094 46020000 		.4byte	.LASF13
+ 316 0098 04       		.uleb128 0x4
+ 317 0099 2A020000 		.4byte	.LASF14
+ 318 009d 02       		.byte	0x2
+ 319 009e 8E02     		.2byte	0x28e
+ 320 00a0 A4000000 		.4byte	0xa4
+ 321 00a4 05       		.uleb128 0x5
+ 322 00a5 6B000000 		.4byte	0x6b
+ 323 00a9 02       		.uleb128 0x2
+ 324 00aa 08       		.byte	0x8
+ 325 00ab 04       		.byte	0x4
+ 326 00ac B7020000 		.4byte	.LASF15
+ 327 00b0 02       		.uleb128 0x2
+ 328 00b1 04       		.byte	0x4
+ 329 00b2 07       		.byte	0x7
+ 330 00b3 2F020000 		.4byte	.LASF16
+ 331 00b7 06       		.uleb128 0x6
+ 332 00b8 08       		.byte	0x8
+ 333 00b9 03       		.byte	0x3
+ 334 00ba 6B       		.byte	0x6b
+ 335 00bb FC000000 		.4byte	0xfc
+ 336 00bf 07       		.uleb128 0x7
+ 337 00c0 57010000 		.4byte	.LASF17
+ 338 00c4 03       		.byte	0x3
+ 339 00c5 6E       		.byte	0x6e
+ 340 00c6 6B000000 		.4byte	0x6b
+ 341 00ca 00       		.byte	0
+ 342 00cb 07       		.uleb128 0x7
+ 343 00cc 18000000 		.4byte	.LASF18
+ 344 00d0 03       		.byte	0x3
+ 345 00d1 71       		.byte	0x71
+ 346 00d2 77000000 		.4byte	0x77
+ 347 00d6 02       		.byte	0x2
+ 348 00d7 07       		.uleb128 0x7
+ 349 00d8 62020000 		.4byte	.LASF19
+ 350 00dc 03       		.byte	0x3
+ 351 00dd 73       		.byte	0x73
+ 352 00de 77000000 		.4byte	0x77
+ 353 00e2 04       		.byte	0x4
+ 354 00e3 07       		.uleb128 0x7
+ 355 00e4 09030000 		.4byte	.LASF20
+ 356 00e8 03       		.byte	0x3
+ 357 00e9 76       		.byte	0x76
+ 358 00ea 6B000000 		.4byte	0x6b
+ 359 00ee 06       		.byte	0x6
+ 360 00ef 07       		.uleb128 0x7
+ 361 00f0 10010000 		.4byte	.LASF21
+ 362 00f4 03       		.byte	0x3
+ 363 00f5 86       		.byte	0x86
+ 364 00f6 6B000000 		.4byte	0x6b
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 11
+
+
+ 365 00fa 07       		.byte	0x7
+ 366 00fb 00       		.byte	0
+ 367 00fc 08       		.uleb128 0x8
+ 368 00fd 97020000 		.4byte	.LASF22
+ 369 0101 03       		.byte	0x3
+ 370 0102 8B       		.byte	0x8b
+ 371 0103 B7000000 		.4byte	0xb7
+ 372 0107 09       		.uleb128 0x9
+ 373 0108 2E000000 		.4byte	.LASF23
+ 374 010c 01       		.byte	0x1
+ 375 010d 2A       		.byte	0x2a
+ 376 010e 01       		.byte	0x1
+ 377 010f 0A       		.uleb128 0xa
+ 378 0110 07010000 		.4byte	0x107
+ 379 0114 00000000 		.4byte	.LFB0
+ 380 0118 28000000 		.4byte	.LFE0-.LFB0
+ 381 011c 01       		.uleb128 0x1
+ 382 011d 9C       		.byte	0x9c
+ 383 011e 3E010000 		.4byte	0x13e
+ 384 0122 0B       		.uleb128 0xb
+ 385 0123 06000000 		.4byte	.LVL0
+ 386 0127 22020000 		.4byte	0x222
+ 387 012b 0B       		.uleb128 0xb
+ 388 012c 0E000000 		.4byte	.LVL1
+ 389 0130 2D020000 		.4byte	0x22d
+ 390 0134 0B       		.uleb128 0xb
+ 391 0135 1A000000 		.4byte	.LVL2
+ 392 0139 38020000 		.4byte	0x238
+ 393 013d 00       		.byte	0
+ 394 013e 09       		.uleb128 0x9
+ 395 013f 00000000 		.4byte	.LASF24
+ 396 0143 01       		.byte	0x1
+ 397 0144 58       		.byte	0x58
+ 398 0145 01       		.byte	0x1
+ 399 0146 0A       		.uleb128 0xa
+ 400 0147 3E010000 		.4byte	0x13e
+ 401 014b 00000000 		.4byte	.LFB1
+ 402 014f 28000000 		.4byte	.LFE1-.LFB1
+ 403 0153 01       		.uleb128 0x1
+ 404 0154 9C       		.byte	0x9c
+ 405 0155 75010000 		.4byte	0x175
+ 406 0159 0B       		.uleb128 0xb
+ 407 015a 0A000000 		.4byte	.LVL3
+ 408 015e 43020000 		.4byte	0x243
+ 409 0162 0B       		.uleb128 0xb
+ 410 0163 10000000 		.4byte	.LVL4
+ 411 0167 4E020000 		.4byte	0x24e
+ 412 016b 0C       		.uleb128 0xc
+ 413 016c 20000000 		.4byte	.LVL5
+ 414 0170 59020000 		.4byte	0x259
+ 415 0174 00       		.byte	0
+ 416 0175 0D       		.uleb128 0xd
+ 417 0176 87020000 		.4byte	.LASF25
+ 418 017a 01       		.byte	0x1
+ 419 017b 88       		.byte	0x88
+ 420 017c 00000000 		.4byte	.LFB2
+ 421 0180 38000000 		.4byte	.LFE2-.LFB2
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 12
+
+
+ 422 0184 01       		.uleb128 0x1
+ 423 0185 9C       		.byte	0x9c
+ 424 0186 C3010000 		.4byte	0x1c3
+ 425 018a 0E       		.uleb128 0xe
+ 426 018b 07010000 		.4byte	0x107
+ 427 018f 10000000 		.4byte	.LBB4
+ 428 0193 28000000 		.4byte	.LBE4-.LBB4
+ 429 0197 01       		.byte	0x1
+ 430 0198 9B       		.byte	0x9b
+ 431 0199 B9010000 		.4byte	0x1b9
+ 432 019d 0B       		.uleb128 0xb
+ 433 019e 14000000 		.4byte	.LVL7
+ 434 01a2 22020000 		.4byte	0x222
+ 435 01a6 0B       		.uleb128 0xb
+ 436 01a7 1A000000 		.4byte	.LVL8
+ 437 01ab 2D020000 		.4byte	0x22d
+ 438 01af 0B       		.uleb128 0xb
+ 439 01b0 26000000 		.4byte	.LVL9
+ 440 01b4 38020000 		.4byte	0x238
+ 441 01b8 00       		.byte	0
+ 442 01b9 0B       		.uleb128 0xb
+ 443 01ba 10000000 		.4byte	.LVL6
+ 444 01be 64020000 		.4byte	0x264
+ 445 01c2 00       		.byte	0
+ 446 01c3 0D       		.uleb128 0xd
+ 447 01c4 6C020000 		.4byte	.LASF26
+ 448 01c8 01       		.byte	0x1
+ 449 01c9 B2       		.byte	0xb2
+ 450 01ca 00000000 		.4byte	.LFB3
+ 451 01ce 34000000 		.4byte	.LFE3-.LFB3
+ 452 01d2 01       		.uleb128 0x1
+ 453 01d3 9C       		.byte	0x9c
+ 454 01d4 11020000 		.4byte	0x211
+ 455 01d8 0E       		.uleb128 0xe
+ 456 01d9 3E010000 		.4byte	0x13e
+ 457 01dd 02000000 		.4byte	.LBB8
+ 458 01e1 1A000000 		.4byte	.LBE8-.LBB8
+ 459 01e5 01       		.byte	0x1
+ 460 01e6 B5       		.byte	0xb5
+ 461 01e7 07020000 		.4byte	0x207
+ 462 01eb 0B       		.uleb128 0xb
+ 463 01ec 0A000000 		.4byte	.LVL10
+ 464 01f0 43020000 		.4byte	0x243
+ 465 01f4 0B       		.uleb128 0xb
+ 466 01f5 10000000 		.4byte	.LVL11
+ 467 01f9 4E020000 		.4byte	0x24e
+ 468 01fd 0B       		.uleb128 0xb
+ 469 01fe 1C000000 		.4byte	.LVL12
+ 470 0202 59020000 		.4byte	0x259
+ 471 0206 00       		.byte	0
+ 472 0207 0C       		.uleb128 0xc
+ 473 0208 2A000000 		.4byte	.LVL13
+ 474 020c 6F020000 		.4byte	0x26f
+ 475 0210 00       		.byte	0
+ 476 0211 0F       		.uleb128 0xf
+ 477 0212 C1010000 		.4byte	.LASF38
+ 478 0216 01       		.byte	0x1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 13
+
+
+ 479 0217 14       		.byte	0x14
+ 480 0218 FC000000 		.4byte	0xfc
+ 481 021c 05       		.uleb128 0x5
+ 482 021d 03       		.byte	0x3
+ 483 021e 00000000 		.4byte	PWM_Brake_backup
+ 484 0222 10       		.uleb128 0x10
+ 485 0223 F5000000 		.4byte	.LASF27
+ 486 0227 F5000000 		.4byte	.LASF27
+ 487 022b 03       		.byte	0x3
+ 488 022c C0       		.byte	0xc0
+ 489 022d 10       		.uleb128 0x10
+ 490 022e 7E010000 		.4byte	.LASF28
+ 491 0232 7E010000 		.4byte	.LASF28
+ 492 0236 03       		.byte	0x3
+ 493 0237 B3       		.byte	0xb3
+ 494 0238 10       		.uleb128 0x10
+ 495 0239 0C020000 		.4byte	.LASF29
+ 496 023d 0C020000 		.4byte	.LASF29
+ 497 0241 03       		.byte	0x3
+ 498 0242 9D       		.byte	0x9d
+ 499 0243 10       		.uleb128 0x10
+ 500 0244 F6010000 		.4byte	.LASF30
+ 501 0248 F6010000 		.4byte	.LASF30
+ 502 024c 03       		.byte	0x3
+ 503 024d BE       		.byte	0xbe
+ 504 024e 10       		.uleb128 0x10
+ 505 024f 4B020000 		.4byte	.LASF31
+ 506 0253 4B020000 		.4byte	.LASF31
+ 507 0257 03       		.byte	0x3
+ 508 0258 BA       		.byte	0xba
+ 509 0259 10       		.uleb128 0x10
+ 510 025a 9B010000 		.4byte	.LASF32
+ 511 025e 9B010000 		.4byte	.LASF32
+ 512 0262 03       		.byte	0x3
+ 513 0263 9E       		.byte	0x9e
+ 514 0264 10       		.uleb128 0x10
+ 515 0265 1F000000 		.4byte	.LASF33
+ 516 0269 1F000000 		.4byte	.LASF33
+ 517 026d 03       		.byte	0x3
+ 518 026e 93       		.byte	0x93
+ 519 026f 10       		.uleb128 0x10
+ 520 0270 E4000000 		.4byte	.LASF34
+ 521 0274 E4000000 		.4byte	.LASF34
+ 522 0278 03       		.byte	0x3
+ 523 0279 DB       		.byte	0xdb
+ 524 027a 00       		.byte	0
+ 525              		.section	.debug_abbrev,"",%progbits
+ 526              	.Ldebug_abbrev0:
+ 527 0000 01       		.uleb128 0x1
+ 528 0001 11       		.uleb128 0x11
+ 529 0002 01       		.byte	0x1
+ 530 0003 25       		.uleb128 0x25
+ 531 0004 0E       		.uleb128 0xe
+ 532 0005 13       		.uleb128 0x13
+ 533 0006 0B       		.uleb128 0xb
+ 534 0007 03       		.uleb128 0x3
+ 535 0008 0E       		.uleb128 0xe
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 14
+
+
+ 536 0009 1B       		.uleb128 0x1b
+ 537 000a 0E       		.uleb128 0xe
+ 538 000b 55       		.uleb128 0x55
+ 539 000c 17       		.uleb128 0x17
+ 540 000d 11       		.uleb128 0x11
+ 541 000e 01       		.uleb128 0x1
+ 542 000f 10       		.uleb128 0x10
+ 543 0010 17       		.uleb128 0x17
+ 544 0011 00       		.byte	0
+ 545 0012 00       		.byte	0
+ 546 0013 02       		.uleb128 0x2
+ 547 0014 24       		.uleb128 0x24
+ 548 0015 00       		.byte	0
+ 549 0016 0B       		.uleb128 0xb
+ 550 0017 0B       		.uleb128 0xb
+ 551 0018 3E       		.uleb128 0x3e
+ 552 0019 0B       		.uleb128 0xb
+ 553 001a 03       		.uleb128 0x3
+ 554 001b 0E       		.uleb128 0xe
+ 555 001c 00       		.byte	0
+ 556 001d 00       		.byte	0
+ 557 001e 03       		.uleb128 0x3
+ 558 001f 24       		.uleb128 0x24
+ 559 0020 00       		.byte	0
+ 560 0021 0B       		.uleb128 0xb
+ 561 0022 0B       		.uleb128 0xb
+ 562 0023 3E       		.uleb128 0x3e
+ 563 0024 0B       		.uleb128 0xb
+ 564 0025 03       		.uleb128 0x3
+ 565 0026 08       		.uleb128 0x8
+ 566 0027 00       		.byte	0
+ 567 0028 00       		.byte	0
+ 568 0029 04       		.uleb128 0x4
+ 569 002a 16       		.uleb128 0x16
+ 570 002b 00       		.byte	0
+ 571 002c 03       		.uleb128 0x3
+ 572 002d 0E       		.uleb128 0xe
+ 573 002e 3A       		.uleb128 0x3a
+ 574 002f 0B       		.uleb128 0xb
+ 575 0030 3B       		.uleb128 0x3b
+ 576 0031 05       		.uleb128 0x5
+ 577 0032 49       		.uleb128 0x49
+ 578 0033 13       		.uleb128 0x13
+ 579 0034 00       		.byte	0
+ 580 0035 00       		.byte	0
+ 581 0036 05       		.uleb128 0x5
+ 582 0037 35       		.uleb128 0x35
+ 583 0038 00       		.byte	0
+ 584 0039 49       		.uleb128 0x49
+ 585 003a 13       		.uleb128 0x13
+ 586 003b 00       		.byte	0
+ 587 003c 00       		.byte	0
+ 588 003d 06       		.uleb128 0x6
+ 589 003e 13       		.uleb128 0x13
+ 590 003f 01       		.byte	0x1
+ 591 0040 0B       		.uleb128 0xb
+ 592 0041 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 15
+
+
+ 593 0042 3A       		.uleb128 0x3a
+ 594 0043 0B       		.uleb128 0xb
+ 595 0044 3B       		.uleb128 0x3b
+ 596 0045 0B       		.uleb128 0xb
+ 597 0046 01       		.uleb128 0x1
+ 598 0047 13       		.uleb128 0x13
+ 599 0048 00       		.byte	0
+ 600 0049 00       		.byte	0
+ 601 004a 07       		.uleb128 0x7
+ 602 004b 0D       		.uleb128 0xd
+ 603 004c 00       		.byte	0
+ 604 004d 03       		.uleb128 0x3
+ 605 004e 0E       		.uleb128 0xe
+ 606 004f 3A       		.uleb128 0x3a
+ 607 0050 0B       		.uleb128 0xb
+ 608 0051 3B       		.uleb128 0x3b
+ 609 0052 0B       		.uleb128 0xb
+ 610 0053 49       		.uleb128 0x49
+ 611 0054 13       		.uleb128 0x13
+ 612 0055 38       		.uleb128 0x38
+ 613 0056 0B       		.uleb128 0xb
+ 614 0057 00       		.byte	0
+ 615 0058 00       		.byte	0
+ 616 0059 08       		.uleb128 0x8
+ 617 005a 16       		.uleb128 0x16
+ 618 005b 00       		.byte	0
+ 619 005c 03       		.uleb128 0x3
+ 620 005d 0E       		.uleb128 0xe
+ 621 005e 3A       		.uleb128 0x3a
+ 622 005f 0B       		.uleb128 0xb
+ 623 0060 3B       		.uleb128 0x3b
+ 624 0061 0B       		.uleb128 0xb
+ 625 0062 49       		.uleb128 0x49
+ 626 0063 13       		.uleb128 0x13
+ 627 0064 00       		.byte	0
+ 628 0065 00       		.byte	0
+ 629 0066 09       		.uleb128 0x9
+ 630 0067 2E       		.uleb128 0x2e
+ 631 0068 00       		.byte	0
+ 632 0069 3F       		.uleb128 0x3f
+ 633 006a 19       		.uleb128 0x19
+ 634 006b 03       		.uleb128 0x3
+ 635 006c 0E       		.uleb128 0xe
+ 636 006d 3A       		.uleb128 0x3a
+ 637 006e 0B       		.uleb128 0xb
+ 638 006f 3B       		.uleb128 0x3b
+ 639 0070 0B       		.uleb128 0xb
+ 640 0071 27       		.uleb128 0x27
+ 641 0072 19       		.uleb128 0x19
+ 642 0073 20       		.uleb128 0x20
+ 643 0074 0B       		.uleb128 0xb
+ 644 0075 00       		.byte	0
+ 645 0076 00       		.byte	0
+ 646 0077 0A       		.uleb128 0xa
+ 647 0078 2E       		.uleb128 0x2e
+ 648 0079 01       		.byte	0x1
+ 649 007a 31       		.uleb128 0x31
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 16
+
+
+ 650 007b 13       		.uleb128 0x13
+ 651 007c 11       		.uleb128 0x11
+ 652 007d 01       		.uleb128 0x1
+ 653 007e 12       		.uleb128 0x12
+ 654 007f 06       		.uleb128 0x6
+ 655 0080 40       		.uleb128 0x40
+ 656 0081 18       		.uleb128 0x18
+ 657 0082 9742     		.uleb128 0x2117
+ 658 0084 19       		.uleb128 0x19
+ 659 0085 01       		.uleb128 0x1
+ 660 0086 13       		.uleb128 0x13
+ 661 0087 00       		.byte	0
+ 662 0088 00       		.byte	0
+ 663 0089 0B       		.uleb128 0xb
+ 664 008a 898201   		.uleb128 0x4109
+ 665 008d 00       		.byte	0
+ 666 008e 11       		.uleb128 0x11
+ 667 008f 01       		.uleb128 0x1
+ 668 0090 31       		.uleb128 0x31
+ 669 0091 13       		.uleb128 0x13
+ 670 0092 00       		.byte	0
+ 671 0093 00       		.byte	0
+ 672 0094 0C       		.uleb128 0xc
+ 673 0095 898201   		.uleb128 0x4109
+ 674 0098 00       		.byte	0
+ 675 0099 11       		.uleb128 0x11
+ 676 009a 01       		.uleb128 0x1
+ 677 009b 9542     		.uleb128 0x2115
+ 678 009d 19       		.uleb128 0x19
+ 679 009e 31       		.uleb128 0x31
+ 680 009f 13       		.uleb128 0x13
+ 681 00a0 00       		.byte	0
+ 682 00a1 00       		.byte	0
+ 683 00a2 0D       		.uleb128 0xd
+ 684 00a3 2E       		.uleb128 0x2e
+ 685 00a4 01       		.byte	0x1
+ 686 00a5 3F       		.uleb128 0x3f
+ 687 00a6 19       		.uleb128 0x19
+ 688 00a7 03       		.uleb128 0x3
+ 689 00a8 0E       		.uleb128 0xe
+ 690 00a9 3A       		.uleb128 0x3a
+ 691 00aa 0B       		.uleb128 0xb
+ 692 00ab 3B       		.uleb128 0x3b
+ 693 00ac 0B       		.uleb128 0xb
+ 694 00ad 27       		.uleb128 0x27
+ 695 00ae 19       		.uleb128 0x19
+ 696 00af 11       		.uleb128 0x11
+ 697 00b0 01       		.uleb128 0x1
+ 698 00b1 12       		.uleb128 0x12
+ 699 00b2 06       		.uleb128 0x6
+ 700 00b3 40       		.uleb128 0x40
+ 701 00b4 18       		.uleb128 0x18
+ 702 00b5 9742     		.uleb128 0x2117
+ 703 00b7 19       		.uleb128 0x19
+ 704 00b8 01       		.uleb128 0x1
+ 705 00b9 13       		.uleb128 0x13
+ 706 00ba 00       		.byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 17
+
+
+ 707 00bb 00       		.byte	0
+ 708 00bc 0E       		.uleb128 0xe
+ 709 00bd 1D       		.uleb128 0x1d
+ 710 00be 01       		.byte	0x1
+ 711 00bf 31       		.uleb128 0x31
+ 712 00c0 13       		.uleb128 0x13
+ 713 00c1 11       		.uleb128 0x11
+ 714 00c2 01       		.uleb128 0x1
+ 715 00c3 12       		.uleb128 0x12
+ 716 00c4 06       		.uleb128 0x6
+ 717 00c5 58       		.uleb128 0x58
+ 718 00c6 0B       		.uleb128 0xb
+ 719 00c7 59       		.uleb128 0x59
+ 720 00c8 0B       		.uleb128 0xb
+ 721 00c9 01       		.uleb128 0x1
+ 722 00ca 13       		.uleb128 0x13
+ 723 00cb 00       		.byte	0
+ 724 00cc 00       		.byte	0
+ 725 00cd 0F       		.uleb128 0xf
+ 726 00ce 34       		.uleb128 0x34
+ 727 00cf 00       		.byte	0
+ 728 00d0 03       		.uleb128 0x3
+ 729 00d1 0E       		.uleb128 0xe
+ 730 00d2 3A       		.uleb128 0x3a
+ 731 00d3 0B       		.uleb128 0xb
+ 732 00d4 3B       		.uleb128 0x3b
+ 733 00d5 0B       		.uleb128 0xb
+ 734 00d6 49       		.uleb128 0x49
+ 735 00d7 13       		.uleb128 0x13
+ 736 00d8 02       		.uleb128 0x2
+ 737 00d9 18       		.uleb128 0x18
+ 738 00da 00       		.byte	0
+ 739 00db 00       		.byte	0
+ 740 00dc 10       		.uleb128 0x10
+ 741 00dd 2E       		.uleb128 0x2e
+ 742 00de 00       		.byte	0
+ 743 00df 3F       		.uleb128 0x3f
+ 744 00e0 19       		.uleb128 0x19
+ 745 00e1 3C       		.uleb128 0x3c
+ 746 00e2 19       		.uleb128 0x19
+ 747 00e3 6E       		.uleb128 0x6e
+ 748 00e4 0E       		.uleb128 0xe
+ 749 00e5 03       		.uleb128 0x3
+ 750 00e6 0E       		.uleb128 0xe
+ 751 00e7 3A       		.uleb128 0x3a
+ 752 00e8 0B       		.uleb128 0xb
+ 753 00e9 3B       		.uleb128 0x3b
+ 754 00ea 0B       		.uleb128 0xb
+ 755 00eb 00       		.byte	0
+ 756 00ec 00       		.byte	0
+ 757 00ed 00       		.byte	0
+ 758              		.section	.debug_aranges,"",%progbits
+ 759 0000 34000000 		.4byte	0x34
+ 760 0004 0200     		.2byte	0x2
+ 761 0006 00000000 		.4byte	.Ldebug_info0
+ 762 000a 04       		.byte	0x4
+ 763 000b 00       		.byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 18
+
+
+ 764 000c 0000     		.2byte	0
+ 765 000e 0000     		.2byte	0
+ 766 0010 00000000 		.4byte	.LFB0
+ 767 0014 28000000 		.4byte	.LFE0-.LFB0
+ 768 0018 00000000 		.4byte	.LFB1
+ 769 001c 28000000 		.4byte	.LFE1-.LFB1
+ 770 0020 00000000 		.4byte	.LFB2
+ 771 0024 38000000 		.4byte	.LFE2-.LFB2
+ 772 0028 00000000 		.4byte	.LFB3
+ 773 002c 34000000 		.4byte	.LFE3-.LFB3
+ 774 0030 00000000 		.4byte	0
+ 775 0034 00000000 		.4byte	0
+ 776              		.section	.debug_ranges,"",%progbits
+ 777              	.Ldebug_ranges0:
+ 778 0000 00000000 		.4byte	.LFB0
+ 779 0004 28000000 		.4byte	.LFE0
+ 780 0008 00000000 		.4byte	.LFB1
+ 781 000c 28000000 		.4byte	.LFE1
+ 782 0010 00000000 		.4byte	.LFB2
+ 783 0014 38000000 		.4byte	.LFE2
+ 784 0018 00000000 		.4byte	.LFB3
+ 785 001c 34000000 		.4byte	.LFE3
+ 786 0020 00000000 		.4byte	0
+ 787 0024 00000000 		.4byte	0
+ 788              		.section	.debug_line,"",%progbits
+ 789              	.Ldebug_line0:
+ 790 0000 D6000000 		.section	.debug_str,"MS",%progbits,1
+ 790      02005800 
+ 790      00000201 
+ 790      FB0E0D00 
+ 790      01010101 
+ 791              	.LASF24:
+ 792 0000 50574D5F 		.ascii	"PWM_Brake_RestoreConfig\000"
+ 792      4272616B 
+ 792      655F5265 
+ 792      73746F72 
+ 792      65436F6E 
+ 793              	.LASF18:
+ 794 0018 50574D55 		.ascii	"PWMUdb\000"
+ 794      646200
+ 795              	.LASF33:
+ 796 001f 50574D5F 		.ascii	"PWM_Brake_Stop\000"
+ 796      4272616B 
+ 796      655F5374 
+ 796      6F7000
+ 797              	.LASF23:
+ 798 002e 50574D5F 		.ascii	"PWM_Brake_SaveConfig\000"
+ 798      4272616B 
+ 798      655F5361 
+ 798      7665436F 
+ 798      6E666967 
+ 799              	.LASF35:
+ 800 0043 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 800      43313120 
+ 800      352E342E 
+ 800      31203230 
+ 800      31363036 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 19
+
+
+ 801 0076 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 801      20726576 
+ 801      6973696F 
+ 801      6E203233 
+ 801      37373135 
+ 802 00a9 33202D66 		.ascii	"3 -ffunction-sections -ffat-lto-objects\000"
+ 802      66756E63 
+ 802      74696F6E 
+ 802      2D736563 
+ 802      74696F6E 
+ 803              	.LASF3:
+ 804 00d1 73686F72 		.ascii	"short unsigned int\000"
+ 804      7420756E 
+ 804      7369676E 
+ 804      65642069 
+ 804      6E7400
+ 805              	.LASF34:
+ 806 00e4 50574D5F 		.ascii	"PWM_Brake_Enable\000"
+ 806      4272616B 
+ 806      655F456E 
+ 806      61626C65 
+ 806      00
+ 807              	.LASF27:
+ 808 00f5 50574D5F 		.ascii	"PWM_Brake_ReadPeriod\000"
+ 808      4272616B 
+ 808      655F5265 
+ 808      61645065 
+ 808      72696F64 
+ 809              	.LASF11:
+ 810 010a 666C6F61 		.ascii	"float\000"
+ 810      7400
+ 811              	.LASF21:
+ 812 0110 50574D43 		.ascii	"PWMControlRegister\000"
+ 812      6F6E7472 
+ 812      6F6C5265 
+ 812      67697374 
+ 812      657200
+ 813              	.LASF1:
+ 814 0123 756E7369 		.ascii	"unsigned char\000"
+ 814      676E6564 
+ 814      20636861 
+ 814      7200
+ 815              	.LASF36:
+ 816 0131 47656E65 		.ascii	"Generated_Source\\PSoC5\\PWM_Brake_PM.c\000"
+ 816      72617465 
+ 816      645F536F 
+ 816      75726365 
+ 816      5C50536F 
+ 817              	.LASF17:
+ 818 0157 50574D45 		.ascii	"PWMEnableState\000"
+ 818      6E61626C 
+ 818      65537461 
+ 818      746500
+ 819              	.LASF5:
+ 820 0166 6C6F6E67 		.ascii	"long unsigned int\000"
+ 820      20756E73 
+ 820      69676E65 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 20
+
+
+ 820      6420696E 
+ 820      7400
+ 821              	.LASF9:
+ 822 0178 75696E74 		.ascii	"uint8\000"
+ 822      3800
+ 823              	.LASF28:
+ 824 017e 50574D5F 		.ascii	"PWM_Brake_ReadCounter\000"
+ 824      4272616B 
+ 824      655F5265 
+ 824      6164436F 
+ 824      756E7465 
+ 825              	.LASF12:
+ 826 0194 646F7562 		.ascii	"double\000"
+ 826      6C6500
+ 827              	.LASF32:
+ 828 019b 50574D5F 		.ascii	"PWM_Brake_WriteControlRegister\000"
+ 828      4272616B 
+ 828      655F5772 
+ 828      69746543 
+ 828      6F6E7472 
+ 829              	.LASF10:
+ 830 01ba 75696E74 		.ascii	"uint16\000"
+ 830      313600
+ 831              	.LASF38:
+ 832 01c1 50574D5F 		.ascii	"PWM_Brake_backup\000"
+ 832      4272616B 
+ 832      655F6261 
+ 832      636B7570 
+ 832      00
+ 833              	.LASF8:
+ 834 01d2 756E7369 		.ascii	"unsigned int\000"
+ 834      676E6564 
+ 834      20696E74 
+ 834      00
+ 835              	.LASF7:
+ 836 01df 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 836      206C6F6E 
+ 836      6720756E 
+ 836      7369676E 
+ 836      65642069 
+ 837              	.LASF30:
+ 838 01f6 50574D5F 		.ascii	"PWM_Brake_WritePeriod\000"
+ 838      4272616B 
+ 838      655F5772 
+ 838      69746550 
+ 838      6572696F 
+ 839              	.LASF29:
+ 840 020c 50574D5F 		.ascii	"PWM_Brake_ReadControlRegister\000"
+ 840      4272616B 
+ 840      655F5265 
+ 840      6164436F 
+ 840      6E74726F 
+ 841              	.LASF14:
+ 842 022a 72656738 		.ascii	"reg8\000"
+ 842      00
+ 843              	.LASF16:
+ 844 022f 73697A65 		.ascii	"sizetype\000"
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 21
+
+
+ 844      74797065 
+ 844      00
+ 845              	.LASF6:
+ 846 0238 6C6F6E67 		.ascii	"long long int\000"
+ 846      206C6F6E 
+ 846      6720696E 
+ 846      7400
+ 847              	.LASF13:
+ 848 0246 63686172 		.ascii	"char\000"
+ 848      00
+ 849              	.LASF31:
+ 850 024b 50574D5F 		.ascii	"PWM_Brake_WriteCounter\000"
+ 850      4272616B 
+ 850      655F5772 
+ 850      69746543 
+ 850      6F756E74 
+ 851              	.LASF19:
+ 852 0262 50574D50 		.ascii	"PWMPeriod\000"
+ 852      6572696F 
+ 852      6400
+ 853              	.LASF26:
+ 854 026c 50574D5F 		.ascii	"PWM_Brake_Wakeup\000"
+ 854      4272616B 
+ 854      655F5761 
+ 854      6B657570 
+ 854      00
+ 855              	.LASF2:
+ 856 027d 73686F72 		.ascii	"short int\000"
+ 856      7420696E 
+ 856      7400
+ 857              	.LASF25:
+ 858 0287 50574D5F 		.ascii	"PWM_Brake_Sleep\000"
+ 858      4272616B 
+ 858      655F536C 
+ 858      65657000 
+ 859              	.LASF22:
+ 860 0297 50574D5F 		.ascii	"PWM_Brake_backupStruct\000"
+ 860      4272616B 
+ 860      655F6261 
+ 860      636B7570 
+ 860      53747275 
+ 861              	.LASF4:
+ 862 02ae 6C6F6E67 		.ascii	"long int\000"
+ 862      20696E74 
+ 862      00
+ 863              	.LASF15:
+ 864 02b7 6C6F6E67 		.ascii	"long double\000"
+ 864      20646F75 
+ 864      626C6500 
+ 865              	.LASF0:
+ 866 02c3 7369676E 		.ascii	"signed char\000"
+ 866      65642063 
+ 866      68617200 
+ 867              	.LASF37:
+ 868 02cf 433A5C55 		.ascii	"C:\\Users\\jon\\Sync\\Research\\PSoC Projects\\Cont"
+ 868      73657273 
+ 868      5C6A6F6E 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccE9doH2.s 			page 22
+
+
+ 868      5C53796E 
+ 868      635C5265 
+ 869 02fc 726F6C6C 		.ascii	"roller.cydsn\000"
+ 869      65722E63 
+ 869      7964736E 
+ 869      00
+ 870              	.LASF20:
+ 871 0309 496E7465 		.ascii	"InterruptMaskValue\000"
+ 871      72727570 
+ 871      744D6173 
+ 871      6B56616C 
+ 871      756500
+ 872              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

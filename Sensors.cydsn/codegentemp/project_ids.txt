@@ -1,0 +1,7 @@
+C:\Users\jon\Sync\Research\PSoC Projects\Controller.cydsn\Controller.cyprj|3369e13b-3cf2-4969-b04c-73790eac5ab3
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|70d4b18d-2c34-4c9a-a9d1-b726c3a40a69
+C:\Users\jon\Documents\PSoC Creator\4.1\Downloads ( 4.1).cylib\Downloads ( 4.1).cyprj|950f7fd1-fd70-4cc9-81ef-f9a9db006c5f
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|0b904d8b-b0b5-451f-b78c-382c4b94d24e
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|f7c5598a-d103-495e-adce-b8c40ed508e9
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|c66fd7bf-daec-45c7-933f-3a6078a6d37c
+C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\Sensors.cyprj|a5fe5331-3e33-43d7-a7e7-b8e4b29d1c20

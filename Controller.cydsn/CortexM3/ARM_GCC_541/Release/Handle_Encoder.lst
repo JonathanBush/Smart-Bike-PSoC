@@ -1,0 +1,2141 @@
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Handle_Encoder.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.Handle_Encoder_Init,"ax",%progbits
+  20              		.align	2
+  21              		.global	Handle_Encoder_Init
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	Handle_Encoder_Init, %function
+  25              	Handle_Encoder_Init:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\Handle_Encoder.c"
+   1:Generated_Source\PSoC5/Handle_Encoder.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Handle_Encoder.c **** * File Name: Handle_Encoder.c  
+   3:Generated_Source\PSoC5/Handle_Encoder.c **** * Version 3.0
+   4:Generated_Source\PSoC5/Handle_Encoder.c **** *
+   5:Generated_Source\PSoC5/Handle_Encoder.c **** * Description:
+   6:Generated_Source\PSoC5/Handle_Encoder.c **** *  This file provides the source code to the API for the Quadrature Decoder
+   7:Generated_Source\PSoC5/Handle_Encoder.c **** *  component.
+   8:Generated_Source\PSoC5/Handle_Encoder.c **** *
+   9:Generated_Source\PSoC5/Handle_Encoder.c **** * Note:
+  10:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+  11:Generated_Source\PSoC5/Handle_Encoder.c **** *   
+  12:Generated_Source\PSoC5/Handle_Encoder.c **** ********************************************************************************
+  13:Generated_Source\PSoC5/Handle_Encoder.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  14:Generated_Source\PSoC5/Handle_Encoder.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  15:Generated_Source\PSoC5/Handle_Encoder.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  16:Generated_Source\PSoC5/Handle_Encoder.c **** * the software package with which this file was provided.
+  17:Generated_Source\PSoC5/Handle_Encoder.c **** *******************************************************************************/
+  18:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  19:Generated_Source\PSoC5/Handle_Encoder.c **** #include "Handle_Encoder.h"
+  20:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  21:Generated_Source\PSoC5/Handle_Encoder.c **** #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT)
+  22:Generated_Source\PSoC5/Handle_Encoder.c ****     #include "Handle_Encoder_PVT.h"
+  23:Generated_Source\PSoC5/Handle_Encoder.c **** #endif /* Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT */
+  24:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  25:Generated_Source\PSoC5/Handle_Encoder.c **** uint8 Handle_Encoder_initVar = 0u;
+  26:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  27:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  28:Generated_Source\PSoC5/Handle_Encoder.c **** /*******************************************************************************
+  29:Generated_Source\PSoC5/Handle_Encoder.c **** * Function Name: Handle_Encoder_Init
+  30:Generated_Source\PSoC5/Handle_Encoder.c **** ********************************************************************************
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 2
+
+
+  31:Generated_Source\PSoC5/Handle_Encoder.c **** *
+  32:Generated_Source\PSoC5/Handle_Encoder.c **** * Summary:
+  33:Generated_Source\PSoC5/Handle_Encoder.c **** *  Inits/Restores default QuadDec configuration provided with customizer.
+  34:Generated_Source\PSoC5/Handle_Encoder.c **** *
+  35:Generated_Source\PSoC5/Handle_Encoder.c **** * Parameters:
+  36:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+  37:Generated_Source\PSoC5/Handle_Encoder.c **** *
+  38:Generated_Source\PSoC5/Handle_Encoder.c **** * Return:
+  39:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+  40:Generated_Source\PSoC5/Handle_Encoder.c **** *
+  41:Generated_Source\PSoC5/Handle_Encoder.c **** *******************************************************************************/
+  42:Generated_Source\PSoC5/Handle_Encoder.c **** void Handle_Encoder_Init(void) 
+  43:Generated_Source\PSoC5/Handle_Encoder.c **** {
+  28              		.loc 1 43 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 7047     		bx	lr
+  34              		.cfi_endproc
+  35              	.LFE0:
+  36              		.size	Handle_Encoder_Init, .-Handle_Encoder_Init
+  37 0002 00BF     		.section	.text.Handle_Encoder_Enable,"ax",%progbits
+  38              		.align	2
+  39              		.global	Handle_Encoder_Enable
+  40              		.thumb
+  41              		.thumb_func
+  42              		.type	Handle_Encoder_Enable, %function
+  43              	Handle_Encoder_Enable:
+  44              	.LFB1:
+  44:Generated_Source\PSoC5/Handle_Encoder.c ****     #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT)
+  45:Generated_Source\PSoC5/Handle_Encoder.c ****         /* Disable Interrupt. */
+  46:Generated_Source\PSoC5/Handle_Encoder.c ****         CyIntDisable(Handle_Encoder_ISR_NUMBER);
+  47:Generated_Source\PSoC5/Handle_Encoder.c ****         /* Set the ISR to point to the Handle_Encoder_isr Interrupt. */
+  48:Generated_Source\PSoC5/Handle_Encoder.c ****         (void) CyIntSetVector(Handle_Encoder_ISR_NUMBER, & Handle_Encoder_ISR);
+  49:Generated_Source\PSoC5/Handle_Encoder.c ****         /* Set the priority. */
+  50:Generated_Source\PSoC5/Handle_Encoder.c ****         CyIntSetPriority(Handle_Encoder_ISR_NUMBER, Handle_Encoder_ISR_PRIORITY);
+  51:Generated_Source\PSoC5/Handle_Encoder.c ****     #endif /* Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT */
+  52:Generated_Source\PSoC5/Handle_Encoder.c **** }
+  53:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  54:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  55:Generated_Source\PSoC5/Handle_Encoder.c **** /*******************************************************************************
+  56:Generated_Source\PSoC5/Handle_Encoder.c **** * Function Name: Handle_Encoder_Enable
+  57:Generated_Source\PSoC5/Handle_Encoder.c **** ********************************************************************************
+  58:Generated_Source\PSoC5/Handle_Encoder.c **** *
+  59:Generated_Source\PSoC5/Handle_Encoder.c **** * Summary:
+  60:Generated_Source\PSoC5/Handle_Encoder.c **** *  This function enable interrupts from Component and also enable Component's
+  61:Generated_Source\PSoC5/Handle_Encoder.c **** *  ISR in case of 32-bit counter.
+  62:Generated_Source\PSoC5/Handle_Encoder.c **** *
+  63:Generated_Source\PSoC5/Handle_Encoder.c **** * Parameters:
+  64:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+  65:Generated_Source\PSoC5/Handle_Encoder.c **** *
+  66:Generated_Source\PSoC5/Handle_Encoder.c **** * Return:
+  67:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+  68:Generated_Source\PSoC5/Handle_Encoder.c **** *
+  69:Generated_Source\PSoC5/Handle_Encoder.c **** *******************************************************************************/
+  70:Generated_Source\PSoC5/Handle_Encoder.c **** void Handle_Encoder_Enable(void) 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 3
+
+
+  71:Generated_Source\PSoC5/Handle_Encoder.c **** {
+  45              		.loc 1 71 0
+  46              		.cfi_startproc
+  47              		@ args = 0, pretend = 0, frame = 0
+  48              		@ frame_needed = 0, uses_anonymous_args = 0
+  49              	.LVL0:
+  50              		.loc 1 71 0
+  51 0000 08B5     		push	{r3, lr}
+  52              		.cfi_def_cfa_offset 8
+  53              		.cfi_offset 3, -8
+  54              		.cfi_offset 14, -4
+  55              	.LBB12:
+  56              	.LBB13:
+  72:Generated_Source\PSoC5/Handle_Encoder.c ****     uint8 enableInterrupts;
+  73:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  74:Generated_Source\PSoC5/Handle_Encoder.c ****     Handle_Encoder_SetInterruptMask(Handle_Encoder_INIT_INT_MASK);
+  75:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  76:Generated_Source\PSoC5/Handle_Encoder.c ****     /* Clear pending interrupts. */
+  77:Generated_Source\PSoC5/Handle_Encoder.c ****     (void) Handle_Encoder_GetEvents();
+  78:Generated_Source\PSoC5/Handle_Encoder.c ****     
+  79:Generated_Source\PSoC5/Handle_Encoder.c ****     enableInterrupts = CyEnterCriticalSection();
+  80:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  81:Generated_Source\PSoC5/Handle_Encoder.c ****     /* Enable interrupts from Statusi register */
+  82:Generated_Source\PSoC5/Handle_Encoder.c ****     Handle_Encoder_SR_AUX_CONTROL |= Handle_Encoder_INTERRUPTS_ENABLE;
+  83:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  84:Generated_Source\PSoC5/Handle_Encoder.c ****     CyExitCriticalSection(enableInterrupts);        
+  85:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  86:Generated_Source\PSoC5/Handle_Encoder.c ****     #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT)
+  87:Generated_Source\PSoC5/Handle_Encoder.c ****         /* Enable Component interrupts */
+  88:Generated_Source\PSoC5/Handle_Encoder.c ****         CyIntEnable(Handle_Encoder_ISR_NUMBER);
+  89:Generated_Source\PSoC5/Handle_Encoder.c ****     #endif /* Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT */
+  90:Generated_Source\PSoC5/Handle_Encoder.c **** }
+  91:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  92:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  93:Generated_Source\PSoC5/Handle_Encoder.c **** /*******************************************************************************
+  94:Generated_Source\PSoC5/Handle_Encoder.c **** * Function Name: Handle_Encoder_Start
+  95:Generated_Source\PSoC5/Handle_Encoder.c **** ********************************************************************************
+  96:Generated_Source\PSoC5/Handle_Encoder.c **** *
+  97:Generated_Source\PSoC5/Handle_Encoder.c **** * Summary:
+  98:Generated_Source\PSoC5/Handle_Encoder.c **** *  Initializes UDBs and other relevant hardware.
+  99:Generated_Source\PSoC5/Handle_Encoder.c **** *  Resets counter, enables or disables all relevant interrupts.
+ 100:Generated_Source\PSoC5/Handle_Encoder.c **** *  Starts monitoring the inputs and counting.
+ 101:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 102:Generated_Source\PSoC5/Handle_Encoder.c **** * Parameters:
+ 103:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+ 104:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 105:Generated_Source\PSoC5/Handle_Encoder.c **** * Return:
+ 106:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+ 107:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 108:Generated_Source\PSoC5/Handle_Encoder.c **** * Global variables:
+ 109:Generated_Source\PSoC5/Handle_Encoder.c **** *  Handle_Encoder_initVar - used to check initial configuration, modified on
+ 110:Generated_Source\PSoC5/Handle_Encoder.c **** *  first function call.
+ 111:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 112:Generated_Source\PSoC5/Handle_Encoder.c **** * Reentrant:
+ 113:Generated_Source\PSoC5/Handle_Encoder.c **** *  No.
+ 114:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 115:Generated_Source\PSoC5/Handle_Encoder.c **** *******************************************************************************/
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 4
+
+
+ 116:Generated_Source\PSoC5/Handle_Encoder.c **** void Handle_Encoder_Start(void) 
+ 117:Generated_Source\PSoC5/Handle_Encoder.c **** {
+ 118:Generated_Source\PSoC5/Handle_Encoder.c ****     #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT)
+ 119:Generated_Source\PSoC5/Handle_Encoder.c ****         Handle_Encoder_Cnt8_Start();
+ 120:Generated_Source\PSoC5/Handle_Encoder.c ****         Handle_Encoder_Cnt8_WriteCounter(Handle_Encoder_COUNTER_INIT_VALUE);
+ 121:Generated_Source\PSoC5/Handle_Encoder.c ****     #else
+ 122:Generated_Source\PSoC5/Handle_Encoder.c ****         /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_16_BIT) || 
+ 123:Generated_Source\PSoC5/Handle_Encoder.c ****         *  (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT) 
+ 124:Generated_Source\PSoC5/Handle_Encoder.c ****         */
+ 125:Generated_Source\PSoC5/Handle_Encoder.c ****         Handle_Encoder_Cnt16_Start();
+ 126:Generated_Source\PSoC5/Handle_Encoder.c ****         Handle_Encoder_Cnt16_WriteCounter(Handle_Encoder_COUNTER_INIT_VALUE);
+ 127:Generated_Source\PSoC5/Handle_Encoder.c ****     #endif /* Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT */
+ 128:Generated_Source\PSoC5/Handle_Encoder.c ****     
+ 129:Generated_Source\PSoC5/Handle_Encoder.c ****     #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT)        
+ 130:Generated_Source\PSoC5/Handle_Encoder.c ****        Handle_Encoder_count32SoftPart = 0;
+ 131:Generated_Source\PSoC5/Handle_Encoder.c ****     #endif /* Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT */
+ 132:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 133:Generated_Source\PSoC5/Handle_Encoder.c ****     if (Handle_Encoder_initVar == 0u)
+ 134:Generated_Source\PSoC5/Handle_Encoder.c ****     {
+ 135:Generated_Source\PSoC5/Handle_Encoder.c ****         Handle_Encoder_Init();
+ 136:Generated_Source\PSoC5/Handle_Encoder.c ****         Handle_Encoder_initVar = 1u;
+ 137:Generated_Source\PSoC5/Handle_Encoder.c ****     }
+ 138:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 139:Generated_Source\PSoC5/Handle_Encoder.c ****     Handle_Encoder_Enable();
+ 140:Generated_Source\PSoC5/Handle_Encoder.c **** }
+ 141:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 142:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 143:Generated_Source\PSoC5/Handle_Encoder.c **** /*******************************************************************************
+ 144:Generated_Source\PSoC5/Handle_Encoder.c **** * Function Name: Handle_Encoder_Stop
+ 145:Generated_Source\PSoC5/Handle_Encoder.c **** ********************************************************************************
+ 146:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 147:Generated_Source\PSoC5/Handle_Encoder.c **** * Summary:
+ 148:Generated_Source\PSoC5/Handle_Encoder.c **** *  Turns off UDBs and other relevant hardware.
+ 149:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 150:Generated_Source\PSoC5/Handle_Encoder.c **** * Parameters:
+ 151:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+ 152:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 153:Generated_Source\PSoC5/Handle_Encoder.c **** * Return:
+ 154:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+ 155:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 156:Generated_Source\PSoC5/Handle_Encoder.c **** *******************************************************************************/
+ 157:Generated_Source\PSoC5/Handle_Encoder.c **** void Handle_Encoder_Stop(void) 
+ 158:Generated_Source\PSoC5/Handle_Encoder.c **** {
+ 159:Generated_Source\PSoC5/Handle_Encoder.c ****     uint8 enableInterrupts;
+ 160:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 161:Generated_Source\PSoC5/Handle_Encoder.c ****     #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT)
+ 162:Generated_Source\PSoC5/Handle_Encoder.c ****         Handle_Encoder_Cnt8_Stop();
+ 163:Generated_Source\PSoC5/Handle_Encoder.c ****     #else 
+ 164:Generated_Source\PSoC5/Handle_Encoder.c ****         /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_16_BIT) ||
+ 165:Generated_Source\PSoC5/Handle_Encoder.c ****         *  (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT)
+ 166:Generated_Source\PSoC5/Handle_Encoder.c ****         */
+ 167:Generated_Source\PSoC5/Handle_Encoder.c ****         Handle_Encoder_Cnt16_Stop();    /* counter disable */
+ 168:Generated_Source\PSoC5/Handle_Encoder.c ****     #endif /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT) */
+ 169:Generated_Source\PSoC5/Handle_Encoder.c ****  
+ 170:Generated_Source\PSoC5/Handle_Encoder.c ****     enableInterrupts = CyEnterCriticalSection();
+ 171:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 172:Generated_Source\PSoC5/Handle_Encoder.c ****     /* Disable interrupts interrupts from Statusi register */
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 5
+
+
+ 173:Generated_Source\PSoC5/Handle_Encoder.c ****     Handle_Encoder_SR_AUX_CONTROL &= (uint8) (~Handle_Encoder_INTERRUPTS_ENABLE);
+ 174:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 175:Generated_Source\PSoC5/Handle_Encoder.c ****     CyExitCriticalSection(enableInterrupts);
+ 176:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 177:Generated_Source\PSoC5/Handle_Encoder.c ****     #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT)
+ 178:Generated_Source\PSoC5/Handle_Encoder.c ****         CyIntDisable(Handle_Encoder_ISR_NUMBER);    /* interrupt disable */
+ 179:Generated_Source\PSoC5/Handle_Encoder.c ****     #endif /* Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT */
+ 180:Generated_Source\PSoC5/Handle_Encoder.c **** }
+ 181:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 182:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 183:Generated_Source\PSoC5/Handle_Encoder.c **** /*******************************************************************************
+ 184:Generated_Source\PSoC5/Handle_Encoder.c **** * Function Name: Handle_Encoder_GetCounter
+ 185:Generated_Source\PSoC5/Handle_Encoder.c **** ********************************************************************************
+ 186:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 187:Generated_Source\PSoC5/Handle_Encoder.c **** * Summary:
+ 188:Generated_Source\PSoC5/Handle_Encoder.c **** *  Reports the current value of the counter.
+ 189:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 190:Generated_Source\PSoC5/Handle_Encoder.c **** * Parameters:
+ 191:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+ 192:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 193:Generated_Source\PSoC5/Handle_Encoder.c **** * Return:
+ 194:Generated_Source\PSoC5/Handle_Encoder.c **** *  The counter value. Return type is signed and per the counter size setting.
+ 195:Generated_Source\PSoC5/Handle_Encoder.c **** *  A positive value indicates clockwise movement (B before A).
+ 196:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 197:Generated_Source\PSoC5/Handle_Encoder.c **** * Global variables:
+ 198:Generated_Source\PSoC5/Handle_Encoder.c **** *  Handle_Encoder_count32SoftPart - used to get hi 16 bit for current value
+ 199:Generated_Source\PSoC5/Handle_Encoder.c **** *  of the 32-bit counter, when Counter size equal 32-bit.
+ 200:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 201:Generated_Source\PSoC5/Handle_Encoder.c **** *******************************************************************************/
+ 202:Generated_Source\PSoC5/Handle_Encoder.c **** int16 Handle_Encoder_GetCounter(void) 
+ 203:Generated_Source\PSoC5/Handle_Encoder.c **** {
+ 204:Generated_Source\PSoC5/Handle_Encoder.c ****     int16 count;
+ 205:Generated_Source\PSoC5/Handle_Encoder.c ****     uint16 tmpCnt;
+ 206:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 207:Generated_Source\PSoC5/Handle_Encoder.c ****     #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT)
+ 208:Generated_Source\PSoC5/Handle_Encoder.c ****         int16 hwCount;
+ 209:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 210:Generated_Source\PSoC5/Handle_Encoder.c ****         CyIntDisable(Handle_Encoder_ISR_NUMBER);
+ 211:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 212:Generated_Source\PSoC5/Handle_Encoder.c ****         tmpCnt = Handle_Encoder_Cnt16_ReadCounter();
+ 213:Generated_Source\PSoC5/Handle_Encoder.c ****         hwCount = (int16) ((int32) tmpCnt - (int32) Handle_Encoder_COUNTER_INIT_VALUE);
+ 214:Generated_Source\PSoC5/Handle_Encoder.c ****         count = Handle_Encoder_count32SoftPart + hwCount;
+ 215:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 216:Generated_Source\PSoC5/Handle_Encoder.c ****         CyIntEnable(Handle_Encoder_ISR_NUMBER);
+ 217:Generated_Source\PSoC5/Handle_Encoder.c ****     #else 
+ 218:Generated_Source\PSoC5/Handle_Encoder.c ****         /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT) || 
+ 219:Generated_Source\PSoC5/Handle_Encoder.c ****         *  (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_16_BIT)
+ 220:Generated_Source\PSoC5/Handle_Encoder.c ****         */
+ 221:Generated_Source\PSoC5/Handle_Encoder.c ****         #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT)
+ 222:Generated_Source\PSoC5/Handle_Encoder.c ****             tmpCnt = Handle_Encoder_Cnt8_ReadCounter();
+ 223:Generated_Source\PSoC5/Handle_Encoder.c ****         #else /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_16_BIT) */
+ 224:Generated_Source\PSoC5/Handle_Encoder.c ****             tmpCnt = Handle_Encoder_Cnt16_ReadCounter();
+ 225:Generated_Source\PSoC5/Handle_Encoder.c ****         #endif  /* Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT */
+ 226:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 227:Generated_Source\PSoC5/Handle_Encoder.c ****         count = (int16) ((int32) tmpCnt -
+ 228:Generated_Source\PSoC5/Handle_Encoder.c ****                 (int32) Handle_Encoder_COUNTER_INIT_VALUE);
+ 229:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 6
+
+
+ 230:Generated_Source\PSoC5/Handle_Encoder.c ****     #endif /* Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT */ 
+ 231:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 232:Generated_Source\PSoC5/Handle_Encoder.c ****     return (count);
+ 233:Generated_Source\PSoC5/Handle_Encoder.c **** }
+ 234:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 235:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 236:Generated_Source\PSoC5/Handle_Encoder.c **** /*******************************************************************************
+ 237:Generated_Source\PSoC5/Handle_Encoder.c **** * Function Name: Handle_Encoder_SetCounter
+ 238:Generated_Source\PSoC5/Handle_Encoder.c **** ********************************************************************************
+ 239:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 240:Generated_Source\PSoC5/Handle_Encoder.c **** * Summary:
+ 241:Generated_Source\PSoC5/Handle_Encoder.c **** *  Sets the current value of the counter.
+ 242:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 243:Generated_Source\PSoC5/Handle_Encoder.c **** * Parameters:
+ 244:Generated_Source\PSoC5/Handle_Encoder.c **** *  value:  The new value. Parameter type is signed and per the counter size
+ 245:Generated_Source\PSoC5/Handle_Encoder.c **** *  setting.
+ 246:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 247:Generated_Source\PSoC5/Handle_Encoder.c **** * Return:
+ 248:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+ 249:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 250:Generated_Source\PSoC5/Handle_Encoder.c **** * Global variables:
+ 251:Generated_Source\PSoC5/Handle_Encoder.c **** *  Handle_Encoder_count32SoftPart - modified to set hi 16 bit for current
+ 252:Generated_Source\PSoC5/Handle_Encoder.c **** *  value of the 32-bit counter, when Counter size equal 32-bit.
+ 253:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 254:Generated_Source\PSoC5/Handle_Encoder.c **** * Reentrant:
+ 255:Generated_Source\PSoC5/Handle_Encoder.c **** *  No.
+ 256:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 257:Generated_Source\PSoC5/Handle_Encoder.c **** *******************************************************************************/
+ 258:Generated_Source\PSoC5/Handle_Encoder.c **** void Handle_Encoder_SetCounter(int16 value) 
+ 259:Generated_Source\PSoC5/Handle_Encoder.c **** {
+ 260:Generated_Source\PSoC5/Handle_Encoder.c ****     #if ((Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT) || \
+ 261:Generated_Source\PSoC5/Handle_Encoder.c ****          (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_16_BIT))
+ 262:Generated_Source\PSoC5/Handle_Encoder.c ****         uint16 count;
+ 263:Generated_Source\PSoC5/Handle_Encoder.c ****         
+ 264:Generated_Source\PSoC5/Handle_Encoder.c ****         if (value >= 0)
+ 265:Generated_Source\PSoC5/Handle_Encoder.c ****         {
+ 266:Generated_Source\PSoC5/Handle_Encoder.c ****             count = (uint16) value + Handle_Encoder_COUNTER_INIT_VALUE;
+ 267:Generated_Source\PSoC5/Handle_Encoder.c ****         }
+ 268:Generated_Source\PSoC5/Handle_Encoder.c ****         else
+ 269:Generated_Source\PSoC5/Handle_Encoder.c ****         {
+ 270:Generated_Source\PSoC5/Handle_Encoder.c ****             count = Handle_Encoder_COUNTER_INIT_VALUE - (uint16)(-value);
+ 271:Generated_Source\PSoC5/Handle_Encoder.c ****         }
+ 272:Generated_Source\PSoC5/Handle_Encoder.c ****         #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT)
+ 273:Generated_Source\PSoC5/Handle_Encoder.c ****             Handle_Encoder_Cnt8_WriteCounter(count);
+ 274:Generated_Source\PSoC5/Handle_Encoder.c ****         #else /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_16_BIT) */
+ 275:Generated_Source\PSoC5/Handle_Encoder.c ****             Handle_Encoder_Cnt16_WriteCounter(count);
+ 276:Generated_Source\PSoC5/Handle_Encoder.c ****         #endif  /* Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT */
+ 277:Generated_Source\PSoC5/Handle_Encoder.c ****     #else /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT) */
+ 278:Generated_Source\PSoC5/Handle_Encoder.c ****         CyIntDisable(Handle_Encoder_ISR_NUMBER);
+ 279:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 280:Generated_Source\PSoC5/Handle_Encoder.c ****         Handle_Encoder_Cnt16_WriteCounter(Handle_Encoder_COUNTER_INIT_VALUE);
+ 281:Generated_Source\PSoC5/Handle_Encoder.c ****         Handle_Encoder_count32SoftPart = value;
+ 282:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 283:Generated_Source\PSoC5/Handle_Encoder.c ****         CyIntEnable(Handle_Encoder_ISR_NUMBER);
+ 284:Generated_Source\PSoC5/Handle_Encoder.c ****     #endif  /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT) ||
+ 285:Generated_Source\PSoC5/Handle_Encoder.c ****              * (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_16_BIT)
+ 286:Generated_Source\PSoC5/Handle_Encoder.c ****              */
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 7
+
+
+ 287:Generated_Source\PSoC5/Handle_Encoder.c **** }
+ 288:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 289:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 290:Generated_Source\PSoC5/Handle_Encoder.c **** /*******************************************************************************
+ 291:Generated_Source\PSoC5/Handle_Encoder.c **** * Function Name: Handle_Encoder_GetEvents
+ 292:Generated_Source\PSoC5/Handle_Encoder.c **** ********************************************************************************
+ 293:Generated_Source\PSoC5/Handle_Encoder.c **** * 
+ 294:Generated_Source\PSoC5/Handle_Encoder.c **** * Summary:
+ 295:Generated_Source\PSoC5/Handle_Encoder.c **** *   Reports the current status of events. This function clears the bits of the 
+ 296:Generated_Source\PSoC5/Handle_Encoder.c **** *   status register.
+ 297:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 298:Generated_Source\PSoC5/Handle_Encoder.c **** * Parameters:
+ 299:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+ 300:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 301:Generated_Source\PSoC5/Handle_Encoder.c **** * Return:
+ 302:Generated_Source\PSoC5/Handle_Encoder.c **** *  The events, as bits in an unsigned 8-bit value:
+ 303:Generated_Source\PSoC5/Handle_Encoder.c **** *    Bit      Description
+ 304:Generated_Source\PSoC5/Handle_Encoder.c **** *     0        Counter overflow.
+ 305:Generated_Source\PSoC5/Handle_Encoder.c **** *     1        Counter underflow.
+ 306:Generated_Source\PSoC5/Handle_Encoder.c **** *     2        Counter reset due to index, if index input is used.
+ 307:Generated_Source\PSoC5/Handle_Encoder.c **** *     3        Invalid A, B inputs state transition.
+ 308:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 309:Generated_Source\PSoC5/Handle_Encoder.c **** *******************************************************************************/
+ 310:Generated_Source\PSoC5/Handle_Encoder.c **** uint8 Handle_Encoder_GetEvents(void) 
+ 311:Generated_Source\PSoC5/Handle_Encoder.c **** {
+ 312:Generated_Source\PSoC5/Handle_Encoder.c ****     return (Handle_Encoder_STATUS_REG & Handle_Encoder_INIT_INT_MASK);
+ 313:Generated_Source\PSoC5/Handle_Encoder.c **** }
+ 314:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 315:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 316:Generated_Source\PSoC5/Handle_Encoder.c **** /*******************************************************************************
+ 317:Generated_Source\PSoC5/Handle_Encoder.c **** * Function Name: Handle_Encoder_SetInterruptMask
+ 318:Generated_Source\PSoC5/Handle_Encoder.c **** ********************************************************************************
+ 319:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 320:Generated_Source\PSoC5/Handle_Encoder.c **** * Summary:
+ 321:Generated_Source\PSoC5/Handle_Encoder.c **** *  Enables / disables interrupts due to the events.
+ 322:Generated_Source\PSoC5/Handle_Encoder.c **** *  For the 32-bit counter, the overflow, underflow and reset interrupts cannot
+ 323:Generated_Source\PSoC5/Handle_Encoder.c **** *  be disabled, these bits are ignored.
+ 324:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 325:Generated_Source\PSoC5/Handle_Encoder.c **** * Parameters:
+ 326:Generated_Source\PSoC5/Handle_Encoder.c **** *  mask: Enable / disable bits in an 8-bit value, where 1 enables the interrupt.
+ 327:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 328:Generated_Source\PSoC5/Handle_Encoder.c **** * Return:
+ 329:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+ 330:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 331:Generated_Source\PSoC5/Handle_Encoder.c **** *******************************************************************************/
+ 332:Generated_Source\PSoC5/Handle_Encoder.c **** void Handle_Encoder_SetInterruptMask(uint8 mask) 
+ 333:Generated_Source\PSoC5/Handle_Encoder.c **** {
+ 334:Generated_Source\PSoC5/Handle_Encoder.c ****     #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT)
+ 335:Generated_Source\PSoC5/Handle_Encoder.c ****         /* Underflow, Overflow and Reset interrupts for 32-bit Counter are always enable */
+ 336:Generated_Source\PSoC5/Handle_Encoder.c ****         mask |= (Handle_Encoder_COUNTER_OVERFLOW | Handle_Encoder_COUNTER_UNDERFLOW |
+ 337:Generated_Source\PSoC5/Handle_Encoder.c ****                  Handle_Encoder_COUNTER_RESET);
+ 338:Generated_Source\PSoC5/Handle_Encoder.c ****     #endif /* Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT */
+ 339:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 340:Generated_Source\PSoC5/Handle_Encoder.c ****     Handle_Encoder_STATUS_MASK = mask;
+  57              		.loc 1 340 0
+  58 0002 084A     		ldr	r2, .L4
+  59 0004 0F21     		movs	r1, #15
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 8
+
+
+  60              	.LBE13:
+  61              	.LBE12:
+  62              	.LBB15:
+  63              	.LBB16:
+ 312:Generated_Source\PSoC5/Handle_Encoder.c **** }
+  64              		.loc 1 312 0
+  65 0006 084B     		ldr	r3, .L4+4
+  66              	.LBE16:
+  67              	.LBE15:
+  68              	.LBB18:
+  69              	.LBB14:
+  70              		.loc 1 340 0
+  71 0008 1170     		strb	r1, [r2]
+  72              	.LVL1:
+  73              	.LBE14:
+  74              	.LBE18:
+  75              	.LBB19:
+  76              	.LBB17:
+ 312:Generated_Source\PSoC5/Handle_Encoder.c **** }
+  77              		.loc 1 312 0
+  78 000a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  79              	.LBE17:
+  80              	.LBE19:
+  79:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  81              		.loc 1 79 0
+  82 000c FFF7FEFF 		bl	CyEnterCriticalSection
+  83              	.LVL2:
+  82:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  84              		.loc 1 82 0
+  85 0010 064A     		ldr	r2, .L4+8
+  86 0012 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  87 0014 43F01003 		orr	r3, r3, #16
+  88 0018 1370     		strb	r3, [r2]
+  90:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  89              		.loc 1 90 0
+  90 001a BDE80840 		pop	{r3, lr}
+  91              		.cfi_restore 14
+  92              		.cfi_restore 3
+  93              		.cfi_def_cfa_offset 0
+  84:Generated_Source\PSoC5/Handle_Encoder.c **** 
+  94              		.loc 1 84 0
+  95 001e FFF7FEBF 		b	CyExitCriticalSection
+  96              	.LVL3:
+  97              	.L5:
+  98 0022 00BF     		.align	2
+  99              	.L4:
+ 100 0024 85640040 		.word	1073767557
+ 101 0028 65640040 		.word	1073767525
+ 102 002c 95640040 		.word	1073767573
+ 103              		.cfi_endproc
+ 104              	.LFE1:
+ 105              		.size	Handle_Encoder_Enable, .-Handle_Encoder_Enable
+ 106              		.section	.text.Handle_Encoder_Start,"ax",%progbits
+ 107              		.align	2
+ 108              		.global	Handle_Encoder_Start
+ 109              		.thumb
+ 110              		.thumb_func
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 9
+
+
+ 111              		.type	Handle_Encoder_Start, %function
+ 112              	Handle_Encoder_Start:
+ 113              	.LFB2:
+ 117:Generated_Source\PSoC5/Handle_Encoder.c ****     #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT)
+ 114              		.loc 1 117 0
+ 115              		.cfi_startproc
+ 116              		@ args = 0, pretend = 0, frame = 0
+ 117              		@ frame_needed = 0, uses_anonymous_args = 0
+ 118 0000 08B5     		push	{r3, lr}
+ 119              		.cfi_def_cfa_offset 8
+ 120              		.cfi_offset 3, -8
+ 121              		.cfi_offset 14, -4
+ 125:Generated_Source\PSoC5/Handle_Encoder.c ****         Handle_Encoder_Cnt16_WriteCounter(Handle_Encoder_COUNTER_INIT_VALUE);
+ 122              		.loc 1 125 0
+ 123 0002 FFF7FEFF 		bl	Handle_Encoder_Cnt16_Start
+ 124              	.LVL4:
+ 126:Generated_Source\PSoC5/Handle_Encoder.c ****     #endif /* Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT */
+ 125              		.loc 1 126 0
+ 126 0006 4FF40040 		mov	r0, #32768
+ 127 000a FFF7FEFF 		bl	Handle_Encoder_Cnt16_WriteCounter
+ 128              	.LVL5:
+ 133:Generated_Source\PSoC5/Handle_Encoder.c ****     {
+ 129              		.loc 1 133 0
+ 130 000e 0A4B     		ldr	r3, .L10
+ 131 0010 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 132 0012 0AB9     		cbnz	r2, .L7
+ 136:Generated_Source\PSoC5/Handle_Encoder.c ****     }
+ 133              		.loc 1 136 0
+ 134 0014 0122     		movs	r2, #1
+ 135 0016 1A70     		strb	r2, [r3]
+ 136              	.L7:
+ 137              	.LVL6:
+ 138              	.LBB26:
+ 139              	.LBB27:
+ 140              	.LBB28:
+ 141              	.LBB29:
+ 142              		.loc 1 340 0
+ 143 0018 084A     		ldr	r2, .L10+4
+ 144 001a 0F21     		movs	r1, #15
+ 145              	.LBE29:
+ 146              	.LBE28:
+ 147              	.LBB31:
+ 148              	.LBB32:
+ 312:Generated_Source\PSoC5/Handle_Encoder.c **** }
+ 149              		.loc 1 312 0
+ 150 001c 084B     		ldr	r3, .L10+8
+ 151              	.LBE32:
+ 152              	.LBE31:
+ 153              	.LBB34:
+ 154              	.LBB30:
+ 155              		.loc 1 340 0
+ 156 001e 1170     		strb	r1, [r2]
+ 157              	.LVL7:
+ 158              	.LBE30:
+ 159              	.LBE34:
+ 160              	.LBB35:
+ 161              	.LBB33:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 10
+
+
+ 312:Generated_Source\PSoC5/Handle_Encoder.c **** }
+ 162              		.loc 1 312 0
+ 163 0020 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 164              	.LBE33:
+ 165              	.LBE35:
+  79:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 166              		.loc 1 79 0
+ 167 0022 FFF7FEFF 		bl	CyEnterCriticalSection
+ 168              	.LVL8:
+  82:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 169              		.loc 1 82 0
+ 170 0026 074A     		ldr	r2, .L10+12
+ 171 0028 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 172 002a 43F01003 		orr	r3, r3, #16
+ 173 002e 1370     		strb	r3, [r2]
+ 174              	.LBE27:
+ 175              	.LBE26:
+ 140:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 176              		.loc 1 140 0
+ 177 0030 BDE80840 		pop	{r3, lr}
+ 178              		.cfi_restore 14
+ 179              		.cfi_restore 3
+ 180              		.cfi_def_cfa_offset 0
+ 181              	.LBB37:
+ 182              	.LBB36:
+  84:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 183              		.loc 1 84 0
+ 184 0034 FFF7FEBF 		b	CyExitCriticalSection
+ 185              	.LVL9:
+ 186              	.L11:
+ 187              		.align	2
+ 188              	.L10:
+ 189 0038 00000000 		.word	.LANCHOR0
+ 190 003c 85640040 		.word	1073767557
+ 191 0040 65640040 		.word	1073767525
+ 192 0044 95640040 		.word	1073767573
+ 193              	.LBE36:
+ 194              	.LBE37:
+ 195              		.cfi_endproc
+ 196              	.LFE2:
+ 197              		.size	Handle_Encoder_Start, .-Handle_Encoder_Start
+ 198              		.section	.text.Handle_Encoder_Stop,"ax",%progbits
+ 199              		.align	2
+ 200              		.global	Handle_Encoder_Stop
+ 201              		.thumb
+ 202              		.thumb_func
+ 203              		.type	Handle_Encoder_Stop, %function
+ 204              	Handle_Encoder_Stop:
+ 205              	.LFB3:
+ 158:Generated_Source\PSoC5/Handle_Encoder.c ****     uint8 enableInterrupts;
+ 206              		.loc 1 158 0
+ 207              		.cfi_startproc
+ 208              		@ args = 0, pretend = 0, frame = 0
+ 209              		@ frame_needed = 0, uses_anonymous_args = 0
+ 210 0000 08B5     		push	{r3, lr}
+ 211              		.cfi_def_cfa_offset 8
+ 212              		.cfi_offset 3, -8
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 11
+
+
+ 213              		.cfi_offset 14, -4
+ 167:Generated_Source\PSoC5/Handle_Encoder.c ****     #endif /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT) */
+ 214              		.loc 1 167 0
+ 215 0002 FFF7FEFF 		bl	Handle_Encoder_Cnt16_Stop
+ 216              	.LVL10:
+ 170:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 217              		.loc 1 170 0
+ 218 0006 FFF7FEFF 		bl	CyEnterCriticalSection
+ 219              	.LVL11:
+ 173:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 220              		.loc 1 173 0
+ 221 000a 044A     		ldr	r2, .L14
+ 222 000c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 223 000e 03F0EF03 		and	r3, r3, #239
+ 224 0012 1370     		strb	r3, [r2]
+ 180:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 225              		.loc 1 180 0
+ 226 0014 BDE80840 		pop	{r3, lr}
+ 227              		.cfi_restore 14
+ 228              		.cfi_restore 3
+ 229              		.cfi_def_cfa_offset 0
+ 175:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 230              		.loc 1 175 0
+ 231 0018 FFF7FEBF 		b	CyExitCriticalSection
+ 232              	.LVL12:
+ 233              	.L15:
+ 234              		.align	2
+ 235              	.L14:
+ 236 001c 95640040 		.word	1073767573
+ 237              		.cfi_endproc
+ 238              	.LFE3:
+ 239              		.size	Handle_Encoder_Stop, .-Handle_Encoder_Stop
+ 240              		.section	.text.Handle_Encoder_GetCounter,"ax",%progbits
+ 241              		.align	2
+ 242              		.global	Handle_Encoder_GetCounter
+ 243              		.thumb
+ 244              		.thumb_func
+ 245              		.type	Handle_Encoder_GetCounter, %function
+ 246              	Handle_Encoder_GetCounter:
+ 247              	.LFB4:
+ 203:Generated_Source\PSoC5/Handle_Encoder.c ****     int16 count;
+ 248              		.loc 1 203 0
+ 249              		.cfi_startproc
+ 250              		@ args = 0, pretend = 0, frame = 0
+ 251              		@ frame_needed = 0, uses_anonymous_args = 0
+ 252 0000 08B5     		push	{r3, lr}
+ 253              		.cfi_def_cfa_offset 8
+ 254              		.cfi_offset 3, -8
+ 255              		.cfi_offset 14, -4
+ 224:Generated_Source\PSoC5/Handle_Encoder.c ****         #endif  /* Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT */
+ 256              		.loc 1 224 0
+ 257 0002 FFF7FEFF 		bl	Handle_Encoder_Cnt16_ReadCounter
+ 258              	.LVL13:
+ 232:Generated_Source\PSoC5/Handle_Encoder.c **** }
+ 259              		.loc 1 232 0
+ 260 0006 A0F50040 		sub	r0, r0, #32768
+ 261              	.LVL14:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 12
+
+
+ 233:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 262              		.loc 1 233 0
+ 263 000a 00B2     		sxth	r0, r0
+ 264 000c 08BD     		pop	{r3, pc}
+ 265              		.cfi_endproc
+ 266              	.LFE4:
+ 267              		.size	Handle_Encoder_GetCounter, .-Handle_Encoder_GetCounter
+ 268 000e 00BF     		.section	.text.Handle_Encoder_SetCounter,"ax",%progbits
+ 269              		.align	2
+ 270              		.global	Handle_Encoder_SetCounter
+ 271              		.thumb
+ 272              		.thumb_func
+ 273              		.type	Handle_Encoder_SetCounter, %function
+ 274              	Handle_Encoder_SetCounter:
+ 275              	.LFB5:
+ 259:Generated_Source\PSoC5/Handle_Encoder.c ****     #if ((Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT) || \
+ 276              		.loc 1 259 0
+ 277              		.cfi_startproc
+ 278              		@ args = 0, pretend = 0, frame = 0
+ 279              		@ frame_needed = 0, uses_anonymous_args = 0
+ 280              		@ link register save eliminated.
+ 281              	.LVL15:
+ 275:Generated_Source\PSoC5/Handle_Encoder.c ****         #endif  /* Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT */
+ 282              		.loc 1 275 0
+ 283 0000 A0F50040 		sub	r0, r0, #32768
+ 284              	.LVL16:
+ 285 0004 80B2     		uxth	r0, r0
+ 286 0006 FFF7FEBF 		b	Handle_Encoder_Cnt16_WriteCounter
+ 287              	.LVL17:
+ 288              		.cfi_endproc
+ 289              	.LFE5:
+ 290              		.size	Handle_Encoder_SetCounter, .-Handle_Encoder_SetCounter
+ 291 000a 00BF     		.section	.text.Handle_Encoder_GetEvents,"ax",%progbits
+ 292              		.align	2
+ 293              		.global	Handle_Encoder_GetEvents
+ 294              		.thumb
+ 295              		.thumb_func
+ 296              		.type	Handle_Encoder_GetEvents, %function
+ 297              	Handle_Encoder_GetEvents:
+ 298              	.LFB6:
+ 311:Generated_Source\PSoC5/Handle_Encoder.c ****     return (Handle_Encoder_STATUS_REG & Handle_Encoder_INIT_INT_MASK);
+ 299              		.loc 1 311 0
+ 300              		.cfi_startproc
+ 301              		@ args = 0, pretend = 0, frame = 0
+ 302              		@ frame_needed = 0, uses_anonymous_args = 0
+ 303              		@ link register save eliminated.
+ 312:Generated_Source\PSoC5/Handle_Encoder.c **** }
+ 304              		.loc 1 312 0
+ 305 0000 024B     		ldr	r3, .L20
+ 306 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 313:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 307              		.loc 1 313 0
+ 308 0004 00F00F00 		and	r0, r0, #15
+ 309 0008 7047     		bx	lr
+ 310              	.L21:
+ 311 000a 00BF     		.align	2
+ 312              	.L20:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 13
+
+
+ 313 000c 65640040 		.word	1073767525
+ 314              		.cfi_endproc
+ 315              	.LFE6:
+ 316              		.size	Handle_Encoder_GetEvents, .-Handle_Encoder_GetEvents
+ 317              		.section	.text.Handle_Encoder_SetInterruptMask,"ax",%progbits
+ 318              		.align	2
+ 319              		.global	Handle_Encoder_SetInterruptMask
+ 320              		.thumb
+ 321              		.thumb_func
+ 322              		.type	Handle_Encoder_SetInterruptMask, %function
+ 323              	Handle_Encoder_SetInterruptMask:
+ 324              	.LFB7:
+ 333:Generated_Source\PSoC5/Handle_Encoder.c ****     #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT)
+ 325              		.loc 1 333 0
+ 326              		.cfi_startproc
+ 327              		@ args = 0, pretend = 0, frame = 0
+ 328              		@ frame_needed = 0, uses_anonymous_args = 0
+ 329              		@ link register save eliminated.
+ 330              	.LVL18:
+ 331              		.loc 1 340 0
+ 332 0000 014B     		ldr	r3, .L23
+ 333 0002 1870     		strb	r0, [r3]
+ 334 0004 7047     		bx	lr
+ 335              	.L24:
+ 336 0006 00BF     		.align	2
+ 337              	.L23:
+ 338 0008 85640040 		.word	1073767557
+ 339              		.cfi_endproc
+ 340              	.LFE7:
+ 341              		.size	Handle_Encoder_SetInterruptMask, .-Handle_Encoder_SetInterruptMask
+ 342              		.section	.text.Handle_Encoder_GetInterruptMask,"ax",%progbits
+ 343              		.align	2
+ 344              		.global	Handle_Encoder_GetInterruptMask
+ 345              		.thumb
+ 346              		.thumb_func
+ 347              		.type	Handle_Encoder_GetInterruptMask, %function
+ 348              	Handle_Encoder_GetInterruptMask:
+ 349              	.LFB8:
+ 341:Generated_Source\PSoC5/Handle_Encoder.c **** }
+ 342:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 343:Generated_Source\PSoC5/Handle_Encoder.c **** 
+ 344:Generated_Source\PSoC5/Handle_Encoder.c **** /*******************************************************************************
+ 345:Generated_Source\PSoC5/Handle_Encoder.c **** * Function Name: Handle_Encoder_GetInterruptMask
+ 346:Generated_Source\PSoC5/Handle_Encoder.c **** ********************************************************************************
+ 347:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 348:Generated_Source\PSoC5/Handle_Encoder.c **** * Summary:
+ 349:Generated_Source\PSoC5/Handle_Encoder.c **** *  Reports the current interrupt mask settings.
+ 350:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 351:Generated_Source\PSoC5/Handle_Encoder.c **** * Parameters:
+ 352:Generated_Source\PSoC5/Handle_Encoder.c **** *  None.
+ 353:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 354:Generated_Source\PSoC5/Handle_Encoder.c **** * Return:
+ 355:Generated_Source\PSoC5/Handle_Encoder.c **** *  Enable / disable bits in an 8-bit value, where 1 enables the interrupt.
+ 356:Generated_Source\PSoC5/Handle_Encoder.c **** *  For the 32-bit counter, the overflow, underflow and reset enable bits are
+ 357:Generated_Source\PSoC5/Handle_Encoder.c **** *  always set.
+ 358:Generated_Source\PSoC5/Handle_Encoder.c **** *
+ 359:Generated_Source\PSoC5/Handle_Encoder.c **** *******************************************************************************/
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 14
+
+
+ 360:Generated_Source\PSoC5/Handle_Encoder.c **** uint8 Handle_Encoder_GetInterruptMask(void) 
+ 361:Generated_Source\PSoC5/Handle_Encoder.c **** {
+ 350              		.loc 1 361 0
+ 351              		.cfi_startproc
+ 352              		@ args = 0, pretend = 0, frame = 0
+ 353              		@ frame_needed = 0, uses_anonymous_args = 0
+ 354              		@ link register save eliminated.
+ 362:Generated_Source\PSoC5/Handle_Encoder.c ****     return (Handle_Encoder_STATUS_MASK & Handle_Encoder_INIT_INT_MASK);
+ 355              		.loc 1 362 0
+ 356 0000 024B     		ldr	r3, .L26
+ 357 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 363:Generated_Source\PSoC5/Handle_Encoder.c **** }
+ 358              		.loc 1 363 0
+ 359 0004 00F00F00 		and	r0, r0, #15
+ 360 0008 7047     		bx	lr
+ 361              	.L27:
+ 362 000a 00BF     		.align	2
+ 363              	.L26:
+ 364 000c 85640040 		.word	1073767557
+ 365              		.cfi_endproc
+ 366              	.LFE8:
+ 367              		.size	Handle_Encoder_GetInterruptMask, .-Handle_Encoder_GetInterruptMask
+ 368              		.global	Handle_Encoder_initVar
+ 369              		.bss
+ 370              		.set	.LANCHOR0,. + 0
+ 371              		.type	Handle_Encoder_initVar, %object
+ 372              		.size	Handle_Encoder_initVar, 1
+ 373              	Handle_Encoder_initVar:
+ 374 0000 00       		.space	1
+ 375              		.text
+ 376              	.Letext0:
+ 377              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 378              		.file 3 "Generated_Source\\PSoC5\\CyLib.h"
+ 379              		.file 4 "Generated_Source\\PSoC5\\Handle_Encoder_Cnt16.h"
+ 380              		.section	.debug_info,"",%progbits
+ 381              	.Ldebug_info0:
+ 382 0000 62030000 		.4byte	0x362
+ 383 0004 0400     		.2byte	0x4
+ 384 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 385 000a 04       		.byte	0x4
+ 386 000b 01       		.uleb128 0x1
+ 387 000c 1B000000 		.4byte	.LASF33
+ 388 0010 0C       		.byte	0xc
+ 389 0011 E5010000 		.4byte	.LASF34
+ 390 0015 44030000 		.4byte	.LASF35
+ 391 0019 78000000 		.4byte	.Ldebug_ranges0+0x78
+ 392 001d 00000000 		.4byte	0
+ 393 0021 00000000 		.4byte	.Ldebug_line0
+ 394 0025 02       		.uleb128 0x2
+ 395 0026 04       		.byte	0x4
+ 396 0027 05       		.byte	0x5
+ 397 0028 696E7400 		.ascii	"int\000"
+ 398 002c 03       		.uleb128 0x3
+ 399 002d 04       		.byte	0x4
+ 400 002e 07       		.byte	0x7
+ 401 002f 24020000 		.4byte	.LASF0
+ 402 0033 03       		.uleb128 0x3
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 15
+
+
+ 403 0034 08       		.byte	0x8
+ 404 0035 05       		.byte	0x5
+ 405 0036 9F020000 		.4byte	.LASF1
+ 406 003a 03       		.uleb128 0x3
+ 407 003b 08       		.byte	0x8
+ 408 003c 04       		.byte	0x4
+ 409 003d 0C030000 		.4byte	.LASF2
+ 410 0041 03       		.uleb128 0x3
+ 411 0042 01       		.byte	0x1
+ 412 0043 06       		.byte	0x6
+ 413 0044 18030000 		.4byte	.LASF3
+ 414 0048 03       		.uleb128 0x3
+ 415 0049 01       		.byte	0x1
+ 416 004a 08       		.byte	0x8
+ 417 004b 74010000 		.4byte	.LASF4
+ 418 004f 03       		.uleb128 0x3
+ 419 0050 02       		.byte	0x2
+ 420 0051 05       		.byte	0x5
+ 421 0052 CC020000 		.4byte	.LASF5
+ 422 0056 03       		.uleb128 0x3
+ 423 0057 02       		.byte	0x2
+ 424 0058 07       		.byte	0x7
+ 425 0059 03010000 		.4byte	.LASF6
+ 426 005d 03       		.uleb128 0x3
+ 427 005e 04       		.byte	0x4
+ 428 005f 05       		.byte	0x5
+ 429 0060 FE020000 		.4byte	.LASF7
+ 430 0064 03       		.uleb128 0x3
+ 431 0065 04       		.byte	0x4
+ 432 0066 07       		.byte	0x7
+ 433 0067 8D010000 		.4byte	.LASF8
+ 434 006b 03       		.uleb128 0x3
+ 435 006c 08       		.byte	0x8
+ 436 006d 07       		.byte	0x7
+ 437 006e 5D010000 		.4byte	.LASF9
+ 438 0072 03       		.uleb128 0x3
+ 439 0073 04       		.byte	0x4
+ 440 0074 07       		.byte	0x7
+ 441 0075 96020000 		.4byte	.LASF10
+ 442 0079 03       		.uleb128 0x3
+ 443 007a 01       		.byte	0x1
+ 444 007b 08       		.byte	0x8
+ 445 007c 07030000 		.4byte	.LASF11
+ 446 0080 04       		.uleb128 0x4
+ 447 0081 F8020000 		.4byte	.LASF12
+ 448 0085 02       		.byte	0x2
+ 449 0086 E401     		.2byte	0x1e4
+ 450 0088 48000000 		.4byte	0x48
+ 451 008c 04       		.uleb128 0x4
+ 452 008d DE010000 		.4byte	.LASF13
+ 453 0091 02       		.byte	0x2
+ 454 0092 E501     		.2byte	0x1e5
+ 455 0094 56000000 		.4byte	0x56
+ 456 0098 04       		.uleb128 0x4
+ 457 0099 87010000 		.4byte	.LASF14
+ 458 009d 02       		.byte	0x2
+ 459 009e E801     		.2byte	0x1e8
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 16
+
+
+ 460 00a0 4F000000 		.4byte	0x4f
+ 461 00a4 04       		.uleb128 0x4
+ 462 00a5 9F010000 		.4byte	.LASF15
+ 463 00a9 02       		.byte	0x2
+ 464 00aa E901     		.2byte	0x1e9
+ 465 00ac 5D000000 		.4byte	0x5d
+ 466 00b0 03       		.uleb128 0x3
+ 467 00b1 04       		.byte	0x4
+ 468 00b2 04       		.byte	0x4
+ 469 00b3 57010000 		.4byte	.LASF16
+ 470 00b7 03       		.uleb128 0x3
+ 471 00b8 08       		.byte	0x8
+ 472 00b9 04       		.byte	0x4
+ 473 00ba D7010000 		.4byte	.LASF17
+ 474 00be 04       		.uleb128 0x4
+ 475 00bf 82010000 		.4byte	.LASF18
+ 476 00c3 02       		.byte	0x2
+ 477 00c4 8E02     		.2byte	0x28e
+ 478 00c6 CA000000 		.4byte	0xca
+ 479 00ca 05       		.uleb128 0x5
+ 480 00cb 80000000 		.4byte	0x80
+ 481 00cf 06       		.uleb128 0x6
+ 482 00d0 5C020000 		.4byte	.LASF36
+ 483 00d4 01       		.byte	0x1
+ 484 00d5 3601     		.2byte	0x136
+ 485 00d7 80000000 		.4byte	0x80
+ 486 00db 01       		.byte	0x1
+ 487 00dc 07       		.uleb128 0x7
+ 488 00dd 24030000 		.4byte	.LASF19
+ 489 00e1 01       		.byte	0x1
+ 490 00e2 4C01     		.2byte	0x14c
+ 491 00e4 01       		.byte	0x1
+ 492 00e5 F6000000 		.4byte	0xf6
+ 493 00e9 08       		.uleb128 0x8
+ 494 00ea C7020000 		.4byte	.LASF37
+ 495 00ee 01       		.byte	0x1
+ 496 00ef 4C01     		.2byte	0x14c
+ 497 00f1 80000000 		.4byte	0x80
+ 498 00f5 00       		.byte	0
+ 499 00f6 09       		.uleb128 0x9
+ 500 00f7 EF000000 		.4byte	.LASF38
+ 501 00fb 01       		.byte	0x1
+ 502 00fc 2A       		.byte	0x2a
+ 503 00fd 01       		.byte	0x1
+ 504 00fe 0A       		.uleb128 0xa
+ 505 00ff F6000000 		.4byte	0xf6
+ 506 0103 00000000 		.4byte	.LFB0
+ 507 0107 02000000 		.4byte	.LFE0-.LFB0
+ 508 010b 01       		.uleb128 0x1
+ 509 010c 9C       		.byte	0x9c
+ 510 010d 0B       		.uleb128 0xb
+ 511 010e 16010000 		.4byte	.LASF20
+ 512 0112 01       		.byte	0x1
+ 513 0113 46       		.byte	0x46
+ 514 0114 01       		.byte	0x1
+ 515 0115 25010000 		.4byte	0x125
+ 516 0119 0C       		.uleb128 0xc
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 17
+
+
+ 517 011a C6010000 		.4byte	.LASF23
+ 518 011e 01       		.byte	0x1
+ 519 011f 48       		.byte	0x48
+ 520 0120 80000000 		.4byte	0x80
+ 521 0124 00       		.byte	0
+ 522 0125 0D       		.uleb128 0xd
+ 523 0126 0D010000 		.4byte	0x10d
+ 524 012a 00000000 		.4byte	.LFB1
+ 525 012e 30000000 		.4byte	.LFE1-.LFB1
+ 526 0132 01       		.uleb128 0x1
+ 527 0133 9C       		.byte	0x9c
+ 528 0134 80010000 		.4byte	0x180
+ 529 0138 0E       		.uleb128 0xe
+ 530 0139 19010000 		.4byte	0x119
+ 531 013d 00000000 		.4byte	.LLST0
+ 532 0141 0F       		.uleb128 0xf
+ 533 0142 DC000000 		.4byte	0xdc
+ 534 0146 02000000 		.4byte	.LBB12
+ 535 014a 00000000 		.4byte	.Ldebug_ranges0+0
+ 536 014e 01       		.byte	0x1
+ 537 014f 4A       		.byte	0x4a
+ 538 0150 5E010000 		.4byte	0x15e
+ 539 0154 10       		.uleb128 0x10
+ 540 0155 E9000000 		.4byte	0xe9
+ 541 0159 13000000 		.4byte	.LLST1
+ 542 015d 00       		.byte	0
+ 543 015e 11       		.uleb128 0x11
+ 544 015f CF000000 		.4byte	0xcf
+ 545 0163 06000000 		.4byte	.LBB15
+ 546 0167 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 547 016b 01       		.byte	0x1
+ 548 016c 4D       		.byte	0x4d
+ 549 016d 12       		.uleb128 0x12
+ 550 016e 10000000 		.4byte	.LVL2
+ 551 0172 23030000 		.4byte	0x323
+ 552 0176 13       		.uleb128 0x13
+ 553 0177 22000000 		.4byte	.LVL3
+ 554 017b 2E030000 		.4byte	0x32e
+ 555 017f 00       		.byte	0
+ 556 0180 14       		.uleb128 0x14
+ 557 0181 31020000 		.4byte	.LASF21
+ 558 0185 01       		.byte	0x1
+ 559 0186 74       		.byte	0x74
+ 560 0187 00000000 		.4byte	.LFB2
+ 561 018b 48000000 		.4byte	.LFE2-.LFB2
+ 562 018f 01       		.uleb128 0x1
+ 563 0190 9C       		.byte	0x9c
+ 564 0191 11020000 		.4byte	0x211
+ 565 0195 0F       		.uleb128 0xf
+ 566 0196 0D010000 		.4byte	0x10d
+ 567 019a 18000000 		.4byte	.LBB26
+ 568 019e 30000000 		.4byte	.Ldebug_ranges0+0x30
+ 569 01a2 01       		.byte	0x1
+ 570 01a3 8B       		.byte	0x8b
+ 571 01a4 F6010000 		.4byte	0x1f6
+ 572 01a8 15       		.uleb128 0x15
+ 573 01a9 30000000 		.4byte	.Ldebug_ranges0+0x30
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 18
+
+
+ 574 01ad 0E       		.uleb128 0xe
+ 575 01ae 19010000 		.4byte	0x119
+ 576 01b2 27000000 		.4byte	.LLST2
+ 577 01b6 0F       		.uleb128 0xf
+ 578 01b7 DC000000 		.4byte	0xdc
+ 579 01bb 18000000 		.4byte	.LBB28
+ 580 01bf 48000000 		.4byte	.Ldebug_ranges0+0x48
+ 581 01c3 01       		.byte	0x1
+ 582 01c4 4A       		.byte	0x4a
+ 583 01c5 D3010000 		.4byte	0x1d3
+ 584 01c9 10       		.uleb128 0x10
+ 585 01ca E9000000 		.4byte	0xe9
+ 586 01ce 3A000000 		.4byte	.LLST3
+ 587 01d2 00       		.byte	0
+ 588 01d3 11       		.uleb128 0x11
+ 589 01d4 CF000000 		.4byte	0xcf
+ 590 01d8 1C000000 		.4byte	.LBB31
+ 591 01dc 60000000 		.4byte	.Ldebug_ranges0+0x60
+ 592 01e0 01       		.byte	0x1
+ 593 01e1 4D       		.byte	0x4d
+ 594 01e2 12       		.uleb128 0x12
+ 595 01e3 26000000 		.4byte	.LVL8
+ 596 01e7 23030000 		.4byte	0x323
+ 597 01eb 13       		.uleb128 0x13
+ 598 01ec 38000000 		.4byte	.LVL9
+ 599 01f0 2E030000 		.4byte	0x32e
+ 600 01f4 00       		.byte	0
+ 601 01f5 00       		.byte	0
+ 602 01f6 12       		.uleb128 0x12
+ 603 01f7 06000000 		.4byte	.LVL4
+ 604 01fb 39030000 		.4byte	0x339
+ 605 01ff 16       		.uleb128 0x16
+ 606 0200 0E000000 		.4byte	.LVL5
+ 607 0204 44030000 		.4byte	0x344
+ 608 0208 17       		.uleb128 0x17
+ 609 0209 01       		.uleb128 0x1
+ 610 020a 50       		.byte	0x50
+ 611 020b 03       		.uleb128 0x3
+ 612 020c 0B       		.byte	0xb
+ 613 020d 0080     		.2byte	0x8000
+ 614 020f 00       		.byte	0
+ 615 0210 00       		.byte	0
+ 616 0211 14       		.uleb128 0x14
+ 617 0212 2C010000 		.4byte	.LASF22
+ 618 0216 01       		.byte	0x1
+ 619 0217 9D       		.byte	0x9d
+ 620 0218 00000000 		.4byte	.LFB3
+ 621 021c 20000000 		.4byte	.LFE3-.LFB3
+ 622 0220 01       		.uleb128 0x1
+ 623 0221 9C       		.byte	0x9c
+ 624 0222 51020000 		.4byte	0x251
+ 625 0226 18       		.uleb128 0x18
+ 626 0227 C6010000 		.4byte	.LASF23
+ 627 022b 01       		.byte	0x1
+ 628 022c 9F       		.byte	0x9f
+ 629 022d 80000000 		.4byte	0x80
+ 630 0231 4E000000 		.4byte	.LLST4
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 19
+
+
+ 631 0235 12       		.uleb128 0x12
+ 632 0236 06000000 		.4byte	.LVL10
+ 633 023a 4F030000 		.4byte	0x34f
+ 634 023e 12       		.uleb128 0x12
+ 635 023f 0A000000 		.4byte	.LVL11
+ 636 0243 23030000 		.4byte	0x323
+ 637 0247 13       		.uleb128 0x13
+ 638 0248 1C000000 		.4byte	.LVL12
+ 639 024c 2E030000 		.4byte	0x32e
+ 640 0250 00       		.byte	0
+ 641 0251 19       		.uleb128 0x19
+ 642 0252 AC010000 		.4byte	.LASF39
+ 643 0256 01       		.byte	0x1
+ 644 0257 CA       		.byte	0xca
+ 645 0258 98000000 		.4byte	0x98
+ 646 025c 00000000 		.4byte	.LFB4
+ 647 0260 0E000000 		.4byte	.LFE4-.LFB4
+ 648 0264 01       		.uleb128 0x1
+ 649 0265 9C       		.byte	0x9c
+ 650 0266 92020000 		.4byte	0x292
+ 651 026a 18       		.uleb128 0x18
+ 652 026b E9000000 		.4byte	.LASF24
+ 653 026f 01       		.byte	0x1
+ 654 0270 CC       		.byte	0xcc
+ 655 0271 98000000 		.4byte	0x98
+ 656 0275 61000000 		.4byte	.LLST5
+ 657 0279 18       		.uleb128 0x18
+ 658 027a A5010000 		.4byte	.LASF25
+ 659 027e 01       		.byte	0x1
+ 660 027f CD       		.byte	0xcd
+ 661 0280 8C000000 		.4byte	0x8c
+ 662 0284 78000000 		.4byte	.LLST6
+ 663 0288 12       		.uleb128 0x12
+ 664 0289 06000000 		.4byte	.LVL13
+ 665 028d 5A030000 		.4byte	0x35a
+ 666 0291 00       		.byte	0
+ 667 0292 1A       		.uleb128 0x1a
+ 668 0293 AD020000 		.4byte	.LASF26
+ 669 0297 01       		.byte	0x1
+ 670 0298 0201     		.2byte	0x102
+ 671 029a 00000000 		.4byte	.LFB5
+ 672 029e 0A000000 		.4byte	.LFE5-.LFB5
+ 673 02a2 01       		.uleb128 0x1
+ 674 02a3 9C       		.byte	0x9c
+ 675 02a4 D2020000 		.4byte	0x2d2
+ 676 02a8 1B       		.uleb128 0x1b
+ 677 02a9 E3000000 		.4byte	.LASF40
+ 678 02ad 01       		.byte	0x1
+ 679 02ae 0201     		.2byte	0x102
+ 680 02b0 98000000 		.4byte	0x98
+ 681 02b4 8B000000 		.4byte	.LLST7
+ 682 02b8 1C       		.uleb128 0x1c
+ 683 02b9 E9000000 		.4byte	.LASF24
+ 684 02bd 01       		.byte	0x1
+ 685 02be 0601     		.2byte	0x106
+ 686 02c0 8C000000 		.4byte	0x8c
+ 687 02c4 AC000000 		.4byte	.LLST8
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 20
+
+
+ 688 02c8 13       		.uleb128 0x13
+ 689 02c9 0A000000 		.4byte	.LVL17
+ 690 02cd 44030000 		.4byte	0x344
+ 691 02d1 00       		.byte	0
+ 692 02d2 0A       		.uleb128 0xa
+ 693 02d3 CF000000 		.4byte	0xcf
+ 694 02d7 00000000 		.4byte	.LFB6
+ 695 02db 10000000 		.4byte	.LFE6-.LFB6
+ 696 02df 01       		.uleb128 0x1
+ 697 02e0 9C       		.byte	0x9c
+ 698 02e1 0D       		.uleb128 0xd
+ 699 02e2 DC000000 		.4byte	0xdc
+ 700 02e6 00000000 		.4byte	.LFB7
+ 701 02ea 0C000000 		.4byte	.LFE7-.LFB7
+ 702 02ee 01       		.uleb128 0x1
+ 703 02ef 9C       		.byte	0x9c
+ 704 02f0 FC020000 		.4byte	0x2fc
+ 705 02f4 1D       		.uleb128 0x1d
+ 706 02f5 E9000000 		.4byte	0xe9
+ 707 02f9 01       		.uleb128 0x1
+ 708 02fa 50       		.byte	0x50
+ 709 02fb 00       		.byte	0
+ 710 02fc 1E       		.uleb128 0x1e
+ 711 02fd A9000000 		.4byte	.LASF41
+ 712 0301 01       		.byte	0x1
+ 713 0302 6801     		.2byte	0x168
+ 714 0304 80000000 		.4byte	0x80
+ 715 0308 00000000 		.4byte	.LFB8
+ 716 030c 10000000 		.4byte	.LFE8-.LFB8
+ 717 0310 01       		.uleb128 0x1
+ 718 0311 9C       		.byte	0x9c
+ 719 0312 1F       		.uleb128 0x1f
+ 720 0313 40010000 		.4byte	.LASF42
+ 721 0317 01       		.byte	0x1
+ 722 0318 19       		.byte	0x19
+ 723 0319 80000000 		.4byte	0x80
+ 724 031d 05       		.uleb128 0x5
+ 725 031e 03       		.byte	0x3
+ 726 031f 00000000 		.4byte	Handle_Encoder_initVar
+ 727 0323 20       		.uleb128 0x20
+ 728 0324 0D020000 		.4byte	.LASF27
+ 729 0328 0D020000 		.4byte	.LASF27
+ 730 032c 03       		.byte	0x3
+ 731 032d 7D       		.byte	0x7d
+ 732 032e 20       		.uleb128 0x20
+ 733 032f 46020000 		.4byte	.LASF28
+ 734 0333 46020000 		.4byte	.LASF28
+ 735 0337 03       		.byte	0x3
+ 736 0338 7E       		.byte	0x7e
+ 737 0339 20       		.uleb128 0x20
+ 738 033a 00000000 		.4byte	.LASF29
+ 739 033e 00000000 		.4byte	.LASF29
+ 740 0342 04       		.byte	0x4
+ 741 0343 4F       		.byte	0x4f
+ 742 0344 20       		.uleb128 0x20
+ 743 0345 D6020000 		.4byte	.LASF30
+ 744 0349 D6020000 		.4byte	.LASF30
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 21
+
+
+ 745 034d 04       		.byte	0x4
+ 746 034e 5A       		.byte	0x5a
+ 747 034f 20       		.uleb128 0x20
+ 748 0350 C9000000 		.4byte	.LASF31
+ 749 0354 C9000000 		.4byte	.LASF31
+ 750 0358 04       		.byte	0x4
+ 751 0359 50       		.byte	0x50
+ 752 035a 20       		.uleb128 0x20
+ 753 035b 75020000 		.4byte	.LASF32
+ 754 035f 75020000 		.4byte	.LASF32
+ 755 0363 04       		.byte	0x4
+ 756 0364 5D       		.byte	0x5d
+ 757 0365 00       		.byte	0
+ 758              		.section	.debug_abbrev,"",%progbits
+ 759              	.Ldebug_abbrev0:
+ 760 0000 01       		.uleb128 0x1
+ 761 0001 11       		.uleb128 0x11
+ 762 0002 01       		.byte	0x1
+ 763 0003 25       		.uleb128 0x25
+ 764 0004 0E       		.uleb128 0xe
+ 765 0005 13       		.uleb128 0x13
+ 766 0006 0B       		.uleb128 0xb
+ 767 0007 03       		.uleb128 0x3
+ 768 0008 0E       		.uleb128 0xe
+ 769 0009 1B       		.uleb128 0x1b
+ 770 000a 0E       		.uleb128 0xe
+ 771 000b 55       		.uleb128 0x55
+ 772 000c 17       		.uleb128 0x17
+ 773 000d 11       		.uleb128 0x11
+ 774 000e 01       		.uleb128 0x1
+ 775 000f 10       		.uleb128 0x10
+ 776 0010 17       		.uleb128 0x17
+ 777 0011 00       		.byte	0
+ 778 0012 00       		.byte	0
+ 779 0013 02       		.uleb128 0x2
+ 780 0014 24       		.uleb128 0x24
+ 781 0015 00       		.byte	0
+ 782 0016 0B       		.uleb128 0xb
+ 783 0017 0B       		.uleb128 0xb
+ 784 0018 3E       		.uleb128 0x3e
+ 785 0019 0B       		.uleb128 0xb
+ 786 001a 03       		.uleb128 0x3
+ 787 001b 08       		.uleb128 0x8
+ 788 001c 00       		.byte	0
+ 789 001d 00       		.byte	0
+ 790 001e 03       		.uleb128 0x3
+ 791 001f 24       		.uleb128 0x24
+ 792 0020 00       		.byte	0
+ 793 0021 0B       		.uleb128 0xb
+ 794 0022 0B       		.uleb128 0xb
+ 795 0023 3E       		.uleb128 0x3e
+ 796 0024 0B       		.uleb128 0xb
+ 797 0025 03       		.uleb128 0x3
+ 798 0026 0E       		.uleb128 0xe
+ 799 0027 00       		.byte	0
+ 800 0028 00       		.byte	0
+ 801 0029 04       		.uleb128 0x4
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 22
+
+
+ 802 002a 16       		.uleb128 0x16
+ 803 002b 00       		.byte	0
+ 804 002c 03       		.uleb128 0x3
+ 805 002d 0E       		.uleb128 0xe
+ 806 002e 3A       		.uleb128 0x3a
+ 807 002f 0B       		.uleb128 0xb
+ 808 0030 3B       		.uleb128 0x3b
+ 809 0031 05       		.uleb128 0x5
+ 810 0032 49       		.uleb128 0x49
+ 811 0033 13       		.uleb128 0x13
+ 812 0034 00       		.byte	0
+ 813 0035 00       		.byte	0
+ 814 0036 05       		.uleb128 0x5
+ 815 0037 35       		.uleb128 0x35
+ 816 0038 00       		.byte	0
+ 817 0039 49       		.uleb128 0x49
+ 818 003a 13       		.uleb128 0x13
+ 819 003b 00       		.byte	0
+ 820 003c 00       		.byte	0
+ 821 003d 06       		.uleb128 0x6
+ 822 003e 2E       		.uleb128 0x2e
+ 823 003f 00       		.byte	0
+ 824 0040 3F       		.uleb128 0x3f
+ 825 0041 19       		.uleb128 0x19
+ 826 0042 03       		.uleb128 0x3
+ 827 0043 0E       		.uleb128 0xe
+ 828 0044 3A       		.uleb128 0x3a
+ 829 0045 0B       		.uleb128 0xb
+ 830 0046 3B       		.uleb128 0x3b
+ 831 0047 05       		.uleb128 0x5
+ 832 0048 27       		.uleb128 0x27
+ 833 0049 19       		.uleb128 0x19
+ 834 004a 49       		.uleb128 0x49
+ 835 004b 13       		.uleb128 0x13
+ 836 004c 20       		.uleb128 0x20
+ 837 004d 0B       		.uleb128 0xb
+ 838 004e 00       		.byte	0
+ 839 004f 00       		.byte	0
+ 840 0050 07       		.uleb128 0x7
+ 841 0051 2E       		.uleb128 0x2e
+ 842 0052 01       		.byte	0x1
+ 843 0053 3F       		.uleb128 0x3f
+ 844 0054 19       		.uleb128 0x19
+ 845 0055 03       		.uleb128 0x3
+ 846 0056 0E       		.uleb128 0xe
+ 847 0057 3A       		.uleb128 0x3a
+ 848 0058 0B       		.uleb128 0xb
+ 849 0059 3B       		.uleb128 0x3b
+ 850 005a 05       		.uleb128 0x5
+ 851 005b 27       		.uleb128 0x27
+ 852 005c 19       		.uleb128 0x19
+ 853 005d 20       		.uleb128 0x20
+ 854 005e 0B       		.uleb128 0xb
+ 855 005f 01       		.uleb128 0x1
+ 856 0060 13       		.uleb128 0x13
+ 857 0061 00       		.byte	0
+ 858 0062 00       		.byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 23
+
+
+ 859 0063 08       		.uleb128 0x8
+ 860 0064 05       		.uleb128 0x5
+ 861 0065 00       		.byte	0
+ 862 0066 03       		.uleb128 0x3
+ 863 0067 0E       		.uleb128 0xe
+ 864 0068 3A       		.uleb128 0x3a
+ 865 0069 0B       		.uleb128 0xb
+ 866 006a 3B       		.uleb128 0x3b
+ 867 006b 05       		.uleb128 0x5
+ 868 006c 49       		.uleb128 0x49
+ 869 006d 13       		.uleb128 0x13
+ 870 006e 00       		.byte	0
+ 871 006f 00       		.byte	0
+ 872 0070 09       		.uleb128 0x9
+ 873 0071 2E       		.uleb128 0x2e
+ 874 0072 00       		.byte	0
+ 875 0073 3F       		.uleb128 0x3f
+ 876 0074 19       		.uleb128 0x19
+ 877 0075 03       		.uleb128 0x3
+ 878 0076 0E       		.uleb128 0xe
+ 879 0077 3A       		.uleb128 0x3a
+ 880 0078 0B       		.uleb128 0xb
+ 881 0079 3B       		.uleb128 0x3b
+ 882 007a 0B       		.uleb128 0xb
+ 883 007b 27       		.uleb128 0x27
+ 884 007c 19       		.uleb128 0x19
+ 885 007d 20       		.uleb128 0x20
+ 886 007e 0B       		.uleb128 0xb
+ 887 007f 00       		.byte	0
+ 888 0080 00       		.byte	0
+ 889 0081 0A       		.uleb128 0xa
+ 890 0082 2E       		.uleb128 0x2e
+ 891 0083 00       		.byte	0
+ 892 0084 31       		.uleb128 0x31
+ 893 0085 13       		.uleb128 0x13
+ 894 0086 11       		.uleb128 0x11
+ 895 0087 01       		.uleb128 0x1
+ 896 0088 12       		.uleb128 0x12
+ 897 0089 06       		.uleb128 0x6
+ 898 008a 40       		.uleb128 0x40
+ 899 008b 18       		.uleb128 0x18
+ 900 008c 9742     		.uleb128 0x2117
+ 901 008e 19       		.uleb128 0x19
+ 902 008f 00       		.byte	0
+ 903 0090 00       		.byte	0
+ 904 0091 0B       		.uleb128 0xb
+ 905 0092 2E       		.uleb128 0x2e
+ 906 0093 01       		.byte	0x1
+ 907 0094 3F       		.uleb128 0x3f
+ 908 0095 19       		.uleb128 0x19
+ 909 0096 03       		.uleb128 0x3
+ 910 0097 0E       		.uleb128 0xe
+ 911 0098 3A       		.uleb128 0x3a
+ 912 0099 0B       		.uleb128 0xb
+ 913 009a 3B       		.uleb128 0x3b
+ 914 009b 0B       		.uleb128 0xb
+ 915 009c 27       		.uleb128 0x27
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 24
+
+
+ 916 009d 19       		.uleb128 0x19
+ 917 009e 20       		.uleb128 0x20
+ 918 009f 0B       		.uleb128 0xb
+ 919 00a0 01       		.uleb128 0x1
+ 920 00a1 13       		.uleb128 0x13
+ 921 00a2 00       		.byte	0
+ 922 00a3 00       		.byte	0
+ 923 00a4 0C       		.uleb128 0xc
+ 924 00a5 34       		.uleb128 0x34
+ 925 00a6 00       		.byte	0
+ 926 00a7 03       		.uleb128 0x3
+ 927 00a8 0E       		.uleb128 0xe
+ 928 00a9 3A       		.uleb128 0x3a
+ 929 00aa 0B       		.uleb128 0xb
+ 930 00ab 3B       		.uleb128 0x3b
+ 931 00ac 0B       		.uleb128 0xb
+ 932 00ad 49       		.uleb128 0x49
+ 933 00ae 13       		.uleb128 0x13
+ 934 00af 00       		.byte	0
+ 935 00b0 00       		.byte	0
+ 936 00b1 0D       		.uleb128 0xd
+ 937 00b2 2E       		.uleb128 0x2e
+ 938 00b3 01       		.byte	0x1
+ 939 00b4 31       		.uleb128 0x31
+ 940 00b5 13       		.uleb128 0x13
+ 941 00b6 11       		.uleb128 0x11
+ 942 00b7 01       		.uleb128 0x1
+ 943 00b8 12       		.uleb128 0x12
+ 944 00b9 06       		.uleb128 0x6
+ 945 00ba 40       		.uleb128 0x40
+ 946 00bb 18       		.uleb128 0x18
+ 947 00bc 9742     		.uleb128 0x2117
+ 948 00be 19       		.uleb128 0x19
+ 949 00bf 01       		.uleb128 0x1
+ 950 00c0 13       		.uleb128 0x13
+ 951 00c1 00       		.byte	0
+ 952 00c2 00       		.byte	0
+ 953 00c3 0E       		.uleb128 0xe
+ 954 00c4 34       		.uleb128 0x34
+ 955 00c5 00       		.byte	0
+ 956 00c6 31       		.uleb128 0x31
+ 957 00c7 13       		.uleb128 0x13
+ 958 00c8 02       		.uleb128 0x2
+ 959 00c9 17       		.uleb128 0x17
+ 960 00ca 00       		.byte	0
+ 961 00cb 00       		.byte	0
+ 962 00cc 0F       		.uleb128 0xf
+ 963 00cd 1D       		.uleb128 0x1d
+ 964 00ce 01       		.byte	0x1
+ 965 00cf 31       		.uleb128 0x31
+ 966 00d0 13       		.uleb128 0x13
+ 967 00d1 52       		.uleb128 0x52
+ 968 00d2 01       		.uleb128 0x1
+ 969 00d3 55       		.uleb128 0x55
+ 970 00d4 17       		.uleb128 0x17
+ 971 00d5 58       		.uleb128 0x58
+ 972 00d6 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 25
+
+
+ 973 00d7 59       		.uleb128 0x59
+ 974 00d8 0B       		.uleb128 0xb
+ 975 00d9 01       		.uleb128 0x1
+ 976 00da 13       		.uleb128 0x13
+ 977 00db 00       		.byte	0
+ 978 00dc 00       		.byte	0
+ 979 00dd 10       		.uleb128 0x10
+ 980 00de 05       		.uleb128 0x5
+ 981 00df 00       		.byte	0
+ 982 00e0 31       		.uleb128 0x31
+ 983 00e1 13       		.uleb128 0x13
+ 984 00e2 02       		.uleb128 0x2
+ 985 00e3 17       		.uleb128 0x17
+ 986 00e4 00       		.byte	0
+ 987 00e5 00       		.byte	0
+ 988 00e6 11       		.uleb128 0x11
+ 989 00e7 1D       		.uleb128 0x1d
+ 990 00e8 00       		.byte	0
+ 991 00e9 31       		.uleb128 0x31
+ 992 00ea 13       		.uleb128 0x13
+ 993 00eb 52       		.uleb128 0x52
+ 994 00ec 01       		.uleb128 0x1
+ 995 00ed 55       		.uleb128 0x55
+ 996 00ee 17       		.uleb128 0x17
+ 997 00ef 58       		.uleb128 0x58
+ 998 00f0 0B       		.uleb128 0xb
+ 999 00f1 59       		.uleb128 0x59
+ 1000 00f2 0B       		.uleb128 0xb
+ 1001 00f3 00       		.byte	0
+ 1002 00f4 00       		.byte	0
+ 1003 00f5 12       		.uleb128 0x12
+ 1004 00f6 898201   		.uleb128 0x4109
+ 1005 00f9 00       		.byte	0
+ 1006 00fa 11       		.uleb128 0x11
+ 1007 00fb 01       		.uleb128 0x1
+ 1008 00fc 31       		.uleb128 0x31
+ 1009 00fd 13       		.uleb128 0x13
+ 1010 00fe 00       		.byte	0
+ 1011 00ff 00       		.byte	0
+ 1012 0100 13       		.uleb128 0x13
+ 1013 0101 898201   		.uleb128 0x4109
+ 1014 0104 00       		.byte	0
+ 1015 0105 11       		.uleb128 0x11
+ 1016 0106 01       		.uleb128 0x1
+ 1017 0107 9542     		.uleb128 0x2115
+ 1018 0109 19       		.uleb128 0x19
+ 1019 010a 31       		.uleb128 0x31
+ 1020 010b 13       		.uleb128 0x13
+ 1021 010c 00       		.byte	0
+ 1022 010d 00       		.byte	0
+ 1023 010e 14       		.uleb128 0x14
+ 1024 010f 2E       		.uleb128 0x2e
+ 1025 0110 01       		.byte	0x1
+ 1026 0111 3F       		.uleb128 0x3f
+ 1027 0112 19       		.uleb128 0x19
+ 1028 0113 03       		.uleb128 0x3
+ 1029 0114 0E       		.uleb128 0xe
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 26
+
+
+ 1030 0115 3A       		.uleb128 0x3a
+ 1031 0116 0B       		.uleb128 0xb
+ 1032 0117 3B       		.uleb128 0x3b
+ 1033 0118 0B       		.uleb128 0xb
+ 1034 0119 27       		.uleb128 0x27
+ 1035 011a 19       		.uleb128 0x19
+ 1036 011b 11       		.uleb128 0x11
+ 1037 011c 01       		.uleb128 0x1
+ 1038 011d 12       		.uleb128 0x12
+ 1039 011e 06       		.uleb128 0x6
+ 1040 011f 40       		.uleb128 0x40
+ 1041 0120 18       		.uleb128 0x18
+ 1042 0121 9742     		.uleb128 0x2117
+ 1043 0123 19       		.uleb128 0x19
+ 1044 0124 01       		.uleb128 0x1
+ 1045 0125 13       		.uleb128 0x13
+ 1046 0126 00       		.byte	0
+ 1047 0127 00       		.byte	0
+ 1048 0128 15       		.uleb128 0x15
+ 1049 0129 0B       		.uleb128 0xb
+ 1050 012a 01       		.byte	0x1
+ 1051 012b 55       		.uleb128 0x55
+ 1052 012c 17       		.uleb128 0x17
+ 1053 012d 00       		.byte	0
+ 1054 012e 00       		.byte	0
+ 1055 012f 16       		.uleb128 0x16
+ 1056 0130 898201   		.uleb128 0x4109
+ 1057 0133 01       		.byte	0x1
+ 1058 0134 11       		.uleb128 0x11
+ 1059 0135 01       		.uleb128 0x1
+ 1060 0136 31       		.uleb128 0x31
+ 1061 0137 13       		.uleb128 0x13
+ 1062 0138 00       		.byte	0
+ 1063 0139 00       		.byte	0
+ 1064 013a 17       		.uleb128 0x17
+ 1065 013b 8A8201   		.uleb128 0x410a
+ 1066 013e 00       		.byte	0
+ 1067 013f 02       		.uleb128 0x2
+ 1068 0140 18       		.uleb128 0x18
+ 1069 0141 9142     		.uleb128 0x2111
+ 1070 0143 18       		.uleb128 0x18
+ 1071 0144 00       		.byte	0
+ 1072 0145 00       		.byte	0
+ 1073 0146 18       		.uleb128 0x18
+ 1074 0147 34       		.uleb128 0x34
+ 1075 0148 00       		.byte	0
+ 1076 0149 03       		.uleb128 0x3
+ 1077 014a 0E       		.uleb128 0xe
+ 1078 014b 3A       		.uleb128 0x3a
+ 1079 014c 0B       		.uleb128 0xb
+ 1080 014d 3B       		.uleb128 0x3b
+ 1081 014e 0B       		.uleb128 0xb
+ 1082 014f 49       		.uleb128 0x49
+ 1083 0150 13       		.uleb128 0x13
+ 1084 0151 02       		.uleb128 0x2
+ 1085 0152 17       		.uleb128 0x17
+ 1086 0153 00       		.byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 27
+
+
+ 1087 0154 00       		.byte	0
+ 1088 0155 19       		.uleb128 0x19
+ 1089 0156 2E       		.uleb128 0x2e
+ 1090 0157 01       		.byte	0x1
+ 1091 0158 3F       		.uleb128 0x3f
+ 1092 0159 19       		.uleb128 0x19
+ 1093 015a 03       		.uleb128 0x3
+ 1094 015b 0E       		.uleb128 0xe
+ 1095 015c 3A       		.uleb128 0x3a
+ 1096 015d 0B       		.uleb128 0xb
+ 1097 015e 3B       		.uleb128 0x3b
+ 1098 015f 0B       		.uleb128 0xb
+ 1099 0160 27       		.uleb128 0x27
+ 1100 0161 19       		.uleb128 0x19
+ 1101 0162 49       		.uleb128 0x49
+ 1102 0163 13       		.uleb128 0x13
+ 1103 0164 11       		.uleb128 0x11
+ 1104 0165 01       		.uleb128 0x1
+ 1105 0166 12       		.uleb128 0x12
+ 1106 0167 06       		.uleb128 0x6
+ 1107 0168 40       		.uleb128 0x40
+ 1108 0169 18       		.uleb128 0x18
+ 1109 016a 9742     		.uleb128 0x2117
+ 1110 016c 19       		.uleb128 0x19
+ 1111 016d 01       		.uleb128 0x1
+ 1112 016e 13       		.uleb128 0x13
+ 1113 016f 00       		.byte	0
+ 1114 0170 00       		.byte	0
+ 1115 0171 1A       		.uleb128 0x1a
+ 1116 0172 2E       		.uleb128 0x2e
+ 1117 0173 01       		.byte	0x1
+ 1118 0174 3F       		.uleb128 0x3f
+ 1119 0175 19       		.uleb128 0x19
+ 1120 0176 03       		.uleb128 0x3
+ 1121 0177 0E       		.uleb128 0xe
+ 1122 0178 3A       		.uleb128 0x3a
+ 1123 0179 0B       		.uleb128 0xb
+ 1124 017a 3B       		.uleb128 0x3b
+ 1125 017b 05       		.uleb128 0x5
+ 1126 017c 27       		.uleb128 0x27
+ 1127 017d 19       		.uleb128 0x19
+ 1128 017e 11       		.uleb128 0x11
+ 1129 017f 01       		.uleb128 0x1
+ 1130 0180 12       		.uleb128 0x12
+ 1131 0181 06       		.uleb128 0x6
+ 1132 0182 40       		.uleb128 0x40
+ 1133 0183 18       		.uleb128 0x18
+ 1134 0184 9742     		.uleb128 0x2117
+ 1135 0186 19       		.uleb128 0x19
+ 1136 0187 01       		.uleb128 0x1
+ 1137 0188 13       		.uleb128 0x13
+ 1138 0189 00       		.byte	0
+ 1139 018a 00       		.byte	0
+ 1140 018b 1B       		.uleb128 0x1b
+ 1141 018c 05       		.uleb128 0x5
+ 1142 018d 00       		.byte	0
+ 1143 018e 03       		.uleb128 0x3
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 28
+
+
+ 1144 018f 0E       		.uleb128 0xe
+ 1145 0190 3A       		.uleb128 0x3a
+ 1146 0191 0B       		.uleb128 0xb
+ 1147 0192 3B       		.uleb128 0x3b
+ 1148 0193 05       		.uleb128 0x5
+ 1149 0194 49       		.uleb128 0x49
+ 1150 0195 13       		.uleb128 0x13
+ 1151 0196 02       		.uleb128 0x2
+ 1152 0197 17       		.uleb128 0x17
+ 1153 0198 00       		.byte	0
+ 1154 0199 00       		.byte	0
+ 1155 019a 1C       		.uleb128 0x1c
+ 1156 019b 34       		.uleb128 0x34
+ 1157 019c 00       		.byte	0
+ 1158 019d 03       		.uleb128 0x3
+ 1159 019e 0E       		.uleb128 0xe
+ 1160 019f 3A       		.uleb128 0x3a
+ 1161 01a0 0B       		.uleb128 0xb
+ 1162 01a1 3B       		.uleb128 0x3b
+ 1163 01a2 05       		.uleb128 0x5
+ 1164 01a3 49       		.uleb128 0x49
+ 1165 01a4 13       		.uleb128 0x13
+ 1166 01a5 02       		.uleb128 0x2
+ 1167 01a6 17       		.uleb128 0x17
+ 1168 01a7 00       		.byte	0
+ 1169 01a8 00       		.byte	0
+ 1170 01a9 1D       		.uleb128 0x1d
+ 1171 01aa 05       		.uleb128 0x5
+ 1172 01ab 00       		.byte	0
+ 1173 01ac 31       		.uleb128 0x31
+ 1174 01ad 13       		.uleb128 0x13
+ 1175 01ae 02       		.uleb128 0x2
+ 1176 01af 18       		.uleb128 0x18
+ 1177 01b0 00       		.byte	0
+ 1178 01b1 00       		.byte	0
+ 1179 01b2 1E       		.uleb128 0x1e
+ 1180 01b3 2E       		.uleb128 0x2e
+ 1181 01b4 00       		.byte	0
+ 1182 01b5 3F       		.uleb128 0x3f
+ 1183 01b6 19       		.uleb128 0x19
+ 1184 01b7 03       		.uleb128 0x3
+ 1185 01b8 0E       		.uleb128 0xe
+ 1186 01b9 3A       		.uleb128 0x3a
+ 1187 01ba 0B       		.uleb128 0xb
+ 1188 01bb 3B       		.uleb128 0x3b
+ 1189 01bc 05       		.uleb128 0x5
+ 1190 01bd 27       		.uleb128 0x27
+ 1191 01be 19       		.uleb128 0x19
+ 1192 01bf 49       		.uleb128 0x49
+ 1193 01c0 13       		.uleb128 0x13
+ 1194 01c1 11       		.uleb128 0x11
+ 1195 01c2 01       		.uleb128 0x1
+ 1196 01c3 12       		.uleb128 0x12
+ 1197 01c4 06       		.uleb128 0x6
+ 1198 01c5 40       		.uleb128 0x40
+ 1199 01c6 18       		.uleb128 0x18
+ 1200 01c7 9742     		.uleb128 0x2117
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 29
+
+
+ 1201 01c9 19       		.uleb128 0x19
+ 1202 01ca 00       		.byte	0
+ 1203 01cb 00       		.byte	0
+ 1204 01cc 1F       		.uleb128 0x1f
+ 1205 01cd 34       		.uleb128 0x34
+ 1206 01ce 00       		.byte	0
+ 1207 01cf 03       		.uleb128 0x3
+ 1208 01d0 0E       		.uleb128 0xe
+ 1209 01d1 3A       		.uleb128 0x3a
+ 1210 01d2 0B       		.uleb128 0xb
+ 1211 01d3 3B       		.uleb128 0x3b
+ 1212 01d4 0B       		.uleb128 0xb
+ 1213 01d5 49       		.uleb128 0x49
+ 1214 01d6 13       		.uleb128 0x13
+ 1215 01d7 3F       		.uleb128 0x3f
+ 1216 01d8 19       		.uleb128 0x19
+ 1217 01d9 02       		.uleb128 0x2
+ 1218 01da 18       		.uleb128 0x18
+ 1219 01db 00       		.byte	0
+ 1220 01dc 00       		.byte	0
+ 1221 01dd 20       		.uleb128 0x20
+ 1222 01de 2E       		.uleb128 0x2e
+ 1223 01df 00       		.byte	0
+ 1224 01e0 3F       		.uleb128 0x3f
+ 1225 01e1 19       		.uleb128 0x19
+ 1226 01e2 3C       		.uleb128 0x3c
+ 1227 01e3 19       		.uleb128 0x19
+ 1228 01e4 6E       		.uleb128 0x6e
+ 1229 01e5 0E       		.uleb128 0xe
+ 1230 01e6 03       		.uleb128 0x3
+ 1231 01e7 0E       		.uleb128 0xe
+ 1232 01e8 3A       		.uleb128 0x3a
+ 1233 01e9 0B       		.uleb128 0xb
+ 1234 01ea 3B       		.uleb128 0x3b
+ 1235 01eb 0B       		.uleb128 0xb
+ 1236 01ec 00       		.byte	0
+ 1237 01ed 00       		.byte	0
+ 1238 01ee 00       		.byte	0
+ 1239              		.section	.debug_loc,"",%progbits
+ 1240              	.Ldebug_loc0:
+ 1241              	.LLST0:
+ 1242 0000 10000000 		.4byte	.LVL2
+ 1243 0004 21000000 		.4byte	.LVL3-1
+ 1244 0008 0100     		.2byte	0x1
+ 1245 000a 50       		.byte	0x50
+ 1246 000b 00000000 		.4byte	0
+ 1247 000f 00000000 		.4byte	0
+ 1248              	.LLST1:
+ 1249 0013 00000000 		.4byte	.LVL0
+ 1250 0017 0A000000 		.4byte	.LVL1
+ 1251 001b 0200     		.2byte	0x2
+ 1252 001d 3F       		.byte	0x3f
+ 1253 001e 9F       		.byte	0x9f
+ 1254 001f 00000000 		.4byte	0
+ 1255 0023 00000000 		.4byte	0
+ 1256              	.LLST2:
+ 1257 0027 26000000 		.4byte	.LVL8
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 30
+
+
+ 1258 002b 37000000 		.4byte	.LVL9-1
+ 1259 002f 0100     		.2byte	0x1
+ 1260 0031 50       		.byte	0x50
+ 1261 0032 00000000 		.4byte	0
+ 1262 0036 00000000 		.4byte	0
+ 1263              	.LLST3:
+ 1264 003a 18000000 		.4byte	.LVL6
+ 1265 003e 20000000 		.4byte	.LVL7
+ 1266 0042 0200     		.2byte	0x2
+ 1267 0044 3F       		.byte	0x3f
+ 1268 0045 9F       		.byte	0x9f
+ 1269 0046 00000000 		.4byte	0
+ 1270 004a 00000000 		.4byte	0
+ 1271              	.LLST4:
+ 1272 004e 0A000000 		.4byte	.LVL11
+ 1273 0052 1B000000 		.4byte	.LVL12-1
+ 1274 0056 0100     		.2byte	0x1
+ 1275 0058 50       		.byte	0x50
+ 1276 0059 00000000 		.4byte	0
+ 1277 005d 00000000 		.4byte	0
+ 1278              	.LLST5:
+ 1279 0061 06000000 		.4byte	.LVL13
+ 1280 0065 0A000000 		.4byte	.LVL14
+ 1281 0069 0500     		.2byte	0x5
+ 1282 006b 70       		.byte	0x70
+ 1283 006c 80807E   		.sleb128 -32768
+ 1284 006f 9F       		.byte	0x9f
+ 1285 0070 00000000 		.4byte	0
+ 1286 0074 00000000 		.4byte	0
+ 1287              	.LLST6:
+ 1288 0078 06000000 		.4byte	.LVL13
+ 1289 007c 0A000000 		.4byte	.LVL14
+ 1290 0080 0100     		.2byte	0x1
+ 1291 0082 50       		.byte	0x50
+ 1292 0083 00000000 		.4byte	0
+ 1293 0087 00000000 		.4byte	0
+ 1294              	.LLST7:
+ 1295 008b 00000000 		.4byte	.LVL15
+ 1296 008f 04000000 		.4byte	.LVL16
+ 1297 0093 0100     		.2byte	0x1
+ 1298 0095 50       		.byte	0x50
+ 1299 0096 04000000 		.4byte	.LVL16
+ 1300 009a 0A000000 		.4byte	.LFE5
+ 1301 009e 0400     		.2byte	0x4
+ 1302 00a0 F3       		.byte	0xf3
+ 1303 00a1 01       		.uleb128 0x1
+ 1304 00a2 50       		.byte	0x50
+ 1305 00a3 9F       		.byte	0x9f
+ 1306 00a4 00000000 		.4byte	0
+ 1307 00a8 00000000 		.4byte	0
+ 1308              	.LLST8:
+ 1309 00ac 00000000 		.4byte	.LVL15
+ 1310 00b0 04000000 		.4byte	.LVL16
+ 1311 00b4 0500     		.2byte	0x5
+ 1312 00b6 70       		.byte	0x70
+ 1313 00b7 80807E   		.sleb128 -32768
+ 1314 00ba 9F       		.byte	0x9f
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 31
+
+
+ 1315 00bb 04000000 		.4byte	.LVL16
+ 1316 00bf 0A000000 		.4byte	.LFE5
+ 1317 00c3 0800     		.2byte	0x8
+ 1318 00c5 F3       		.byte	0xf3
+ 1319 00c6 01       		.uleb128 0x1
+ 1320 00c7 50       		.byte	0x50
+ 1321 00c8 0A       		.byte	0xa
+ 1322 00c9 0080     		.2byte	0x8000
+ 1323 00cb 1C       		.byte	0x1c
+ 1324 00cc 9F       		.byte	0x9f
+ 1325 00cd 00000000 		.4byte	0
+ 1326 00d1 00000000 		.4byte	0
+ 1327              		.section	.debug_aranges,"",%progbits
+ 1328 0000 5C000000 		.4byte	0x5c
+ 1329 0004 0200     		.2byte	0x2
+ 1330 0006 00000000 		.4byte	.Ldebug_info0
+ 1331 000a 04       		.byte	0x4
+ 1332 000b 00       		.byte	0
+ 1333 000c 0000     		.2byte	0
+ 1334 000e 0000     		.2byte	0
+ 1335 0010 00000000 		.4byte	.LFB0
+ 1336 0014 02000000 		.4byte	.LFE0-.LFB0
+ 1337 0018 00000000 		.4byte	.LFB1
+ 1338 001c 30000000 		.4byte	.LFE1-.LFB1
+ 1339 0020 00000000 		.4byte	.LFB2
+ 1340 0024 48000000 		.4byte	.LFE2-.LFB2
+ 1341 0028 00000000 		.4byte	.LFB3
+ 1342 002c 20000000 		.4byte	.LFE3-.LFB3
+ 1343 0030 00000000 		.4byte	.LFB4
+ 1344 0034 0E000000 		.4byte	.LFE4-.LFB4
+ 1345 0038 00000000 		.4byte	.LFB5
+ 1346 003c 0A000000 		.4byte	.LFE5-.LFB5
+ 1347 0040 00000000 		.4byte	.LFB6
+ 1348 0044 10000000 		.4byte	.LFE6-.LFB6
+ 1349 0048 00000000 		.4byte	.LFB7
+ 1350 004c 0C000000 		.4byte	.LFE7-.LFB7
+ 1351 0050 00000000 		.4byte	.LFB8
+ 1352 0054 10000000 		.4byte	.LFE8-.LFB8
+ 1353 0058 00000000 		.4byte	0
+ 1354 005c 00000000 		.4byte	0
+ 1355              		.section	.debug_ranges,"",%progbits
+ 1356              	.Ldebug_ranges0:
+ 1357 0000 02000000 		.4byte	.LBB12
+ 1358 0004 06000000 		.4byte	.LBE12
+ 1359 0008 08000000 		.4byte	.LBB18
+ 1360 000c 0A000000 		.4byte	.LBE18
+ 1361 0010 00000000 		.4byte	0
+ 1362 0014 00000000 		.4byte	0
+ 1363 0018 06000000 		.4byte	.LBB15
+ 1364 001c 08000000 		.4byte	.LBE15
+ 1365 0020 0A000000 		.4byte	.LBB19
+ 1366 0024 0C000000 		.4byte	.LBE19
+ 1367 0028 00000000 		.4byte	0
+ 1368 002c 00000000 		.4byte	0
+ 1369 0030 18000000 		.4byte	.LBB26
+ 1370 0034 30000000 		.4byte	.LBE26
+ 1371 0038 34000000 		.4byte	.LBB37
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 32
+
+
+ 1372 003c 48000000 		.4byte	.LBE37
+ 1373 0040 00000000 		.4byte	0
+ 1374 0044 00000000 		.4byte	0
+ 1375 0048 18000000 		.4byte	.LBB28
+ 1376 004c 1C000000 		.4byte	.LBE28
+ 1377 0050 1E000000 		.4byte	.LBB34
+ 1378 0054 20000000 		.4byte	.LBE34
+ 1379 0058 00000000 		.4byte	0
+ 1380 005c 00000000 		.4byte	0
+ 1381 0060 1C000000 		.4byte	.LBB31
+ 1382 0064 1E000000 		.4byte	.LBE31
+ 1383 0068 20000000 		.4byte	.LBB35
+ 1384 006c 22000000 		.4byte	.LBE35
+ 1385 0070 00000000 		.4byte	0
+ 1386 0074 00000000 		.4byte	0
+ 1387 0078 00000000 		.4byte	.LFB0
+ 1388 007c 02000000 		.4byte	.LFE0
+ 1389 0080 00000000 		.4byte	.LFB1
+ 1390 0084 30000000 		.4byte	.LFE1
+ 1391 0088 00000000 		.4byte	.LFB2
+ 1392 008c 48000000 		.4byte	.LFE2
+ 1393 0090 00000000 		.4byte	.LFB3
+ 1394 0094 20000000 		.4byte	.LFE3
+ 1395 0098 00000000 		.4byte	.LFB4
+ 1396 009c 0E000000 		.4byte	.LFE4
+ 1397 00a0 00000000 		.4byte	.LFB5
+ 1398 00a4 0A000000 		.4byte	.LFE5
+ 1399 00a8 00000000 		.4byte	.LFB6
+ 1400 00ac 10000000 		.4byte	.LFE6
+ 1401 00b0 00000000 		.4byte	.LFB7
+ 1402 00b4 0C000000 		.4byte	.LFE7
+ 1403 00b8 00000000 		.4byte	.LFB8
+ 1404 00bc 10000000 		.4byte	.LFE8
+ 1405 00c0 00000000 		.4byte	0
+ 1406 00c4 00000000 		.4byte	0
+ 1407              		.section	.debug_line,"",%progbits
+ 1408              	.Ldebug_line0:
+ 1409 0000 4C010000 		.section	.debug_str,"MS",%progbits,1
+ 1409      02007000 
+ 1409      00000201 
+ 1409      FB0E0D00 
+ 1409      01010101 
+ 1410              	.LASF29:
+ 1411 0000 48616E64 		.ascii	"Handle_Encoder_Cnt16_Start\000"
+ 1411      6C655F45 
+ 1411      6E636F64 
+ 1411      65725F43 
+ 1411      6E743136 
+ 1412              	.LASF33:
+ 1413 001b 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1413      43313120 
+ 1413      352E342E 
+ 1413      31203230 
+ 1413      31363036 
+ 1414 004e 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1414      20726576 
+ 1414      6973696F 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 33
+
+
+ 1414      6E203233 
+ 1414      37373135 
+ 1415 0081 33202D66 		.ascii	"3 -ffunction-sections -ffat-lto-objects\000"
+ 1415      66756E63 
+ 1415      74696F6E 
+ 1415      2D736563 
+ 1415      74696F6E 
+ 1416              	.LASF41:
+ 1417 00a9 48616E64 		.ascii	"Handle_Encoder_GetInterruptMask\000"
+ 1417      6C655F45 
+ 1417      6E636F64 
+ 1417      65725F47 
+ 1417      6574496E 
+ 1418              	.LASF31:
+ 1419 00c9 48616E64 		.ascii	"Handle_Encoder_Cnt16_Stop\000"
+ 1419      6C655F45 
+ 1419      6E636F64 
+ 1419      65725F43 
+ 1419      6E743136 
+ 1420              	.LASF40:
+ 1421 00e3 76616C75 		.ascii	"value\000"
+ 1421      6500
+ 1422              	.LASF24:
+ 1423 00e9 636F756E 		.ascii	"count\000"
+ 1423      7400
+ 1424              	.LASF38:
+ 1425 00ef 48616E64 		.ascii	"Handle_Encoder_Init\000"
+ 1425      6C655F45 
+ 1425      6E636F64 
+ 1425      65725F49 
+ 1425      6E697400 
+ 1426              	.LASF6:
+ 1427 0103 73686F72 		.ascii	"short unsigned int\000"
+ 1427      7420756E 
+ 1427      7369676E 
+ 1427      65642069 
+ 1427      6E7400
+ 1428              	.LASF20:
+ 1429 0116 48616E64 		.ascii	"Handle_Encoder_Enable\000"
+ 1429      6C655F45 
+ 1429      6E636F64 
+ 1429      65725F45 
+ 1429      6E61626C 
+ 1430              	.LASF22:
+ 1431 012c 48616E64 		.ascii	"Handle_Encoder_Stop\000"
+ 1431      6C655F45 
+ 1431      6E636F64 
+ 1431      65725F53 
+ 1431      746F7000 
+ 1432              	.LASF42:
+ 1433 0140 48616E64 		.ascii	"Handle_Encoder_initVar\000"
+ 1433      6C655F45 
+ 1433      6E636F64 
+ 1433      65725F69 
+ 1433      6E697456 
+ 1434              	.LASF16:
+ 1435 0157 666C6F61 		.ascii	"float\000"
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 34
+
+
+ 1435      7400
+ 1436              	.LASF9:
+ 1437 015d 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1437      206C6F6E 
+ 1437      6720756E 
+ 1437      7369676E 
+ 1437      65642069 
+ 1438              	.LASF4:
+ 1439 0174 756E7369 		.ascii	"unsigned char\000"
+ 1439      676E6564 
+ 1439      20636861 
+ 1439      7200
+ 1440              	.LASF18:
+ 1441 0182 72656738 		.ascii	"reg8\000"
+ 1441      00
+ 1442              	.LASF14:
+ 1443 0187 696E7431 		.ascii	"int16\000"
+ 1443      3600
+ 1444              	.LASF8:
+ 1445 018d 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1445      20756E73 
+ 1445      69676E65 
+ 1445      6420696E 
+ 1445      7400
+ 1446              	.LASF15:
+ 1447 019f 696E7433 		.ascii	"int32\000"
+ 1447      3200
+ 1448              	.LASF25:
+ 1449 01a5 746D7043 		.ascii	"tmpCnt\000"
+ 1449      6E7400
+ 1450              	.LASF39:
+ 1451 01ac 48616E64 		.ascii	"Handle_Encoder_GetCounter\000"
+ 1451      6C655F45 
+ 1451      6E636F64 
+ 1451      65725F47 
+ 1451      6574436F 
+ 1452              	.LASF23:
+ 1453 01c6 656E6162 		.ascii	"enableInterrupts\000"
+ 1453      6C65496E 
+ 1453      74657272 
+ 1453      75707473 
+ 1453      00
+ 1454              	.LASF17:
+ 1455 01d7 646F7562 		.ascii	"double\000"
+ 1455      6C6500
+ 1456              	.LASF13:
+ 1457 01de 75696E74 		.ascii	"uint16\000"
+ 1457      313600
+ 1458              	.LASF34:
+ 1459 01e5 47656E65 		.ascii	"Generated_Source\\PSoC5\\Handle_Encoder.c\000"
+ 1459      72617465 
+ 1459      645F536F 
+ 1459      75726365 
+ 1459      5C50536F 
+ 1460              	.LASF27:
+ 1461 020d 4379456E 		.ascii	"CyEnterCriticalSection\000"
+ 1461      74657243 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 35
+
+
+ 1461      72697469 
+ 1461      63616C53 
+ 1461      65637469 
+ 1462              	.LASF0:
+ 1463 0224 756E7369 		.ascii	"unsigned int\000"
+ 1463      676E6564 
+ 1463      20696E74 
+ 1463      00
+ 1464              	.LASF21:
+ 1465 0231 48616E64 		.ascii	"Handle_Encoder_Start\000"
+ 1465      6C655F45 
+ 1465      6E636F64 
+ 1465      65725F53 
+ 1465      74617274 
+ 1466              	.LASF28:
+ 1467 0246 43794578 		.ascii	"CyExitCriticalSection\000"
+ 1467      69744372 
+ 1467      69746963 
+ 1467      616C5365 
+ 1467      6374696F 
+ 1468              	.LASF36:
+ 1469 025c 48616E64 		.ascii	"Handle_Encoder_GetEvents\000"
+ 1469      6C655F45 
+ 1469      6E636F64 
+ 1469      65725F47 
+ 1469      65744576 
+ 1470              	.LASF32:
+ 1471 0275 48616E64 		.ascii	"Handle_Encoder_Cnt16_ReadCounter\000"
+ 1471      6C655F45 
+ 1471      6E636F64 
+ 1471      65725F43 
+ 1471      6E743136 
+ 1472              	.LASF10:
+ 1473 0296 73697A65 		.ascii	"sizetype\000"
+ 1473      74797065 
+ 1473      00
+ 1474              	.LASF1:
+ 1475 029f 6C6F6E67 		.ascii	"long long int\000"
+ 1475      206C6F6E 
+ 1475      6720696E 
+ 1475      7400
+ 1476              	.LASF26:
+ 1477 02ad 48616E64 		.ascii	"Handle_Encoder_SetCounter\000"
+ 1477      6C655F45 
+ 1477      6E636F64 
+ 1477      65725F53 
+ 1477      6574436F 
+ 1478              	.LASF37:
+ 1479 02c7 6D61736B 		.ascii	"mask\000"
+ 1479      00
+ 1480              	.LASF5:
+ 1481 02cc 73686F72 		.ascii	"short int\000"
+ 1481      7420696E 
+ 1481      7400
+ 1482              	.LASF30:
+ 1483 02d6 48616E64 		.ascii	"Handle_Encoder_Cnt16_WriteCounter\000"
+ 1483      6C655F45 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cciNEubl.s 			page 36
+
+
+ 1483      6E636F64 
+ 1483      65725F43 
+ 1483      6E743136 
+ 1484              	.LASF12:
+ 1485 02f8 75696E74 		.ascii	"uint8\000"
+ 1485      3800
+ 1486              	.LASF7:
+ 1487 02fe 6C6F6E67 		.ascii	"long int\000"
+ 1487      20696E74 
+ 1487      00
+ 1488              	.LASF11:
+ 1489 0307 63686172 		.ascii	"char\000"
+ 1489      00
+ 1490              	.LASF2:
+ 1491 030c 6C6F6E67 		.ascii	"long double\000"
+ 1491      20646F75 
+ 1491      626C6500 
+ 1492              	.LASF3:
+ 1493 0318 7369676E 		.ascii	"signed char\000"
+ 1493      65642063 
+ 1493      68617200 
+ 1494              	.LASF19:
+ 1495 0324 48616E64 		.ascii	"Handle_Encoder_SetInterruptMask\000"
+ 1495      6C655F45 
+ 1495      6E636F64 
+ 1495      65725F53 
+ 1495      6574496E 
+ 1496              	.LASF35:
+ 1497 0344 433A5C55 		.ascii	"C:\\Users\\jon\\Sync\\Research\\PSoC Projects\\Cont"
+ 1497      73657273 
+ 1497      5C6A6F6E 
+ 1497      5C53796E 
+ 1497      635C5265 
+ 1498 0371 726F6C6C 		.ascii	"roller.cydsn\000"
+ 1498      65722E63 
+ 1498      7964736E 
+ 1498      00
+ 1499              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

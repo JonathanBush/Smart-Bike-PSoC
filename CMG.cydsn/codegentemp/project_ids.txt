@@ -1,0 +1,12 @@
+C:\Users\jebush2\Desktop\Gyro PSoC\PSoC Projects\Controller.cydsn\Controller.cyprj|56cee302-dcba-49c1-8985-ae70c100c335
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|3ccd62b7-50fa-4a43-bbf6-567be68204ed
+C:\Users\jebush2\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|5298992a-44aa-4e6f-bbb8-28615f068bac
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|72d34cf2-f106-4ded-afe7-d5489e94ffb0
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|b1e4f4d6-0dc8-43ce-bcf0-91af25f7295b
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|5b866100-0c83-49df-b2f5-3efd2960ab09
+C:\Users\jebush2\Desktop\Gyro PSoC\PSoC Projects\Sensors.cydsn\Sensors.cyprj|841f9c8d-8f10-4306-a592-34a760392899
+C:\Users\jebush2\Desktop\Gyro PSoC\PSoC Projects\Balance.cydsn\Balance.cyprj|e6d36b0b-20d8-46e6-97c7-b5c507e08695
+C:\Users\jebush2\Desktop\Gyro PSoC\PSoC Projects\USBFS_UART01.cydsn\USBFS_UART01.cyprj|42af3e1c-a4f7-4415-92ae-2e6e45c36f4e
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|788bea08-5886-43b1-9be2-c6325788d0f4
+C:\Users\jebush2\Desktop\Gyro PSoC\PSoC Projects\CMG.cydsn\CMG.cyprj|245ce4fc-dfd3-4108-b465-7f711d0c6e53
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\dev\psoc3\AnalogDevice\PSoC35AnalogDevice.cylib\PSoC35AnalogDevice.cyprj|e23b8e89-557a-46f9-b747-a3876fa233ba

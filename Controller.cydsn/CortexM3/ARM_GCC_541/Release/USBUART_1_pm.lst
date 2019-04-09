@@ -1,0 +1,1908 @@
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"USBUART_1_pm.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.USBUART_1_DP_ISR,"ax",%progbits
+  20              		.align	2
+  21              		.global	USBUART_1_DP_ISR
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	USBUART_1_DP_ISR, %function
+  25              	USBUART_1_DP_ISR:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\USBUART_1_pm.c"
+   1:Generated_Source\PSoC5/USBUART_1_pm.c **** /***************************************************************************//**
+   2:Generated_Source\PSoC5/USBUART_1_pm.c **** * \file USBUART_1_pm.c
+   3:Generated_Source\PSoC5/USBUART_1_pm.c **** * \version 3.20
+   4:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+   5:Generated_Source\PSoC5/USBUART_1_pm.c **** * \brief
+   6:Generated_Source\PSoC5/USBUART_1_pm.c **** *  This file provides Suspend/Resume APIs implementation.
+   7:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+   8:Generated_Source\PSoC5/USBUART_1_pm.c **** ********************************************************************************
+   9:Generated_Source\PSoC5/USBUART_1_pm.c **** * \copyright
+  10:Generated_Source\PSoC5/USBUART_1_pm.c **** * Copyright 2008-2016, Cypress Semiconductor Corporation.  All rights reserved.
+  11:Generated_Source\PSoC5/USBUART_1_pm.c **** * You may use this file only in accordance with the license, terms, conditions,
+  12:Generated_Source\PSoC5/USBUART_1_pm.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  13:Generated_Source\PSoC5/USBUART_1_pm.c **** * the software package with which this file was provided.
+  14:Generated_Source\PSoC5/USBUART_1_pm.c **** *******************************************************************************/
+  15:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  16:Generated_Source\PSoC5/USBUART_1_pm.c **** #include "USBUART_1_pvt.h"
+  17:Generated_Source\PSoC5/USBUART_1_pm.c **** #include "USBUART_1_Dp.h"
+  18:Generated_Source\PSoC5/USBUART_1_pm.c **** #include "cyapicallbacks.h"
+  19:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  20:Generated_Source\PSoC5/USBUART_1_pm.c **** /***************************************
+  21:Generated_Source\PSoC5/USBUART_1_pm.c **** * Custom Declarations
+  22:Generated_Source\PSoC5/USBUART_1_pm.c **** ***************************************/
+  23:Generated_Source\PSoC5/USBUART_1_pm.c **** /* `#START PM_CUSTOM_DECLARATIONS` Place your declaration here */
+  24:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  25:Generated_Source\PSoC5/USBUART_1_pm.c **** /* `#END` */
+  26:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  27:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  28:Generated_Source\PSoC5/USBUART_1_pm.c **** /***************************************
+  29:Generated_Source\PSoC5/USBUART_1_pm.c **** * Local data allocation
+  30:Generated_Source\PSoC5/USBUART_1_pm.c **** ***************************************/
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 2
+
+
+  31:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  32:Generated_Source\PSoC5/USBUART_1_pm.c **** static USBUART_1_BACKUP_STRUCT  USBUART_1_backup;
+  33:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  34:Generated_Source\PSoC5/USBUART_1_pm.c **** #if (USBUART_1_DP_ISR_ACTIVE)
+  35:Generated_Source\PSoC5/USBUART_1_pm.c ****     /*******************************************************************************
+  36:Generated_Source\PSoC5/USBUART_1_pm.c ****     * Function Name: USBUART_1_DP_ISR
+  37:Generated_Source\PSoC5/USBUART_1_pm.c ****     ****************************************************************************//**
+  38:Generated_Source\PSoC5/USBUART_1_pm.c ****     *
+  39:Generated_Source\PSoC5/USBUART_1_pm.c ****     *  This Interrupt Service Routine handles DP pin changes for wake-up from
+  40:Generated_Source\PSoC5/USBUART_1_pm.c ****     *  the sleep mode.
+  41:Generated_Source\PSoC5/USBUART_1_pm.c ****     *
+  42:Generated_Source\PSoC5/USBUART_1_pm.c ****     *******************************************************************************/
+  43:Generated_Source\PSoC5/USBUART_1_pm.c ****     CY_ISR(USBUART_1_DP_ISR)
+  44:Generated_Source\PSoC5/USBUART_1_pm.c ****     {
+  28              		.loc 1 44 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  45:Generated_Source\PSoC5/USBUART_1_pm.c ****     #ifdef USBUART_1_DP_ISR_ENTRY_CALLBACK
+  46:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_DP_ISR_EntryCallback();
+  47:Generated_Source\PSoC5/USBUART_1_pm.c ****     #endif /* (USBUART_1_DP_ISR_ENTRY_CALLBACK) */
+  48:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  49:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* `#START DP_USER_CODE` Place your code here */
+  50:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  51:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* `#END` */
+  52:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  53:Generated_Source\PSoC5/USBUART_1_pm.c ****         (void) USBUART_1_Dp_ClearInterrupt();
+  33              		.loc 1 53 0
+  34 0000 FFF7FEBF 		b	USBUART_1_Dp_ClearInterrupt
+  35              	.LVL0:
+  36              		.cfi_endproc
+  37              	.LFE0:
+  38              		.size	USBUART_1_DP_ISR, .-USBUART_1_DP_ISR
+  39              		.section	.text.USBUART_1_SaveConfig,"ax",%progbits
+  40              		.align	2
+  41              		.global	USBUART_1_SaveConfig
+  42              		.thumb
+  43              		.thumb_func
+  44              		.type	USBUART_1_SaveConfig, %function
+  45              	USBUART_1_SaveConfig:
+  46              	.LFB1:
+  54:Generated_Source\PSoC5/USBUART_1_pm.c **** 		
+  55:Generated_Source\PSoC5/USBUART_1_pm.c **** 	#ifdef USBUART_1_DP_ISR_EXIT_CALLBACK
+  56:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_DP_ISR_ExitCallback();
+  57:Generated_Source\PSoC5/USBUART_1_pm.c ****     #endif /* (USBUART_1_DP_ISR_EXIT_CALLBACK) */
+  58:Generated_Source\PSoC5/USBUART_1_pm.c ****     }
+  59:Generated_Source\PSoC5/USBUART_1_pm.c **** #endif /* (USBUART_1_DP_ISR_ACTIVE) */
+  60:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  61:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  62:Generated_Source\PSoC5/USBUART_1_pm.c **** /*******************************************************************************
+  63:Generated_Source\PSoC5/USBUART_1_pm.c **** * Function Name: USBUART_1_SaveConfig
+  64:Generated_Source\PSoC5/USBUART_1_pm.c **** ****************************************************************************//**
+  65:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+  66:Generated_Source\PSoC5/USBUART_1_pm.c **** *  Saves the current user configuration.
+  67:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+  68:Generated_Source\PSoC5/USBUART_1_pm.c **** * \reentrant
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 3
+
+
+  69:Generated_Source\PSoC5/USBUART_1_pm.c **** *  No.
+  70:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+  71:Generated_Source\PSoC5/USBUART_1_pm.c **** *******************************************************************************/
+  72:Generated_Source\PSoC5/USBUART_1_pm.c **** void USBUART_1_SaveConfig(void) 
+  73:Generated_Source\PSoC5/USBUART_1_pm.c **** {
+  47              		.loc 1 73 0
+  48              		.cfi_startproc
+  49              		@ args = 0, pretend = 0, frame = 0
+  50              		@ frame_needed = 0, uses_anonymous_args = 0
+  51              		@ link register save eliminated.
+  52 0000 7047     		bx	lr
+  53              		.cfi_endproc
+  54              	.LFE1:
+  55              		.size	USBUART_1_SaveConfig, .-USBUART_1_SaveConfig
+  56 0002 00BF     		.section	.text.USBUART_1_RestoreConfig,"ax",%progbits
+  57              		.align	2
+  58              		.global	USBUART_1_RestoreConfig
+  59              		.thumb
+  60              		.thumb_func
+  61              		.type	USBUART_1_RestoreConfig, %function
+  62              	USBUART_1_RestoreConfig:
+  63              	.LFB2:
+  74:Generated_Source\PSoC5/USBUART_1_pm.c ****     /* Empty function added for the compatibility purpose. */
+  75:Generated_Source\PSoC5/USBUART_1_pm.c **** }
+  76:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  77:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  78:Generated_Source\PSoC5/USBUART_1_pm.c **** /*******************************************************************************
+  79:Generated_Source\PSoC5/USBUART_1_pm.c **** * Function Name: USBUART_1_RestoreConfig
+  80:Generated_Source\PSoC5/USBUART_1_pm.c **** ****************************************************************************//**
+  81:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+  82:Generated_Source\PSoC5/USBUART_1_pm.c **** *  Restores the current user configuration.
+  83:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+  84:Generated_Source\PSoC5/USBUART_1_pm.c **** * \reentrant
+  85:Generated_Source\PSoC5/USBUART_1_pm.c **** *  No.
+  86:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+  87:Generated_Source\PSoC5/USBUART_1_pm.c **** *******************************************************************************/
+  88:Generated_Source\PSoC5/USBUART_1_pm.c **** void USBUART_1_RestoreConfig(void) 
+  89:Generated_Source\PSoC5/USBUART_1_pm.c **** {
+  64              		.loc 1 89 0
+  65              		.cfi_startproc
+  66              		@ args = 0, pretend = 0, frame = 0
+  67              		@ frame_needed = 0, uses_anonymous_args = 0
+  68              		.loc 1 89 0
+  69 0000 08B5     		push	{r3, lr}
+  70              		.cfi_def_cfa_offset 8
+  71              		.cfi_offset 3, -8
+  72              		.cfi_offset 14, -4
+  90:Generated_Source\PSoC5/USBUART_1_pm.c ****     if (USBUART_1_configuration != 0u)
+  73              		.loc 1 90 0
+  74 0002 054B     		ldr	r3, .L8
+  75 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  76 0006 03B9     		cbnz	r3, .L7
+  77 0008 08BD     		pop	{r3, pc}
+  78              	.L7:
+  91:Generated_Source\PSoC5/USBUART_1_pm.c ****     {
+  92:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_ConfigReg();
+  79              		.loc 1 92 0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 4
+
+
+  80 000a FFF7FEFF 		bl	USBUART_1_ConfigReg
+  81              	.LVL1:
+  93:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_EpStateInit();
+  94:Generated_Source\PSoC5/USBUART_1_pm.c ****     }
+  95:Generated_Source\PSoC5/USBUART_1_pm.c **** }
+  82              		.loc 1 95 0
+  83 000e BDE80840 		pop	{r3, lr}
+  84              		.cfi_restore 14
+  85              		.cfi_restore 3
+  86              		.cfi_def_cfa_offset 0
+  93:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_EpStateInit();
+  87              		.loc 1 93 0
+  88 0012 FFF7FEBF 		b	USBUART_1_EpStateInit
+  89              	.LVL2:
+  90              	.L9:
+  91 0016 00BF     		.align	2
+  92              	.L8:
+  93 0018 00000000 		.word	USBUART_1_configuration
+  94              		.cfi_endproc
+  95              	.LFE2:
+  96              		.size	USBUART_1_RestoreConfig, .-USBUART_1_RestoreConfig
+  97              		.section	.text.USBUART_1_Suspend,"ax",%progbits
+  98              		.align	2
+  99              		.global	USBUART_1_Suspend
+ 100              		.thumb
+ 101              		.thumb_func
+ 102              		.type	USBUART_1_Suspend, %function
+ 103              	USBUART_1_Suspend:
+ 104              	.LFB3:
+  96:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  97:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+  98:Generated_Source\PSoC5/USBUART_1_pm.c **** /*******************************************************************************
+  99:Generated_Source\PSoC5/USBUART_1_pm.c **** * Function Name: USBUART_1_Suspend
+ 100:Generated_Source\PSoC5/USBUART_1_pm.c **** ****************************************************************************//**
+ 101:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+ 102:Generated_Source\PSoC5/USBUART_1_pm.c **** *  This function prepares the USBFS component to enter low power mode. The 
+ 103:Generated_Source\PSoC5/USBUART_1_pm.c **** *  interrupt on falling edge on Dp pin is configured to wakeup device when the 
+ 104:Generated_Source\PSoC5/USBUART_1_pm.c **** *  host drives resume condition. The pull-up is enabled on the Dp line while 
+ 105:Generated_Source\PSoC5/USBUART_1_pm.c **** *  device is in low power mode. The supported low power modes are Deep Sleep 
+ 106:Generated_Source\PSoC5/USBUART_1_pm.c **** *  (PSoC 4200L) and Sleep (PSoC 3/ PSoC 5LP).
+ 107:Generated_Source\PSoC5/USBUART_1_pm.c **** *  
+ 108:Generated_Source\PSoC5/USBUART_1_pm.c **** *  *Note* For PSoC 4200L devices, this function should not be called before 
+ 109:Generated_Source\PSoC5/USBUART_1_pm.c **** *  entering Sleep.
+ 110:Generated_Source\PSoC5/USBUART_1_pm.c **** *  
+ 111:Generated_Source\PSoC5/USBUART_1_pm.c **** *  *Note* After enter low power mode, the data which is left in the IN or OUT 
+ 112:Generated_Source\PSoC5/USBUART_1_pm.c **** *  endpoint buffers is not restored after wakeup and lost. Therefore it should 
+ 113:Generated_Source\PSoC5/USBUART_1_pm.c **** *  be stored in the SRAM for OUT endpoint or read by the host for IN endpoint 
+ 114:Generated_Source\PSoC5/USBUART_1_pm.c **** *  before enter low power mode.
+ 115:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+ 116:Generated_Source\PSoC5/USBUART_1_pm.c **** * \globalvars
+ 117:Generated_Source\PSoC5/USBUART_1_pm.c **** *  USBUART_1_backup.enable:  modified.
+ 118:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+ 119:Generated_Source\PSoC5/USBUART_1_pm.c **** * \reentrant
+ 120:Generated_Source\PSoC5/USBUART_1_pm.c **** *  No.
+ 121:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+ 122:Generated_Source\PSoC5/USBUART_1_pm.c **** *******************************************************************************/
+ 123:Generated_Source\PSoC5/USBUART_1_pm.c **** void USBUART_1_Suspend(void) 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 5
+
+
+ 124:Generated_Source\PSoC5/USBUART_1_pm.c **** {
+ 105              		.loc 1 124 0
+ 106              		.cfi_startproc
+ 107              		@ args = 0, pretend = 0, frame = 0
+ 108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 110              		.cfi_def_cfa_offset 24
+ 111              		.cfi_offset 4, -24
+ 112              		.cfi_offset 5, -20
+ 113              		.cfi_offset 6, -16
+ 114              		.cfi_offset 7, -12
+ 115              		.cfi_offset 8, -8
+ 116              		.cfi_offset 14, -4
+ 125:Generated_Source\PSoC5/USBUART_1_pm.c ****     uint8 enableInterrupts;
+ 126:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 127:Generated_Source\PSoC5/USBUART_1_pm.c ****     enableInterrupts = CyEnterCriticalSection();
+ 117              		.loc 1 127 0
+ 118 0004 FFF7FEFF 		bl	CyEnterCriticalSection
+ 119              	.LVL3:
+ 128:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 129:Generated_Source\PSoC5/USBUART_1_pm.c ****     if (0u != (USBUART_1_CR0_REG & USBUART_1_CR0_ENABLE))
+ 120              		.loc 1 129 0
+ 121 0008 294C     		ldr	r4, .L15
+ 127:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 122              		.loc 1 127 0
+ 123 000a 0546     		mov	r5, r0
+ 124              	.LVL4:
+ 125              		.loc 1 129 0
+ 126 000c 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 127 000e 1B06     		lsls	r3, r3, #24
+ 128 0010 0FD4     		bmi	.L14
+ 130:Generated_Source\PSoC5/USBUART_1_pm.c ****     {
+ 131:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* USB block is enabled. */
+ 132:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_backup.enableState = 1u;
+ 133:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 134:Generated_Source\PSoC5/USBUART_1_pm.c ****     #if (USBUART_1_EP_MANAGEMENT_DMA)
+ 135:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_Stop_DMA(USBUART_1_MAX_EP);
+ 136:Generated_Source\PSoC5/USBUART_1_pm.c ****     #endif /* (USBUART_1_EP_MANAGEMENT_DMA) */
+ 137:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 138:Generated_Source\PSoC5/USBUART_1_pm.c ****     #if (CY_PSOC4)
+ 139:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Suspend enter sequence. */
+ 140:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_POWER_CTRL_REG |= (USBUART_1_POWER_CTRL_SUSPEND |
+ 141:Generated_Source\PSoC5/USBUART_1_pm.c ****                                             USBUART_1_POWER_CTRL_SUSPEND_DEL);
+ 142:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 143:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Store state of USB regulator and disable it. */
+ 144:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_backup.mode = (uint8)  (USBUART_1_CR1_REG & USBUART_1_CR1_REG_ENABLE);
+ 145:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_CR1_REG    &= (uint32) ~USBUART_1_CR1_REG_ENABLE;
+ 146:Generated_Source\PSoC5/USBUART_1_pm.c ****         
+ 147:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Store SIE interrupt sources. Valid bits are 0 - 4. */
+ 148:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_backup.intrSeiMask = (uint8) USBUART_1_INTR_SIE_MASK_REG;
+ 149:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 150:Generated_Source\PSoC5/USBUART_1_pm.c ****     #else
+ 151:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Ensure USB transmit enable is low (USB_USBIO_CR0.ten). - Manual Transmission - Disabled.
+ 152:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_USBIO_CR0_REG &= (uint8) ~USBUART_1_USBIO_CR0_TEN;
+ 153:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_REG_STABILITY_50NS);  /*~50ns delay. */
+ 154:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 155:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Disable the USBIO by asserting PM.USB_CR0.fsusbio_pd_n(Inverted) and pd_pullup_hv(Invert
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 6
+
+
+ 156:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_USB_CR0_REG &= (uint8) ~(USBUART_1_PM_USB_CR0_PD_N |
+ 157:Generated_Source\PSoC5/USBUART_1_pm.c ****                                                      USBUART_1_PM_USB_CR0_PD_PULLUP_N);
+ 158:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 159:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Disable the SIE. */
+ 160:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_CR0_REG &= (uint8) ~USBUART_1_CR0_ENABLE;
+ 161:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 162:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_REG_STABILITY_50NS);  /* ~50ns delay. */
+ 163:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Store mode and disable VRegulator. */
+ 164:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_backup.mode = (uint8) (USBUART_1_CR1_REG & USBUART_1_CR1_REG_ENABLE);
+ 165:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_CR1_REG    &= (uint8) ~USBUART_1_CR1_REG_ENABLE;
+ 166:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 167:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_REG_STABILITY_1US); /* min 0.5us delay required. */
+ 168:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 169:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Disable the USBIO reference by setting PM.USB_CR0.fsusbio_ref_en.*/
+ 170:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_USB_CR0_REG &= (uint8) ~USBUART_1_PM_USB_CR0_REF_EN;
+ 171:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 172:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Switch DP and DM terminals to GPIO mode and disconnect 1.5k pull-up. */
+ 173:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_USBIO_CR1_REG |= USBUART_1_USBIO_CR1_IOMODE;
+ 174:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 175:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Disable USBFS block. */
+ 176:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Clear power active and standby mode templates: disable USB block. */
+ 177:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_ACT_CFG_REG  &= (uint8) ~USBUART_1_PM_ACT_EN_FSUSB;
+ 178:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_STBY_CFG_REG &= (uint8) ~USBUART_1_PM_STBY_EN_FSUSB;
+ 179:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 180:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_REG_STABILITY_1US); /* min 0.5us delay required. */
+ 181:Generated_Source\PSoC5/USBUART_1_pm.c ****     #endif /* (CY_PSOC4) */
+ 182:Generated_Source\PSoC5/USBUART_1_pm.c ****     }
+ 183:Generated_Source\PSoC5/USBUART_1_pm.c ****     else
+ 184:Generated_Source\PSoC5/USBUART_1_pm.c ****     {
+ 185:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_backup.enableState = 0u;
+ 129              		.loc 1 185 0
+ 130 0012 284B     		ldr	r3, .L15+4
+ 131 0014 0022     		movs	r2, #0
+ 132 0016 1A70     		strb	r2, [r3]
+ 133              	.L12:
+ 186:Generated_Source\PSoC5/USBUART_1_pm.c ****     }
+ 187:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 188:Generated_Source\PSoC5/USBUART_1_pm.c ****     CyExitCriticalSection(enableInterrupts);
+ 134              		.loc 1 188 0
+ 135 0018 2846     		mov	r0, r5
+ 136 001a FFF7FEFF 		bl	CyExitCriticalSection
+ 137              	.LVL5:
+ 189:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 190:Generated_Source\PSoC5/USBUART_1_pm.c **** #if (USBUART_1_DP_ISR_ACTIVE)
+ 191:Generated_Source\PSoC5/USBUART_1_pm.c ****     /* Clear active mode Dp interrupt source history. */
+ 192:Generated_Source\PSoC5/USBUART_1_pm.c ****     (void) USBUART_1_Dp_ClearInterrupt();
+ 138              		.loc 1 192 0
+ 139 001e FFF7FEFF 		bl	USBUART_1_Dp_ClearInterrupt
+ 140              	.LVL6:
+ 193:Generated_Source\PSoC5/USBUART_1_pm.c ****     CyIntClearPending(USBUART_1_DP_INTC_VECT_NUM);
+ 141              		.loc 1 193 0
+ 142 0022 2549     		ldr	r1, .L15+8
+ 194:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 195:Generated_Source\PSoC5/USBUART_1_pm.c ****     CyIntEnable      (USBUART_1_DP_INTC_VECT_NUM);
+ 143              		.loc 1 195 0
+ 144 0024 254A     		ldr	r2, .L15+12
+ 193:Generated_Source\PSoC5/USBUART_1_pm.c ****     CyIntClearPending(USBUART_1_DP_INTC_VECT_NUM);
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 7
+
+
+ 145              		.loc 1 193 0
+ 146 0026 4FF48053 		mov	r3, #4096
+ 147 002a 0B60     		str	r3, [r1]
+ 148              		.loc 1 195 0
+ 149 002c 1360     		str	r3, [r2]
+ 150 002e BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 151              	.LVL7:
+ 152              	.L14:
+ 132:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 153              		.loc 1 132 0
+ 154 0032 DFF88080 		ldr	r8, .L15+4
+ 155 0036 0127     		movs	r7, #1
+ 152:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_REG_STABILITY_50NS);  /*~50ns delay. */
+ 156              		.loc 1 152 0
+ 157 0038 214A     		ldr	r2, .L15+16
+ 132:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 158              		.loc 1 132 0
+ 159 003a 88F80070 		strb	r7, [r8]
+ 152:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_REG_STABILITY_50NS);  /*~50ns delay. */
+ 160              		.loc 1 152 0
+ 161 003e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 156:Generated_Source\PSoC5/USBUART_1_pm.c ****                                                      USBUART_1_PM_USB_CR0_PD_PULLUP_N);
+ 162              		.loc 1 156 0
+ 163 0040 204E     		ldr	r6, .L15+20
+ 152:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_REG_STABILITY_50NS);  /*~50ns delay. */
+ 164              		.loc 1 152 0
+ 165 0042 03F07F03 		and	r3, r3, #127
+ 166 0046 1370     		strb	r3, [r2]
+ 153:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 167              		.loc 1 153 0
+ 168 0048 0020     		movs	r0, #0
+ 169 004a FFF7FEFF 		bl	CyDelayUs
+ 170              	.LVL8:
+ 156:Generated_Source\PSoC5/USBUART_1_pm.c ****                                                      USBUART_1_PM_USB_CR0_PD_PULLUP_N);
+ 171              		.loc 1 156 0
+ 172 004e 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 162:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Store mode and disable VRegulator. */
+ 173              		.loc 1 162 0
+ 174 0050 0020     		movs	r0, #0
+ 156:Generated_Source\PSoC5/USBUART_1_pm.c ****                                                      USBUART_1_PM_USB_CR0_PD_PULLUP_N);
+ 175              		.loc 1 156 0
+ 176 0052 03F0F903 		and	r3, r3, #249
+ 177 0056 3370     		strb	r3, [r6]
+ 160:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 178              		.loc 1 160 0
+ 179 0058 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 180 005a 03F07F03 		and	r3, r3, #127
+ 181 005e 2370     		strb	r3, [r4]
+ 162:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Store mode and disable VRegulator. */
+ 182              		.loc 1 162 0
+ 183 0060 FFF7FEFF 		bl	CyDelayUs
+ 184              	.LVL9:
+ 164:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_CR1_REG    &= (uint8) ~USBUART_1_CR1_REG_ENABLE;
+ 185              		.loc 1 164 0
+ 186 0064 184A     		ldr	r2, .L15+24
+ 167:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 187              		.loc 1 167 0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 8
+
+
+ 188 0066 3846     		mov	r0, r7
+ 164:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_CR1_REG    &= (uint8) ~USBUART_1_CR1_REG_ENABLE;
+ 189              		.loc 1 164 0
+ 190 0068 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 165:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 191              		.loc 1 165 0
+ 192 006a 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 164:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_CR1_REG    &= (uint8) ~USBUART_1_CR1_REG_ENABLE;
+ 193              		.loc 1 164 0
+ 194 006c 3B40     		ands	r3, r3, r7
+ 165:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 195              		.loc 1 165 0
+ 196 006e 01F0FE01 		and	r1, r1, #254
+ 197 0072 1170     		strb	r1, [r2]
+ 164:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_CR1_REG    &= (uint8) ~USBUART_1_CR1_REG_ENABLE;
+ 198              		.loc 1 164 0
+ 199 0074 88F80130 		strb	r3, [r8, #1]
+ 167:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 200              		.loc 1 167 0
+ 201 0078 FFF7FEFF 		bl	CyDelayUs
+ 202              	.LVL10:
+ 170:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 203              		.loc 1 170 0
+ 204 007c 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 173:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 205              		.loc 1 173 0
+ 206 007e 134A     		ldr	r2, .L15+28
+ 170:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 207              		.loc 1 170 0
+ 208 0080 03F0FE03 		and	r3, r3, #254
+ 209 0084 3370     		strb	r3, [r6]
+ 173:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 210              		.loc 1 173 0
+ 211 0086 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 177:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_STBY_CFG_REG &= (uint8) ~USBUART_1_PM_STBY_EN_FSUSB;
+ 212              		.loc 1 177 0
+ 213 0088 1149     		ldr	r1, .L15+32
+ 173:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 214              		.loc 1 173 0
+ 215 008a 43F02003 		orr	r3, r3, #32
+ 216 008e 1370     		strb	r3, [r2]
+ 177:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_STBY_CFG_REG &= (uint8) ~USBUART_1_PM_STBY_EN_FSUSB;
+ 217              		.loc 1 177 0
+ 218 0090 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 178:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 219              		.loc 1 178 0
+ 220 0092 A2F5E252 		sub	r2, r2, #7232
+ 177:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_STBY_CFG_REG &= (uint8) ~USBUART_1_PM_STBY_EN_FSUSB;
+ 221              		.loc 1 177 0
+ 222 0096 03F0FE03 		and	r3, r3, #254
+ 178:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 223              		.loc 1 178 0
+ 224 009a 1D3A     		subs	r2, r2, #29
+ 177:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_STBY_CFG_REG &= (uint8) ~USBUART_1_PM_STBY_EN_FSUSB;
+ 225              		.loc 1 177 0
+ 226 009c 0B70     		strb	r3, [r1]
+ 178:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 9
+
+
+ 227              		.loc 1 178 0
+ 228 009e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 180:Generated_Source\PSoC5/USBUART_1_pm.c ****     #endif /* (CY_PSOC4) */
+ 229              		.loc 1 180 0
+ 230 00a0 3846     		mov	r0, r7
+ 178:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 231              		.loc 1 178 0
+ 232 00a2 03F0FE03 		and	r3, r3, #254
+ 233 00a6 1370     		strb	r3, [r2]
+ 180:Generated_Source\PSoC5/USBUART_1_pm.c ****     #endif /* (CY_PSOC4) */
+ 234              		.loc 1 180 0
+ 235 00a8 FFF7FEFF 		bl	CyDelayUs
+ 236              	.LVL11:
+ 237 00ac B4E7     		b	.L12
+ 238              	.L16:
+ 239 00ae 00BF     		.align	2
+ 240              	.L15:
+ 241 00b0 08600040 		.word	1073766408
+ 242 00b4 00000000 		.word	.LANCHOR0
+ 243 00b8 80E200E0 		.word	-536812928
+ 244 00bc 00E100E0 		.word	-536813312
+ 245 00c0 10600040 		.word	1073766416
+ 246 00c4 94430040 		.word	1073759124
+ 247 00c8 09600040 		.word	1073766409
+ 248 00cc 12600040 		.word	1073766418
+ 249 00d0 A5430040 		.word	1073759141
+ 250              		.cfi_endproc
+ 251              	.LFE3:
+ 252              		.size	USBUART_1_Suspend, .-USBUART_1_Suspend
+ 253              		.section	.text.USBUART_1_Resume,"ax",%progbits
+ 254              		.align	2
+ 255              		.global	USBUART_1_Resume
+ 256              		.thumb
+ 257              		.thumb_func
+ 258              		.type	USBUART_1_Resume, %function
+ 259              	USBUART_1_Resume:
+ 260              	.LFB4:
+ 196:Generated_Source\PSoC5/USBUART_1_pm.c **** #endif /* (USBUART_1_DP_ISR_ACTIVE). */
+ 197:Generated_Source\PSoC5/USBUART_1_pm.c **** }
+ 198:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 199:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 200:Generated_Source\PSoC5/USBUART_1_pm.c **** /*******************************************************************************
+ 201:Generated_Source\PSoC5/USBUART_1_pm.c **** * Function Name: USBUART_1_Resume
+ 202:Generated_Source\PSoC5/USBUART_1_pm.c **** ****************************************************************************//**
+ 203:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+ 204:Generated_Source\PSoC5/USBUART_1_pm.c **** *  This function prepares the USBFS component for active mode operation after 
+ 205:Generated_Source\PSoC5/USBUART_1_pm.c **** *  exit low power mode. It restores the component active mode configuration such 
+ 206:Generated_Source\PSoC5/USBUART_1_pm.c **** *  as device address assigned previously by the host, endpoints buffer and disables 
+ 207:Generated_Source\PSoC5/USBUART_1_pm.c **** *  interrupt on Dp pin.
+ 208:Generated_Source\PSoC5/USBUART_1_pm.c **** *  The supported low power modes are Deep Sleep (PSoC 4200L) and Sleep 
+ 209:Generated_Source\PSoC5/USBUART_1_pm.c **** *  (PSoC 3/ PSoC 5LP).
+ 210:Generated_Source\PSoC5/USBUART_1_pm.c **** *  
+ 211:Generated_Source\PSoC5/USBUART_1_pm.c **** *  *Note* For PSoC 4200L devices, this function should not be called after 
+ 212:Generated_Source\PSoC5/USBUART_1_pm.c **** *  exiting Sleep.
+ 213:Generated_Source\PSoC5/USBUART_1_pm.c **** *  
+ 214:Generated_Source\PSoC5/USBUART_1_pm.c **** *  *Note* To resume communication with the host, the data endpoints must be 
+ 215:Generated_Source\PSoC5/USBUART_1_pm.c **** *  managed: the OUT endpoints must be enabled and IN endpoints must be loaded 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 10
+
+
+ 216:Generated_Source\PSoC5/USBUART_1_pm.c **** *  with data. For DMA with Automatic Buffer Management, all endpoints buffers 
+ 217:Generated_Source\PSoC5/USBUART_1_pm.c **** *  must be initialized again before making them available to the host.
+ 218:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+ 219:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+ 220:Generated_Source\PSoC5/USBUART_1_pm.c **** * \globalvars
+ 221:Generated_Source\PSoC5/USBUART_1_pm.c **** *  USBUART_1_backup - checked.
+ 222:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+ 223:Generated_Source\PSoC5/USBUART_1_pm.c **** * \reentrant
+ 224:Generated_Source\PSoC5/USBUART_1_pm.c **** *  No.
+ 225:Generated_Source\PSoC5/USBUART_1_pm.c **** *
+ 226:Generated_Source\PSoC5/USBUART_1_pm.c **** *******************************************************************************/
+ 227:Generated_Source\PSoC5/USBUART_1_pm.c **** void USBUART_1_Resume(void) 
+ 228:Generated_Source\PSoC5/USBUART_1_pm.c **** {
+ 261              		.loc 1 228 0
+ 262              		.cfi_startproc
+ 263              		@ args = 0, pretend = 0, frame = 0
+ 264              		@ frame_needed = 0, uses_anonymous_args = 0
+ 265 0000 70B5     		push	{r4, r5, r6, lr}
+ 266              		.cfi_def_cfa_offset 16
+ 267              		.cfi_offset 4, -16
+ 268              		.cfi_offset 5, -12
+ 269              		.cfi_offset 6, -8
+ 270              		.cfi_offset 14, -4
+ 229:Generated_Source\PSoC5/USBUART_1_pm.c ****     uint8 enableInterrupts;
+ 230:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 231:Generated_Source\PSoC5/USBUART_1_pm.c ****     enableInterrupts = CyEnterCriticalSection();
+ 271              		.loc 1 231 0
+ 272 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 273              	.LVL12:
+ 232:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 233:Generated_Source\PSoC5/USBUART_1_pm.c ****     if (0u != USBUART_1_backup.enableState)
+ 274              		.loc 1 233 0
+ 275 0006 294D     		ldr	r5, .L26
+ 231:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 276              		.loc 1 231 0
+ 277 0008 0646     		mov	r6, r0
+ 278              	.LVL13:
+ 279              		.loc 1 233 0
+ 280 000a 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 281 000c 23B9     		cbnz	r3, .L25
+ 282              	.L19:
+ 234:Generated_Source\PSoC5/USBUART_1_pm.c ****     {
+ 235:Generated_Source\PSoC5/USBUART_1_pm.c ****     #if (USBUART_1_DP_ISR_ACTIVE)
+ 236:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyIntDisable(USBUART_1_DP_INTC_VECT_NUM);
+ 237:Generated_Source\PSoC5/USBUART_1_pm.c ****     #endif /* (USBUART_1_DP_ISR_ACTIVE) */
+ 238:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 239:Generated_Source\PSoC5/USBUART_1_pm.c ****     #if (CY_PSOC4)
+ 240:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Enable clock to USB IP. */
+ 241:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_USB_CLK_EN_REG |= USBUART_1_USB_CLK_CSR_CLK_EN;
+ 242:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 243:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Restore arbiter configuration for DMA transfers. */
+ 244:Generated_Source\PSoC5/USBUART_1_pm.c ****         #if (USBUART_1_EP_MANAGEMENT_DMA)
+ 245:Generated_Source\PSoC5/USBUART_1_pm.c ****             #if (USBUART_1_ARB_ISR_ACTIVE)
+ 246:Generated_Source\PSoC5/USBUART_1_pm.c ****                 /* Enable ARB EP interrupt sources. */
+ 247:Generated_Source\PSoC5/USBUART_1_pm.c ****                 USBUART_1_ARB_INT_EN_REG = USBUART_1_DEFAULT_ARB_INT_EN;
+ 248:Generated_Source\PSoC5/USBUART_1_pm.c ****             #endif /* (USBUART_1_EP_MANAGEMENT_DMA) */
+ 249:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 11
+
+
+ 250:Generated_Source\PSoC5/USBUART_1_pm.c ****             /* Configure arbiter for Manual or Auto DMA operation and clear 
+ 251:Generated_Source\PSoC5/USBUART_1_pm.c ****             * configuration completion. 
+ 252:Generated_Source\PSoC5/USBUART_1_pm.c ****             */
+ 253:Generated_Source\PSoC5/USBUART_1_pm.c ****             USBUART_1_ARB_CFG_REG = USBUART_1_DEFAULT_ARB_CFG;
+ 254:Generated_Source\PSoC5/USBUART_1_pm.c ****         #endif /* (USBUART_1_EP_MANAGEMENT_DMA) */
+ 255:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 256:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Restore level (hi, lo, med) for each interrupt source. */
+ 257:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_INTR_LVL_SEL_REG = USBUART_1_DEFAULT_INTR_LVL_SEL;
+ 258:Generated_Source\PSoC5/USBUART_1_pm.c ****         
+ 259:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Store SIE interrupt sources. */
+ 260:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_INTR_SIE_MASK_REG = (uint32) USBUART_1_backup.intrSeiMask;
+ 261:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 262:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Set EP0.CR: ACK Setup, NAK IN/OUT. */
+ 263:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_EP0_CR_REG = USBUART_1_MODE_NAK_IN_OUT;
+ 264:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 265:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Restore data EP1-8 configuration. */
+ 266:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_RestoreConfig();
+ 267:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 268:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Restore state of USB regulator and wait until it supples stable power. */
+ 269:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_CR1_REG |= USBUART_1_backup.mode;
+ 270:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_VREF_STABILITY);
+ 271:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 272:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Suspend exit sequence. */
+ 273:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_POWER_CTRL_REG &= (uint32) ~USBUART_1_POWER_CTRL_SUSPEND;
+ 274:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_SUSPEND_DEL_DISABLE);
+ 275:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_POWER_CTRL_REG &= (uint32) ~USBUART_1_POWER_CTRL_SUSPEND_DEL;
+ 276:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 277:Generated_Source\PSoC5/USBUART_1_pm.c ****     #else
+ 278:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Set power active and standby mode templates: enable USB block. */
+ 279:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_ACT_CFG_REG  |= USBUART_1_PM_ACT_EN_FSUSB;
+ 280:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_STBY_CFG_REG |= USBUART_1_PM_STBY_EN_FSUSB;
+ 281:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 282:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Enable core clock. */
+ 283:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_USB_CLK_EN_REG |= USBUART_1_USB_CLK_ENABLE;
+ 284:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 285:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Enable the USBIO reference by setting PM.USB_CR0.fsusbio_ref_en.*/
+ 286:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_USB_CR0_REG |= USBUART_1_PM_USB_CR0_REF_EN;
+ 287:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 288:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* The reference is available ~40us after power restored. */
+ 289:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_VREF_RESTORE);
+ 290:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Restore state of USB regulator and wait until it supples stable power. */
+ 291:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_CR1_REG |= USBUART_1_backup.mode;
+ 292:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_VREF_STABILITY);   /*~50ns delay. */
+ 293:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 294:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Enable USBIO. */
+ 295:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_USB_CR0_REG |= USBUART_1_PM_USB_CR0_PD_N;
+ 296:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_PD_PULLUP_N_ENABLE);
+ 297:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Set the USBIO pull-up enable. */
+ 298:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_USB_CR0_REG |= USBUART_1_PM_USB_CR0_PD_PULLUP_N;
+ 299:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 300:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Restore arbiter configuration for DMA transfers. */
+ 301:Generated_Source\PSoC5/USBUART_1_pm.c ****         #if (USBUART_1_EP_MANAGEMENT_DMA)
+ 302:Generated_Source\PSoC5/USBUART_1_pm.c ****             #if (USBUART_1_ARB_ISR_ACTIVE)
+ 303:Generated_Source\PSoC5/USBUART_1_pm.c ****                 /* Enable ARB EP interrupt sources. */
+ 304:Generated_Source\PSoC5/USBUART_1_pm.c ****                 USBUART_1_ARB_INT_EN_REG = USBUART_1_DEFAULT_ARB_INT_EN;
+ 305:Generated_Source\PSoC5/USBUART_1_pm.c ****             #endif /* (USBUART_1_EP_MANAGEMENT_DMA) */
+ 306:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 12
+
+
+ 307:Generated_Source\PSoC5/USBUART_1_pm.c ****             /* Configure arbiter for Manual or Auto DMA operation and clear 
+ 308:Generated_Source\PSoC5/USBUART_1_pm.c ****             * configuration completion. 
+ 309:Generated_Source\PSoC5/USBUART_1_pm.c ****             */
+ 310:Generated_Source\PSoC5/USBUART_1_pm.c ****             USBUART_1_ARB_CFG_REG = USBUART_1_DEFAULT_ARB_CFG;
+ 311:Generated_Source\PSoC5/USBUART_1_pm.c ****         #endif /* (USBUART_1_EP_MANAGEMENT_DMA) */
+ 312:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 313:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Set EP0.CR: ACK Setup, STALL IN/OUT. */
+ 314:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_EP0_CR_REG = USBUART_1_MODE_STALL_IN_OUT;
+ 315:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 316:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Enable the USB IP to respond to USB traffic with the last address. */
+ 317:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_CR0_REG |= USBUART_1_CR0_ENABLE;
+ 318:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayCycles(USBUART_1_WAIT_CR0_REG_STABILITY);
+ 319:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 320:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Enable D+ pull-up and keep USB control on IO. */
+ 321:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_USBIO_CR1_REG = USBUART_1_USBIO_CR1_USBPUEN;
+ 322:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 323:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Restore data EP1-8 configuration. */
+ 324:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_RestoreConfig();
+ 325:Generated_Source\PSoC5/USBUART_1_pm.c ****     #endif /* (CY_PSOC4) */
+ 326:Generated_Source\PSoC5/USBUART_1_pm.c ****     }
+ 327:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 328:Generated_Source\PSoC5/USBUART_1_pm.c ****     CyExitCriticalSection(enableInterrupts);
+ 283              		.loc 1 328 0
+ 284 000e 3046     		mov	r0, r6
+ 329:Generated_Source\PSoC5/USBUART_1_pm.c **** }
+ 285              		.loc 1 329 0
+ 286 0010 BDE87040 		pop	{r4, r5, r6, lr}
+ 287              		.cfi_remember_state
+ 288              		.cfi_restore 14
+ 289              		.cfi_restore 6
+ 290              		.cfi_restore 5
+ 291              		.cfi_restore 4
+ 292              		.cfi_def_cfa_offset 0
+ 293              	.LVL14:
+ 328:Generated_Source\PSoC5/USBUART_1_pm.c **** }
+ 294              		.loc 1 328 0
+ 295 0014 FFF7FEBF 		b	CyExitCriticalSection
+ 296              	.LVL15:
+ 297              	.L25:
+ 298              		.cfi_restore_state
+ 236:Generated_Source\PSoC5/USBUART_1_pm.c ****     #endif /* (USBUART_1_DP_ISR_ACTIVE) */
+ 299              		.loc 1 236 0
+ 300 0018 254B     		ldr	r3, .L26+4
+ 279:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_STBY_CFG_REG |= USBUART_1_PM_STBY_EN_FSUSB;
+ 301              		.loc 1 279 0
+ 302 001a 264A     		ldr	r2, .L26+8
+ 236:Generated_Source\PSoC5/USBUART_1_pm.c ****     #endif /* (USBUART_1_DP_ISR_ACTIVE) */
+ 303              		.loc 1 236 0
+ 304 001c 4FF48051 		mov	r1, #4096
+ 305 0020 1960     		str	r1, [r3]
+ 279:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_STBY_CFG_REG |= USBUART_1_PM_STBY_EN_FSUSB;
+ 306              		.loc 1 279 0
+ 307 0022 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 280:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 308              		.loc 1 280 0
+ 309 0024 2449     		ldr	r1, .L26+12
+ 279:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_PM_STBY_CFG_REG |= USBUART_1_PM_STBY_EN_FSUSB;
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 13
+
+
+ 310              		.loc 1 279 0
+ 311 0026 43F00103 		orr	r3, r3, #1
+ 312 002a 1370     		strb	r3, [r2]
+ 280:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 313              		.loc 1 280 0
+ 314 002c 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 283:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 315              		.loc 1 283 0
+ 316 002e 02F5E752 		add	r2, r2, #7392
+ 280:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 317              		.loc 1 280 0
+ 318 0032 43F00103 		orr	r3, r3, #1
+ 319 0036 0B70     		strb	r3, [r1]
+ 283:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 320              		.loc 1 283 0
+ 321 0038 1832     		adds	r2, r2, #24
+ 322 003a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 286:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 323              		.loc 1 286 0
+ 324 003c 1F4C     		ldr	r4, .L26+16
+ 283:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 325              		.loc 1 283 0
+ 326 003e 43F00103 		orr	r3, r3, #1
+ 327 0042 1370     		strb	r3, [r2]
+ 286:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 328              		.loc 1 286 0
+ 329 0044 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 289:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Restore state of USB regulator and wait until it supples stable power. */
+ 330              		.loc 1 289 0
+ 331 0046 2820     		movs	r0, #40
+ 286:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 332              		.loc 1 286 0
+ 333 0048 43F00103 		orr	r3, r3, #1
+ 334 004c 2370     		strb	r3, [r4]
+ 289:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Restore state of USB regulator and wait until it supples stable power. */
+ 335              		.loc 1 289 0
+ 336 004e FFF7FEFF 		bl	CyDelayUs
+ 337              	.LVL16:
+ 291:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_VREF_STABILITY);   /*~50ns delay. */
+ 338              		.loc 1 291 0
+ 339 0052 1B4A     		ldr	r2, .L26+20
+ 340 0054 6B78     		ldrb	r3, [r5, #1]	@ zero_extendqisi2
+ 341 0056 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 292:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 342              		.loc 1 292 0
+ 343 0058 0020     		movs	r0, #0
+ 291:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_VREF_STABILITY);   /*~50ns delay. */
+ 344              		.loc 1 291 0
+ 345 005a 0B43     		orrs	r3, r3, r1
+ 346 005c 1370     		strb	r3, [r2]
+ 292:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 347              		.loc 1 292 0
+ 348 005e FFF7FEFF 		bl	CyDelayUs
+ 349              	.LVL17:
+ 295:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_PD_PULLUP_N_ENABLE);
+ 350              		.loc 1 295 0
+ 351 0062 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 14
+
+
+ 296:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Set the USBIO pull-up enable. */
+ 352              		.loc 1 296 0
+ 353 0064 0220     		movs	r0, #2
+ 295:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayUs(USBUART_1_WAIT_PD_PULLUP_N_ENABLE);
+ 354              		.loc 1 295 0
+ 355 0066 0343     		orrs	r3, r3, r0
+ 356 0068 2370     		strb	r3, [r4]
+ 296:Generated_Source\PSoC5/USBUART_1_pm.c ****         /* Set the USBIO pull-up enable. */
+ 357              		.loc 1 296 0
+ 358 006a FFF7FEFF 		bl	CyDelayUs
+ 359              	.LVL18:
+ 298:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 360              		.loc 1 298 0
+ 361 006e 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 314:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 362              		.loc 1 314 0
+ 363 0070 1449     		ldr	r1, .L26+24
+ 317:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayCycles(USBUART_1_WAIT_CR0_REG_STABILITY);
+ 364              		.loc 1 317 0
+ 365 0072 154A     		ldr	r2, .L26+28
+ 298:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 366              		.loc 1 298 0
+ 367 0074 43F00403 		orr	r3, r3, #4
+ 314:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 368              		.loc 1 314 0
+ 369 0078 0320     		movs	r0, #3
+ 298:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 370              		.loc 1 298 0
+ 371 007a 2370     		strb	r3, [r4]
+ 314:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 372              		.loc 1 314 0
+ 373 007c 0870     		strb	r0, [r1]
+ 317:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayCycles(USBUART_1_WAIT_CR0_REG_STABILITY);
+ 374              		.loc 1 317 0
+ 375 007e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 318:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 376              		.loc 1 318 0
+ 377 0080 0120     		movs	r0, #1
+ 317:Generated_Source\PSoC5/USBUART_1_pm.c ****         CyDelayCycles(USBUART_1_WAIT_CR0_REG_STABILITY);
+ 378              		.loc 1 317 0
+ 379 0082 43F08003 		orr	r3, r3, #128
+ 380 0086 1370     		strb	r3, [r2]
+ 318:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 381              		.loc 1 318 0
+ 382 0088 FFF7FEFF 		bl	CyDelayCycles
+ 383              	.LVL19:
+ 321:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 384              		.loc 1 321 0
+ 385 008c 0F4A     		ldr	r2, .L26+32
+ 386 008e 0421     		movs	r1, #4
+ 387              	.LBB4:
+ 388              	.LBB5:
+  90:Generated_Source\PSoC5/USBUART_1_pm.c ****     {
+ 389              		.loc 1 90 0
+ 390 0090 0F4B     		ldr	r3, .L26+36
+ 391              	.LBE5:
+ 392              	.LBE4:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 15
+
+
+ 321:Generated_Source\PSoC5/USBUART_1_pm.c **** 
+ 393              		.loc 1 321 0
+ 394 0092 1170     		strb	r1, [r2]
+ 395              	.LBB7:
+ 396              	.LBB6:
+  90:Generated_Source\PSoC5/USBUART_1_pm.c ****     {
+ 397              		.loc 1 90 0
+ 398 0094 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 399 0096 002B     		cmp	r3, #0
+ 400 0098 B9D0     		beq	.L19
+  92:Generated_Source\PSoC5/USBUART_1_pm.c ****         USBUART_1_EpStateInit();
+ 401              		.loc 1 92 0
+ 402 009a FFF7FEFF 		bl	USBUART_1_ConfigReg
+ 403              	.LVL20:
+  93:Generated_Source\PSoC5/USBUART_1_pm.c ****     }
+ 404              		.loc 1 93 0
+ 405 009e FFF7FEFF 		bl	USBUART_1_EpStateInit
+ 406              	.LVL21:
+ 407              	.LBE6:
+ 408              	.LBE7:
+ 328:Generated_Source\PSoC5/USBUART_1_pm.c **** }
+ 409              		.loc 1 328 0
+ 410 00a2 3046     		mov	r0, r6
+ 411              		.loc 1 329 0
+ 412 00a4 BDE87040 		pop	{r4, r5, r6, lr}
+ 413              		.cfi_restore 4
+ 414              		.cfi_restore 5
+ 415              		.cfi_restore 6
+ 416              		.cfi_restore 14
+ 417              		.cfi_def_cfa_offset 0
+ 418              	.LVL22:
+ 328:Generated_Source\PSoC5/USBUART_1_pm.c **** }
+ 419              		.loc 1 328 0
+ 420 00a8 FFF7FEBF 		b	CyExitCriticalSection
+ 421              	.LVL23:
+ 422              	.L27:
+ 423              		.align	2
+ 424              	.L26:
+ 425 00ac 00000000 		.word	.LANCHOR0
+ 426 00b0 80E100E0 		.word	-536813184
+ 427 00b4 A5430040 		.word	1073759141
+ 428 00b8 B5430040 		.word	1073759157
+ 429 00bc 94430040 		.word	1073759124
+ 430 00c0 09600040 		.word	1073766409
+ 431 00c4 28600040 		.word	1073766440
+ 432 00c8 08600040 		.word	1073766408
+ 433 00cc 12600040 		.word	1073766418
+ 434 00d0 00000000 		.word	USBUART_1_configuration
+ 435              		.cfi_endproc
+ 436              	.LFE4:
+ 437              		.size	USBUART_1_Resume, .-USBUART_1_Resume
+ 438              		.bss
+ 439              		.align	2
+ 440              		.set	.LANCHOR0,. + 0
+ 441              		.type	USBUART_1_backup, %object
+ 442              		.size	USBUART_1_backup, 2
+ 443              	USBUART_1_backup:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 16
+
+
+ 444 0000 0000     		.space	2
+ 445              		.text
+ 446              	.Letext0:
+ 447              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 448              		.file 3 "Generated_Source\\PSoC5\\USBUART_1.h"
+ 449              		.file 4 "Generated_Source\\PSoC5\\USBUART_1_Dp.h"
+ 450              		.file 5 "Generated_Source\\PSoC5\\USBUART_1_pvt.h"
+ 451              		.file 6 "Generated_Source\\PSoC5\\CyLib.h"
+ 452              		.section	.debug_info,"",%progbits
+ 453              	.Ldebug_info0:
+ 454 0000 00030000 		.4byte	0x300
+ 455 0004 0400     		.2byte	0x4
+ 456 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 457 000a 04       		.byte	0x4
+ 458 000b 01       		.uleb128 0x1
+ 459 000c 2C000000 		.4byte	.LASF33
+ 460 0010 0C       		.byte	0xc
+ 461 0011 10010000 		.4byte	.LASF34
+ 462 0015 C6020000 		.4byte	.LASF35
+ 463 0019 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 464 001d 00000000 		.4byte	0
+ 465 0021 00000000 		.4byte	.Ldebug_line0
+ 466 0025 02       		.uleb128 0x2
+ 467 0026 01       		.byte	0x1
+ 468 0027 06       		.byte	0x6
+ 469 0028 A9020000 		.4byte	.LASF0
+ 470 002c 02       		.uleb128 0x2
+ 471 002d 01       		.byte	0x1
+ 472 002e 08       		.byte	0x8
+ 473 002f 53010000 		.4byte	.LASF1
+ 474 0033 02       		.uleb128 0x2
+ 475 0034 02       		.byte	0x2
+ 476 0035 05       		.byte	0x5
+ 477 0036 61020000 		.4byte	.LASF2
+ 478 003a 02       		.uleb128 0x2
+ 479 003b 02       		.byte	0x2
+ 480 003c 07       		.byte	0x7
+ 481 003d E1000000 		.4byte	.LASF3
+ 482 0041 02       		.uleb128 0x2
+ 483 0042 04       		.byte	0x4
+ 484 0043 05       		.byte	0x5
+ 485 0044 83020000 		.4byte	.LASF4
+ 486 0048 02       		.uleb128 0x2
+ 487 0049 04       		.byte	0x4
+ 488 004a 07       		.byte	0x7
+ 489 004b 66010000 		.4byte	.LASF5
+ 490 004f 02       		.uleb128 0x2
+ 491 0050 08       		.byte	0x8
+ 492 0051 05       		.byte	0x5
+ 493 0052 4E020000 		.4byte	.LASF6
+ 494 0056 02       		.uleb128 0x2
+ 495 0057 08       		.byte	0x8
+ 496 0058 07       		.byte	0x7
+ 497 0059 3C010000 		.4byte	.LASF7
+ 498 005d 03       		.uleb128 0x3
+ 499 005e 04       		.byte	0x4
+ 500 005f 05       		.byte	0x5
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 17
+
+
+ 501 0060 696E7400 		.ascii	"int\000"
+ 502 0064 02       		.uleb128 0x2
+ 503 0065 04       		.byte	0x4
+ 504 0066 07       		.byte	0x7
+ 505 0067 1D020000 		.4byte	.LASF8
+ 506 006b 04       		.uleb128 0x4
+ 507 006c 78010000 		.4byte	.LASF9
+ 508 0070 02       		.byte	0x2
+ 509 0071 E401     		.2byte	0x1e4
+ 510 0073 2C000000 		.4byte	0x2c
+ 511 0077 04       		.uleb128 0x4
+ 512 0078 F3010000 		.4byte	.LASF10
+ 513 007c 02       		.byte	0x2
+ 514 007d E601     		.2byte	0x1e6
+ 515 007f 48000000 		.4byte	0x48
+ 516 0083 02       		.uleb128 0x2
+ 517 0084 04       		.byte	0x4
+ 518 0085 04       		.byte	0x4
+ 519 0086 36010000 		.4byte	.LASF11
+ 520 008a 02       		.uleb128 0x2
+ 521 008b 08       		.byte	0x8
+ 522 008c 04       		.byte	0x4
+ 523 008d B4010000 		.4byte	.LASF12
+ 524 0091 02       		.uleb128 0x2
+ 525 0092 01       		.byte	0x1
+ 526 0093 08       		.byte	0x8
+ 527 0094 5C020000 		.4byte	.LASF13
+ 528 0098 04       		.uleb128 0x4
+ 529 0099 61010000 		.4byte	.LASF14
+ 530 009d 02       		.byte	0x2
+ 531 009e 8E02     		.2byte	0x28e
+ 532 00a0 A4000000 		.4byte	0xa4
+ 533 00a4 05       		.uleb128 0x5
+ 534 00a5 6B000000 		.4byte	0x6b
+ 535 00a9 04       		.uleb128 0x4
+ 536 00aa 26000000 		.4byte	.LASF15
+ 537 00ae 02       		.byte	0x2
+ 538 00af 9002     		.2byte	0x290
+ 539 00b1 B5000000 		.4byte	0xb5
+ 540 00b5 05       		.uleb128 0x5
+ 541 00b6 77000000 		.4byte	0x77
+ 542 00ba 02       		.uleb128 0x2
+ 543 00bb 08       		.byte	0x8
+ 544 00bc 04       		.byte	0x4
+ 545 00bd 9D020000 		.4byte	.LASF16
+ 546 00c1 02       		.uleb128 0x2
+ 547 00c2 04       		.byte	0x4
+ 548 00c3 07       		.byte	0x7
+ 549 00c4 45020000 		.4byte	.LASF17
+ 550 00c8 06       		.uleb128 0x6
+ 551 00c9 02       		.byte	0x2
+ 552 00ca 03       		.byte	0x3
+ 553 00cb B8       		.byte	0xb8
+ 554 00cc E9000000 		.4byte	0xe9
+ 555 00d0 07       		.uleb128 0x7
+ 556 00d1 FA010000 		.4byte	.LASF18
+ 557 00d5 03       		.byte	0x3
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 18
+
+
+ 558 00d6 BA       		.byte	0xba
+ 559 00d7 6B000000 		.4byte	0x6b
+ 560 00db 00       		.byte	0
+ 561 00dc 07       		.uleb128 0x7
+ 562 00dd 40020000 		.4byte	.LASF19
+ 563 00e1 03       		.byte	0x3
+ 564 00e2 BB       		.byte	0xbb
+ 565 00e3 6B000000 		.4byte	0x6b
+ 566 00e7 01       		.byte	0x1
+ 567 00e8 00       		.byte	0
+ 568 00e9 08       		.uleb128 0x8
+ 569 00ea 6B020000 		.4byte	.LASF20
+ 570 00ee 03       		.byte	0x3
+ 571 00ef BF       		.byte	0xbf
+ 572 00f0 C8000000 		.4byte	0xc8
+ 573 00f4 09       		.uleb128 0x9
+ 574 00f5 00000000 		.4byte	.LASF36
+ 575 00f9 01       		.byte	0x1
+ 576 00fa 58       		.byte	0x58
+ 577 00fb 01       		.byte	0x1
+ 578 00fc 0A       		.uleb128 0xa
+ 579 00fd B5020000 		.4byte	.LASF21
+ 580 0101 01       		.byte	0x1
+ 581 0102 2B       		.byte	0x2b
+ 582 0103 00000000 		.4byte	.LFB0
+ 583 0107 04000000 		.4byte	.LFE0-.LFB0
+ 584 010b 01       		.uleb128 0x1
+ 585 010c 9C       		.byte	0x9c
+ 586 010d 1B010000 		.4byte	0x11b
+ 587 0111 0B       		.uleb128 0xb
+ 588 0112 04000000 		.4byte	.LVL0
+ 589 0116 B6020000 		.4byte	0x2b6
+ 590 011a 00       		.byte	0
+ 591 011b 0C       		.uleb128 0xc
+ 592 011c BA000000 		.4byte	.LASF37
+ 593 0120 01       		.byte	0x1
+ 594 0121 48       		.byte	0x48
+ 595 0122 00000000 		.4byte	.LFB1
+ 596 0126 02000000 		.4byte	.LFE1-.LFB1
+ 597 012a 01       		.uleb128 0x1
+ 598 012b 9C       		.byte	0x9c
+ 599 012c 0D       		.uleb128 0xd
+ 600 012d F4000000 		.4byte	0xf4
+ 601 0131 00000000 		.4byte	.LFB2
+ 602 0135 1C000000 		.4byte	.LFE2-.LFB2
+ 603 0139 01       		.uleb128 0x1
+ 604 013a 9C       		.byte	0x9c
+ 605 013b 52010000 		.4byte	0x152
+ 606 013f 0E       		.uleb128 0xe
+ 607 0140 0E000000 		.4byte	.LVL1
+ 608 0144 C1020000 		.4byte	0x2c1
+ 609 0148 0B       		.uleb128 0xb
+ 610 0149 16000000 		.4byte	.LVL2
+ 611 014d CC020000 		.4byte	0x2cc
+ 612 0151 00       		.byte	0
+ 613 0152 0A       		.uleb128 0xa
+ 614 0153 CF000000 		.4byte	.LASF22
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 19
+
+
+ 615 0157 01       		.byte	0x1
+ 616 0158 7B       		.byte	0x7b
+ 617 0159 00000000 		.4byte	.LFB3
+ 618 015d D4000000 		.4byte	.LFE3-.LFB3
+ 619 0161 01       		.uleb128 0x1
+ 620 0162 9C       		.byte	0x9c
+ 621 0163 E5010000 		.4byte	0x1e5
+ 622 0167 0F       		.uleb128 0xf
+ 623 0168 8F010000 		.4byte	.LASF24
+ 624 016c 01       		.byte	0x1
+ 625 016d 7D       		.byte	0x7d
+ 626 016e 6B000000 		.4byte	0x6b
+ 627 0172 01       		.uleb128 0x1
+ 628 0173 55       		.byte	0x55
+ 629 0174 0E       		.uleb128 0xe
+ 630 0175 08000000 		.4byte	.LVL3
+ 631 0179 D7020000 		.4byte	0x2d7
+ 632 017d 10       		.uleb128 0x10
+ 633 017e 1E000000 		.4byte	.LVL5
+ 634 0182 E2020000 		.4byte	0x2e2
+ 635 0186 91010000 		.4byte	0x191
+ 636 018a 11       		.uleb128 0x11
+ 637 018b 01       		.uleb128 0x1
+ 638 018c 50       		.byte	0x50
+ 639 018d 02       		.uleb128 0x2
+ 640 018e 75       		.byte	0x75
+ 641 018f 00       		.sleb128 0
+ 642 0190 00       		.byte	0
+ 643 0191 0E       		.uleb128 0xe
+ 644 0192 22000000 		.4byte	.LVL6
+ 645 0196 B6020000 		.4byte	0x2b6
+ 646 019a 10       		.uleb128 0x10
+ 647 019b 4E000000 		.4byte	.LVL8
+ 648 019f ED020000 		.4byte	0x2ed
+ 649 01a3 AD010000 		.4byte	0x1ad
+ 650 01a7 11       		.uleb128 0x11
+ 651 01a8 01       		.uleb128 0x1
+ 652 01a9 50       		.byte	0x50
+ 653 01aa 01       		.uleb128 0x1
+ 654 01ab 30       		.byte	0x30
+ 655 01ac 00       		.byte	0
+ 656 01ad 10       		.uleb128 0x10
+ 657 01ae 64000000 		.4byte	.LVL9
+ 658 01b2 ED020000 		.4byte	0x2ed
+ 659 01b6 C0010000 		.4byte	0x1c0
+ 660 01ba 11       		.uleb128 0x11
+ 661 01bb 01       		.uleb128 0x1
+ 662 01bc 50       		.byte	0x50
+ 663 01bd 01       		.uleb128 0x1
+ 664 01be 30       		.byte	0x30
+ 665 01bf 00       		.byte	0
+ 666 01c0 10       		.uleb128 0x10
+ 667 01c1 7C000000 		.4byte	.LVL10
+ 668 01c5 ED020000 		.4byte	0x2ed
+ 669 01c9 D4010000 		.4byte	0x1d4
+ 670 01cd 11       		.uleb128 0x11
+ 671 01ce 01       		.uleb128 0x1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 20
+
+
+ 672 01cf 50       		.byte	0x50
+ 673 01d0 02       		.uleb128 0x2
+ 674 01d1 77       		.byte	0x77
+ 675 01d2 00       		.sleb128 0
+ 676 01d3 00       		.byte	0
+ 677 01d4 12       		.uleb128 0x12
+ 678 01d5 AC000000 		.4byte	.LVL11
+ 679 01d9 ED020000 		.4byte	0x2ed
+ 680 01dd 11       		.uleb128 0x11
+ 681 01de 01       		.uleb128 0x1
+ 682 01df 50       		.byte	0x50
+ 683 01e0 02       		.uleb128 0x2
+ 684 01e1 77       		.byte	0x77
+ 685 01e2 00       		.sleb128 0
+ 686 01e3 00       		.byte	0
+ 687 01e4 00       		.byte	0
+ 688 01e5 0A       		.uleb128 0xa
+ 689 01e6 8C020000 		.4byte	.LASF23
+ 690 01ea 01       		.byte	0x1
+ 691 01eb E3       		.byte	0xe3
+ 692 01ec 00000000 		.4byte	.LFB4
+ 693 01f0 D4000000 		.4byte	.LFE4-.LFB4
+ 694 01f4 01       		.uleb128 0x1
+ 695 01f5 9C       		.byte	0x9c
+ 696 01f6 99020000 		.4byte	0x299
+ 697 01fa 13       		.uleb128 0x13
+ 698 01fb 8F010000 		.4byte	.LASF24
+ 699 01ff 01       		.byte	0x1
+ 700 0200 E5       		.byte	0xe5
+ 701 0201 6B000000 		.4byte	0x6b
+ 702 0205 00000000 		.4byte	.LLST0
+ 703 0209 14       		.uleb128 0x14
+ 704 020a F4000000 		.4byte	0xf4
+ 705 020e 90000000 		.4byte	.LBB4
+ 706 0212 00000000 		.4byte	.Ldebug_ranges0+0
+ 707 0216 01       		.byte	0x1
+ 708 0217 4401     		.2byte	0x144
+ 709 0219 30020000 		.4byte	0x230
+ 710 021d 0E       		.uleb128 0xe
+ 711 021e 9E000000 		.4byte	.LVL20
+ 712 0222 C1020000 		.4byte	0x2c1
+ 713 0226 0E       		.uleb128 0xe
+ 714 0227 A2000000 		.4byte	.LVL21
+ 715 022b CC020000 		.4byte	0x2cc
+ 716 022f 00       		.byte	0
+ 717 0230 0E       		.uleb128 0xe
+ 718 0231 06000000 		.4byte	.LVL12
+ 719 0235 D7020000 		.4byte	0x2d7
+ 720 0239 0B       		.uleb128 0xb
+ 721 023a 18000000 		.4byte	.LVL15
+ 722 023e E2020000 		.4byte	0x2e2
+ 723 0242 10       		.uleb128 0x10
+ 724 0243 52000000 		.4byte	.LVL16
+ 725 0247 ED020000 		.4byte	0x2ed
+ 726 024b 56020000 		.4byte	0x256
+ 727 024f 11       		.uleb128 0x11
+ 728 0250 01       		.uleb128 0x1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 21
+
+
+ 729 0251 50       		.byte	0x50
+ 730 0252 02       		.uleb128 0x2
+ 731 0253 08       		.byte	0x8
+ 732 0254 28       		.byte	0x28
+ 733 0255 00       		.byte	0
+ 734 0256 10       		.uleb128 0x10
+ 735 0257 62000000 		.4byte	.LVL17
+ 736 025b ED020000 		.4byte	0x2ed
+ 737 025f 69020000 		.4byte	0x269
+ 738 0263 11       		.uleb128 0x11
+ 739 0264 01       		.uleb128 0x1
+ 740 0265 50       		.byte	0x50
+ 741 0266 01       		.uleb128 0x1
+ 742 0267 30       		.byte	0x30
+ 743 0268 00       		.byte	0
+ 744 0269 10       		.uleb128 0x10
+ 745 026a 6E000000 		.4byte	.LVL18
+ 746 026e ED020000 		.4byte	0x2ed
+ 747 0272 7C020000 		.4byte	0x27c
+ 748 0276 11       		.uleb128 0x11
+ 749 0277 01       		.uleb128 0x1
+ 750 0278 50       		.byte	0x50
+ 751 0279 01       		.uleb128 0x1
+ 752 027a 32       		.byte	0x32
+ 753 027b 00       		.byte	0
+ 754 027c 10       		.uleb128 0x10
+ 755 027d 8C000000 		.4byte	.LVL19
+ 756 0281 F8020000 		.4byte	0x2f8
+ 757 0285 8F020000 		.4byte	0x28f
+ 758 0289 11       		.uleb128 0x11
+ 759 028a 01       		.uleb128 0x1
+ 760 028b 50       		.byte	0x50
+ 761 028c 01       		.uleb128 0x1
+ 762 028d 31       		.byte	0x31
+ 763 028e 00       		.byte	0
+ 764 028f 0B       		.uleb128 0xb
+ 765 0290 AC000000 		.4byte	.LVL23
+ 766 0294 E2020000 		.4byte	0x2e2
+ 767 0298 00       		.byte	0
+ 768 0299 0F       		.uleb128 0xf
+ 769 029a 7E010000 		.4byte	.LASF25
+ 770 029e 01       		.byte	0x1
+ 771 029f 20       		.byte	0x20
+ 772 02a0 E9000000 		.4byte	0xe9
+ 773 02a4 05       		.uleb128 0x5
+ 774 02a5 03       		.byte	0x3
+ 775 02a6 00000000 		.4byte	USBUART_1_backup
+ 776 02aa 15       		.uleb128 0x15
+ 777 02ab DB010000 		.4byte	.LASF38
+ 778 02af 03       		.byte	0x3
+ 779 02b0 D402     		.2byte	0x2d4
+ 780 02b2 A4000000 		.4byte	0xa4
+ 781 02b6 16       		.uleb128 0x16
+ 782 02b7 F4000000 		.4byte	.LASF26
+ 783 02bb F4000000 		.4byte	.LASF26
+ 784 02bf 04       		.byte	0x4
+ 785 02c0 2B       		.byte	0x2b
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 22
+
+
+ 786 02c1 16       		.uleb128 0x16
+ 787 02c2 A0010000 		.4byte	.LASF27
+ 788 02c6 A0010000 		.4byte	.LASF27
+ 789 02ca 05       		.byte	0x5
+ 790 02cb BB       		.byte	0xbb
+ 791 02cc 16       		.uleb128 0x16
+ 792 02cd BB010000 		.4byte	.LASF28
+ 793 02d1 BB010000 		.4byte	.LASF28
+ 794 02d5 05       		.byte	0x5
+ 795 02d6 BC       		.byte	0xbc
+ 796 02d7 16       		.uleb128 0x16
+ 797 02d8 06020000 		.4byte	.LASF29
+ 798 02dc 06020000 		.4byte	.LASF29
+ 799 02e0 06       		.byte	0x6
+ 800 02e1 7D       		.byte	0x7d
+ 801 02e2 16       		.uleb128 0x16
+ 802 02e3 2A020000 		.4byte	.LASF30
+ 803 02e7 2A020000 		.4byte	.LASF30
+ 804 02eb 06       		.byte	0x6
+ 805 02ec 7E       		.byte	0x7e
+ 806 02ed 16       		.uleb128 0x16
+ 807 02ee D1010000 		.4byte	.LASF31
+ 808 02f2 D1010000 		.4byte	.LASF31
+ 809 02f6 06       		.byte	0x6
+ 810 02f7 77       		.byte	0x77
+ 811 02f8 16       		.uleb128 0x16
+ 812 02f9 18000000 		.4byte	.LASF32
+ 813 02fd 18000000 		.4byte	.LASF32
+ 814 0301 06       		.byte	0x6
+ 815 0302 79       		.byte	0x79
+ 816 0303 00       		.byte	0
+ 817              		.section	.debug_abbrev,"",%progbits
+ 818              	.Ldebug_abbrev0:
+ 819 0000 01       		.uleb128 0x1
+ 820 0001 11       		.uleb128 0x11
+ 821 0002 01       		.byte	0x1
+ 822 0003 25       		.uleb128 0x25
+ 823 0004 0E       		.uleb128 0xe
+ 824 0005 13       		.uleb128 0x13
+ 825 0006 0B       		.uleb128 0xb
+ 826 0007 03       		.uleb128 0x3
+ 827 0008 0E       		.uleb128 0xe
+ 828 0009 1B       		.uleb128 0x1b
+ 829 000a 0E       		.uleb128 0xe
+ 830 000b 55       		.uleb128 0x55
+ 831 000c 17       		.uleb128 0x17
+ 832 000d 11       		.uleb128 0x11
+ 833 000e 01       		.uleb128 0x1
+ 834 000f 10       		.uleb128 0x10
+ 835 0010 17       		.uleb128 0x17
+ 836 0011 00       		.byte	0
+ 837 0012 00       		.byte	0
+ 838 0013 02       		.uleb128 0x2
+ 839 0014 24       		.uleb128 0x24
+ 840 0015 00       		.byte	0
+ 841 0016 0B       		.uleb128 0xb
+ 842 0017 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 23
+
+
+ 843 0018 3E       		.uleb128 0x3e
+ 844 0019 0B       		.uleb128 0xb
+ 845 001a 03       		.uleb128 0x3
+ 846 001b 0E       		.uleb128 0xe
+ 847 001c 00       		.byte	0
+ 848 001d 00       		.byte	0
+ 849 001e 03       		.uleb128 0x3
+ 850 001f 24       		.uleb128 0x24
+ 851 0020 00       		.byte	0
+ 852 0021 0B       		.uleb128 0xb
+ 853 0022 0B       		.uleb128 0xb
+ 854 0023 3E       		.uleb128 0x3e
+ 855 0024 0B       		.uleb128 0xb
+ 856 0025 03       		.uleb128 0x3
+ 857 0026 08       		.uleb128 0x8
+ 858 0027 00       		.byte	0
+ 859 0028 00       		.byte	0
+ 860 0029 04       		.uleb128 0x4
+ 861 002a 16       		.uleb128 0x16
+ 862 002b 00       		.byte	0
+ 863 002c 03       		.uleb128 0x3
+ 864 002d 0E       		.uleb128 0xe
+ 865 002e 3A       		.uleb128 0x3a
+ 866 002f 0B       		.uleb128 0xb
+ 867 0030 3B       		.uleb128 0x3b
+ 868 0031 05       		.uleb128 0x5
+ 869 0032 49       		.uleb128 0x49
+ 870 0033 13       		.uleb128 0x13
+ 871 0034 00       		.byte	0
+ 872 0035 00       		.byte	0
+ 873 0036 05       		.uleb128 0x5
+ 874 0037 35       		.uleb128 0x35
+ 875 0038 00       		.byte	0
+ 876 0039 49       		.uleb128 0x49
+ 877 003a 13       		.uleb128 0x13
+ 878 003b 00       		.byte	0
+ 879 003c 00       		.byte	0
+ 880 003d 06       		.uleb128 0x6
+ 881 003e 13       		.uleb128 0x13
+ 882 003f 01       		.byte	0x1
+ 883 0040 0B       		.uleb128 0xb
+ 884 0041 0B       		.uleb128 0xb
+ 885 0042 3A       		.uleb128 0x3a
+ 886 0043 0B       		.uleb128 0xb
+ 887 0044 3B       		.uleb128 0x3b
+ 888 0045 0B       		.uleb128 0xb
+ 889 0046 01       		.uleb128 0x1
+ 890 0047 13       		.uleb128 0x13
+ 891 0048 00       		.byte	0
+ 892 0049 00       		.byte	0
+ 893 004a 07       		.uleb128 0x7
+ 894 004b 0D       		.uleb128 0xd
+ 895 004c 00       		.byte	0
+ 896 004d 03       		.uleb128 0x3
+ 897 004e 0E       		.uleb128 0xe
+ 898 004f 3A       		.uleb128 0x3a
+ 899 0050 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 24
+
+
+ 900 0051 3B       		.uleb128 0x3b
+ 901 0052 0B       		.uleb128 0xb
+ 902 0053 49       		.uleb128 0x49
+ 903 0054 13       		.uleb128 0x13
+ 904 0055 38       		.uleb128 0x38
+ 905 0056 0B       		.uleb128 0xb
+ 906 0057 00       		.byte	0
+ 907 0058 00       		.byte	0
+ 908 0059 08       		.uleb128 0x8
+ 909 005a 16       		.uleb128 0x16
+ 910 005b 00       		.byte	0
+ 911 005c 03       		.uleb128 0x3
+ 912 005d 0E       		.uleb128 0xe
+ 913 005e 3A       		.uleb128 0x3a
+ 914 005f 0B       		.uleb128 0xb
+ 915 0060 3B       		.uleb128 0x3b
+ 916 0061 0B       		.uleb128 0xb
+ 917 0062 49       		.uleb128 0x49
+ 918 0063 13       		.uleb128 0x13
+ 919 0064 00       		.byte	0
+ 920 0065 00       		.byte	0
+ 921 0066 09       		.uleb128 0x9
+ 922 0067 2E       		.uleb128 0x2e
+ 923 0068 00       		.byte	0
+ 924 0069 3F       		.uleb128 0x3f
+ 925 006a 19       		.uleb128 0x19
+ 926 006b 03       		.uleb128 0x3
+ 927 006c 0E       		.uleb128 0xe
+ 928 006d 3A       		.uleb128 0x3a
+ 929 006e 0B       		.uleb128 0xb
+ 930 006f 3B       		.uleb128 0x3b
+ 931 0070 0B       		.uleb128 0xb
+ 932 0071 27       		.uleb128 0x27
+ 933 0072 19       		.uleb128 0x19
+ 934 0073 20       		.uleb128 0x20
+ 935 0074 0B       		.uleb128 0xb
+ 936 0075 00       		.byte	0
+ 937 0076 00       		.byte	0
+ 938 0077 0A       		.uleb128 0xa
+ 939 0078 2E       		.uleb128 0x2e
+ 940 0079 01       		.byte	0x1
+ 941 007a 3F       		.uleb128 0x3f
+ 942 007b 19       		.uleb128 0x19
+ 943 007c 03       		.uleb128 0x3
+ 944 007d 0E       		.uleb128 0xe
+ 945 007e 3A       		.uleb128 0x3a
+ 946 007f 0B       		.uleb128 0xb
+ 947 0080 3B       		.uleb128 0x3b
+ 948 0081 0B       		.uleb128 0xb
+ 949 0082 27       		.uleb128 0x27
+ 950 0083 19       		.uleb128 0x19
+ 951 0084 11       		.uleb128 0x11
+ 952 0085 01       		.uleb128 0x1
+ 953 0086 12       		.uleb128 0x12
+ 954 0087 06       		.uleb128 0x6
+ 955 0088 40       		.uleb128 0x40
+ 956 0089 18       		.uleb128 0x18
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 25
+
+
+ 957 008a 9742     		.uleb128 0x2117
+ 958 008c 19       		.uleb128 0x19
+ 959 008d 01       		.uleb128 0x1
+ 960 008e 13       		.uleb128 0x13
+ 961 008f 00       		.byte	0
+ 962 0090 00       		.byte	0
+ 963 0091 0B       		.uleb128 0xb
+ 964 0092 898201   		.uleb128 0x4109
+ 965 0095 00       		.byte	0
+ 966 0096 11       		.uleb128 0x11
+ 967 0097 01       		.uleb128 0x1
+ 968 0098 9542     		.uleb128 0x2115
+ 969 009a 19       		.uleb128 0x19
+ 970 009b 31       		.uleb128 0x31
+ 971 009c 13       		.uleb128 0x13
+ 972 009d 00       		.byte	0
+ 973 009e 00       		.byte	0
+ 974 009f 0C       		.uleb128 0xc
+ 975 00a0 2E       		.uleb128 0x2e
+ 976 00a1 00       		.byte	0
+ 977 00a2 3F       		.uleb128 0x3f
+ 978 00a3 19       		.uleb128 0x19
+ 979 00a4 03       		.uleb128 0x3
+ 980 00a5 0E       		.uleb128 0xe
+ 981 00a6 3A       		.uleb128 0x3a
+ 982 00a7 0B       		.uleb128 0xb
+ 983 00a8 3B       		.uleb128 0x3b
+ 984 00a9 0B       		.uleb128 0xb
+ 985 00aa 27       		.uleb128 0x27
+ 986 00ab 19       		.uleb128 0x19
+ 987 00ac 11       		.uleb128 0x11
+ 988 00ad 01       		.uleb128 0x1
+ 989 00ae 12       		.uleb128 0x12
+ 990 00af 06       		.uleb128 0x6
+ 991 00b0 40       		.uleb128 0x40
+ 992 00b1 18       		.uleb128 0x18
+ 993 00b2 9742     		.uleb128 0x2117
+ 994 00b4 19       		.uleb128 0x19
+ 995 00b5 00       		.byte	0
+ 996 00b6 00       		.byte	0
+ 997 00b7 0D       		.uleb128 0xd
+ 998 00b8 2E       		.uleb128 0x2e
+ 999 00b9 01       		.byte	0x1
+ 1000 00ba 31       		.uleb128 0x31
+ 1001 00bb 13       		.uleb128 0x13
+ 1002 00bc 11       		.uleb128 0x11
+ 1003 00bd 01       		.uleb128 0x1
+ 1004 00be 12       		.uleb128 0x12
+ 1005 00bf 06       		.uleb128 0x6
+ 1006 00c0 40       		.uleb128 0x40
+ 1007 00c1 18       		.uleb128 0x18
+ 1008 00c2 9742     		.uleb128 0x2117
+ 1009 00c4 19       		.uleb128 0x19
+ 1010 00c5 01       		.uleb128 0x1
+ 1011 00c6 13       		.uleb128 0x13
+ 1012 00c7 00       		.byte	0
+ 1013 00c8 00       		.byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 26
+
+
+ 1014 00c9 0E       		.uleb128 0xe
+ 1015 00ca 898201   		.uleb128 0x4109
+ 1016 00cd 00       		.byte	0
+ 1017 00ce 11       		.uleb128 0x11
+ 1018 00cf 01       		.uleb128 0x1
+ 1019 00d0 31       		.uleb128 0x31
+ 1020 00d1 13       		.uleb128 0x13
+ 1021 00d2 00       		.byte	0
+ 1022 00d3 00       		.byte	0
+ 1023 00d4 0F       		.uleb128 0xf
+ 1024 00d5 34       		.uleb128 0x34
+ 1025 00d6 00       		.byte	0
+ 1026 00d7 03       		.uleb128 0x3
+ 1027 00d8 0E       		.uleb128 0xe
+ 1028 00d9 3A       		.uleb128 0x3a
+ 1029 00da 0B       		.uleb128 0xb
+ 1030 00db 3B       		.uleb128 0x3b
+ 1031 00dc 0B       		.uleb128 0xb
+ 1032 00dd 49       		.uleb128 0x49
+ 1033 00de 13       		.uleb128 0x13
+ 1034 00df 02       		.uleb128 0x2
+ 1035 00e0 18       		.uleb128 0x18
+ 1036 00e1 00       		.byte	0
+ 1037 00e2 00       		.byte	0
+ 1038 00e3 10       		.uleb128 0x10
+ 1039 00e4 898201   		.uleb128 0x4109
+ 1040 00e7 01       		.byte	0x1
+ 1041 00e8 11       		.uleb128 0x11
+ 1042 00e9 01       		.uleb128 0x1
+ 1043 00ea 31       		.uleb128 0x31
+ 1044 00eb 13       		.uleb128 0x13
+ 1045 00ec 01       		.uleb128 0x1
+ 1046 00ed 13       		.uleb128 0x13
+ 1047 00ee 00       		.byte	0
+ 1048 00ef 00       		.byte	0
+ 1049 00f0 11       		.uleb128 0x11
+ 1050 00f1 8A8201   		.uleb128 0x410a
+ 1051 00f4 00       		.byte	0
+ 1052 00f5 02       		.uleb128 0x2
+ 1053 00f6 18       		.uleb128 0x18
+ 1054 00f7 9142     		.uleb128 0x2111
+ 1055 00f9 18       		.uleb128 0x18
+ 1056 00fa 00       		.byte	0
+ 1057 00fb 00       		.byte	0
+ 1058 00fc 12       		.uleb128 0x12
+ 1059 00fd 898201   		.uleb128 0x4109
+ 1060 0100 01       		.byte	0x1
+ 1061 0101 11       		.uleb128 0x11
+ 1062 0102 01       		.uleb128 0x1
+ 1063 0103 31       		.uleb128 0x31
+ 1064 0104 13       		.uleb128 0x13
+ 1065 0105 00       		.byte	0
+ 1066 0106 00       		.byte	0
+ 1067 0107 13       		.uleb128 0x13
+ 1068 0108 34       		.uleb128 0x34
+ 1069 0109 00       		.byte	0
+ 1070 010a 03       		.uleb128 0x3
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 27
+
+
+ 1071 010b 0E       		.uleb128 0xe
+ 1072 010c 3A       		.uleb128 0x3a
+ 1073 010d 0B       		.uleb128 0xb
+ 1074 010e 3B       		.uleb128 0x3b
+ 1075 010f 0B       		.uleb128 0xb
+ 1076 0110 49       		.uleb128 0x49
+ 1077 0111 13       		.uleb128 0x13
+ 1078 0112 02       		.uleb128 0x2
+ 1079 0113 17       		.uleb128 0x17
+ 1080 0114 00       		.byte	0
+ 1081 0115 00       		.byte	0
+ 1082 0116 14       		.uleb128 0x14
+ 1083 0117 1D       		.uleb128 0x1d
+ 1084 0118 01       		.byte	0x1
+ 1085 0119 31       		.uleb128 0x31
+ 1086 011a 13       		.uleb128 0x13
+ 1087 011b 52       		.uleb128 0x52
+ 1088 011c 01       		.uleb128 0x1
+ 1089 011d 55       		.uleb128 0x55
+ 1090 011e 17       		.uleb128 0x17
+ 1091 011f 58       		.uleb128 0x58
+ 1092 0120 0B       		.uleb128 0xb
+ 1093 0121 59       		.uleb128 0x59
+ 1094 0122 05       		.uleb128 0x5
+ 1095 0123 01       		.uleb128 0x1
+ 1096 0124 13       		.uleb128 0x13
+ 1097 0125 00       		.byte	0
+ 1098 0126 00       		.byte	0
+ 1099 0127 15       		.uleb128 0x15
+ 1100 0128 34       		.uleb128 0x34
+ 1101 0129 00       		.byte	0
+ 1102 012a 03       		.uleb128 0x3
+ 1103 012b 0E       		.uleb128 0xe
+ 1104 012c 3A       		.uleb128 0x3a
+ 1105 012d 0B       		.uleb128 0xb
+ 1106 012e 3B       		.uleb128 0x3b
+ 1107 012f 05       		.uleb128 0x5
+ 1108 0130 49       		.uleb128 0x49
+ 1109 0131 13       		.uleb128 0x13
+ 1110 0132 3F       		.uleb128 0x3f
+ 1111 0133 19       		.uleb128 0x19
+ 1112 0134 3C       		.uleb128 0x3c
+ 1113 0135 19       		.uleb128 0x19
+ 1114 0136 00       		.byte	0
+ 1115 0137 00       		.byte	0
+ 1116 0138 16       		.uleb128 0x16
+ 1117 0139 2E       		.uleb128 0x2e
+ 1118 013a 00       		.byte	0
+ 1119 013b 3F       		.uleb128 0x3f
+ 1120 013c 19       		.uleb128 0x19
+ 1121 013d 3C       		.uleb128 0x3c
+ 1122 013e 19       		.uleb128 0x19
+ 1123 013f 6E       		.uleb128 0x6e
+ 1124 0140 0E       		.uleb128 0xe
+ 1125 0141 03       		.uleb128 0x3
+ 1126 0142 0E       		.uleb128 0xe
+ 1127 0143 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 28
+
+
+ 1128 0144 0B       		.uleb128 0xb
+ 1129 0145 3B       		.uleb128 0x3b
+ 1130 0146 0B       		.uleb128 0xb
+ 1131 0147 00       		.byte	0
+ 1132 0148 00       		.byte	0
+ 1133 0149 00       		.byte	0
+ 1134              		.section	.debug_loc,"",%progbits
+ 1135              	.Ldebug_loc0:
+ 1136              	.LLST0:
+ 1137 0000 0A000000 		.4byte	.LVL13
+ 1138 0004 14000000 		.4byte	.LVL14
+ 1139 0008 0100     		.2byte	0x1
+ 1140 000a 56       		.byte	0x56
+ 1141 000b 18000000 		.4byte	.LVL15
+ 1142 000f A8000000 		.4byte	.LVL22
+ 1143 0013 0100     		.2byte	0x1
+ 1144 0015 56       		.byte	0x56
+ 1145 0016 00000000 		.4byte	0
+ 1146 001a 00000000 		.4byte	0
+ 1147              		.section	.debug_aranges,"",%progbits
+ 1148 0000 3C000000 		.4byte	0x3c
+ 1149 0004 0200     		.2byte	0x2
+ 1150 0006 00000000 		.4byte	.Ldebug_info0
+ 1151 000a 04       		.byte	0x4
+ 1152 000b 00       		.byte	0
+ 1153 000c 0000     		.2byte	0
+ 1154 000e 0000     		.2byte	0
+ 1155 0010 00000000 		.4byte	.LFB0
+ 1156 0014 04000000 		.4byte	.LFE0-.LFB0
+ 1157 0018 00000000 		.4byte	.LFB1
+ 1158 001c 02000000 		.4byte	.LFE1-.LFB1
+ 1159 0020 00000000 		.4byte	.LFB2
+ 1160 0024 1C000000 		.4byte	.LFE2-.LFB2
+ 1161 0028 00000000 		.4byte	.LFB3
+ 1162 002c D4000000 		.4byte	.LFE3-.LFB3
+ 1163 0030 00000000 		.4byte	.LFB4
+ 1164 0034 D4000000 		.4byte	.LFE4-.LFB4
+ 1165 0038 00000000 		.4byte	0
+ 1166 003c 00000000 		.4byte	0
+ 1167              		.section	.debug_ranges,"",%progbits
+ 1168              	.Ldebug_ranges0:
+ 1169 0000 90000000 		.4byte	.LBB4
+ 1170 0004 92000000 		.4byte	.LBE4
+ 1171 0008 94000000 		.4byte	.LBB7
+ 1172 000c A2000000 		.4byte	.LBE7
+ 1173 0010 00000000 		.4byte	0
+ 1174 0014 00000000 		.4byte	0
+ 1175 0018 00000000 		.4byte	.LFB0
+ 1176 001c 04000000 		.4byte	.LFE0
+ 1177 0020 00000000 		.4byte	.LFB1
+ 1178 0024 02000000 		.4byte	.LFE1
+ 1179 0028 00000000 		.4byte	.LFB2
+ 1180 002c 1C000000 		.4byte	.LFE2
+ 1181 0030 00000000 		.4byte	.LFB3
+ 1182 0034 D4000000 		.4byte	.LFE3
+ 1183 0038 00000000 		.4byte	.LFB4
+ 1184 003c D4000000 		.4byte	.LFE4
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 29
+
+
+ 1185 0040 00000000 		.4byte	0
+ 1186 0044 00000000 		.4byte	0
+ 1187              		.section	.debug_line,"",%progbits
+ 1188              	.Ldebug_line0:
+ 1189 0000 74010000 		.section	.debug_str,"MS",%progbits,1
+ 1189      02008800 
+ 1189      00000201 
+ 1189      FB0E0D00 
+ 1189      01010101 
+ 1190              	.LASF36:
+ 1191 0000 55534255 		.ascii	"USBUART_1_RestoreConfig\000"
+ 1191      4152545F 
+ 1191      315F5265 
+ 1191      73746F72 
+ 1191      65436F6E 
+ 1192              	.LASF32:
+ 1193 0018 43794465 		.ascii	"CyDelayCycles\000"
+ 1193      6C617943 
+ 1193      79636C65 
+ 1193      7300
+ 1194              	.LASF15:
+ 1195 0026 72656733 		.ascii	"reg32\000"
+ 1195      3200
+ 1196              	.LASF33:
+ 1197 002c 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1197      43313120 
+ 1197      352E342E 
+ 1197      31203230 
+ 1197      31363036 
+ 1198 005f 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1198      20726576 
+ 1198      6973696F 
+ 1198      6E203233 
+ 1198      37373135 
+ 1199 0092 33202D66 		.ascii	"3 -ffunction-sections -ffat-lto-objects\000"
+ 1199      66756E63 
+ 1199      74696F6E 
+ 1199      2D736563 
+ 1199      74696F6E 
+ 1200              	.LASF37:
+ 1201 00ba 55534255 		.ascii	"USBUART_1_SaveConfig\000"
+ 1201      4152545F 
+ 1201      315F5361 
+ 1201      7665436F 
+ 1201      6E666967 
+ 1202              	.LASF22:
+ 1203 00cf 55534255 		.ascii	"USBUART_1_Suspend\000"
+ 1203      4152545F 
+ 1203      315F5375 
+ 1203      7370656E 
+ 1203      6400
+ 1204              	.LASF3:
+ 1205 00e1 73686F72 		.ascii	"short unsigned int\000"
+ 1205      7420756E 
+ 1205      7369676E 
+ 1205      65642069 
+ 1205      6E7400
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 30
+
+
+ 1206              	.LASF26:
+ 1207 00f4 55534255 		.ascii	"USBUART_1_Dp_ClearInterrupt\000"
+ 1207      4152545F 
+ 1207      315F4470 
+ 1207      5F436C65 
+ 1207      6172496E 
+ 1208              	.LASF34:
+ 1209 0110 47656E65 		.ascii	"Generated_Source\\PSoC5\\USBUART_1_pm.c\000"
+ 1209      72617465 
+ 1209      645F536F 
+ 1209      75726365 
+ 1209      5C50536F 
+ 1210              	.LASF11:
+ 1211 0136 666C6F61 		.ascii	"float\000"
+ 1211      7400
+ 1212              	.LASF7:
+ 1213 013c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1213      206C6F6E 
+ 1213      6720756E 
+ 1213      7369676E 
+ 1213      65642069 
+ 1214              	.LASF1:
+ 1215 0153 756E7369 		.ascii	"unsigned char\000"
+ 1215      676E6564 
+ 1215      20636861 
+ 1215      7200
+ 1216              	.LASF14:
+ 1217 0161 72656738 		.ascii	"reg8\000"
+ 1217      00
+ 1218              	.LASF5:
+ 1219 0166 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1219      20756E73 
+ 1219      69676E65 
+ 1219      6420696E 
+ 1219      7400
+ 1220              	.LASF9:
+ 1221 0178 75696E74 		.ascii	"uint8\000"
+ 1221      3800
+ 1222              	.LASF25:
+ 1223 017e 55534255 		.ascii	"USBUART_1_backup\000"
+ 1223      4152545F 
+ 1223      315F6261 
+ 1223      636B7570 
+ 1223      00
+ 1224              	.LASF24:
+ 1225 018f 656E6162 		.ascii	"enableInterrupts\000"
+ 1225      6C65496E 
+ 1225      74657272 
+ 1225      75707473 
+ 1225      00
+ 1226              	.LASF27:
+ 1227 01a0 55534255 		.ascii	"USBUART_1_ConfigReg\000"
+ 1227      4152545F 
+ 1227      315F436F 
+ 1227      6E666967 
+ 1227      52656700 
+ 1228              	.LASF12:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 31
+
+
+ 1229 01b4 646F7562 		.ascii	"double\000"
+ 1229      6C6500
+ 1230              	.LASF28:
+ 1231 01bb 55534255 		.ascii	"USBUART_1_EpStateInit\000"
+ 1231      4152545F 
+ 1231      315F4570 
+ 1231      53746174 
+ 1231      65496E69 
+ 1232              	.LASF31:
+ 1233 01d1 43794465 		.ascii	"CyDelayUs\000"
+ 1233      6C617955 
+ 1233      7300
+ 1234              	.LASF38:
+ 1235 01db 55534255 		.ascii	"USBUART_1_configuration\000"
+ 1235      4152545F 
+ 1235      315F636F 
+ 1235      6E666967 
+ 1235      75726174 
+ 1236              	.LASF10:
+ 1237 01f3 75696E74 		.ascii	"uint32\000"
+ 1237      333200
+ 1238              	.LASF18:
+ 1239 01fa 656E6162 		.ascii	"enableState\000"
+ 1239      6C655374 
+ 1239      61746500 
+ 1240              	.LASF29:
+ 1241 0206 4379456E 		.ascii	"CyEnterCriticalSection\000"
+ 1241      74657243 
+ 1241      72697469 
+ 1241      63616C53 
+ 1241      65637469 
+ 1242              	.LASF8:
+ 1243 021d 756E7369 		.ascii	"unsigned int\000"
+ 1243      676E6564 
+ 1243      20696E74 
+ 1243      00
+ 1244              	.LASF30:
+ 1245 022a 43794578 		.ascii	"CyExitCriticalSection\000"
+ 1245      69744372 
+ 1245      69746963 
+ 1245      616C5365 
+ 1245      6374696F 
+ 1246              	.LASF19:
+ 1247 0240 6D6F6465 		.ascii	"mode\000"
+ 1247      00
+ 1248              	.LASF17:
+ 1249 0245 73697A65 		.ascii	"sizetype\000"
+ 1249      74797065 
+ 1249      00
+ 1250              	.LASF6:
+ 1251 024e 6C6F6E67 		.ascii	"long long int\000"
+ 1251      206C6F6E 
+ 1251      6720696E 
+ 1251      7400
+ 1252              	.LASF13:
+ 1253 025c 63686172 		.ascii	"char\000"
+ 1253      00
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cctDgUSj.s 			page 32
+
+
+ 1254              	.LASF2:
+ 1255 0261 73686F72 		.ascii	"short int\000"
+ 1255      7420696E 
+ 1255      7400
+ 1256              	.LASF20:
+ 1257 026b 55534255 		.ascii	"USBUART_1_BACKUP_STRUCT\000"
+ 1257      4152545F 
+ 1257      315F4241 
+ 1257      434B5550 
+ 1257      5F535452 
+ 1258              	.LASF4:
+ 1259 0283 6C6F6E67 		.ascii	"long int\000"
+ 1259      20696E74 
+ 1259      00
+ 1260              	.LASF23:
+ 1261 028c 55534255 		.ascii	"USBUART_1_Resume\000"
+ 1261      4152545F 
+ 1261      315F5265 
+ 1261      73756D65 
+ 1261      00
+ 1262              	.LASF16:
+ 1263 029d 6C6F6E67 		.ascii	"long double\000"
+ 1263      20646F75 
+ 1263      626C6500 
+ 1264              	.LASF0:
+ 1265 02a9 7369676E 		.ascii	"signed char\000"
+ 1265      65642063 
+ 1265      68617200 
+ 1266              	.LASF21:
+ 1267 02b5 55534255 		.ascii	"USBUART_1_DP_ISR\000"
+ 1267      4152545F 
+ 1267      315F4450 
+ 1267      5F495352 
+ 1267      00
+ 1268              	.LASF35:
+ 1269 02c6 433A5C55 		.ascii	"C:\\Users\\jon\\Sync\\Research\\PSoC Projects\\Cont"
+ 1269      73657273 
+ 1269      5C6A6F6E 
+ 1269      5C53796E 
+ 1269      635C5265 
+ 1270 02f3 726F6C6C 		.ascii	"roller.cydsn\000"
+ 1270      65722E63 
+ 1270      7964736E 
+ 1270      00
+ 1271              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

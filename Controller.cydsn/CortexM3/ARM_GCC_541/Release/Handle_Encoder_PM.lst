@@ -1,0 +1,1026 @@
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Handle_Encoder_PM.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.Handle_Encoder_SaveConfig,"ax",%progbits
+  20              		.align	2
+  21              		.global	Handle_Encoder_SaveConfig
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	Handle_Encoder_SaveConfig, %function
+  25              	Handle_Encoder_SaveConfig:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\Handle_Encoder_PM.c"
+   1:Generated_Source\PSoC5/Handle_Encoder_PM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * File Name: Handle_Encoder_PM.c
+   3:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Version 3.0
+   4:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+   5:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Description:
+   6:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  This file contains the setup, control and status commands to support 
+   7:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  component operations in low power mode.  
+   8:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+   9:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Note:
+  10:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  None.
+  11:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+  12:Generated_Source\PSoC5/Handle_Encoder_PM.c **** ********************************************************************************
+  13:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  14:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  15:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  16:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * the software package with which this file was provided.
+  17:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *******************************************************************************/
+  18:Generated_Source\PSoC5/Handle_Encoder_PM.c **** 
+  19:Generated_Source\PSoC5/Handle_Encoder_PM.c **** #include "Handle_Encoder.h"
+  20:Generated_Source\PSoC5/Handle_Encoder_PM.c **** 
+  21:Generated_Source\PSoC5/Handle_Encoder_PM.c **** static Handle_Encoder_BACKUP_STRUCT Handle_Encoder_backup = {0u};
+  22:Generated_Source\PSoC5/Handle_Encoder_PM.c **** 
+  23:Generated_Source\PSoC5/Handle_Encoder_PM.c **** 
+  24:Generated_Source\PSoC5/Handle_Encoder_PM.c **** /*******************************************************************************
+  25:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Function Name: Handle_Encoder_SaveConfig
+  26:Generated_Source\PSoC5/Handle_Encoder_PM.c **** ********************************************************************************
+  27:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Summary:
+  28:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  Saves the current user configuration of the component.
+  29:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+  30:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Parameters:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 2
+
+
+  31:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  None.
+  32:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+  33:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Return:
+  34:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  None.
+  35:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+  36:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *******************************************************************************/
+  37:Generated_Source\PSoC5/Handle_Encoder_PM.c **** void Handle_Encoder_SaveConfig(void) 
+  38:Generated_Source\PSoC5/Handle_Encoder_PM.c **** {
+  28              		.loc 1 38 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  39:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT)
+  40:Generated_Source\PSoC5/Handle_Encoder_PM.c ****         Handle_Encoder_Cnt8_SaveConfig();
+  41:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     #else 
+  42:Generated_Source\PSoC5/Handle_Encoder_PM.c ****         /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_16_BIT) || 
+  43:Generated_Source\PSoC5/Handle_Encoder_PM.c ****          * (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT)
+  44:Generated_Source\PSoC5/Handle_Encoder_PM.c ****          */
+  45:Generated_Source\PSoC5/Handle_Encoder_PM.c ****         Handle_Encoder_Cnt16_SaveConfig();
+  33              		.loc 1 45 0
+  34 0000 FFF7FEBF 		b	Handle_Encoder_Cnt16_SaveConfig
+  35              	.LVL0:
+  36              		.cfi_endproc
+  37              	.LFE0:
+  38              		.size	Handle_Encoder_SaveConfig, .-Handle_Encoder_SaveConfig
+  39              		.section	.text.Handle_Encoder_RestoreConfig,"ax",%progbits
+  40              		.align	2
+  41              		.global	Handle_Encoder_RestoreConfig
+  42              		.thumb
+  43              		.thumb_func
+  44              		.type	Handle_Encoder_RestoreConfig, %function
+  45              	Handle_Encoder_RestoreConfig:
+  46              	.LFB1:
+  46:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     #endif /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT) */
+  47:Generated_Source\PSoC5/Handle_Encoder_PM.c **** }
+  48:Generated_Source\PSoC5/Handle_Encoder_PM.c **** 
+  49:Generated_Source\PSoC5/Handle_Encoder_PM.c **** 
+  50:Generated_Source\PSoC5/Handle_Encoder_PM.c **** /*******************************************************************************
+  51:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Function Name: Handle_Encoder_RestoreConfig
+  52:Generated_Source\PSoC5/Handle_Encoder_PM.c **** ********************************************************************************
+  53:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Summary:
+  54:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  Restores the current user configuration of the component.
+  55:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+  56:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Parameters:
+  57:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  None.
+  58:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+  59:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Return:
+  60:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  None.
+  61:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+  62:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *******************************************************************************/
+  63:Generated_Source\PSoC5/Handle_Encoder_PM.c **** void Handle_Encoder_RestoreConfig(void) 
+  64:Generated_Source\PSoC5/Handle_Encoder_PM.c **** {
+  47              		.loc 1 64 0
+  48              		.cfi_startproc
+  49              		@ args = 0, pretend = 0, frame = 0
+  50              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 3
+
+
+  51              		@ link register save eliminated.
+  65:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT)
+  66:Generated_Source\PSoC5/Handle_Encoder_PM.c ****         Handle_Encoder_Cnt8_RestoreConfig();
+  67:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     #else 
+  68:Generated_Source\PSoC5/Handle_Encoder_PM.c ****         /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_16_BIT) || 
+  69:Generated_Source\PSoC5/Handle_Encoder_PM.c ****          * (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT) 
+  70:Generated_Source\PSoC5/Handle_Encoder_PM.c ****          */
+  71:Generated_Source\PSoC5/Handle_Encoder_PM.c ****         Handle_Encoder_Cnt16_RestoreConfig();
+  52              		.loc 1 71 0
+  53 0000 FFF7FEBF 		b	Handle_Encoder_Cnt16_RestoreConfig
+  54              	.LVL1:
+  55              		.cfi_endproc
+  56              	.LFE1:
+  57              		.size	Handle_Encoder_RestoreConfig, .-Handle_Encoder_RestoreConfig
+  58              		.section	.text.Handle_Encoder_Sleep,"ax",%progbits
+  59              		.align	2
+  60              		.global	Handle_Encoder_Sleep
+  61              		.thumb
+  62              		.thumb_func
+  63              		.type	Handle_Encoder_Sleep, %function
+  64              	Handle_Encoder_Sleep:
+  65              	.LFB2:
+  72:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     #endif /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT) */
+  73:Generated_Source\PSoC5/Handle_Encoder_PM.c **** }
+  74:Generated_Source\PSoC5/Handle_Encoder_PM.c **** 
+  75:Generated_Source\PSoC5/Handle_Encoder_PM.c **** 
+  76:Generated_Source\PSoC5/Handle_Encoder_PM.c **** /*******************************************************************************
+  77:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Function Name: Handle_Encoder_Sleep
+  78:Generated_Source\PSoC5/Handle_Encoder_PM.c **** ********************************************************************************
+  79:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * 
+  80:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Summary:
+  81:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  Prepare Quadrature Decoder Component goes to sleep.
+  82:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+  83:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Parameters:
+  84:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  None.
+  85:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+  86:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Return:
+  87:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  None.
+  88:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+  89:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Global Variables:
+  90:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  Handle_Encoder_backup - modified when non-retention registers are saved.
+  91:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+  92:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Reentrant:
+  93:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  No.
+  94:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+  95:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *******************************************************************************/
+  96:Generated_Source\PSoC5/Handle_Encoder_PM.c **** void Handle_Encoder_Sleep(void) 
+  97:Generated_Source\PSoC5/Handle_Encoder_PM.c **** {
+  66              		.loc 1 97 0
+  67              		.cfi_startproc
+  68              		@ args = 0, pretend = 0, frame = 0
+  69              		@ frame_needed = 0, uses_anonymous_args = 0
+  70 0000 08B5     		push	{r3, lr}
+  71              		.cfi_def_cfa_offset 8
+  72              		.cfi_offset 3, -8
+  73              		.cfi_offset 14, -4
+  98:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     if (0u != (Handle_Encoder_SR_AUX_CONTROL & Handle_Encoder_INTERRUPTS_ENABLE))
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 4
+
+
+  74              		.loc 1 98 0
+  75 0002 064B     		ldr	r3, .L5
+  76 0004 064A     		ldr	r2, .L5+4
+  77 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  78 0008 C3F30013 		ubfx	r3, r3, #4, #1
+  79 000c 1370     		strb	r3, [r2]
+  99:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     {
+ 100:Generated_Source\PSoC5/Handle_Encoder_PM.c ****         Handle_Encoder_backup.enableState = 1u;
+ 101:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     }
+ 102:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     else /* The Quadrature Decoder Component is disabled */
+ 103:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     {
+ 104:Generated_Source\PSoC5/Handle_Encoder_PM.c ****         Handle_Encoder_backup.enableState = 0u;
+ 105:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     }
+ 106:Generated_Source\PSoC5/Handle_Encoder_PM.c **** 
+ 107:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     Handle_Encoder_Stop();
+  80              		.loc 1 107 0
+  81 000e FFF7FEFF 		bl	Handle_Encoder_Stop
+  82              	.LVL2:
+ 108:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     Handle_Encoder_SaveConfig();
+ 109:Generated_Source\PSoC5/Handle_Encoder_PM.c **** }
+  83              		.loc 1 109 0
+  84 0012 BDE80840 		pop	{r3, lr}
+  85              		.cfi_restore 14
+  86              		.cfi_restore 3
+  87              		.cfi_def_cfa_offset 0
+  88              	.LBB6:
+  89              	.LBB7:
+  45:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     #endif /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT) */
+  90              		.loc 1 45 0
+  91 0016 FFF7FEBF 		b	Handle_Encoder_Cnt16_SaveConfig
+  92              	.LVL3:
+  93              	.L6:
+  94 001a 00BF     		.align	2
+  95              	.L5:
+  96 001c 95640040 		.word	1073767573
+  97 0020 00000000 		.word	.LANCHOR0
+  98              	.LBE7:
+  99              	.LBE6:
+ 100              		.cfi_endproc
+ 101              	.LFE2:
+ 102              		.size	Handle_Encoder_Sleep, .-Handle_Encoder_Sleep
+ 103              		.section	.text.Handle_Encoder_Wakeup,"ax",%progbits
+ 104              		.align	2
+ 105              		.global	Handle_Encoder_Wakeup
+ 106              		.thumb
+ 107              		.thumb_func
+ 108              		.type	Handle_Encoder_Wakeup, %function
+ 109              	Handle_Encoder_Wakeup:
+ 110              	.LFB3:
+ 110:Generated_Source\PSoC5/Handle_Encoder_PM.c **** 
+ 111:Generated_Source\PSoC5/Handle_Encoder_PM.c **** 
+ 112:Generated_Source\PSoC5/Handle_Encoder_PM.c **** /*******************************************************************************
+ 113:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Function Name: Handle_Encoder_Wakeup
+ 114:Generated_Source\PSoC5/Handle_Encoder_PM.c **** ********************************************************************************
+ 115:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+ 116:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Summary:
+ 117:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  Prepare Quadrature Decoder Component to wake up.
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 5
+
+
+ 118:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+ 119:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Parameters:
+ 120:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  None.
+ 121:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+ 122:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Return:
+ 123:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  None.
+ 124:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+ 125:Generated_Source\PSoC5/Handle_Encoder_PM.c **** * Global Variables:
+ 126:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *  Handle_Encoder_backup - used when non-retention registers are restored.
+ 127:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *
+ 128:Generated_Source\PSoC5/Handle_Encoder_PM.c **** *******************************************************************************/
+ 129:Generated_Source\PSoC5/Handle_Encoder_PM.c **** void Handle_Encoder_Wakeup(void) 
+ 130:Generated_Source\PSoC5/Handle_Encoder_PM.c **** {
+ 111              		.loc 1 130 0
+ 112              		.cfi_startproc
+ 113              		@ args = 0, pretend = 0, frame = 0
+ 114              		@ frame_needed = 0, uses_anonymous_args = 0
+ 115 0000 08B5     		push	{r3, lr}
+ 116              		.cfi_def_cfa_offset 8
+ 117              		.cfi_offset 3, -8
+ 118              		.cfi_offset 14, -4
+ 119              	.LBB8:
+ 120              	.LBB9:
+  71:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     #endif /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT) */
+ 121              		.loc 1 71 0
+ 122 0002 FFF7FEFF 		bl	Handle_Encoder_Cnt16_RestoreConfig
+ 123              	.LVL4:
+ 124              	.LBE9:
+ 125              	.LBE8:
+ 131:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     Handle_Encoder_RestoreConfig();
+ 132:Generated_Source\PSoC5/Handle_Encoder_PM.c **** 
+ 133:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     if (Handle_Encoder_backup.enableState != 0u)
+ 126              		.loc 1 133 0
+ 127 0006 054B     		ldr	r3, .L12
+ 128 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 129 000a 03B9     		cbnz	r3, .L11
+ 130 000c 08BD     		pop	{r3, pc}
+ 131              	.L11:
+ 134:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     {
+ 135:Generated_Source\PSoC5/Handle_Encoder_PM.c ****         #if (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT)
+ 136:Generated_Source\PSoC5/Handle_Encoder_PM.c ****             Handle_Encoder_Cnt8_Enable();
+ 137:Generated_Source\PSoC5/Handle_Encoder_PM.c ****         #else 
+ 138:Generated_Source\PSoC5/Handle_Encoder_PM.c ****             /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_16_BIT) || 
+ 139:Generated_Source\PSoC5/Handle_Encoder_PM.c ****             *  (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_32_BIT) 
+ 140:Generated_Source\PSoC5/Handle_Encoder_PM.c ****             */
+ 141:Generated_Source\PSoC5/Handle_Encoder_PM.c ****             Handle_Encoder_Cnt16_Enable();
+ 132              		.loc 1 141 0
+ 133 000e FFF7FEFF 		bl	Handle_Encoder_Cnt16_Enable
+ 134              	.LVL5:
+ 142:Generated_Source\PSoC5/Handle_Encoder_PM.c ****         #endif /* (Handle_Encoder_COUNTER_SIZE == Handle_Encoder_COUNTER_SIZE_8_BIT) */
+ 143:Generated_Source\PSoC5/Handle_Encoder_PM.c **** 
+ 144:Generated_Source\PSoC5/Handle_Encoder_PM.c ****         /* Enable component's operation */
+ 145:Generated_Source\PSoC5/Handle_Encoder_PM.c ****         Handle_Encoder_Enable();
+ 146:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     } /* Do nothing if component's block was disabled before */
+ 147:Generated_Source\PSoC5/Handle_Encoder_PM.c **** }
+ 135              		.loc 1 147 0
+ 136 0012 BDE80840 		pop	{r3, lr}
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 6
+
+
+ 137              		.cfi_restore 14
+ 138              		.cfi_restore 3
+ 139              		.cfi_def_cfa_offset 0
+ 145:Generated_Source\PSoC5/Handle_Encoder_PM.c ****     } /* Do nothing if component's block was disabled before */
+ 140              		.loc 1 145 0
+ 141 0016 FFF7FEBF 		b	Handle_Encoder_Enable
+ 142              	.LVL6:
+ 143              	.L13:
+ 144 001a 00BF     		.align	2
+ 145              	.L12:
+ 146 001c 00000000 		.word	.LANCHOR0
+ 147              		.cfi_endproc
+ 148              	.LFE3:
+ 149              		.size	Handle_Encoder_Wakeup, .-Handle_Encoder_Wakeup
+ 150              		.bss
+ 151              		.align	2
+ 152              		.set	.LANCHOR0,. + 0
+ 153              		.type	Handle_Encoder_backup, %object
+ 154              		.size	Handle_Encoder_backup, 1
+ 155              	Handle_Encoder_backup:
+ 156 0000 00       		.space	1
+ 157              		.text
+ 158              	.Letext0:
+ 159              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 160              		.file 3 "Generated_Source\\PSoC5\\Handle_Encoder.h"
+ 161              		.file 4 "Generated_Source\\PSoC5\\Handle_Encoder_Cnt16.h"
+ 162              		.section	.debug_info,"",%progbits
+ 163              	.Ldebug_info0:
+ 164 0000 DB010000 		.4byte	0x1db
+ 165 0004 0400     		.2byte	0x4
+ 166 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 167 000a 04       		.byte	0x4
+ 168 000b 01       		.uleb128 0x1
+ 169 000c 00000000 		.4byte	.LASF26
+ 170 0010 0C       		.byte	0xc
+ 171 0011 CB000000 		.4byte	.LASF27
+ 172 0015 7C020000 		.4byte	.LASF28
+ 173 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 174 001d 00000000 		.4byte	0
+ 175 0021 00000000 		.4byte	.Ldebug_line0
+ 176 0025 02       		.uleb128 0x2
+ 177 0026 04       		.byte	0x4
+ 178 0027 05       		.byte	0x5
+ 179 0028 696E7400 		.ascii	"int\000"
+ 180 002c 03       		.uleb128 0x3
+ 181 002d 04       		.byte	0x4
+ 182 002e 07       		.byte	0x7
+ 183 002f 9C010000 		.4byte	.LASF0
+ 184 0033 03       		.uleb128 0x3
+ 185 0034 08       		.byte	0x8
+ 186 0035 05       		.byte	0x5
+ 187 0036 DF010000 		.4byte	.LASF1
+ 188 003a 03       		.uleb128 0x3
+ 189 003b 08       		.byte	0x8
+ 190 003c 04       		.byte	0x4
+ 191 003d 64020000 		.4byte	.LASF2
+ 192 0041 03       		.uleb128 0x3
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 7
+
+
+ 193 0042 01       		.byte	0x1
+ 194 0043 06       		.byte	0x6
+ 195 0044 70020000 		.4byte	.LASF3
+ 196 0048 03       		.uleb128 0x3
+ 197 0049 01       		.byte	0x1
+ 198 004a 08       		.byte	0x8
+ 199 004b FC000000 		.4byte	.LASF4
+ 200 004f 03       		.uleb128 0x3
+ 201 0050 02       		.byte	0x2
+ 202 0051 05       		.byte	0x5
+ 203 0052 F2010000 		.4byte	.LASF5
+ 204 0056 03       		.uleb128 0x3
+ 205 0057 02       		.byte	0x2
+ 206 0058 07       		.byte	0x7
+ 207 0059 8E000000 		.4byte	.LASF6
+ 208 005d 03       		.uleb128 0x3
+ 209 005e 04       		.byte	0x4
+ 210 005f 05       		.byte	0x5
+ 211 0060 3F020000 		.4byte	.LASF7
+ 212 0064 03       		.uleb128 0x3
+ 213 0065 04       		.byte	0x4
+ 214 0066 07       		.byte	0x7
+ 215 0067 0F010000 		.4byte	.LASF8
+ 216 006b 03       		.uleb128 0x3
+ 217 006c 08       		.byte	0x8
+ 218 006d 07       		.byte	0x7
+ 219 006e A9010000 		.4byte	.LASF9
+ 220 0072 03       		.uleb128 0x3
+ 221 0073 04       		.byte	0x4
+ 222 0074 07       		.byte	0x7
+ 223 0075 D6010000 		.4byte	.LASF10
+ 224 0079 03       		.uleb128 0x3
+ 225 007a 01       		.byte	0x1
+ 226 007b 08       		.byte	0x8
+ 227 007c ED010000 		.4byte	.LASF11
+ 228 0080 04       		.uleb128 0x4
+ 229 0081 19020000 		.4byte	.LASF14
+ 230 0085 02       		.byte	0x2
+ 231 0086 E401     		.2byte	0x1e4
+ 232 0088 48000000 		.4byte	0x48
+ 233 008c 03       		.uleb128 0x3
+ 234 008d 04       		.byte	0x4
+ 235 008e 04       		.byte	0x4
+ 236 008f F6000000 		.4byte	.LASF12
+ 237 0093 03       		.uleb128 0x3
+ 238 0094 08       		.byte	0x8
+ 239 0095 04       		.byte	0x4
+ 240 0096 59010000 		.4byte	.LASF13
+ 241 009a 04       		.uleb128 0x4
+ 242 009b 0A010000 		.4byte	.LASF15
+ 243 009f 02       		.byte	0x2
+ 244 00a0 8E02     		.2byte	0x28e
+ 245 00a2 A6000000 		.4byte	0xa6
+ 246 00a6 05       		.uleb128 0x5
+ 247 00a7 80000000 		.4byte	0x80
+ 248 00ab 06       		.uleb128 0x6
+ 249 00ac 01       		.byte	0x1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 8
+
+
+ 250 00ad 03       		.byte	0x3
+ 251 00ae 3D       		.byte	0x3d
+ 252 00af C0000000 		.4byte	0xc0
+ 253 00b3 07       		.uleb128 0x7
+ 254 00b4 76010000 		.4byte	.LASF29
+ 255 00b8 03       		.byte	0x3
+ 256 00b9 3F       		.byte	0x3f
+ 257 00ba 80000000 		.4byte	0x80
+ 258 00be 00       		.byte	0
+ 259 00bf 00       		.byte	0
+ 260 00c0 08       		.uleb128 0x8
+ 261 00c1 FC010000 		.4byte	.LASF16
+ 262 00c5 03       		.byte	0x3
+ 263 00c6 40       		.byte	0x40
+ 264 00c7 AB000000 		.4byte	0xab
+ 265 00cb 09       		.uleb128 0x9
+ 266 00cc 82010000 		.4byte	.LASF17
+ 267 00d0 01       		.byte	0x1
+ 268 00d1 25       		.byte	0x25
+ 269 00d2 01       		.byte	0x1
+ 270 00d3 09       		.uleb128 0x9
+ 271 00d4 B6020000 		.4byte	.LASF18
+ 272 00d8 01       		.byte	0x1
+ 273 00d9 3F       		.byte	0x3f
+ 274 00da 01       		.byte	0x1
+ 275 00db 0A       		.uleb128 0xa
+ 276 00dc CB000000 		.4byte	0xcb
+ 277 00e0 00000000 		.4byte	.LFB0
+ 278 00e4 04000000 		.4byte	.LFE0-.LFB0
+ 279 00e8 01       		.uleb128 0x1
+ 280 00e9 9C       		.byte	0x9c
+ 281 00ea F8000000 		.4byte	0xf8
+ 282 00ee 0B       		.uleb128 0xb
+ 283 00ef 04000000 		.4byte	.LVL0
+ 284 00f3 A7010000 		.4byte	0x1a7
+ 285 00f7 00       		.byte	0
+ 286 00f8 0A       		.uleb128 0xa
+ 287 00f9 D3000000 		.4byte	0xd3
+ 288 00fd 00000000 		.4byte	.LFB1
+ 289 0101 04000000 		.4byte	.LFE1-.LFB1
+ 290 0105 01       		.uleb128 0x1
+ 291 0106 9C       		.byte	0x9c
+ 292 0107 15010000 		.4byte	0x115
+ 293 010b 0B       		.uleb128 0xb
+ 294 010c 04000000 		.4byte	.LVL1
+ 295 0110 B2010000 		.4byte	0x1b2
+ 296 0114 00       		.byte	0
+ 297 0115 0C       		.uleb128 0xc
+ 298 0116 44010000 		.4byte	.LASF19
+ 299 011a 01       		.byte	0x1
+ 300 011b 60       		.byte	0x60
+ 301 011c 00000000 		.4byte	.LFB2
+ 302 0120 24000000 		.4byte	.LFE2-.LFB2
+ 303 0124 01       		.uleb128 0x1
+ 304 0125 9C       		.byte	0x9c
+ 305 0126 51010000 		.4byte	0x151
+ 306 012a 0D       		.uleb128 0xd
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 9
+
+
+ 307 012b CB000000 		.4byte	0xcb
+ 308 012f 16000000 		.4byte	.LBB6
+ 309 0133 0E000000 		.4byte	.LBE6-.LBB6
+ 310 0137 01       		.byte	0x1
+ 311 0138 6C       		.byte	0x6c
+ 312 0139 47010000 		.4byte	0x147
+ 313 013d 0B       		.uleb128 0xb
+ 314 013e 1A000000 		.4byte	.LVL3
+ 315 0142 A7010000 		.4byte	0x1a7
+ 316 0146 00       		.byte	0
+ 317 0147 0E       		.uleb128 0xe
+ 318 0148 12000000 		.4byte	.LVL2
+ 319 014c BD010000 		.4byte	0x1bd
+ 320 0150 00       		.byte	0
+ 321 0151 0C       		.uleb128 0xc
+ 322 0152 C0010000 		.4byte	.LASF20
+ 323 0156 01       		.byte	0x1
+ 324 0157 81       		.byte	0x81
+ 325 0158 00000000 		.4byte	.LFB3
+ 326 015c 20000000 		.4byte	.LFE3-.LFB3
+ 327 0160 01       		.uleb128 0x1
+ 328 0161 9C       		.byte	0x9c
+ 329 0162 96010000 		.4byte	0x196
+ 330 0166 0D       		.uleb128 0xd
+ 331 0167 D3000000 		.4byte	0xd3
+ 332 016b 02000000 		.4byte	.LBB8
+ 333 016f 04000000 		.4byte	.LBE8-.LBB8
+ 334 0173 01       		.byte	0x1
+ 335 0174 83       		.byte	0x83
+ 336 0175 83010000 		.4byte	0x183
+ 337 0179 0E       		.uleb128 0xe
+ 338 017a 06000000 		.4byte	.LVL4
+ 339 017e B2010000 		.4byte	0x1b2
+ 340 0182 00       		.byte	0
+ 341 0183 0E       		.uleb128 0xe
+ 342 0184 12000000 		.4byte	.LVL5
+ 343 0188 C8010000 		.4byte	0x1c8
+ 344 018c 0B       		.uleb128 0xb
+ 345 018d 1A000000 		.4byte	.LVL6
+ 346 0191 D3010000 		.4byte	0x1d3
+ 347 0195 00       		.byte	0
+ 348 0196 0F       		.uleb128 0xf
+ 349 0197 60010000 		.4byte	.LASF30
+ 350 019b 01       		.byte	0x1
+ 351 019c 15       		.byte	0x15
+ 352 019d C0000000 		.4byte	0xc0
+ 353 01a1 05       		.uleb128 0x5
+ 354 01a2 03       		.byte	0x3
+ 355 01a3 00000000 		.4byte	Handle_Encoder_backup
+ 356 01a7 10       		.uleb128 0x10
+ 357 01a8 1F020000 		.4byte	.LASF21
+ 358 01ac 1F020000 		.4byte	.LASF21
+ 359 01b0 04       		.byte	0x4
+ 360 01b1 72       		.byte	0x72
+ 361 01b2 10       		.uleb128 0x10
+ 362 01b3 21010000 		.4byte	.LASF22
+ 363 01b7 21010000 		.4byte	.LASF22
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 10
+
+
+ 364 01bb 04       		.byte	0x4
+ 365 01bc 73       		.byte	0x73
+ 366 01bd 10       		.uleb128 0x10
+ 367 01be B7000000 		.4byte	.LASF23
+ 368 01c2 B7000000 		.4byte	.LASF23
+ 369 01c6 03       		.byte	0x3
+ 370 01c7 49       		.byte	0x49
+ 371 01c8 10       		.uleb128 0x10
+ 372 01c9 48020000 		.4byte	.LASF24
+ 373 01cd 48020000 		.4byte	.LASF24
+ 374 01d1 04       		.byte	0x4
+ 375 01d2 71       		.byte	0x71
+ 376 01d3 10       		.uleb128 0x10
+ 377 01d4 A1000000 		.4byte	.LASF25
+ 378 01d8 A1000000 		.4byte	.LASF25
+ 379 01dc 03       		.byte	0x3
+ 380 01dd 4A       		.byte	0x4a
+ 381 01de 00       		.byte	0
+ 382              		.section	.debug_abbrev,"",%progbits
+ 383              	.Ldebug_abbrev0:
+ 384 0000 01       		.uleb128 0x1
+ 385 0001 11       		.uleb128 0x11
+ 386 0002 01       		.byte	0x1
+ 387 0003 25       		.uleb128 0x25
+ 388 0004 0E       		.uleb128 0xe
+ 389 0005 13       		.uleb128 0x13
+ 390 0006 0B       		.uleb128 0xb
+ 391 0007 03       		.uleb128 0x3
+ 392 0008 0E       		.uleb128 0xe
+ 393 0009 1B       		.uleb128 0x1b
+ 394 000a 0E       		.uleb128 0xe
+ 395 000b 55       		.uleb128 0x55
+ 396 000c 17       		.uleb128 0x17
+ 397 000d 11       		.uleb128 0x11
+ 398 000e 01       		.uleb128 0x1
+ 399 000f 10       		.uleb128 0x10
+ 400 0010 17       		.uleb128 0x17
+ 401 0011 00       		.byte	0
+ 402 0012 00       		.byte	0
+ 403 0013 02       		.uleb128 0x2
+ 404 0014 24       		.uleb128 0x24
+ 405 0015 00       		.byte	0
+ 406 0016 0B       		.uleb128 0xb
+ 407 0017 0B       		.uleb128 0xb
+ 408 0018 3E       		.uleb128 0x3e
+ 409 0019 0B       		.uleb128 0xb
+ 410 001a 03       		.uleb128 0x3
+ 411 001b 08       		.uleb128 0x8
+ 412 001c 00       		.byte	0
+ 413 001d 00       		.byte	0
+ 414 001e 03       		.uleb128 0x3
+ 415 001f 24       		.uleb128 0x24
+ 416 0020 00       		.byte	0
+ 417 0021 0B       		.uleb128 0xb
+ 418 0022 0B       		.uleb128 0xb
+ 419 0023 3E       		.uleb128 0x3e
+ 420 0024 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 11
+
+
+ 421 0025 03       		.uleb128 0x3
+ 422 0026 0E       		.uleb128 0xe
+ 423 0027 00       		.byte	0
+ 424 0028 00       		.byte	0
+ 425 0029 04       		.uleb128 0x4
+ 426 002a 16       		.uleb128 0x16
+ 427 002b 00       		.byte	0
+ 428 002c 03       		.uleb128 0x3
+ 429 002d 0E       		.uleb128 0xe
+ 430 002e 3A       		.uleb128 0x3a
+ 431 002f 0B       		.uleb128 0xb
+ 432 0030 3B       		.uleb128 0x3b
+ 433 0031 05       		.uleb128 0x5
+ 434 0032 49       		.uleb128 0x49
+ 435 0033 13       		.uleb128 0x13
+ 436 0034 00       		.byte	0
+ 437 0035 00       		.byte	0
+ 438 0036 05       		.uleb128 0x5
+ 439 0037 35       		.uleb128 0x35
+ 440 0038 00       		.byte	0
+ 441 0039 49       		.uleb128 0x49
+ 442 003a 13       		.uleb128 0x13
+ 443 003b 00       		.byte	0
+ 444 003c 00       		.byte	0
+ 445 003d 06       		.uleb128 0x6
+ 446 003e 13       		.uleb128 0x13
+ 447 003f 01       		.byte	0x1
+ 448 0040 0B       		.uleb128 0xb
+ 449 0041 0B       		.uleb128 0xb
+ 450 0042 3A       		.uleb128 0x3a
+ 451 0043 0B       		.uleb128 0xb
+ 452 0044 3B       		.uleb128 0x3b
+ 453 0045 0B       		.uleb128 0xb
+ 454 0046 01       		.uleb128 0x1
+ 455 0047 13       		.uleb128 0x13
+ 456 0048 00       		.byte	0
+ 457 0049 00       		.byte	0
+ 458 004a 07       		.uleb128 0x7
+ 459 004b 0D       		.uleb128 0xd
+ 460 004c 00       		.byte	0
+ 461 004d 03       		.uleb128 0x3
+ 462 004e 0E       		.uleb128 0xe
+ 463 004f 3A       		.uleb128 0x3a
+ 464 0050 0B       		.uleb128 0xb
+ 465 0051 3B       		.uleb128 0x3b
+ 466 0052 0B       		.uleb128 0xb
+ 467 0053 49       		.uleb128 0x49
+ 468 0054 13       		.uleb128 0x13
+ 469 0055 38       		.uleb128 0x38
+ 470 0056 0B       		.uleb128 0xb
+ 471 0057 00       		.byte	0
+ 472 0058 00       		.byte	0
+ 473 0059 08       		.uleb128 0x8
+ 474 005a 16       		.uleb128 0x16
+ 475 005b 00       		.byte	0
+ 476 005c 03       		.uleb128 0x3
+ 477 005d 0E       		.uleb128 0xe
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 12
+
+
+ 478 005e 3A       		.uleb128 0x3a
+ 479 005f 0B       		.uleb128 0xb
+ 480 0060 3B       		.uleb128 0x3b
+ 481 0061 0B       		.uleb128 0xb
+ 482 0062 49       		.uleb128 0x49
+ 483 0063 13       		.uleb128 0x13
+ 484 0064 00       		.byte	0
+ 485 0065 00       		.byte	0
+ 486 0066 09       		.uleb128 0x9
+ 487 0067 2E       		.uleb128 0x2e
+ 488 0068 00       		.byte	0
+ 489 0069 3F       		.uleb128 0x3f
+ 490 006a 19       		.uleb128 0x19
+ 491 006b 03       		.uleb128 0x3
+ 492 006c 0E       		.uleb128 0xe
+ 493 006d 3A       		.uleb128 0x3a
+ 494 006e 0B       		.uleb128 0xb
+ 495 006f 3B       		.uleb128 0x3b
+ 496 0070 0B       		.uleb128 0xb
+ 497 0071 27       		.uleb128 0x27
+ 498 0072 19       		.uleb128 0x19
+ 499 0073 20       		.uleb128 0x20
+ 500 0074 0B       		.uleb128 0xb
+ 501 0075 00       		.byte	0
+ 502 0076 00       		.byte	0
+ 503 0077 0A       		.uleb128 0xa
+ 504 0078 2E       		.uleb128 0x2e
+ 505 0079 01       		.byte	0x1
+ 506 007a 31       		.uleb128 0x31
+ 507 007b 13       		.uleb128 0x13
+ 508 007c 11       		.uleb128 0x11
+ 509 007d 01       		.uleb128 0x1
+ 510 007e 12       		.uleb128 0x12
+ 511 007f 06       		.uleb128 0x6
+ 512 0080 40       		.uleb128 0x40
+ 513 0081 18       		.uleb128 0x18
+ 514 0082 9742     		.uleb128 0x2117
+ 515 0084 19       		.uleb128 0x19
+ 516 0085 01       		.uleb128 0x1
+ 517 0086 13       		.uleb128 0x13
+ 518 0087 00       		.byte	0
+ 519 0088 00       		.byte	0
+ 520 0089 0B       		.uleb128 0xb
+ 521 008a 898201   		.uleb128 0x4109
+ 522 008d 00       		.byte	0
+ 523 008e 11       		.uleb128 0x11
+ 524 008f 01       		.uleb128 0x1
+ 525 0090 9542     		.uleb128 0x2115
+ 526 0092 19       		.uleb128 0x19
+ 527 0093 31       		.uleb128 0x31
+ 528 0094 13       		.uleb128 0x13
+ 529 0095 00       		.byte	0
+ 530 0096 00       		.byte	0
+ 531 0097 0C       		.uleb128 0xc
+ 532 0098 2E       		.uleb128 0x2e
+ 533 0099 01       		.byte	0x1
+ 534 009a 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 13
+
+
+ 535 009b 19       		.uleb128 0x19
+ 536 009c 03       		.uleb128 0x3
+ 537 009d 0E       		.uleb128 0xe
+ 538 009e 3A       		.uleb128 0x3a
+ 539 009f 0B       		.uleb128 0xb
+ 540 00a0 3B       		.uleb128 0x3b
+ 541 00a1 0B       		.uleb128 0xb
+ 542 00a2 27       		.uleb128 0x27
+ 543 00a3 19       		.uleb128 0x19
+ 544 00a4 11       		.uleb128 0x11
+ 545 00a5 01       		.uleb128 0x1
+ 546 00a6 12       		.uleb128 0x12
+ 547 00a7 06       		.uleb128 0x6
+ 548 00a8 40       		.uleb128 0x40
+ 549 00a9 18       		.uleb128 0x18
+ 550 00aa 9742     		.uleb128 0x2117
+ 551 00ac 19       		.uleb128 0x19
+ 552 00ad 01       		.uleb128 0x1
+ 553 00ae 13       		.uleb128 0x13
+ 554 00af 00       		.byte	0
+ 555 00b0 00       		.byte	0
+ 556 00b1 0D       		.uleb128 0xd
+ 557 00b2 1D       		.uleb128 0x1d
+ 558 00b3 01       		.byte	0x1
+ 559 00b4 31       		.uleb128 0x31
+ 560 00b5 13       		.uleb128 0x13
+ 561 00b6 11       		.uleb128 0x11
+ 562 00b7 01       		.uleb128 0x1
+ 563 00b8 12       		.uleb128 0x12
+ 564 00b9 06       		.uleb128 0x6
+ 565 00ba 58       		.uleb128 0x58
+ 566 00bb 0B       		.uleb128 0xb
+ 567 00bc 59       		.uleb128 0x59
+ 568 00bd 0B       		.uleb128 0xb
+ 569 00be 01       		.uleb128 0x1
+ 570 00bf 13       		.uleb128 0x13
+ 571 00c0 00       		.byte	0
+ 572 00c1 00       		.byte	0
+ 573 00c2 0E       		.uleb128 0xe
+ 574 00c3 898201   		.uleb128 0x4109
+ 575 00c6 00       		.byte	0
+ 576 00c7 11       		.uleb128 0x11
+ 577 00c8 01       		.uleb128 0x1
+ 578 00c9 31       		.uleb128 0x31
+ 579 00ca 13       		.uleb128 0x13
+ 580 00cb 00       		.byte	0
+ 581 00cc 00       		.byte	0
+ 582 00cd 0F       		.uleb128 0xf
+ 583 00ce 34       		.uleb128 0x34
+ 584 00cf 00       		.byte	0
+ 585 00d0 03       		.uleb128 0x3
+ 586 00d1 0E       		.uleb128 0xe
+ 587 00d2 3A       		.uleb128 0x3a
+ 588 00d3 0B       		.uleb128 0xb
+ 589 00d4 3B       		.uleb128 0x3b
+ 590 00d5 0B       		.uleb128 0xb
+ 591 00d6 49       		.uleb128 0x49
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 14
+
+
+ 592 00d7 13       		.uleb128 0x13
+ 593 00d8 02       		.uleb128 0x2
+ 594 00d9 18       		.uleb128 0x18
+ 595 00da 00       		.byte	0
+ 596 00db 00       		.byte	0
+ 597 00dc 10       		.uleb128 0x10
+ 598 00dd 2E       		.uleb128 0x2e
+ 599 00de 00       		.byte	0
+ 600 00df 3F       		.uleb128 0x3f
+ 601 00e0 19       		.uleb128 0x19
+ 602 00e1 3C       		.uleb128 0x3c
+ 603 00e2 19       		.uleb128 0x19
+ 604 00e3 6E       		.uleb128 0x6e
+ 605 00e4 0E       		.uleb128 0xe
+ 606 00e5 03       		.uleb128 0x3
+ 607 00e6 0E       		.uleb128 0xe
+ 608 00e7 3A       		.uleb128 0x3a
+ 609 00e8 0B       		.uleb128 0xb
+ 610 00e9 3B       		.uleb128 0x3b
+ 611 00ea 0B       		.uleb128 0xb
+ 612 00eb 00       		.byte	0
+ 613 00ec 00       		.byte	0
+ 614 00ed 00       		.byte	0
+ 615              		.section	.debug_aranges,"",%progbits
+ 616 0000 34000000 		.4byte	0x34
+ 617 0004 0200     		.2byte	0x2
+ 618 0006 00000000 		.4byte	.Ldebug_info0
+ 619 000a 04       		.byte	0x4
+ 620 000b 00       		.byte	0
+ 621 000c 0000     		.2byte	0
+ 622 000e 0000     		.2byte	0
+ 623 0010 00000000 		.4byte	.LFB0
+ 624 0014 04000000 		.4byte	.LFE0-.LFB0
+ 625 0018 00000000 		.4byte	.LFB1
+ 626 001c 04000000 		.4byte	.LFE1-.LFB1
+ 627 0020 00000000 		.4byte	.LFB2
+ 628 0024 24000000 		.4byte	.LFE2-.LFB2
+ 629 0028 00000000 		.4byte	.LFB3
+ 630 002c 20000000 		.4byte	.LFE3-.LFB3
+ 631 0030 00000000 		.4byte	0
+ 632 0034 00000000 		.4byte	0
+ 633              		.section	.debug_ranges,"",%progbits
+ 634              	.Ldebug_ranges0:
+ 635 0000 00000000 		.4byte	.LFB0
+ 636 0004 04000000 		.4byte	.LFE0
+ 637 0008 00000000 		.4byte	.LFB1
+ 638 000c 04000000 		.4byte	.LFE1
+ 639 0010 00000000 		.4byte	.LFB2
+ 640 0014 24000000 		.4byte	.LFE2
+ 641 0018 00000000 		.4byte	.LFB3
+ 642 001c 20000000 		.4byte	.LFE3
+ 643 0020 00000000 		.4byte	0
+ 644 0024 00000000 		.4byte	0
+ 645              		.section	.debug_line,"",%progbits
+ 646              	.Ldebug_line0:
+ 647 0000 D3000000 		.section	.debug_str,"MS",%progbits,1
+ 647      02007C00 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 15
+
+
+ 647      00000201 
+ 647      FB0E0D00 
+ 647      01010101 
+ 648              	.LASF26:
+ 649 0000 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 649      43313120 
+ 649      352E342E 
+ 649      31203230 
+ 649      31363036 
+ 650 0033 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 650      20726576 
+ 650      6973696F 
+ 650      6E203233 
+ 650      37373135 
+ 651 0066 33202D66 		.ascii	"3 -ffunction-sections -ffat-lto-objects\000"
+ 651      66756E63 
+ 651      74696F6E 
+ 651      2D736563 
+ 651      74696F6E 
+ 652              	.LASF6:
+ 653 008e 73686F72 		.ascii	"short unsigned int\000"
+ 653      7420756E 
+ 653      7369676E 
+ 653      65642069 
+ 653      6E7400
+ 654              	.LASF25:
+ 655 00a1 48616E64 		.ascii	"Handle_Encoder_Enable\000"
+ 655      6C655F45 
+ 655      6E636F64 
+ 655      65725F45 
+ 655      6E61626C 
+ 656              	.LASF23:
+ 657 00b7 48616E64 		.ascii	"Handle_Encoder_Stop\000"
+ 657      6C655F45 
+ 657      6E636F64 
+ 657      65725F53 
+ 657      746F7000 
+ 658              	.LASF27:
+ 659 00cb 47656E65 		.ascii	"Generated_Source\\PSoC5\\Handle_Encoder_PM.c\000"
+ 659      72617465 
+ 659      645F536F 
+ 659      75726365 
+ 659      5C50536F 
+ 660              	.LASF12:
+ 661 00f6 666C6F61 		.ascii	"float\000"
+ 661      7400
+ 662              	.LASF4:
+ 663 00fc 756E7369 		.ascii	"unsigned char\000"
+ 663      676E6564 
+ 663      20636861 
+ 663      7200
+ 664              	.LASF15:
+ 665 010a 72656738 		.ascii	"reg8\000"
+ 665      00
+ 666              	.LASF8:
+ 667 010f 6C6F6E67 		.ascii	"long unsigned int\000"
+ 667      20756E73 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 16
+
+
+ 667      69676E65 
+ 667      6420696E 
+ 667      7400
+ 668              	.LASF22:
+ 669 0121 48616E64 		.ascii	"Handle_Encoder_Cnt16_RestoreConfig\000"
+ 669      6C655F45 
+ 669      6E636F64 
+ 669      65725F43 
+ 669      6E743136 
+ 670              	.LASF19:
+ 671 0144 48616E64 		.ascii	"Handle_Encoder_Sleep\000"
+ 671      6C655F45 
+ 671      6E636F64 
+ 671      65725F53 
+ 671      6C656570 
+ 672              	.LASF13:
+ 673 0159 646F7562 		.ascii	"double\000"
+ 673      6C6500
+ 674              	.LASF30:
+ 675 0160 48616E64 		.ascii	"Handle_Encoder_backup\000"
+ 675      6C655F45 
+ 675      6E636F64 
+ 675      65725F62 
+ 675      61636B75 
+ 676              	.LASF29:
+ 677 0176 656E6162 		.ascii	"enableState\000"
+ 677      6C655374 
+ 677      61746500 
+ 678              	.LASF17:
+ 679 0182 48616E64 		.ascii	"Handle_Encoder_SaveConfig\000"
+ 679      6C655F45 
+ 679      6E636F64 
+ 679      65725F53 
+ 679      61766543 
+ 680              	.LASF0:
+ 681 019c 756E7369 		.ascii	"unsigned int\000"
+ 681      676E6564 
+ 681      20696E74 
+ 681      00
+ 682              	.LASF9:
+ 683 01a9 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 683      206C6F6E 
+ 683      6720756E 
+ 683      7369676E 
+ 683      65642069 
+ 684              	.LASF20:
+ 685 01c0 48616E64 		.ascii	"Handle_Encoder_Wakeup\000"
+ 685      6C655F45 
+ 685      6E636F64 
+ 685      65725F57 
+ 685      616B6575 
+ 686              	.LASF10:
+ 687 01d6 73697A65 		.ascii	"sizetype\000"
+ 687      74797065 
+ 687      00
+ 688              	.LASF1:
+ 689 01df 6C6F6E67 		.ascii	"long long int\000"
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 17
+
+
+ 689      206C6F6E 
+ 689      6720696E 
+ 689      7400
+ 690              	.LASF11:
+ 691 01ed 63686172 		.ascii	"char\000"
+ 691      00
+ 692              	.LASF5:
+ 693 01f2 73686F72 		.ascii	"short int\000"
+ 693      7420696E 
+ 693      7400
+ 694              	.LASF16:
+ 695 01fc 48616E64 		.ascii	"Handle_Encoder_BACKUP_STRUCT\000"
+ 695      6C655F45 
+ 695      6E636F64 
+ 695      65725F42 
+ 695      41434B55 
+ 696              	.LASF14:
+ 697 0219 75696E74 		.ascii	"uint8\000"
+ 697      3800
+ 698              	.LASF21:
+ 699 021f 48616E64 		.ascii	"Handle_Encoder_Cnt16_SaveConfig\000"
+ 699      6C655F45 
+ 699      6E636F64 
+ 699      65725F43 
+ 699      6E743136 
+ 700              	.LASF7:
+ 701 023f 6C6F6E67 		.ascii	"long int\000"
+ 701      20696E74 
+ 701      00
+ 702              	.LASF24:
+ 703 0248 48616E64 		.ascii	"Handle_Encoder_Cnt16_Enable\000"
+ 703      6C655F45 
+ 703      6E636F64 
+ 703      65725F43 
+ 703      6E743136 
+ 704              	.LASF2:
+ 705 0264 6C6F6E67 		.ascii	"long double\000"
+ 705      20646F75 
+ 705      626C6500 
+ 706              	.LASF3:
+ 707 0270 7369676E 		.ascii	"signed char\000"
+ 707      65642063 
+ 707      68617200 
+ 708              	.LASF28:
+ 709 027c 433A5C55 		.ascii	"C:\\Users\\jon\\Sync\\Research\\PSoC Projects\\Cont"
+ 709      73657273 
+ 709      5C6A6F6E 
+ 709      5C53796E 
+ 709      635C5265 
+ 710 02a9 726F6C6C 		.ascii	"roller.cydsn\000"
+ 710      65722E63 
+ 710      7964736E 
+ 710      00
+ 711              	.LASF18:
+ 712 02b6 48616E64 		.ascii	"Handle_Encoder_RestoreConfig\000"
+ 712      6C655F45 
+ 712      6E636F64 
+ARM GAS  C:\Users\jon\AppData\Local\Temp\ccfvzxak.s 			page 18
+
+
+ 712      65725F52 
+ 712      6573746F 
+ 713              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

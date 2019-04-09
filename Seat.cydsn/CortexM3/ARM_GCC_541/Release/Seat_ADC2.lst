@@ -1,0 +1,3856 @@
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Seat_ADC2.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.Seat_ADC2_Enable,"ax",%progbits
+  20              		.align	1
+  21              		.global	Seat_ADC2_Enable
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	Seat_ADC2_Enable, %function
+  25              	Seat_ADC2_Enable:
+  26              	.LFB2:
+  27              		.file 1 "Generated_Source\\PSoC5\\Seat_ADC2.c"
+   1:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Seat_ADC2.c **** * File Name: Seat_ADC2.c
+   3:Generated_Source\PSoC5/Seat_ADC2.c **** * Version 3.10
+   4:Generated_Source\PSoC5/Seat_ADC2.c **** *
+   5:Generated_Source\PSoC5/Seat_ADC2.c **** * Description:
+   6:Generated_Source\PSoC5/Seat_ADC2.c **** *  This file provides the source code to the API for the Successive
+   7:Generated_Source\PSoC5/Seat_ADC2.c **** *  approximation ADC Component.
+   8:Generated_Source\PSoC5/Seat_ADC2.c **** *
+   9:Generated_Source\PSoC5/Seat_ADC2.c **** * Note:
+  10:Generated_Source\PSoC5/Seat_ADC2.c **** *
+  11:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/Seat_ADC2.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/Seat_ADC2.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:Generated_Source\PSoC5/Seat_ADC2.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  15:Generated_Source\PSoC5/Seat_ADC2.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  18:Generated_Source\PSoC5/Seat_ADC2.c **** #include "CyLib.h"
+  19:Generated_Source\PSoC5/Seat_ADC2.c **** #include "Seat_ADC2.h"
+  20:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  21:Generated_Source\PSoC5/Seat_ADC2.c **** #if(Seat_ADC2_DEFAULT_INTERNAL_CLK)
+  22:Generated_Source\PSoC5/Seat_ADC2.c ****     #include "Seat_ADC2_theACLK.h"
+  23:Generated_Source\PSoC5/Seat_ADC2.c **** #endif /* End Seat_ADC2_DEFAULT_INTERNAL_CLK */
+  24:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  25:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  26:Generated_Source\PSoC5/Seat_ADC2.c **** /***************************************
+  27:Generated_Source\PSoC5/Seat_ADC2.c **** * Forward function references
+  28:Generated_Source\PSoC5/Seat_ADC2.c **** ***************************************/
+  29:Generated_Source\PSoC5/Seat_ADC2.c **** static void Seat_ADC2_CalcGain(uint8 resolution);
+  30:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 2
+
+
+  31:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  32:Generated_Source\PSoC5/Seat_ADC2.c **** /***************************************
+  33:Generated_Source\PSoC5/Seat_ADC2.c **** * Global data allocation
+  34:Generated_Source\PSoC5/Seat_ADC2.c **** ***************************************/
+  35:Generated_Source\PSoC5/Seat_ADC2.c **** uint8 Seat_ADC2_initVar = 0u;
+  36:Generated_Source\PSoC5/Seat_ADC2.c **** volatile int16 Seat_ADC2_offset;
+  37:Generated_Source\PSoC5/Seat_ADC2.c **** volatile int16 Seat_ADC2_countsPerVolt;     /* Obsolete Gain compensation */
+  38:Generated_Source\PSoC5/Seat_ADC2.c **** volatile int32 Seat_ADC2_countsPer10Volt;   /* Gain compensation */
+  39:Generated_Source\PSoC5/Seat_ADC2.c **** volatile int16 Seat_ADC2_shift;
+  40:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  41:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  42:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+  43:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_Start
+  44:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+  45:Generated_Source\PSoC5/Seat_ADC2.c **** *
+  46:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+  47:Generated_Source\PSoC5/Seat_ADC2.c **** *  This is the preferred method to begin component operation.
+  48:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_Start() sets the initVar variable, calls the
+  49:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_Init() function, and then calls the
+  50:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_Enable() function.
+  51:Generated_Source\PSoC5/Seat_ADC2.c **** *
+  52:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+  53:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+  54:Generated_Source\PSoC5/Seat_ADC2.c **** *
+  55:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+  56:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+  57:Generated_Source\PSoC5/Seat_ADC2.c **** *
+  58:Generated_Source\PSoC5/Seat_ADC2.c **** * Global variables:
+  59:Generated_Source\PSoC5/Seat_ADC2.c **** *  The Seat_ADC2_initVar variable is used to indicate when/if initial
+  60:Generated_Source\PSoC5/Seat_ADC2.c **** *  configuration of this component has happened. The variable is initialized to
+  61:Generated_Source\PSoC5/Seat_ADC2.c **** *  zero and set to 1 the first time ADC_Start() is called. This allows for
+  62:Generated_Source\PSoC5/Seat_ADC2.c **** *  component Re-Start without re-initialization in all subsequent calls to the
+  63:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_Start() routine.
+  64:Generated_Source\PSoC5/Seat_ADC2.c **** *  If re-initialization of the component is required the variable should be set
+  65:Generated_Source\PSoC5/Seat_ADC2.c **** *  to zero before call of Seat_ADC2_Start() routine, or the user may call
+  66:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_Init() and Seat_ADC2_Enable() as done in the
+  67:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_Start() routine.
+  68:Generated_Source\PSoC5/Seat_ADC2.c **** *
+  69:Generated_Source\PSoC5/Seat_ADC2.c **** * Side Effect:
+  70:Generated_Source\PSoC5/Seat_ADC2.c **** *  If the initVar variable is already set, this function only calls the
+  71:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_Enable() function.
+  72:Generated_Source\PSoC5/Seat_ADC2.c **** *
+  73:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+  74:Generated_Source\PSoC5/Seat_ADC2.c **** void Seat_ADC2_Start(void)
+  75:Generated_Source\PSoC5/Seat_ADC2.c **** {
+  76:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  77:Generated_Source\PSoC5/Seat_ADC2.c ****     /* If not Initialized then initialize all required hardware and software */
+  78:Generated_Source\PSoC5/Seat_ADC2.c ****     if(Seat_ADC2_initVar == 0u)
+  79:Generated_Source\PSoC5/Seat_ADC2.c ****     {
+  80:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_Init();
+  81:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_initVar = 1u;
+  82:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+  83:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_Enable();
+  84:Generated_Source\PSoC5/Seat_ADC2.c **** }
+  85:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  86:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  87:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 3
+
+
+  88:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_Init
+  89:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+  90:Generated_Source\PSoC5/Seat_ADC2.c **** *
+  91:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+  92:Generated_Source\PSoC5/Seat_ADC2.c **** *  Initialize component's parameters to the parameters set by user in the
+  93:Generated_Source\PSoC5/Seat_ADC2.c **** *  customizer of the component placed onto schematic. Usually called in
+  94:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_Start().
+  95:Generated_Source\PSoC5/Seat_ADC2.c **** *
+  96:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+  97:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+  98:Generated_Source\PSoC5/Seat_ADC2.c **** *
+  99:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 100:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+ 101:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 102:Generated_Source\PSoC5/Seat_ADC2.c **** * Global variables:
+ 103:Generated_Source\PSoC5/Seat_ADC2.c **** *  The Seat_ADC2_offset variable is initialized to 0.
+ 104:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 105:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 106:Generated_Source\PSoC5/Seat_ADC2.c **** void Seat_ADC2_Init(void)
+ 107:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 108:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 109:Generated_Source\PSoC5/Seat_ADC2.c ****     /* This is only valid if there is an internal clock */
+ 110:Generated_Source\PSoC5/Seat_ADC2.c ****     #if(Seat_ADC2_DEFAULT_INTERNAL_CLK)
+ 111:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_theACLK_SetMode(CYCLK_DUTY);
+ 112:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* End Seat_ADC2_DEFAULT_INTERNAL_CLK */
+ 113:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 114:Generated_Source\PSoC5/Seat_ADC2.c ****     #if(Seat_ADC2_IRQ_REMOVE == 0u)
+ 115:Generated_Source\PSoC5/Seat_ADC2.c ****         /* Start and set interrupt vector */
+ 116:Generated_Source\PSoC5/Seat_ADC2.c ****         CyIntSetPriority(Seat_ADC2_INTC_NUMBER, Seat_ADC2_INTC_PRIOR_NUMBER);
+ 117:Generated_Source\PSoC5/Seat_ADC2.c ****         (void)CyIntSetVector(Seat_ADC2_INTC_NUMBER, &Seat_ADC2_ISR);
+ 118:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif   /* End Seat_ADC2_IRQ_REMOVE */
+ 119:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 120:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Enable IRQ mode*/
+ 121:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_SAR_CSR1_REG |= Seat_ADC2_SAR_IRQ_MASK_EN | Seat_ADC2_SAR_IRQ_MODE_EDGE;
+ 122:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 123:Generated_Source\PSoC5/Seat_ADC2.c ****     /*Set SAR ADC resolution ADC */
+ 124:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_SetResolution(Seat_ADC2_DEFAULT_RESOLUTION);
+ 125:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_offset = 0;
+ 126:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 127:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 128:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 129:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 130:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_Enable
+ 131:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 132:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 133:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 134:Generated_Source\PSoC5/Seat_ADC2.c **** *  Enables the reference, clock and power for SAR ADC.
+ 135:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 136:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 137:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+ 138:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 139:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 140:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+ 141:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 142:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 143:Generated_Source\PSoC5/Seat_ADC2.c **** void Seat_ADC2_Enable(void)
+ 144:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 4
+
+
+  28              		.loc 1 144 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 10B5     		push	{r4, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 4, -8
+  35              		.cfi_offset 14, -4
+ 145:Generated_Source\PSoC5/Seat_ADC2.c ****     uint8 tmpReg;
+ 146:Generated_Source\PSoC5/Seat_ADC2.c ****     uint8 enableInterrupts;
+ 147:Generated_Source\PSoC5/Seat_ADC2.c ****     enableInterrupts = CyEnterCriticalSection();
+  36              		.loc 1 147 0
+  37 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+  38              	.LVL0:
+ 148:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 149:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Enable the SAR ADC block in Active Power Mode */
+ 150:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_PWRMGR_SAR_REG |= Seat_ADC2_ACT_PWR_SAR_EN;
+  39              		.loc 1 150 0
+  40 0006 214A     		ldr	r2, .L2
+ 147:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  41              		.loc 1 147 0
+  42 0008 0446     		mov	r4, r0
+  43              	.LVL1:
+  44              		.loc 1 150 0
+  45 000a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 151:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 152:Generated_Source\PSoC5/Seat_ADC2.c ****      /* Enable the SAR ADC in Standby Power Mode*/
+ 153:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_STBY_PWRMGR_SAR_REG |= Seat_ADC2_STBY_PWR_SAR_EN;
+ 154:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 155:Generated_Source\PSoC5/Seat_ADC2.c ****     /* This is only valid if there is an internal clock */
+ 156:Generated_Source\PSoC5/Seat_ADC2.c ****     #if(Seat_ADC2_DEFAULT_INTERNAL_CLK)
+ 157:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_PWRMGR_CLK_REG |= Seat_ADC2_ACT_PWR_CLK_EN;
+ 158:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_STBY_PWRMGR_CLK_REG |= Seat_ADC2_STBY_PWR_CLK_EN;
+ 159:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* End Seat_ADC2_DEFAULT_INTERNAL_CLK */
+ 160:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 161:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Enable VCM buffer and Enable Int Ref Amp */
+ 162:Generated_Source\PSoC5/Seat_ADC2.c ****     tmpReg = Seat_ADC2_SAR_CSR3_REG;
+ 163:Generated_Source\PSoC5/Seat_ADC2.c ****     tmpReg |= Seat_ADC2_SAR_EN_BUF_VCM_EN;
+ 164:Generated_Source\PSoC5/Seat_ADC2.c ****     /* PD_BUF_VREF is OFF in External reference or Vdda reference mode */
+ 165:Generated_Source\PSoC5/Seat_ADC2.c ****     #if((Seat_ADC2_DEFAULT_REFERENCE == Seat_ADC2__EXT_REF) || \
+ 166:Generated_Source\PSoC5/Seat_ADC2.c ****         (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VNEG_VDDA_DIFF))
+ 167:Generated_Source\PSoC5/Seat_ADC2.c ****         tmpReg &= (uint8)~Seat_ADC2_SAR_EN_BUF_VREF_EN;
+ 168:Generated_Source\PSoC5/Seat_ADC2.c ****     #else /* In INTREF or INTREF Bypassed this buffer is ON */
+ 169:Generated_Source\PSoC5/Seat_ADC2.c ****         tmpReg |= Seat_ADC2_SAR_EN_BUF_VREF_EN;
+ 170:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* Seat_ADC2_DEFAULT_REFERENCE == Seat_ADC2__EXT_REF */
+ 171:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_SAR_CSR3_REG = tmpReg;
+ 172:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 173:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Set reference for ADC */
+ 174:Generated_Source\PSoC5/Seat_ADC2.c ****     #if(Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VNEG_VDDA_DIFF)
+ 175:Generated_Source\PSoC5/Seat_ADC2.c ****         #if(Seat_ADC2_DEFAULT_REFERENCE == Seat_ADC2__EXT_REF)
+ 176:Generated_Source\PSoC5/Seat_ADC2.c ****             Seat_ADC2_SAR_CSR6_REG = Seat_ADC2_INT_BYPASS_EXT_VREF; /* S2 */
+ 177:Generated_Source\PSoC5/Seat_ADC2.c ****         #else /* Internal Vdda reference or obsolete bypass mode */
+ 178:Generated_Source\PSoC5/Seat_ADC2.c ****             Seat_ADC2_SAR_CSR6_REG = Seat_ADC2_VDDA_VREF;           /* S7 */
+ 179:Generated_Source\PSoC5/Seat_ADC2.c ****         #endif /* Seat_ADC2_DEFAULT_REFERENCE == Seat_ADC2__EXT_REF */
+ 180:Generated_Source\PSoC5/Seat_ADC2.c ****     #else  /* Reference goes through internal buffer */
+ 181:Generated_Source\PSoC5/Seat_ADC2.c ****         #if(Seat_ADC2_DEFAULT_REFERENCE == Seat_ADC2__INT_REF_NOT_BYPASSED)
+ 182:Generated_Source\PSoC5/Seat_ADC2.c ****             Seat_ADC2_SAR_CSR6_REG = Seat_ADC2_INT_VREF;            /* S3 + S4 */
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 5
+
+
+ 183:Generated_Source\PSoC5/Seat_ADC2.c ****         #else /* INTREF Bypassed of External */
+ 184:Generated_Source\PSoC5/Seat_ADC2.c ****             Seat_ADC2_SAR_CSR6_REG = Seat_ADC2_INT_BYPASS_EXT_VREF; /* S2 */
+ 185:Generated_Source\PSoC5/Seat_ADC2.c ****         #endif /* Seat_ADC2_DEFAULT_REFERENCE == Seat_ADC2__INT_REF_NOT_BYPASSED */
+ 186:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* VNEG_VDDA_DIFF */
+ 187:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 188:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Low non-overlap delay for sampling clock signals (for 1MSPS) */
+ 189:Generated_Source\PSoC5/Seat_ADC2.c ****     #if(Seat_ADC2_HIGH_POWER_PULSE == 0u) /* MinPulseWidth <= 50 ns */
+ 190:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_SAR_CSR5_REG &= (uint8)~Seat_ADC2_SAR_DLY_INC;
+ 191:Generated_Source\PSoC5/Seat_ADC2.c ****     #else /* Set High non-overlap delay for sampling clock signals (for <500KSPS)*/
+ 192:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_SAR_CSR5_REG |= Seat_ADC2_SAR_DLY_INC;
+ 193:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* Seat_ADC2_HIGH_POWER_PULSE == 0u */
+ 194:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 195:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Increase comparator latch enable delay by 20%, 
+ 196:Generated_Source\PSoC5/Seat_ADC2.c ****     *  Increase comparator bias current by 30% without impacting delaysDelay 
+ 197:Generated_Source\PSoC5/Seat_ADC2.c ****     *  Default for 1MSPS) 
+ 198:Generated_Source\PSoC5/Seat_ADC2.c ****     */
+ 199:Generated_Source\PSoC5/Seat_ADC2.c ****     #if(Seat_ADC2_HIGH_POWER_PULSE == 0u)    /* MinPulseWidth <= 50 ns */
+ 200:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_SAR_CSR5_REG |= Seat_ADC2_SAR_SEL_CSEL_DFT_CHAR;
+ 201:Generated_Source\PSoC5/Seat_ADC2.c ****     #else /* for <500ksps */
+ 202:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_SAR_CSR5_REG &= (uint8)~Seat_ADC2_SAR_SEL_CSEL_DFT_CHAR;
+ 203:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* Seat_ADC2_HIGH_POWER_PULSE == 0u */
+ 204:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 205:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Set default power and other configurations for control register 0 in multiple lines */
+ 206:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_SAR_CSR0_REG = (uint8)((uint8)Seat_ADC2_DEFAULT_POWER << Seat_ADC2_SAR_POWER_SHIFT)
+ 207:Generated_Source\PSoC5/Seat_ADC2.c ****     /* SAR_HIZ_CLEAR:   Should not be used for LP */
+ 208:Generated_Source\PSoC5/Seat_ADC2.c ****     #if ((CY_PSOC5LP) || (Seat_ADC2_DEFAULT_REFERENCE != Seat_ADC2__EXT_REF))
+ 209:Generated_Source\PSoC5/Seat_ADC2.c ****         | Seat_ADC2_SAR_HIZ_CLEAR
+ 210:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* SAR_HIZ_CLEAR */
+ 211:Generated_Source\PSoC5/Seat_ADC2.c ****     /*Set Convertion mode */
+ 212:Generated_Source\PSoC5/Seat_ADC2.c ****     #if(Seat_ADC2_DEFAULT_CONV_MODE != Seat_ADC2__FREE_RUNNING)      /* If triggered mode */
+ 213:Generated_Source\PSoC5/Seat_ADC2.c ****         | Seat_ADC2_SAR_MX_SOF_UDB           /* source: UDB */
+ 214:Generated_Source\PSoC5/Seat_ADC2.c ****         | Seat_ADC2_SAR_SOF_MODE_EDGE        /* Set edge-sensitive sof source */
+ 215:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* Seat_ADC2_DEFAULT_CONV_MODE */
+ 216:Generated_Source\PSoC5/Seat_ADC2.c ****     ; /* end of multiple line initialization */
+ 217:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 218:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_SAR_TR0_REG = Seat_ADC2_SAR_CAP_TRIM_2;
+ 219:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 220:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Enable clock for SAR ADC*/
+ 221:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_SAR_CLK_REG |= Seat_ADC2_SAR_MX_CLK_EN;
+ 222:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 223:Generated_Source\PSoC5/Seat_ADC2.c ****     CyDelayUs(10u); /* The block is ready to use 10 us after the enable signal is set high. */
+  46              		.loc 1 223 0
+  47 000c 0A20     		movs	r0, #10
+ 150:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  48              		.loc 1 150 0
+  49 000e 43F00103 		orr	r3, r3, #1
+  50 0012 1370     		strb	r3, [r2]
+ 153:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  51              		.loc 1 153 0
+  52 0014 137C     		ldrb	r3, [r2, #16]	@ zero_extendqisi2
+  53 0016 43F00103 		orr	r3, r3, #1
+  54 001a 1374     		strb	r3, [r2, #16]
+ 157:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_STBY_PWRMGR_CLK_REG |= Seat_ADC2_STBY_PWR_CLK_EN;
+  55              		.loc 1 157 0
+  56 001c 12F80A3C 		ldrb	r3, [r2, #-10]	@ zero_extendqisi2
+  57 0020 43F00103 		orr	r3, r3, #1
+  58 0024 02F80A3C 		strb	r3, [r2, #-10]
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 6
+
+
+ 158:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* End Seat_ADC2_DEFAULT_INTERNAL_CLK */
+  59              		.loc 1 158 0
+  60 0028 9379     		ldrb	r3, [r2, #6]	@ zero_extendqisi2
+  61 002a 43F00103 		orr	r3, r3, #1
+  62 002e 9371     		strb	r3, [r2, #6]
+ 162:Generated_Source\PSoC5/Seat_ADC2.c ****     tmpReg |= Seat_ADC2_SAR_EN_BUF_VCM_EN;
+  63              		.loc 1 162 0
+  64 0030 02F5AA52 		add	r2, r2, #5440
+  65 0034 1832     		adds	r2, r2, #24
+  66 0036 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  67              	.LVL2:
+ 169:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* Seat_ADC2_DEFAULT_REFERENCE == Seat_ADC2__EXT_REF */
+  68              		.loc 1 169 0
+  69 0038 43F00303 		orr	r3, r3, #3
+  70              	.LVL3:
+ 171:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  71              		.loc 1 171 0
+  72 003c 1370     		strb	r3, [r2]
+ 182:Generated_Source\PSoC5/Seat_ADC2.c ****         #else /* INTREF Bypassed of External */
+  73              		.loc 1 182 0
+  74 003e 144B     		ldr	r3, .L2+4
+  75              	.LVL4:
+  76 0040 1822     		movs	r2, #24
+  77              	.LVL5:
+  78 0042 1A70     		strb	r2, [r3]
+  79              	.LVL6:
+ 192:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* Seat_ADC2_HIGH_POWER_PULSE == 0u */
+  80              		.loc 1 192 0
+  81 0044 13F8012C 		ldrb	r2, [r3, #-1]	@ zero_extendqisi2
+  82 0048 42F04002 		orr	r2, r2, #64
+  83 004c 03F8012C 		strb	r2, [r3, #-1]
+ 202:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* Seat_ADC2_HIGH_POWER_PULSE == 0u */
+  84              		.loc 1 202 0
+  85 0050 13F8012C 		ldrb	r2, [r3, #-1]	@ zero_extendqisi2
+  86 0054 02F0FC02 		and	r2, r2, #252
+  87 0058 03F8012C 		strb	r2, [r3, #-1]
+ 206:Generated_Source\PSoC5/Seat_ADC2.c ****     /* SAR_HIZ_CLEAR:   Should not be used for LP */
+  88              		.loc 1 206 0
+  89 005c CE22     		movs	r2, #206
+  90 005e 03F8062C 		strb	r2, [r3, #-6]
+ 218:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  91              		.loc 1 218 0
+  92 0062 A3F59753 		sub	r3, r3, #4832
+  93 0066 0222     		movs	r2, #2
+  94 0068 123B     		subs	r3, r3, #18
+  95 006a 1A70     		strb	r2, [r3]
+ 221:Generated_Source\PSoC5/Seat_ADC2.c **** 
+  96              		.loc 1 221 0
+  97 006c 094A     		ldr	r2, .L2+8
+  98 006e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  99 0070 43F00803 		orr	r3, r3, #8
+ 100 0074 1370     		strb	r3, [r2]
+ 101              		.loc 1 223 0
+ 102 0076 FFF7FEFF 		bl	CyDelayUs
+ 103              	.LVL7:
+ 224:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 225:Generated_Source\PSoC5/Seat_ADC2.c ****     #if(Seat_ADC2_IRQ_REMOVE == 0u)
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 7
+
+
+ 226:Generated_Source\PSoC5/Seat_ADC2.c ****         /* Clear a pending interrupt */
+ 227:Generated_Source\PSoC5/Seat_ADC2.c ****         CyIntClearPending(Seat_ADC2_INTC_NUMBER);
+ 104              		.loc 1 227 0
+ 105 007a 074B     		ldr	r3, .L2+12
+ 106 007c 0122     		movs	r2, #1
+ 228:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif   /* End Seat_ADC2_IRQ_REMOVE */
+ 229:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 230:Generated_Source\PSoC5/Seat_ADC2.c ****     CyExitCriticalSection(enableInterrupts);
+ 107              		.loc 1 230 0
+ 108 007e 2046     		mov	r0, r4
+ 231:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 109              		.loc 1 231 0
+ 110 0080 BDE81040 		pop	{r4, lr}
+ 111              		.cfi_restore 14
+ 112              		.cfi_restore 4
+ 113              		.cfi_def_cfa_offset 0
+ 114              	.LVL8:
+ 227:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif   /* End Seat_ADC2_IRQ_REMOVE */
+ 115              		.loc 1 227 0
+ 116 0084 1A60     		str	r2, [r3]
+ 230:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 117              		.loc 1 230 0
+ 118 0086 FFF7FEBF 		b	CyExitCriticalSection
+ 119              	.LVL9:
+ 120              	.L3:
+ 121 008a 00BF     		.align	2
+ 122              	.L2:
+ 123 008c AB430040 		.word	1073759147
+ 124 0090 06590040 		.word	1073764614
+ 125 0094 275B0040 		.word	1073765159
+ 126 0098 80E200E0 		.word	-536812928
+ 127              		.cfi_endproc
+ 128              	.LFE2:
+ 129              		.size	Seat_ADC2_Enable, .-Seat_ADC2_Enable
+ 130              		.section	.text.Seat_ADC2_Stop,"ax",%progbits
+ 131              		.align	1
+ 132              		.global	Seat_ADC2_Stop
+ 133              		.thumb
+ 134              		.thumb_func
+ 135              		.type	Seat_ADC2_Stop, %function
+ 136              	Seat_ADC2_Stop:
+ 137              	.LFB3:
+ 232:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 233:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 234:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 235:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_Stop
+ 236:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 237:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 238:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 239:Generated_Source\PSoC5/Seat_ADC2.c **** *  Stops ADC conversions and puts the ADC into its lowest power mode.
+ 240:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 241:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 242:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+ 243:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 244:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 245:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+ 246:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 8
+
+
+ 247:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 248:Generated_Source\PSoC5/Seat_ADC2.c **** void Seat_ADC2_Stop(void)
+ 249:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 138              		.loc 1 249 0
+ 139              		.cfi_startproc
+ 140              		@ args = 0, pretend = 0, frame = 0
+ 141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142 0000 08B5     		push	{r3, lr}
+ 143              		.cfi_def_cfa_offset 8
+ 144              		.cfi_offset 3, -8
+ 145              		.cfi_offset 14, -4
+ 250:Generated_Source\PSoC5/Seat_ADC2.c ****     uint8 enableInterrupts;
+ 251:Generated_Source\PSoC5/Seat_ADC2.c ****     enableInterrupts = CyEnterCriticalSection();
+ 146              		.loc 1 251 0
+ 147 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 148              	.LVL10:
+ 252:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 253:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Stop all conversions */
+ 254:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_SAR_CSR0_REG &= (uint8)~Seat_ADC2_SAR_SOF_START_CONV;
+ 149              		.loc 1 254 0
+ 150 0006 0F4A     		ldr	r2, .L5
+ 151 0008 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 152 000a 03F0FE03 		and	r3, r3, #254
+ 153 000e 1370     		strb	r3, [r2]
+ 255:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Disable the SAR ADC block in Active Power Mode */
+ 256:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_PWRMGR_SAR_REG &= (uint8)~Seat_ADC2_ACT_PWR_SAR_EN;
+ 154              		.loc 1 256 0
+ 155 0010 A2F5AA52 		sub	r2, r2, #5440
+ 156 0014 153A     		subs	r2, r2, #21
+ 157 0016 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 158 0018 03F0FE03 		and	r3, r3, #254
+ 159 001c 1370     		strb	r3, [r2]
+ 257:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Disable the SAR ADC in Standby Power Mode */
+ 258:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_STBY_PWRMGR_SAR_REG &= (uint8)~Seat_ADC2_STBY_PWR_SAR_EN;
+ 160              		.loc 1 258 0
+ 161 001e 137C     		ldrb	r3, [r2, #16]	@ zero_extendqisi2
+ 162 0020 03F0FE03 		and	r3, r3, #254
+ 163 0024 1374     		strb	r3, [r2, #16]
+ 259:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 260:Generated_Source\PSoC5/Seat_ADC2.c ****     /* This is only valid if there is an internal clock */
+ 261:Generated_Source\PSoC5/Seat_ADC2.c ****     #if(Seat_ADC2_DEFAULT_INTERNAL_CLK)
+ 262:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_PWRMGR_CLK_REG &= (uint8)~Seat_ADC2_ACT_PWR_CLK_EN;
+ 164              		.loc 1 262 0
+ 165 0026 12F80A3C 		ldrb	r3, [r2, #-10]	@ zero_extendqisi2
+ 166 002a 03F0FE03 		and	r3, r3, #254
+ 167 002e 02F80A3C 		strb	r3, [r2, #-10]
+ 263:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_STBY_PWRMGR_CLK_REG &= (uint8)~Seat_ADC2_STBY_PWR_CLK_EN;
+ 168              		.loc 1 263 0
+ 169 0032 9379     		ldrb	r3, [r2, #6]	@ zero_extendqisi2
+ 170 0034 03F0FE03 		and	r3, r3, #254
+ 171 0038 9371     		strb	r3, [r2, #6]
+ 264:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* End Seat_ADC2_DEFAULT_INTERNAL_CLK */
+ 265:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 266:Generated_Source\PSoC5/Seat_ADC2.c ****     CyExitCriticalSection(enableInterrupts);
+ 267:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 268:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 172              		.loc 1 268 0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 9
+
+
+ 173 003a BDE80840 		pop	{r3, lr}
+ 174              		.cfi_restore 14
+ 175              		.cfi_restore 3
+ 176              		.cfi_def_cfa_offset 0
+ 266:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 177              		.loc 1 266 0
+ 178 003e FFF7FEBF 		b	CyExitCriticalSection
+ 179              	.LVL11:
+ 180              	.L6:
+ 181 0042 00BF     		.align	2
+ 182              	.L5:
+ 183 0044 00590040 		.word	1073764608
+ 184              		.cfi_endproc
+ 185              	.LFE3:
+ 186              		.size	Seat_ADC2_Stop, .-Seat_ADC2_Stop
+ 187              		.section	.text.Seat_ADC2_SetPower,"ax",%progbits
+ 188              		.align	1
+ 189              		.global	Seat_ADC2_SetPower
+ 190              		.thumb
+ 191              		.thumb_func
+ 192              		.type	Seat_ADC2_SetPower, %function
+ 193              	Seat_ADC2_SetPower:
+ 194              	.LFB4:
+ 269:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 270:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 271:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 272:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_SetPower
+ 273:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 274:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 275:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 276:Generated_Source\PSoC5/Seat_ADC2.c **** *  Sets the operational power of the ADC. You should use the higher power
+ 277:Generated_Source\PSoC5/Seat_ADC2.c **** *  settings with faster clock speeds.
+ 278:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 279:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 280:Generated_Source\PSoC5/Seat_ADC2.c **** *  power:  Power setting for ADC
+ 281:Generated_Source\PSoC5/Seat_ADC2.c **** *  0 ->    Normal
+ 282:Generated_Source\PSoC5/Seat_ADC2.c **** *  1 ->    Medium power
+ 283:Generated_Source\PSoC5/Seat_ADC2.c **** *  2 ->    1.25 power
+ 284:Generated_Source\PSoC5/Seat_ADC2.c **** *  3 ->    Minimum power.
+ 285:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 286:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 287:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+ 288:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 289:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 290:Generated_Source\PSoC5/Seat_ADC2.c **** void Seat_ADC2_SetPower(uint8 power)
+ 291:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 195              		.loc 1 291 0
+ 196              		.cfi_startproc
+ 197              		@ args = 0, pretend = 0, frame = 0
+ 198              		@ frame_needed = 0, uses_anonymous_args = 0
+ 199              		@ link register save eliminated.
+ 200              	.LVL12:
+ 292:Generated_Source\PSoC5/Seat_ADC2.c ****     uint8 tmpReg;
+ 293:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 294:Generated_Source\PSoC5/Seat_ADC2.c ****     /* mask off invalid power settings */
+ 295:Generated_Source\PSoC5/Seat_ADC2.c ****     power &= Seat_ADC2_SAR_API_POWER_MASK;
+ 296:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 10
+
+
+ 297:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Set Power parameter  */
+ 298:Generated_Source\PSoC5/Seat_ADC2.c ****     tmpReg = Seat_ADC2_SAR_CSR0_REG & (uint8)~Seat_ADC2_SAR_POWER_MASK;
+ 201              		.loc 1 298 0
+ 202 0000 044A     		ldr	r2, .L8
+ 203 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 204 0004 03F03F03 		and	r3, r3, #63
+ 205              	.LVL13:
+ 299:Generated_Source\PSoC5/Seat_ADC2.c ****     tmpReg |= (uint8)(power << Seat_ADC2_SAR_POWER_SHIFT);
+ 206              		.loc 1 299 0
+ 207 0008 43EA8010 		orr	r0, r3, r0, lsl #6
+ 208              	.LVL14:
+ 209 000c C0B2     		uxtb	r0, r0
+ 210              	.LVL15:
+ 300:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_SAR_CSR0_REG = tmpReg;
+ 211              		.loc 1 300 0
+ 212 000e 1070     		strb	r0, [r2]
+ 213 0010 7047     		bx	lr
+ 214              	.L9:
+ 215 0012 00BF     		.align	2
+ 216              	.L8:
+ 217 0014 00590040 		.word	1073764608
+ 218              		.cfi_endproc
+ 219              	.LFE4:
+ 220              		.size	Seat_ADC2_SetPower, .-Seat_ADC2_SetPower
+ 221              		.section	.text.Seat_ADC2_SetResolution,"ax",%progbits
+ 222              		.align	1
+ 223              		.global	Seat_ADC2_SetResolution
+ 224              		.thumb
+ 225              		.thumb_func
+ 226              		.type	Seat_ADC2_SetResolution, %function
+ 227              	Seat_ADC2_SetResolution:
+ 228              	.LFB5:
+ 301:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 302:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 303:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 304:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 305:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_SetResolution
+ 306:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 307:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 308:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 309:Generated_Source\PSoC5/Seat_ADC2.c **** *  Sets the Relution of the SAR.
+ 310:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 311:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 312:Generated_Source\PSoC5/Seat_ADC2.c **** *  resolution:
+ 313:Generated_Source\PSoC5/Seat_ADC2.c **** *  12 ->    RES12
+ 314:Generated_Source\PSoC5/Seat_ADC2.c **** *  10 ->    RES10
+ 315:Generated_Source\PSoC5/Seat_ADC2.c **** *  8  ->    RES8
+ 316:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 317:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 318:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+ 319:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 320:Generated_Source\PSoC5/Seat_ADC2.c **** * Side Effects:
+ 321:Generated_Source\PSoC5/Seat_ADC2.c **** *  The ADC resolution cannot be changed during a conversion cycle. The
+ 322:Generated_Source\PSoC5/Seat_ADC2.c **** *  recommended best practice is to stop conversions with
+ 323:Generated_Source\PSoC5/Seat_ADC2.c **** *  ADC_StopConvert(), change the resolution, then restart the
+ 324:Generated_Source\PSoC5/Seat_ADC2.c **** *  conversions with ADC_StartConvert().
+ 325:Generated_Source\PSoC5/Seat_ADC2.c **** *  If you decide not to stop conversions before calling this API, you
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 11
+
+
+ 326:Generated_Source\PSoC5/Seat_ADC2.c **** *  should use ADC_IsEndConversion() to wait until conversion is complete
+ 327:Generated_Source\PSoC5/Seat_ADC2.c **** *  before changing the resolution.
+ 328:Generated_Source\PSoC5/Seat_ADC2.c **** *  If you call ADC_SetResolution() during a conversion, the resolution will
+ 329:Generated_Source\PSoC5/Seat_ADC2.c **** *  not be changed until the current conversion is complete. Data will not be
+ 330:Generated_Source\PSoC5/Seat_ADC2.c **** *  available in the new resolution for another 6 + "New Resolution(in bits)"
+ 331:Generated_Source\PSoC5/Seat_ADC2.c **** *  clock cycles.
+ 332:Generated_Source\PSoC5/Seat_ADC2.c **** *  You may need add a delay of this number of clock cycles after
+ 333:Generated_Source\PSoC5/Seat_ADC2.c **** *  ADC_SetResolution() is called before data is valid again.
+ 334:Generated_Source\PSoC5/Seat_ADC2.c **** *  Affects ADC_CountsTo_Volts(), ADC_CountsTo_mVolts(), and
+ 335:Generated_Source\PSoC5/Seat_ADC2.c **** *  ADC_CountsTo_uVolts() by calculating the correct conversion between ADC
+ 336:Generated_Source\PSoC5/Seat_ADC2.c **** *  counts and the applied input voltage. Calculation depends on resolution,
+ 337:Generated_Source\PSoC5/Seat_ADC2.c **** *  input range, and voltage reference.
+ 338:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 339:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 340:Generated_Source\PSoC5/Seat_ADC2.c **** void Seat_ADC2_SetResolution(uint8 resolution)
+ 341:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 229              		.loc 1 341 0
+ 230              		.cfi_startproc
+ 231              		@ args = 0, pretend = 0, frame = 0
+ 232              		@ frame_needed = 0, uses_anonymous_args = 0
+ 233              		@ link register save eliminated.
+ 234              	.LVL16:
+ 342:Generated_Source\PSoC5/Seat_ADC2.c ****     uint8 tmpReg;
+ 343:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 344:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Set SAR ADC resolution and sample width: 18 conversion cycles at 12bits + 1 gap */
+ 345:Generated_Source\PSoC5/Seat_ADC2.c ****     switch (resolution)
+ 235              		.loc 1 345 0
+ 236 0000 0828     		cmp	r0, #8
+ 237 0002 04D0     		beq	.L12
+ 346:Generated_Source\PSoC5/Seat_ADC2.c ****     {
+ 347:Generated_Source\PSoC5/Seat_ADC2.c ****         case (uint8)Seat_ADC2__BITS_12:
+ 348:Generated_Source\PSoC5/Seat_ADC2.c ****             tmpReg = Seat_ADC2_SAR_RESOLUTION_12BIT | Seat_ADC2_SAR_SAMPLE_WIDTH;
+ 238              		.loc 1 348 0
+ 239 0004 0A28     		cmp	r0, #10
+ 240 0006 0CBF     		ite	eq
+ 241 0008 8223     		moveq	r3, #130
+ 242 000a C223     		movne	r3, #194
+ 243 000c 00E0     		b	.L13
+ 244              	.L12:
+ 245              	.LVL17:
+ 349:Generated_Source\PSoC5/Seat_ADC2.c ****             break;
+ 350:Generated_Source\PSoC5/Seat_ADC2.c ****         case (uint8)Seat_ADC2__BITS_10:
+ 351:Generated_Source\PSoC5/Seat_ADC2.c ****             tmpReg = Seat_ADC2_SAR_RESOLUTION_10BIT | Seat_ADC2_SAR_SAMPLE_WIDTH;
+ 352:Generated_Source\PSoC5/Seat_ADC2.c ****             break;
+ 353:Generated_Source\PSoC5/Seat_ADC2.c ****         case (uint8)Seat_ADC2__BITS_8:
+ 354:Generated_Source\PSoC5/Seat_ADC2.c ****             tmpReg = Seat_ADC2_SAR_RESOLUTION_8BIT | Seat_ADC2_SAR_SAMPLE_WIDTH;
+ 246              		.loc 1 354 0
+ 247 000e 4223     		movs	r3, #66
+ 248              	.LVL18:
+ 249              	.L13:
+ 250 0010 0838     		subs	r0, r0, #8
+ 251              	.LVL19:
+ 355:Generated_Source\PSoC5/Seat_ADC2.c ****             break;
+ 356:Generated_Source\PSoC5/Seat_ADC2.c ****         default:
+ 357:Generated_Source\PSoC5/Seat_ADC2.c ****             tmpReg = Seat_ADC2_SAR_RESOLUTION_12BIT | Seat_ADC2_SAR_SAMPLE_WIDTH;
+ 358:Generated_Source\PSoC5/Seat_ADC2.c ****             /* Halt CPU in debug mode if resolution is out of valid range */
+ 359:Generated_Source\PSoC5/Seat_ADC2.c ****             CYASSERT(0u != 0u);
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 12
+
+
+ 360:Generated_Source\PSoC5/Seat_ADC2.c ****             break;
+ 361:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 362:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_SAR_CSR2_REG = tmpReg;
+ 252              		.loc 1 362 0
+ 253 0012 114A     		ldr	r2, .L18
+ 254 0014 C0B2     		uxtb	r0, r0
+ 255 0016 0428     		cmp	r0, #4
+ 256 0018 1370     		strb	r3, [r2]
+ 257              	.LVL20:
+ 258 001a 98BF     		it	ls
+ 259 001c 0F4A     		ldrls	r2, .L18+4
+ 260              	.LBB4:
+ 261              	.LBB5:
+ 363:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 364:Generated_Source\PSoC5/Seat_ADC2.c ****      /* Calculate gain for convert counts to volts */
+ 365:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_CalcGain(resolution);
+ 366:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 367:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 368:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 369:Generated_Source\PSoC5/Seat_ADC2.c **** #if(Seat_ADC2_DEFAULT_CONV_MODE != Seat_ADC2__HARDWARE_TRIGGER)
+ 370:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 371:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 372:Generated_Source\PSoC5/Seat_ADC2.c ****     /*******************************************************************************
+ 373:Generated_Source\PSoC5/Seat_ADC2.c ****     * Function Name: Seat_ADC2_StartConvert
+ 374:Generated_Source\PSoC5/Seat_ADC2.c ****     ********************************************************************************
+ 375:Generated_Source\PSoC5/Seat_ADC2.c ****     *
+ 376:Generated_Source\PSoC5/Seat_ADC2.c ****     * Summary:
+ 377:Generated_Source\PSoC5/Seat_ADC2.c ****     *  Forces the ADC to initiate a conversion. In free-running mode, the ADC runs
+ 378:Generated_Source\PSoC5/Seat_ADC2.c ****     *  continuously. In software trigger mode, the function also acts as a software
+ 379:Generated_Source\PSoC5/Seat_ADC2.c ****     *  version of the SOC and every conversion must be triggered by
+ 380:Generated_Source\PSoC5/Seat_ADC2.c ****     *  Seat_ADC2_StartConvert(). This function is not available when the
+ 381:Generated_Source\PSoC5/Seat_ADC2.c ****     *  Hardware Trigger sample mode is selected.
+ 382:Generated_Source\PSoC5/Seat_ADC2.c ****     *
+ 383:Generated_Source\PSoC5/Seat_ADC2.c ****     * Parameters:
+ 384:Generated_Source\PSoC5/Seat_ADC2.c ****     *  None.
+ 385:Generated_Source\PSoC5/Seat_ADC2.c ****     *
+ 386:Generated_Source\PSoC5/Seat_ADC2.c ****     * Return:
+ 387:Generated_Source\PSoC5/Seat_ADC2.c ****     *  None.
+ 388:Generated_Source\PSoC5/Seat_ADC2.c ****     *
+ 389:Generated_Source\PSoC5/Seat_ADC2.c ****     * Theory:
+ 390:Generated_Source\PSoC5/Seat_ADC2.c ****     *  Forces the ADC to initiate a conversion. In Free Running mode, the ADC will
+ 391:Generated_Source\PSoC5/Seat_ADC2.c ****     *  run continuously. In a software trigger mode the function also acts as a
+ 392:Generated_Source\PSoC5/Seat_ADC2.c ****     *  software version of the SOC. Here every conversion has to be triggered by
+ 393:Generated_Source\PSoC5/Seat_ADC2.c ****     *  the routine. This writes into the SOC bit in SAR_CTRL reg.
+ 394:Generated_Source\PSoC5/Seat_ADC2.c ****     *
+ 395:Generated_Source\PSoC5/Seat_ADC2.c ****     * Side Effects:
+ 396:Generated_Source\PSoC5/Seat_ADC2.c ****     *  In a software trigger mode the function switches source for SOF from the
+ 397:Generated_Source\PSoC5/Seat_ADC2.c ****     *  external pin to the internal SOF generation. Application should not call
+ 398:Generated_Source\PSoC5/Seat_ADC2.c ****     *  StartConvert if external source used for SOF.
+ 399:Generated_Source\PSoC5/Seat_ADC2.c ****     *
+ 400:Generated_Source\PSoC5/Seat_ADC2.c ****     *******************************************************************************/
+ 401:Generated_Source\PSoC5/Seat_ADC2.c ****     void Seat_ADC2_StartConvert(void)
+ 402:Generated_Source\PSoC5/Seat_ADC2.c ****     {
+ 403:Generated_Source\PSoC5/Seat_ADC2.c ****         #if(Seat_ADC2_DEFAULT_CONV_MODE != Seat_ADC2__FREE_RUNNING)  /* If software triggered mode 
+ 404:Generated_Source\PSoC5/Seat_ADC2.c ****             Seat_ADC2_SAR_CSR0_REG &= (uint8)~Seat_ADC2_SAR_MX_SOF_UDB;   /* source: SOF bit */
+ 405:Generated_Source\PSoC5/Seat_ADC2.c ****         #endif /* End Seat_ADC2_DEFAULT_CONV_MODE */
+ 406:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 13
+
+
+ 407:Generated_Source\PSoC5/Seat_ADC2.c ****         /* Start the conversion */
+ 408:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_SAR_CSR0_REG |= Seat_ADC2_SAR_SOF_START_CONV;
+ 409:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 410:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 411:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 412:Generated_Source\PSoC5/Seat_ADC2.c ****     /*******************************************************************************
+ 413:Generated_Source\PSoC5/Seat_ADC2.c ****     * Function Name: Seat_ADC2_StopConvert
+ 414:Generated_Source\PSoC5/Seat_ADC2.c ****     ********************************************************************************
+ 415:Generated_Source\PSoC5/Seat_ADC2.c ****     *
+ 416:Generated_Source\PSoC5/Seat_ADC2.c ****     * Summary:
+ 417:Generated_Source\PSoC5/Seat_ADC2.c ****     *  Forces the ADC to stop conversions. If a conversion is currently executing,
+ 418:Generated_Source\PSoC5/Seat_ADC2.c ****     *  that conversion will complete, but no further conversions will occur. This
+ 419:Generated_Source\PSoC5/Seat_ADC2.c ****     *  function is not available when the Hardware Trigger sample mode is selected.
+ 420:Generated_Source\PSoC5/Seat_ADC2.c ****     *
+ 421:Generated_Source\PSoC5/Seat_ADC2.c ****     * Parameters:
+ 422:Generated_Source\PSoC5/Seat_ADC2.c ****     *  None.
+ 423:Generated_Source\PSoC5/Seat_ADC2.c ****     *
+ 424:Generated_Source\PSoC5/Seat_ADC2.c ****     * Return:
+ 425:Generated_Source\PSoC5/Seat_ADC2.c ****     *  None.
+ 426:Generated_Source\PSoC5/Seat_ADC2.c ****     *
+ 427:Generated_Source\PSoC5/Seat_ADC2.c ****     * Theory:
+ 428:Generated_Source\PSoC5/Seat_ADC2.c ****     *  Stops ADC conversion in Free Running mode.
+ 429:Generated_Source\PSoC5/Seat_ADC2.c ****     *
+ 430:Generated_Source\PSoC5/Seat_ADC2.c ****     * Side Effects:
+ 431:Generated_Source\PSoC5/Seat_ADC2.c ****     *  In Software Trigger sample mode, this function sets a software version of the
+ 432:Generated_Source\PSoC5/Seat_ADC2.c ****     *  SOC to low level and switches the SOC source to hardware SOC input.
+ 433:Generated_Source\PSoC5/Seat_ADC2.c ****     *
+ 434:Generated_Source\PSoC5/Seat_ADC2.c ****     *******************************************************************************/
+ 435:Generated_Source\PSoC5/Seat_ADC2.c ****     void Seat_ADC2_StopConvert(void)
+ 436:Generated_Source\PSoC5/Seat_ADC2.c ****     {
+ 437:Generated_Source\PSoC5/Seat_ADC2.c ****         /* Stop all conversions */
+ 438:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_SAR_CSR0_REG &= (uint8)~Seat_ADC2_SAR_SOF_START_CONV;
+ 439:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 440:Generated_Source\PSoC5/Seat_ADC2.c ****         #if(Seat_ADC2_DEFAULT_CONV_MODE != Seat_ADC2__FREE_RUNNING)  /* If software triggered mode 
+ 441:Generated_Source\PSoC5/Seat_ADC2.c ****             /* Return source to UDB for hardware SOF signal */
+ 442:Generated_Source\PSoC5/Seat_ADC2.c ****             Seat_ADC2_SAR_CSR0_REG |= Seat_ADC2_SAR_MX_SOF_UDB;    /* source: UDB */
+ 443:Generated_Source\PSoC5/Seat_ADC2.c ****         #endif /* End Seat_ADC2_DEFAULT_CONV_MODE */
+ 444:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 445:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 446:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 447:Generated_Source\PSoC5/Seat_ADC2.c **** #endif /* End Seat_ADC2_DEFAULT_CONV_MODE != Seat_ADC2__HARDWARE_TRIGGER */
+ 448:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 449:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 450:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 451:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_IsEndConversion
+ 452:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 453:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 454:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 455:Generated_Source\PSoC5/Seat_ADC2.c **** *  Immediately returns the status of the conversion or does not return
+ 456:Generated_Source\PSoC5/Seat_ADC2.c **** *  (blocking) until the conversion completes, depending on the retMode
+ 457:Generated_Source\PSoC5/Seat_ADC2.c **** *  parameter.
+ 458:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 459:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 460:Generated_Source\PSoC5/Seat_ADC2.c **** *  retMode:  Check conversion return mode.
+ 461:Generated_Source\PSoC5/Seat_ADC2.c **** *   Seat_ADC2_RETURN_STATUS: Immediately returns the status. If the
+ 462:Generated_Source\PSoC5/Seat_ADC2.c **** *     value returned is zero, the conversion is not complete, and this function
+ 463:Generated_Source\PSoC5/Seat_ADC2.c **** *     should be retried until a nonzero result is returned.
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 14
+
+
+ 464:Generated_Source\PSoC5/Seat_ADC2.c **** *   Seat_ADC2_WAIT_FOR_RESULT: Does not return a result until the ADC
+ 465:Generated_Source\PSoC5/Seat_ADC2.c **** *     conversion is complete.
+ 466:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 467:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 468:Generated_Source\PSoC5/Seat_ADC2.c **** *  (uint8)  0 =>  The ADC is still calculating the last result.
+ 469:Generated_Source\PSoC5/Seat_ADC2.c **** *           1 =>  The last conversion is complete.
+ 470:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 471:Generated_Source\PSoC5/Seat_ADC2.c **** * Side Effects:
+ 472:Generated_Source\PSoC5/Seat_ADC2.c **** *  This function reads the end of conversion status, which is cleared on read.
+ 473:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 474:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 475:Generated_Source\PSoC5/Seat_ADC2.c **** uint8 Seat_ADC2_IsEndConversion(uint8 retMode)
+ 476:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 477:Generated_Source\PSoC5/Seat_ADC2.c ****     uint8 status;
+ 478:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 479:Generated_Source\PSoC5/Seat_ADC2.c ****     do
+ 480:Generated_Source\PSoC5/Seat_ADC2.c ****     {
+ 481:Generated_Source\PSoC5/Seat_ADC2.c ****         status = Seat_ADC2_SAR_CSR1_REG & Seat_ADC2_SAR_EOF_1;
+ 482:Generated_Source\PSoC5/Seat_ADC2.c ****     } while ((status != Seat_ADC2_SAR_EOF_1) && (retMode == Seat_ADC2_WAIT_FOR_RESULT));
+ 483:Generated_Source\PSoC5/Seat_ADC2.c ****     /* If convertion complete, wait until EOF bit released */
+ 484:Generated_Source\PSoC5/Seat_ADC2.c ****     if(status == Seat_ADC2_SAR_EOF_1)
+ 485:Generated_Source\PSoC5/Seat_ADC2.c ****     {
+ 486:Generated_Source\PSoC5/Seat_ADC2.c ****         /* wait one ADC clock to let the EOC status bit release */
+ 487:Generated_Source\PSoC5/Seat_ADC2.c ****         CyDelayUs(1u);
+ 488:Generated_Source\PSoC5/Seat_ADC2.c ****         /* Do the unconditional read operation of the CSR1 register to make sure the EOC bit has be
+ 489:Generated_Source\PSoC5/Seat_ADC2.c ****         CY_GET_REG8(Seat_ADC2_SAR_CSR1_PTR);
+ 490:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 491:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 492:Generated_Source\PSoC5/Seat_ADC2.c ****     return(status);
+ 493:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 494:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 495:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 496:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 497:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_GetResult8
+ 498:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 499:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 500:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 501:Generated_Source\PSoC5/Seat_ADC2.c **** *  Returns the result of an 8-bit conversion. If the resolution is set greater
+ 502:Generated_Source\PSoC5/Seat_ADC2.c **** *  than 8 bits, the function returns the LSB of the result.
+ 503:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_IsEndConversion() should be called to verify that the data
+ 504:Generated_Source\PSoC5/Seat_ADC2.c **** *   sample is ready.
+ 505:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 506:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 507:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+ 508:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 509:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 510:Generated_Source\PSoC5/Seat_ADC2.c **** *  The LSB of the last ADC conversion.
+ 511:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 512:Generated_Source\PSoC5/Seat_ADC2.c **** * Global Variables:
+ 513:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_shift - used to convert the ADC counts to the 2s
+ 514:Generated_Source\PSoC5/Seat_ADC2.c **** *  compliment form.
+ 515:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 516:Generated_Source\PSoC5/Seat_ADC2.c **** * Side Effects:
+ 517:Generated_Source\PSoC5/Seat_ADC2.c **** *  Converts the ADC counts to the 2s complement form.
+ 518:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 519:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 520:Generated_Source\PSoC5/Seat_ADC2.c **** int8 Seat_ADC2_GetResult8( void )
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 15
+
+
+ 521:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 522:Generated_Source\PSoC5/Seat_ADC2.c ****     return( (int8)Seat_ADC2_SAR_WRK0_REG - (int8)Seat_ADC2_shift);
+ 523:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 524:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 525:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 526:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 527:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_GetResult16
+ 528:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 529:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 530:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 531:Generated_Source\PSoC5/Seat_ADC2.c **** *  Returns a 16-bit result for a conversion with a result that has a resolution
+ 532:Generated_Source\PSoC5/Seat_ADC2.c **** *  of 8 to 12 bits.
+ 533:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_IsEndConversion() should be called to verify that the data
+ 534:Generated_Source\PSoC5/Seat_ADC2.c **** *   sample is ready
+ 535:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 536:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 537:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+ 538:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 539:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 540:Generated_Source\PSoC5/Seat_ADC2.c **** *  The 16-bit result of the last ADC conversion
+ 541:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 542:Generated_Source\PSoC5/Seat_ADC2.c **** * Global Variables:
+ 543:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_shift - used to convert the ADC counts to the 2s
+ 544:Generated_Source\PSoC5/Seat_ADC2.c **** *  compliment form.
+ 545:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 546:Generated_Source\PSoC5/Seat_ADC2.c **** * Side Effects:
+ 547:Generated_Source\PSoC5/Seat_ADC2.c **** *  Converts the ADC counts to the 2s complement form.
+ 548:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 549:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 550:Generated_Source\PSoC5/Seat_ADC2.c **** int16 Seat_ADC2_GetResult16( void )
+ 551:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 552:Generated_Source\PSoC5/Seat_ADC2.c ****     uint16 res;
+ 553:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 554:Generated_Source\PSoC5/Seat_ADC2.c ****     res = CY_GET_REG16(Seat_ADC2_SAR_WRK_PTR);
+ 555:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 556:Generated_Source\PSoC5/Seat_ADC2.c ****     return( (int16)res - Seat_ADC2_shift );
+ 557:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 558:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 559:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 560:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 561:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_SetOffset
+ 562:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 563:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 564:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 565:Generated_Source\PSoC5/Seat_ADC2.c **** *  Sets the ADC offset, which is used by Seat_ADC2_CountsTo_Volts(),
+ 566:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_CountsTo_mVolts(), and Seat_ADC2_CountsTo_uVolts()
+ 567:Generated_Source\PSoC5/Seat_ADC2.c **** *  to subtract the offset from the given reading before calculating the voltage
+ 568:Generated_Source\PSoC5/Seat_ADC2.c **** *  conversion.
+ 569:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 570:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 571:Generated_Source\PSoC5/Seat_ADC2.c **** *  int16: This value is measured when the inputs are shorted or connected to
+ 572:Generated_Source\PSoC5/Seat_ADC2.c ****    the same input voltage.
+ 573:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 574:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 575:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+ 576:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 577:Generated_Source\PSoC5/Seat_ADC2.c **** * Global Variables:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 16
+
+
+ 578:Generated_Source\PSoC5/Seat_ADC2.c **** *  The Seat_ADC2_offset variable modified. This variable is used for
+ 579:Generated_Source\PSoC5/Seat_ADC2.c **** *  offset calibration purpose.
+ 580:Generated_Source\PSoC5/Seat_ADC2.c **** *  Affects the Seat_ADC2_CountsTo_Volts,
+ 581:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_CountsTo_mVolts, Seat_ADC2_CountsTo_uVolts functions
+ 582:Generated_Source\PSoC5/Seat_ADC2.c **** *  by subtracting the given offset.
+ 583:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 584:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 585:Generated_Source\PSoC5/Seat_ADC2.c **** void Seat_ADC2_SetOffset(int16 offset)
+ 586:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 587:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_offset = offset;
+ 588:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 589:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 590:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 591:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 592:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_CalcGain
+ 593:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 594:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 595:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 596:Generated_Source\PSoC5/Seat_ADC2.c **** *  This function calculates the ADC gain in counts per 10 volt.
+ 597:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 598:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 599:Generated_Source\PSoC5/Seat_ADC2.c **** *  uint8: resolution
+ 600:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 601:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 602:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+ 603:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 604:Generated_Source\PSoC5/Seat_ADC2.c **** * Global Variables:
+ 605:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_shift variable initialized. This variable is used to
+ 606:Generated_Source\PSoC5/Seat_ADC2.c **** *  convert the ADC counts to the 2s compliment form.
+ 607:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_countsPer10Volt variable initialized. This variable is used
+ 608:Generated_Source\PSoC5/Seat_ADC2.c **** *  for gain calibration purpose.
+ 609:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 610:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 611:Generated_Source\PSoC5/Seat_ADC2.c **** static void Seat_ADC2_CalcGain( uint8 resolution )
+ 612:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 613:Generated_Source\PSoC5/Seat_ADC2.c ****     int32 counts;
+ 614:Generated_Source\PSoC5/Seat_ADC2.c ****     #if(!((Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSS_TO_VREF) || \
+ 615:Generated_Source\PSoC5/Seat_ADC2.c ****          (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSSA_TO_VDDA) || \
+ 616:Generated_Source\PSoC5/Seat_ADC2.c ****          (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSSA_TO_VDAC)) )
+ 617:Generated_Source\PSoC5/Seat_ADC2.c ****         uint16 diff_zero;
+ 618:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* End Seat_ADC2_DEFAULT_RANGE */
+ 619:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 620:Generated_Source\PSoC5/Seat_ADC2.c ****     switch (resolution)
+ 621:Generated_Source\PSoC5/Seat_ADC2.c ****     {
+ 622:Generated_Source\PSoC5/Seat_ADC2.c ****         case (uint8)Seat_ADC2__BITS_12:
+ 623:Generated_Source\PSoC5/Seat_ADC2.c ****             counts = (int32)Seat_ADC2_SAR_WRK_MAX_12BIT;
+ 624:Generated_Source\PSoC5/Seat_ADC2.c ****             #if(!((Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSS_TO_VREF) || \
+ 625:Generated_Source\PSoC5/Seat_ADC2.c ****                  (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSSA_TO_VDDA) || \
+ 626:Generated_Source\PSoC5/Seat_ADC2.c ****                  (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSSA_TO_VDAC)) )
+ 627:Generated_Source\PSoC5/Seat_ADC2.c ****                 diff_zero = Seat_ADC2_SAR_DIFF_SHIFT;
+ 628:Generated_Source\PSoC5/Seat_ADC2.c ****             #endif /* End Seat_ADC2_DEFAULT_RANGE */
+ 629:Generated_Source\PSoC5/Seat_ADC2.c ****             break;
+ 630:Generated_Source\PSoC5/Seat_ADC2.c ****         case (uint8)Seat_ADC2__BITS_10:
+ 631:Generated_Source\PSoC5/Seat_ADC2.c ****             counts = (int32)Seat_ADC2_SAR_WRK_MAX_10BIT;
+ 632:Generated_Source\PSoC5/Seat_ADC2.c ****             #if(!((Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSS_TO_VREF) || \
+ 633:Generated_Source\PSoC5/Seat_ADC2.c ****                  (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSSA_TO_VDDA) || \
+ 634:Generated_Source\PSoC5/Seat_ADC2.c ****                  (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSSA_TO_VDAC)) )
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 17
+
+
+ 635:Generated_Source\PSoC5/Seat_ADC2.c ****                 diff_zero = Seat_ADC2_SAR_DIFF_SHIFT >> 2u;
+ 636:Generated_Source\PSoC5/Seat_ADC2.c ****             #endif /* End Seat_ADC2_DEFAULT_RANGE */
+ 637:Generated_Source\PSoC5/Seat_ADC2.c ****             break;
+ 638:Generated_Source\PSoC5/Seat_ADC2.c ****         case (uint8)Seat_ADC2__BITS_8:
+ 639:Generated_Source\PSoC5/Seat_ADC2.c ****             counts = (int32)Seat_ADC2_SAR_WRK_MAX_8BIT;
+ 640:Generated_Source\PSoC5/Seat_ADC2.c ****             #if(!((Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSS_TO_VREF) || \
+ 641:Generated_Source\PSoC5/Seat_ADC2.c ****                  (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSSA_TO_VDDA) || \
+ 642:Generated_Source\PSoC5/Seat_ADC2.c ****                  (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSSA_TO_VDAC)) )
+ 643:Generated_Source\PSoC5/Seat_ADC2.c ****                 diff_zero = Seat_ADC2_SAR_DIFF_SHIFT >> 4u;
+ 644:Generated_Source\PSoC5/Seat_ADC2.c ****             #endif /* End Seat_ADC2_DEFAULT_RANGE */
+ 645:Generated_Source\PSoC5/Seat_ADC2.c ****             break;
+ 646:Generated_Source\PSoC5/Seat_ADC2.c ****         default: /* Halt CPU in debug mode if resolution is out of valid range */
+ 647:Generated_Source\PSoC5/Seat_ADC2.c ****             counts = 0;
+ 648:Generated_Source\PSoC5/Seat_ADC2.c ****             #if(!((Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSS_TO_VREF) || \
+ 649:Generated_Source\PSoC5/Seat_ADC2.c ****                  (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSSA_TO_VDDA) || \
+ 650:Generated_Source\PSoC5/Seat_ADC2.c ****                  (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSSA_TO_VDAC)) )
+ 651:Generated_Source\PSoC5/Seat_ADC2.c ****                 diff_zero = 0u;
+ 652:Generated_Source\PSoC5/Seat_ADC2.c ****             #endif /* End Seat_ADC2_DEFAULT_RANGE */
+ 653:Generated_Source\PSoC5/Seat_ADC2.c ****             CYASSERT(0u != 0u);
+ 654:Generated_Source\PSoC5/Seat_ADC2.c ****             break;
+ 655:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 656:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_countsPerVolt = 0; /* Clear obsolete variable */
+ 262              		.loc 1 656 0
+ 263 001e 104B     		ldr	r3, .L18+8
+ 264 0020 9DBF     		ittte	ls
+ 265 0022 32F91010 		ldrshls	r1, [r2, r0, lsl #1]
+ 266 0026 02EB4000 		addls	r0, r2, r0, lsl #1
+ 267 002a 4289     		ldrhls	r2, [r0, #10]
+ 268              	.LBE5:
+ 269              	.LBE4:
+ 362:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 270              		.loc 1 362 0
+ 271 002c 0022     		movhi	r2, #0
+ 272              	.LBB8:
+ 273              	.LBB6:
+ 274              		.loc 1 656 0
+ 275 002e 4FF00000 		mov	r0, #0
+ 276              	.LBE6:
+ 277              	.LBE8:
+ 362:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 278              		.loc 1 362 0
+ 279 0032 88BF     		it	hi
+ 280 0034 1146     		movhi	r1, r2
+ 281              	.LVL21:
+ 282              	.LBB9:
+ 283              	.LBB7:
+ 284              		.loc 1 656 0
+ 285 0036 1880     		strh	r0, [r3]	@ movhi
+ 657:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Calculate gain in counts per 10 volts with rounding */
+ 658:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_countsPer10Volt = (((counts * Seat_ADC2_10MV_COUNTS) +
+ 659:Generated_Source\PSoC5/Seat_ADC2.c ****                         Seat_ADC2_DEFAULT_REF_VOLTAGE_MV) / (Seat_ADC2_DEFAULT_REF_VOLTAGE_MV * 2))
+ 286              		.loc 1 659 0
+ 287 0038 42F21073 		movw	r3, #10000
+ 288 003c 4B43     		muls	r3, r1, r3
+ 289 003e 4FF40061 		mov	r1, #2048
+ 290              	.LVL22:
+ 291 0042 03F58063 		add	r3, r3, #1024
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 18
+
+
+ 292 0046 93FBF1F3 		sdiv	r3, r3, r1
+ 658:Generated_Source\PSoC5/Seat_ADC2.c ****                         Seat_ADC2_DEFAULT_REF_VOLTAGE_MV) / (Seat_ADC2_DEFAULT_REF_VOLTAGE_MV * 2))
+ 293              		.loc 1 658 0
+ 294 004a 0649     		ldr	r1, .L18+12
+ 660:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 661:Generated_Source\PSoC5/Seat_ADC2.c ****     #if( (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSS_TO_VREF) || \
+ 662:Generated_Source\PSoC5/Seat_ADC2.c ****          (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSSA_TO_VDDA) || \
+ 663:Generated_Source\PSoC5/Seat_ADC2.c ****          (Seat_ADC2_DEFAULT_RANGE == Seat_ADC2__VSSA_TO_VDAC) )
+ 664:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_shift = 0;
+ 665:Generated_Source\PSoC5/Seat_ADC2.c ****     #else
+ 666:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_shift = diff_zero;
+ 295              		.loc 1 666 0
+ 296 004c 12B2     		sxth	r2, r2
+ 658:Generated_Source\PSoC5/Seat_ADC2.c ****                         Seat_ADC2_DEFAULT_REF_VOLTAGE_MV) / (Seat_ADC2_DEFAULT_REF_VOLTAGE_MV * 2))
+ 297              		.loc 1 658 0
+ 298 004e 0B60     		str	r3, [r1]
+ 299              		.loc 1 666 0
+ 300 0050 054B     		ldr	r3, .L18+16
+ 301 0052 1A80     		strh	r2, [r3]	@ movhi
+ 302              	.LVL23:
+ 303 0054 7047     		bx	lr
+ 304              	.L19:
+ 305 0056 00BF     		.align	2
+ 306              	.L18:
+ 307 0058 02590040 		.word	1073764610
+ 308 005c 00000000 		.word	.LANCHOR0
+ 309 0060 00000000 		.word	Seat_ADC2_countsPerVolt
+ 310 0064 00000000 		.word	Seat_ADC2_countsPer10Volt
+ 311 0068 00000000 		.word	Seat_ADC2_shift
+ 312              	.LBE7:
+ 313              	.LBE9:
+ 314              		.cfi_endproc
+ 315              	.LFE5:
+ 316              		.size	Seat_ADC2_SetResolution, .-Seat_ADC2_SetResolution
+ 317              		.section	.text.Seat_ADC2_Init,"ax",%progbits
+ 318              		.align	1
+ 319              		.global	Seat_ADC2_Init
+ 320              		.thumb
+ 321              		.thumb_func
+ 322              		.type	Seat_ADC2_Init, %function
+ 323              	Seat_ADC2_Init:
+ 324              	.LFB1:
+ 107:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 325              		.loc 1 107 0
+ 326              		.cfi_startproc
+ 327              		@ args = 0, pretend = 0, frame = 0
+ 328              		@ frame_needed = 0, uses_anonymous_args = 0
+ 329 0000 08B5     		push	{r3, lr}
+ 330              		.cfi_def_cfa_offset 8
+ 331              		.cfi_offset 3, -8
+ 332              		.cfi_offset 14, -4
+ 111:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* End Seat_ADC2_DEFAULT_INTERNAL_CLK */
+ 333              		.loc 1 111 0
+ 334 0002 1020     		movs	r0, #16
+ 335 0004 FFF7FEFF 		bl	Seat_ADC2_theACLK_SetModeRegister
+ 336              	.LVL24:
+ 116:Generated_Source\PSoC5/Seat_ADC2.c ****         (void)CyIntSetVector(Seat_ADC2_INTC_NUMBER, &Seat_ADC2_ISR);
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 19
+
+
+ 337              		.loc 1 116 0
+ 338 0008 0721     		movs	r1, #7
+ 339 000a 0020     		movs	r0, #0
+ 340 000c FFF7FEFF 		bl	CyIntSetPriority
+ 341              	.LVL25:
+ 117:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif   /* End Seat_ADC2_IRQ_REMOVE */
+ 342              		.loc 1 117 0
+ 343 0010 0749     		ldr	r1, .L21
+ 344 0012 0020     		movs	r0, #0
+ 345 0014 FFF7FEFF 		bl	CyIntSetVector
+ 346              	.LVL26:
+ 121:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 347              		.loc 1 121 0
+ 348 0018 064A     		ldr	r2, .L21+4
+ 124:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_offset = 0;
+ 349              		.loc 1 124 0
+ 350 001a 0C20     		movs	r0, #12
+ 121:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 351              		.loc 1 121 0
+ 352 001c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 353 001e 43F00603 		orr	r3, r3, #6
+ 354 0022 1370     		strb	r3, [r2]
+ 124:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_offset = 0;
+ 355              		.loc 1 124 0
+ 356 0024 FFF7FEFF 		bl	Seat_ADC2_SetResolution
+ 357              	.LVL27:
+ 125:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 358              		.loc 1 125 0
+ 359 0028 034B     		ldr	r3, .L21+8
+ 360 002a 0022     		movs	r2, #0
+ 361 002c 1A80     		strh	r2, [r3]	@ movhi
+ 362 002e 08BD     		pop	{r3, pc}
+ 363              	.L22:
+ 364              		.align	2
+ 365              	.L21:
+ 366 0030 00000000 		.word	Seat_ADC2_ISR
+ 367 0034 01590040 		.word	1073764609
+ 368 0038 00000000 		.word	Seat_ADC2_offset
+ 369              		.cfi_endproc
+ 370              	.LFE1:
+ 371              		.size	Seat_ADC2_Init, .-Seat_ADC2_Init
+ 372              		.section	.text.Seat_ADC2_Start,"ax",%progbits
+ 373              		.align	1
+ 374              		.global	Seat_ADC2_Start
+ 375              		.thumb
+ 376              		.thumb_func
+ 377              		.type	Seat_ADC2_Start, %function
+ 378              	Seat_ADC2_Start:
+ 379              	.LFB0:
+  75:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 380              		.loc 1 75 0
+ 381              		.cfi_startproc
+ 382              		@ args = 0, pretend = 0, frame = 0
+ 383              		@ frame_needed = 0, uses_anonymous_args = 0
+ 384 0000 10B5     		push	{r4, lr}
+ 385              		.cfi_def_cfa_offset 8
+ 386              		.cfi_offset 4, -8
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 20
+
+
+ 387              		.cfi_offset 14, -4
+  78:Generated_Source\PSoC5/Seat_ADC2.c ****     {
+ 388              		.loc 1 78 0
+ 389 0002 054C     		ldr	r4, .L25
+ 390 0004 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 391 0006 1BB9     		cbnz	r3, .L24
+  80:Generated_Source\PSoC5/Seat_ADC2.c ****         Seat_ADC2_initVar = 1u;
+ 392              		.loc 1 80 0
+ 393 0008 FFF7FEFF 		bl	Seat_ADC2_Init
+ 394              	.LVL28:
+  81:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 395              		.loc 1 81 0
+ 396 000c 0123     		movs	r3, #1
+ 397 000e 2370     		strb	r3, [r4]
+ 398              	.L24:
+  84:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 399              		.loc 1 84 0
+ 400 0010 BDE81040 		pop	{r4, lr}
+ 401              		.cfi_restore 14
+ 402              		.cfi_restore 4
+ 403              		.cfi_def_cfa_offset 0
+  83:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 404              		.loc 1 83 0
+ 405 0014 FFF7FEBF 		b	Seat_ADC2_Enable
+ 406              	.LVL29:
+ 407              	.L26:
+ 408              		.align	2
+ 409              	.L25:
+ 410 0018 00000000 		.word	.LANCHOR1
+ 411              		.cfi_endproc
+ 412              	.LFE0:
+ 413              		.size	Seat_ADC2_Start, .-Seat_ADC2_Start
+ 414              		.section	.text.Seat_ADC2_StartConvert,"ax",%progbits
+ 415              		.align	1
+ 416              		.global	Seat_ADC2_StartConvert
+ 417              		.thumb
+ 418              		.thumb_func
+ 419              		.type	Seat_ADC2_StartConvert, %function
+ 420              	Seat_ADC2_StartConvert:
+ 421              	.LFB6:
+ 402:Generated_Source\PSoC5/Seat_ADC2.c ****         #if(Seat_ADC2_DEFAULT_CONV_MODE != Seat_ADC2__FREE_RUNNING)  /* If software triggered mode 
+ 422              		.loc 1 402 0
+ 423              		.cfi_startproc
+ 424              		@ args = 0, pretend = 0, frame = 0
+ 425              		@ frame_needed = 0, uses_anonymous_args = 0
+ 426              		@ link register save eliminated.
+ 404:Generated_Source\PSoC5/Seat_ADC2.c ****         #endif /* End Seat_ADC2_DEFAULT_CONV_MODE */
+ 427              		.loc 1 404 0
+ 428 0000 044B     		ldr	r3, .L28
+ 429 0002 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 430 0004 02F0FB02 		and	r2, r2, #251
+ 431 0008 1A70     		strb	r2, [r3]
+ 408:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 432              		.loc 1 408 0
+ 433 000a 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 434 000c 42F00102 		orr	r2, r2, #1
+ 435 0010 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 21
+
+
+ 436 0012 7047     		bx	lr
+ 437              	.L29:
+ 438              		.align	2
+ 439              	.L28:
+ 440 0014 00590040 		.word	1073764608
+ 441              		.cfi_endproc
+ 442              	.LFE6:
+ 443              		.size	Seat_ADC2_StartConvert, .-Seat_ADC2_StartConvert
+ 444              		.section	.text.Seat_ADC2_StopConvert,"ax",%progbits
+ 445              		.align	1
+ 446              		.global	Seat_ADC2_StopConvert
+ 447              		.thumb
+ 448              		.thumb_func
+ 449              		.type	Seat_ADC2_StopConvert, %function
+ 450              	Seat_ADC2_StopConvert:
+ 451              	.LFB7:
+ 436:Generated_Source\PSoC5/Seat_ADC2.c ****         /* Stop all conversions */
+ 452              		.loc 1 436 0
+ 453              		.cfi_startproc
+ 454              		@ args = 0, pretend = 0, frame = 0
+ 455              		@ frame_needed = 0, uses_anonymous_args = 0
+ 456              		@ link register save eliminated.
+ 438:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 457              		.loc 1 438 0
+ 458 0000 044B     		ldr	r3, .L31
+ 459 0002 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 460 0004 02F0FE02 		and	r2, r2, #254
+ 461 0008 1A70     		strb	r2, [r3]
+ 442:Generated_Source\PSoC5/Seat_ADC2.c ****         #endif /* End Seat_ADC2_DEFAULT_CONV_MODE */
+ 462              		.loc 1 442 0
+ 463 000a 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 464 000c 42F00402 		orr	r2, r2, #4
+ 465 0010 1A70     		strb	r2, [r3]
+ 466 0012 7047     		bx	lr
+ 467              	.L32:
+ 468              		.align	2
+ 469              	.L31:
+ 470 0014 00590040 		.word	1073764608
+ 471              		.cfi_endproc
+ 472              	.LFE7:
+ 473              		.size	Seat_ADC2_StopConvert, .-Seat_ADC2_StopConvert
+ 474              		.section	.text.Seat_ADC2_IsEndConversion,"ax",%progbits
+ 475              		.align	1
+ 476              		.global	Seat_ADC2_IsEndConversion
+ 477              		.thumb
+ 478              		.thumb_func
+ 479              		.type	Seat_ADC2_IsEndConversion, %function
+ 480              	Seat_ADC2_IsEndConversion:
+ 481              	.LFB8:
+ 476:Generated_Source\PSoC5/Seat_ADC2.c ****     uint8 status;
+ 482              		.loc 1 476 0
+ 483              		.cfi_startproc
+ 484              		@ args = 0, pretend = 0, frame = 0
+ 485              		@ frame_needed = 0, uses_anonymous_args = 0
+ 486              	.LVL30:
+ 487 0000 10B5     		push	{r4, lr}
+ 488              		.cfi_def_cfa_offset 8
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 22
+
+
+ 489              		.cfi_offset 4, -8
+ 490              		.cfi_offset 14, -4
+ 481:Generated_Source\PSoC5/Seat_ADC2.c ****     } while ((status != Seat_ADC2_SAR_EOF_1) && (retMode == Seat_ADC2_WAIT_FOR_RESULT));
+ 491              		.loc 1 481 0
+ 492 0002 084B     		ldr	r3, .L40
+ 493              	.L35:
+ 481:Generated_Source\PSoC5/Seat_ADC2.c ****     } while ((status != Seat_ADC2_SAR_EOF_1) && (retMode == Seat_ADC2_WAIT_FOR_RESULT));
+ 494              		.loc 1 481 0 is_stmt 0 discriminator 2
+ 495 0004 1C78     		ldrb	r4, [r3]	@ zero_extendqisi2
+ 496              	.LVL31:
+ 482:Generated_Source\PSoC5/Seat_ADC2.c ****     /* If convertion complete, wait until EOF bit released */
+ 497              		.loc 1 482 0 is_stmt 1 discriminator 2
+ 498 0006 14F00104 		ands	r4, r4, #1
+ 499              	.LVL32:
+ 500 000a 03D1     		bne	.L34
+ 482:Generated_Source\PSoC5/Seat_ADC2.c ****     /* If convertion complete, wait until EOF bit released */
+ 501              		.loc 1 482 0 is_stmt 0 discriminator 1
+ 502 000c 0028     		cmp	r0, #0
+ 503 000e F9D0     		beq	.L35
+ 504 0010 0024     		movs	r4, #0
+ 505 0012 04E0     		b	.L39
+ 506              	.L34:
+ 487:Generated_Source\PSoC5/Seat_ADC2.c ****         /* Do the unconditional read operation of the CSR1 register to make sure the EOC bit has be
+ 507              		.loc 1 487 0 is_stmt 1
+ 508 0014 2046     		mov	r0, r4
+ 509              	.LVL33:
+ 510 0016 FFF7FEFF 		bl	CyDelayUs
+ 511              	.LVL34:
+ 489:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 512              		.loc 1 489 0
+ 513 001a 024B     		ldr	r3, .L40
+ 514 001c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 515              	.L39:
+ 493:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 516              		.loc 1 493 0
+ 517 001e 2046     		mov	r0, r4
+ 518 0020 10BD     		pop	{r4, pc}
+ 519              	.L41:
+ 520 0022 00BF     		.align	2
+ 521              	.L40:
+ 522 0024 01590040 		.word	1073764609
+ 523              		.cfi_endproc
+ 524              	.LFE8:
+ 525              		.size	Seat_ADC2_IsEndConversion, .-Seat_ADC2_IsEndConversion
+ 526              		.section	.text.Seat_ADC2_GetResult8,"ax",%progbits
+ 527              		.align	1
+ 528              		.global	Seat_ADC2_GetResult8
+ 529              		.thumb
+ 530              		.thumb_func
+ 531              		.type	Seat_ADC2_GetResult8, %function
+ 532              	Seat_ADC2_GetResult8:
+ 533              	.LFB9:
+ 521:Generated_Source\PSoC5/Seat_ADC2.c ****     return( (int8)Seat_ADC2_SAR_WRK0_REG - (int8)Seat_ADC2_shift);
+ 534              		.loc 1 521 0
+ 535              		.cfi_startproc
+ 536              		@ args = 0, pretend = 0, frame = 0
+ 537              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 23
+
+
+ 538              		@ link register save eliminated.
+ 522:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 539              		.loc 1 522 0
+ 540 0000 034A     		ldr	r2, .L43
+ 541 0002 044B     		ldr	r3, .L43+4
+ 542 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 543 0006 1088     		ldrh	r0, [r2]
+ 544 0008 181A     		subs	r0, r3, r0
+ 523:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 545              		.loc 1 523 0
+ 546 000a 40B2     		sxtb	r0, r0
+ 547 000c 7047     		bx	lr
+ 548              	.L44:
+ 549 000e 00BF     		.align	2
+ 550              	.L43:
+ 551 0010 00000000 		.word	Seat_ADC2_shift
+ 552 0014 A05B0040 		.word	1073765280
+ 553              		.cfi_endproc
+ 554              	.LFE9:
+ 555              		.size	Seat_ADC2_GetResult8, .-Seat_ADC2_GetResult8
+ 556              		.section	.text.Seat_ADC2_GetResult16,"ax",%progbits
+ 557              		.align	1
+ 558              		.global	Seat_ADC2_GetResult16
+ 559              		.thumb
+ 560              		.thumb_func
+ 561              		.type	Seat_ADC2_GetResult16, %function
+ 562              	Seat_ADC2_GetResult16:
+ 563              	.LFB10:
+ 551:Generated_Source\PSoC5/Seat_ADC2.c ****     uint16 res;
+ 564              		.loc 1 551 0
+ 565              		.cfi_startproc
+ 566              		@ args = 0, pretend = 0, frame = 0
+ 567              		@ frame_needed = 0, uses_anonymous_args = 0
+ 568              		@ link register save eliminated.
+ 556:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 569              		.loc 1 556 0
+ 570 0000 034A     		ldr	r2, .L46
+ 554:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 571              		.loc 1 554 0
+ 572 0002 044B     		ldr	r3, .L46+4
+ 573 0004 1B88     		ldrh	r3, [r3]
+ 574              	.LVL35:
+ 556:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 575              		.loc 1 556 0
+ 576 0006 1088     		ldrh	r0, [r2]
+ 577 0008 181A     		subs	r0, r3, r0
+ 557:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 578              		.loc 1 557 0
+ 579 000a 00B2     		sxth	r0, r0
+ 580 000c 7047     		bx	lr
+ 581              	.L47:
+ 582 000e 00BF     		.align	2
+ 583              	.L46:
+ 584 0010 00000000 		.word	Seat_ADC2_shift
+ 585 0014 A05B0040 		.word	1073765280
+ 586              		.cfi_endproc
+ 587              	.LFE10:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 24
+
+
+ 588              		.size	Seat_ADC2_GetResult16, .-Seat_ADC2_GetResult16
+ 589              		.section	.text.Seat_ADC2_SetOffset,"ax",%progbits
+ 590              		.align	1
+ 591              		.global	Seat_ADC2_SetOffset
+ 592              		.thumb
+ 593              		.thumb_func
+ 594              		.type	Seat_ADC2_SetOffset, %function
+ 595              	Seat_ADC2_SetOffset:
+ 596              	.LFB11:
+ 586:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_offset = offset;
+ 597              		.loc 1 586 0
+ 598              		.cfi_startproc
+ 599              		@ args = 0, pretend = 0, frame = 0
+ 600              		@ frame_needed = 0, uses_anonymous_args = 0
+ 601              		@ link register save eliminated.
+ 602              	.LVL36:
+ 587:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 603              		.loc 1 587 0
+ 604 0000 014B     		ldr	r3, .L49
+ 605 0002 1880     		strh	r0, [r3]	@ movhi
+ 606 0004 7047     		bx	lr
+ 607              	.L50:
+ 608 0006 00BF     		.align	2
+ 609              	.L49:
+ 610 0008 00000000 		.word	Seat_ADC2_offset
+ 611              		.cfi_endproc
+ 612              	.LFE11:
+ 613              		.size	Seat_ADC2_SetOffset, .-Seat_ADC2_SetOffset
+ 614              		.section	.text.Seat_ADC2_SetGain,"ax",%progbits
+ 615              		.align	1
+ 616              		.global	Seat_ADC2_SetGain
+ 617              		.thumb
+ 618              		.thumb_func
+ 619              		.type	Seat_ADC2_SetGain, %function
+ 620              	Seat_ADC2_SetGain:
+ 621              	.LFB13:
+ 667:Generated_Source\PSoC5/Seat_ADC2.c ****     #endif /* End Seat_ADC2_DEFAULT_RANGE */
+ 668:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 669:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 670:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 671:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 672:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_SetGain
+ 673:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 674:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 675:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 676:Generated_Source\PSoC5/Seat_ADC2.c **** *  Sets the ADC gain in counts per volt for the voltage conversion functions
+ 677:Generated_Source\PSoC5/Seat_ADC2.c **** *  that follow. This value is set by default by the reference and input range
+ 678:Generated_Source\PSoC5/Seat_ADC2.c **** *  settings. It should only be used to further calibrate the ADC with a known
+ 679:Generated_Source\PSoC5/Seat_ADC2.c **** *  input or if the ADC is using an external reference.
+ 680:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 681:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 682:Generated_Source\PSoC5/Seat_ADC2.c **** *  int16 adcGain counts per volt
+ 683:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 684:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 685:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+ 686:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 687:Generated_Source\PSoC5/Seat_ADC2.c **** * Global Variables:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 25
+
+
+ 688:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_countsPer10Volt variable modified. This variable is used
+ 689:Generated_Source\PSoC5/Seat_ADC2.c **** *  for gain calibration purpose.
+ 690:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 691:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 692:Generated_Source\PSoC5/Seat_ADC2.c **** void Seat_ADC2_SetGain(int16 adcGain)
+ 693:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 622              		.loc 1 693 0
+ 623              		.cfi_startproc
+ 624              		@ args = 0, pretend = 0, frame = 0
+ 625              		@ frame_needed = 0, uses_anonymous_args = 0
+ 626              		@ link register save eliminated.
+ 627              	.LVL37:
+ 694:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_countsPer10Volt = (int32)adcGain * 10;
+ 628              		.loc 1 694 0
+ 629 0000 0A23     		movs	r3, #10
+ 630 0002 5843     		muls	r0, r3, r0
+ 631              	.LVL38:
+ 632 0004 014B     		ldr	r3, .L52
+ 633 0006 1860     		str	r0, [r3]
+ 634 0008 7047     		bx	lr
+ 635              	.L53:
+ 636 000a 00BF     		.align	2
+ 637              	.L52:
+ 638 000c 00000000 		.word	Seat_ADC2_countsPer10Volt
+ 639              		.cfi_endproc
+ 640              	.LFE13:
+ 641              		.size	Seat_ADC2_SetGain, .-Seat_ADC2_SetGain
+ 642              		.section	.text.Seat_ADC2_SetScaledGain,"ax",%progbits
+ 643              		.align	1
+ 644              		.global	Seat_ADC2_SetScaledGain
+ 645              		.thumb
+ 646              		.thumb_func
+ 647              		.type	Seat_ADC2_SetScaledGain, %function
+ 648              	Seat_ADC2_SetScaledGain:
+ 649              	.LFB14:
+ 695:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 696:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 697:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 698:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 699:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_SetScaledGain
+ 700:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 701:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 702:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 703:Generated_Source\PSoC5/Seat_ADC2.c **** *  Sets the ADC gain in counts per 10 volt for the voltage conversion functions
+ 704:Generated_Source\PSoC5/Seat_ADC2.c **** *  that follow. This value is set by default by the reference and input range
+ 705:Generated_Source\PSoC5/Seat_ADC2.c **** *  settings. It should only be used to further calibrate the ADC with a known
+ 706:Generated_Source\PSoC5/Seat_ADC2.c **** *  input or if the ADC is using an external reference.
+ 707:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 708:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 709:Generated_Source\PSoC5/Seat_ADC2.c **** *  int32 adcGain  counts per 10 volt
+ 710:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 711:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 712:Generated_Source\PSoC5/Seat_ADC2.c **** *  None.
+ 713:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 714:Generated_Source\PSoC5/Seat_ADC2.c **** * Global Variables:
+ 715:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_countsPer10Volt variable modified. This variable is used
+ 716:Generated_Source\PSoC5/Seat_ADC2.c **** *  for gain calibration purpose.
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 26
+
+
+ 717:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 718:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 719:Generated_Source\PSoC5/Seat_ADC2.c **** void Seat_ADC2_SetScaledGain(int32 adcGain)
+ 720:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 650              		.loc 1 720 0
+ 651              		.cfi_startproc
+ 652              		@ args = 0, pretend = 0, frame = 0
+ 653              		@ frame_needed = 0, uses_anonymous_args = 0
+ 654              		@ link register save eliminated.
+ 655              	.LVL39:
+ 721:Generated_Source\PSoC5/Seat_ADC2.c ****     Seat_ADC2_countsPer10Volt = adcGain;
+ 656              		.loc 1 721 0
+ 657 0000 014B     		ldr	r3, .L55
+ 658 0002 1860     		str	r0, [r3]
+ 659 0004 7047     		bx	lr
+ 660              	.L56:
+ 661 0006 00BF     		.align	2
+ 662              	.L55:
+ 663 0008 00000000 		.word	Seat_ADC2_countsPer10Volt
+ 664              		.cfi_endproc
+ 665              	.LFE14:
+ 666              		.size	Seat_ADC2_SetScaledGain, .-Seat_ADC2_SetScaledGain
+ 667              		.section	.text.Seat_ADC2_CountsTo_mVolts,"ax",%progbits
+ 668              		.align	1
+ 669              		.global	Seat_ADC2_CountsTo_mVolts
+ 670              		.thumb
+ 671              		.thumb_func
+ 672              		.type	Seat_ADC2_CountsTo_mVolts, %function
+ 673              	Seat_ADC2_CountsTo_mVolts:
+ 674              	.LFB15:
+ 722:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 723:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 724:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 725:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 726:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_CountsTo_mVolts
+ 727:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 728:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 729:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 730:Generated_Source\PSoC5/Seat_ADC2.c **** *  Converts the ADC output to millivolts as a 16-bit integer.
+ 731:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 732:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 733:Generated_Source\PSoC5/Seat_ADC2.c **** *  int16 adcCounts:  Result from the ADC conversion
+ 734:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 735:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 736:Generated_Source\PSoC5/Seat_ADC2.c **** *  int16 Result in mVolts
+ 737:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 738:Generated_Source\PSoC5/Seat_ADC2.c **** * Global Variables:
+ 739:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_offset variable used.
+ 740:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_countsPer10Volt variable used.
+ 741:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 742:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 743:Generated_Source\PSoC5/Seat_ADC2.c **** int16 Seat_ADC2_CountsTo_mVolts(int16 adcCounts)
+ 744:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 675              		.loc 1 744 0
+ 676              		.cfi_startproc
+ 677              		@ args = 0, pretend = 0, frame = 0
+ 678              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 27
+
+
+ 679              		@ link register save eliminated.
+ 680              	.LVL40:
+ 745:Generated_Source\PSoC5/Seat_ADC2.c ****     int16 mVolts;
+ 746:Generated_Source\PSoC5/Seat_ADC2.c ****     int32 countsPer10Volt;
+ 747:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 748:Generated_Source\PSoC5/Seat_ADC2.c ****     if(Seat_ADC2_countsPerVolt != 0)
+ 681              		.loc 1 748 0
+ 682 0000 0E4A     		ldr	r2, .L62
+ 683 0002 1388     		ldrh	r3, [r2]
+ 684 0004 1BB2     		sxth	r3, r3
+ 685 0006 23B1     		cbz	r3, .L58
+ 749:Generated_Source\PSoC5/Seat_ADC2.c ****     {   /* Support obsolete method */
+ 750:Generated_Source\PSoC5/Seat_ADC2.c ****         countsPer10Volt = (int32)Seat_ADC2_countsPerVolt * 10;
+ 686              		.loc 1 750 0
+ 687 0008 1188     		ldrh	r1, [r2]
+ 688 000a 0A23     		movs	r3, #10
+ 689 000c 09B2     		sxth	r1, r1
+ 690 000e 5943     		muls	r1, r3, r1
+ 691              	.LVL41:
+ 692 0010 01E0     		b	.L59
+ 693              	.LVL42:
+ 694              	.L58:
+ 751:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 752:Generated_Source\PSoC5/Seat_ADC2.c ****     else
+ 753:Generated_Source\PSoC5/Seat_ADC2.c ****     {
+ 754:Generated_Source\PSoC5/Seat_ADC2.c ****         countsPer10Volt = Seat_ADC2_countsPer10Volt;
+ 695              		.loc 1 754 0
+ 696 0012 0B4B     		ldr	r3, .L62+4
+ 697 0014 1968     		ldr	r1, [r3]
+ 698              	.LVL43:
+ 699              	.L59:
+ 755:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 756:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 757:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Subtract ADC offset */
+ 758:Generated_Source\PSoC5/Seat_ADC2.c ****     adcCounts -= Seat_ADC2_offset;
+ 700              		.loc 1 758 0
+ 701 0016 0B4B     		ldr	r3, .L62+8
+ 702 0018 1B88     		ldrh	r3, [r3]
+ 703 001a C01A     		subs	r0, r0, r3
+ 704              	.LVL44:
+ 759:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Convert to millivolts with rounding */
+ 760:Generated_Source\PSoC5/Seat_ADC2.c ****     mVolts = (int16)( (( (int32)adcCounts * Seat_ADC2_10MV_COUNTS ) + ( (adcCounts > 0) ?
+ 705              		.loc 1 760 0
+ 706 001c 42F21073 		movw	r3, #10000
+ 758:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Convert to millivolts with rounding */
+ 707              		.loc 1 758 0
+ 708 0020 00B2     		sxth	r0, r0
+ 709              	.LVL45:
+ 710              		.loc 1 760 0
+ 711 0022 03FB00F2 		mul	r2, r3, r0
+ 712 0026 0223     		movs	r3, #2
+ 761:Generated_Source\PSoC5/Seat_ADC2.c ****                        (countsPer10Volt / 2) : (-(countsPer10Volt / 2)) )) / countsPer10Volt);
+ 713              		.loc 1 761 0
+ 714 0028 91FBF3F3 		sdiv	r3, r1, r3
+ 715 002c 0028     		cmp	r0, #0
+ 716 002e D8BF     		it	le
+ 717 0030 5B42     		rsble	r3, r3, #0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 28
+
+
+ 718              	.LVL46:
+ 762:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 763:Generated_Source\PSoC5/Seat_ADC2.c ****     return( mVolts );
+ 719              		.loc 1 763 0
+ 720 0032 1344     		add	r3, r3, r2
+ 721              	.LVL47:
+ 722 0034 93FBF1F0 		sdiv	r0, r3, r1
+ 723              	.LVL48:
+ 764:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 724              		.loc 1 764 0
+ 725 0038 00B2     		sxth	r0, r0
+ 726 003a 7047     		bx	lr
+ 727              	.L63:
+ 728              		.align	2
+ 729              	.L62:
+ 730 003c 00000000 		.word	Seat_ADC2_countsPerVolt
+ 731 0040 00000000 		.word	Seat_ADC2_countsPer10Volt
+ 732 0044 00000000 		.word	Seat_ADC2_offset
+ 733              		.cfi_endproc
+ 734              	.LFE15:
+ 735              		.size	Seat_ADC2_CountsTo_mVolts, .-Seat_ADC2_CountsTo_mVolts
+ 736              		.global	__aeabi_ldivmod
+ 737              		.section	.text.Seat_ADC2_CountsTo_uVolts,"ax",%progbits
+ 738              		.align	1
+ 739              		.global	Seat_ADC2_CountsTo_uVolts
+ 740              		.thumb
+ 741              		.thumb_func
+ 742              		.type	Seat_ADC2_CountsTo_uVolts, %function
+ 743              	Seat_ADC2_CountsTo_uVolts:
+ 744              	.LFB16:
+ 765:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 766:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 767:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 768:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_CountsTo_uVolts
+ 769:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 770:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 771:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 772:Generated_Source\PSoC5/Seat_ADC2.c **** *  Converts the ADC output to microvolts as a 32-bit integer.
+ 773:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 774:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 775:Generated_Source\PSoC5/Seat_ADC2.c **** *  int16 adcCounts: Result from the ADC conversion
+ 776:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 777:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 778:Generated_Source\PSoC5/Seat_ADC2.c **** *  int32 Result in micro Volts
+ 779:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 780:Generated_Source\PSoC5/Seat_ADC2.c **** * Global Variables:
+ 781:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_offset variable used.
+ 782:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_countsPer10Volt used to convert ADC counts to uVolts.
+ 783:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 784:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 785:Generated_Source\PSoC5/Seat_ADC2.c **** int32 Seat_ADC2_CountsTo_uVolts(int16 adcCounts)
+ 786:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 745              		.loc 1 786 0
+ 746              		.cfi_startproc
+ 747              		@ args = 0, pretend = 0, frame = 0
+ 748              		@ frame_needed = 0, uses_anonymous_args = 0
+ 749              	.LVL49:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 29
+
+
+ 787:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 788:Generated_Source\PSoC5/Seat_ADC2.c ****     int64 uVolts;
+ 789:Generated_Source\PSoC5/Seat_ADC2.c ****     int32 countsPer10Volt;
+ 790:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 791:Generated_Source\PSoC5/Seat_ADC2.c ****     if(Seat_ADC2_countsPerVolt != 0)
+ 750              		.loc 1 791 0
+ 751 0000 0C4A     		ldr	r2, .L67
+ 786:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 752              		.loc 1 786 0
+ 753 0002 38B5     		push	{r3, r4, r5, lr}
+ 754              		.cfi_def_cfa_offset 16
+ 755              		.cfi_offset 3, -16
+ 756              		.cfi_offset 4, -12
+ 757              		.cfi_offset 5, -8
+ 758              		.cfi_offset 14, -4
+ 759              		.loc 1 791 0
+ 760 0004 1388     		ldrh	r3, [r2]
+ 761 0006 1BB2     		sxth	r3, r3
+ 762 0008 23B1     		cbz	r3, .L65
+ 792:Generated_Source\PSoC5/Seat_ADC2.c ****     {   /* Support obsolete method */
+ 793:Generated_Source\PSoC5/Seat_ADC2.c ****         countsPer10Volt = (int32)Seat_ADC2_countsPerVolt * 10;
+ 763              		.loc 1 793 0
+ 764 000a 1288     		ldrh	r2, [r2]
+ 765 000c 0A23     		movs	r3, #10
+ 766 000e 12B2     		sxth	r2, r2
+ 767 0010 5A43     		muls	r2, r3, r2
+ 768              	.LVL50:
+ 769 0012 01E0     		b	.L66
+ 770              	.LVL51:
+ 771              	.L65:
+ 794:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 795:Generated_Source\PSoC5/Seat_ADC2.c ****     else
+ 796:Generated_Source\PSoC5/Seat_ADC2.c ****     {
+ 797:Generated_Source\PSoC5/Seat_ADC2.c ****         countsPer10Volt = Seat_ADC2_countsPer10Volt;
+ 772              		.loc 1 797 0
+ 773 0014 084B     		ldr	r3, .L67+4
+ 774 0016 1A68     		ldr	r2, [r3]
+ 775              	.LVL52:
+ 776              	.L66:
+ 798:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 799:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 800:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Subtract ADC offset */
+ 801:Generated_Source\PSoC5/Seat_ADC2.c ****     adcCounts -= Seat_ADC2_offset;
+ 777              		.loc 1 801 0
+ 778 0018 084B     		ldr	r3, .L67+8
+ 779 001a 1C88     		ldrh	r4, [r3]
+ 802:Generated_Source\PSoC5/Seat_ADC2.c ****     /* To convert adcCounts to microVolts it is required to be multiplied
+ 803:Generated_Source\PSoC5/Seat_ADC2.c ****     *  on 10 million and later divide on gain in counts per 10V.
+ 804:Generated_Source\PSoC5/Seat_ADC2.c ****     */
+ 805:Generated_Source\PSoC5/Seat_ADC2.c ****     uVolts = (( (int64)adcCounts * Seat_ADC2_10UV_COUNTS ) / countsPer10Volt);
+ 806:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 807:Generated_Source\PSoC5/Seat_ADC2.c ****     return((int32) uVolts );
+ 780              		.loc 1 807 0
+ 781 001c 084B     		ldr	r3, .L67+12
+ 801:Generated_Source\PSoC5/Seat_ADC2.c ****     /* To convert adcCounts to microVolts it is required to be multiplied
+ 782              		.loc 1 801 0
+ 783 001e 041B     		subs	r4, r0, r4
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 30
+
+
+ 784              	.LVL53:
+ 785              		.loc 1 807 0
+ 786 0020 24B2     		sxth	r4, r4
+ 787 0022 A4FB0301 		umull	r0, r1, r4, r3
+ 788 0026 E517     		asrs	r5, r4, #31
+ 789 0028 03FB0511 		mla	r1, r3, r5, r1
+ 790 002c D317     		asrs	r3, r2, #31
+ 791 002e FFF7FEFF 		bl	__aeabi_ldivmod
+ 792              	.LVL54:
+ 808:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 793              		.loc 1 808 0
+ 794 0032 38BD     		pop	{r3, r4, r5, pc}
+ 795              	.LVL55:
+ 796              	.L68:
+ 797              		.align	2
+ 798              	.L67:
+ 799 0034 00000000 		.word	Seat_ADC2_countsPerVolt
+ 800 0038 00000000 		.word	Seat_ADC2_countsPer10Volt
+ 801 003c 00000000 		.word	Seat_ADC2_offset
+ 802 0040 80969800 		.word	10000000
+ 803              		.cfi_endproc
+ 804              	.LFE16:
+ 805              		.size	Seat_ADC2_CountsTo_uVolts, .-Seat_ADC2_CountsTo_uVolts
+ 806              		.global	__aeabi_i2f
+ 807              		.global	__aeabi_fmul
+ 808              		.global	__aeabi_fdiv
+ 809              		.section	.text.Seat_ADC2_CountsTo_Volts,"ax",%progbits
+ 810              		.align	1
+ 811              		.global	Seat_ADC2_CountsTo_Volts
+ 812              		.thumb
+ 813              		.thumb_func
+ 814              		.type	Seat_ADC2_CountsTo_Volts, %function
+ 815              	Seat_ADC2_CountsTo_Volts:
+ 816              	.LFB17:
+ 809:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 810:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 811:Generated_Source\PSoC5/Seat_ADC2.c **** /*******************************************************************************
+ 812:Generated_Source\PSoC5/Seat_ADC2.c **** * Function Name: Seat_ADC2_CountsTo_Volts
+ 813:Generated_Source\PSoC5/Seat_ADC2.c **** ********************************************************************************
+ 814:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 815:Generated_Source\PSoC5/Seat_ADC2.c **** * Summary:
+ 816:Generated_Source\PSoC5/Seat_ADC2.c **** *  Converts the ADC output to volts as a floating-point number.
+ 817:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 818:Generated_Source\PSoC5/Seat_ADC2.c **** * Parameters:
+ 819:Generated_Source\PSoC5/Seat_ADC2.c **** *  int16 adcCounts: Result from the ADC conversion
+ 820:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 821:Generated_Source\PSoC5/Seat_ADC2.c **** * Return:
+ 822:Generated_Source\PSoC5/Seat_ADC2.c **** *  float Result in Volts
+ 823:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 824:Generated_Source\PSoC5/Seat_ADC2.c **** * Global Variables:
+ 825:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_offset variable used.
+ 826:Generated_Source\PSoC5/Seat_ADC2.c **** *  Seat_ADC2_countsPer10Volt used to convert ADC counts to Volts.
+ 827:Generated_Source\PSoC5/Seat_ADC2.c **** *
+ 828:Generated_Source\PSoC5/Seat_ADC2.c **** *******************************************************************************/
+ 829:Generated_Source\PSoC5/Seat_ADC2.c **** float32 Seat_ADC2_CountsTo_Volts(int16 adcCounts)
+ 830:Generated_Source\PSoC5/Seat_ADC2.c **** {
+ 817              		.loc 1 830 0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 31
+
+
+ 818              		.cfi_startproc
+ 819              		@ args = 0, pretend = 0, frame = 0
+ 820              		@ frame_needed = 0, uses_anonymous_args = 0
+ 821              	.LVL56:
+ 831:Generated_Source\PSoC5/Seat_ADC2.c ****     float32 volts;
+ 832:Generated_Source\PSoC5/Seat_ADC2.c ****     int32 countsPer10Volt;
+ 833:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 834:Generated_Source\PSoC5/Seat_ADC2.c ****     if(Seat_ADC2_countsPerVolt != 0)
+ 822              		.loc 1 834 0
+ 823 0000 0E4A     		ldr	r2, .L72
+ 830:Generated_Source\PSoC5/Seat_ADC2.c ****     float32 volts;
+ 824              		.loc 1 830 0
+ 825 0002 38B5     		push	{r3, r4, r5, lr}
+ 826              		.cfi_def_cfa_offset 16
+ 827              		.cfi_offset 3, -16
+ 828              		.cfi_offset 4, -12
+ 829              		.cfi_offset 5, -8
+ 830              		.cfi_offset 14, -4
+ 831              		.loc 1 834 0
+ 832 0004 1388     		ldrh	r3, [r2]
+ 833 0006 1BB2     		sxth	r3, r3
+ 834 0008 23B1     		cbz	r3, .L70
+ 835:Generated_Source\PSoC5/Seat_ADC2.c ****     {   /* Support obsolete method */
+ 836:Generated_Source\PSoC5/Seat_ADC2.c ****         countsPer10Volt = (int32)Seat_ADC2_countsPerVolt * 10;
+ 835              		.loc 1 836 0
+ 836 000a 1488     		ldrh	r4, [r2]
+ 837 000c 0A23     		movs	r3, #10
+ 838 000e 24B2     		sxth	r4, r4
+ 839 0010 5C43     		muls	r4, r3, r4
+ 840              	.LVL57:
+ 841 0012 01E0     		b	.L71
+ 842              	.LVL58:
+ 843              	.L70:
+ 837:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 838:Generated_Source\PSoC5/Seat_ADC2.c ****     else
+ 839:Generated_Source\PSoC5/Seat_ADC2.c ****     {
+ 840:Generated_Source\PSoC5/Seat_ADC2.c ****         countsPer10Volt = Seat_ADC2_countsPer10Volt;
+ 844              		.loc 1 840 0
+ 845 0014 0A4B     		ldr	r3, .L72+4
+ 846 0016 1C68     		ldr	r4, [r3]
+ 847              	.LVL59:
+ 848              	.L71:
+ 841:Generated_Source\PSoC5/Seat_ADC2.c ****     }
+ 842:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 843:Generated_Source\PSoC5/Seat_ADC2.c ****     /* Subtract ADC offset */
+ 844:Generated_Source\PSoC5/Seat_ADC2.c ****     adcCounts -= Seat_ADC2_offset;
+ 849              		.loc 1 844 0
+ 850 0018 0A4B     		ldr	r3, .L72+8
+ 851 001a 1B88     		ldrh	r3, [r3]
+ 852 001c C01A     		subs	r0, r0, r3
+ 853              	.LVL60:
+ 845:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 846:Generated_Source\PSoC5/Seat_ADC2.c ****     volts = ((float32)adcCounts * Seat_ADC2_10V_COUNTS) / (float32)countsPer10Volt;
+ 847:Generated_Source\PSoC5/Seat_ADC2.c **** 
+ 848:Generated_Source\PSoC5/Seat_ADC2.c ****     return( volts );
+ 854              		.loc 1 848 0
+ 855 001e 00B2     		sxth	r0, r0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 32
+
+
+ 856 0020 FFF7FEFF 		bl	__aeabi_i2f
+ 857              	.LVL61:
+ 858 0024 0849     		ldr	r1, .L72+12
+ 859 0026 FFF7FEFF 		bl	__aeabi_fmul
+ 860              	.LVL62:
+ 861 002a 0546     		mov	r5, r0
+ 862 002c 2046     		mov	r0, r4
+ 863 002e FFF7FEFF 		bl	__aeabi_i2f
+ 864              	.LVL63:
+ 865 0032 0146     		mov	r1, r0
+ 866 0034 2846     		mov	r0, r5
+ 867 0036 FFF7FEFF 		bl	__aeabi_fdiv
+ 868              	.LVL64:
+ 849:Generated_Source\PSoC5/Seat_ADC2.c **** }
+ 869              		.loc 1 849 0
+ 870 003a 38BD     		pop	{r3, r4, r5, pc}
+ 871              	.LVL65:
+ 872              	.L73:
+ 873              		.align	2
+ 874              	.L72:
+ 875 003c 00000000 		.word	Seat_ADC2_countsPerVolt
+ 876 0040 00000000 		.word	Seat_ADC2_countsPer10Volt
+ 877 0044 00000000 		.word	Seat_ADC2_offset
+ 878 0048 00002041 		.word	1092616192
+ 879              		.cfi_endproc
+ 880              	.LFE17:
+ 881              		.size	Seat_ADC2_CountsTo_Volts, .-Seat_ADC2_CountsTo_Volts
+ 882              		.comm	Seat_ADC2_shift,2,2
+ 883              		.comm	Seat_ADC2_countsPer10Volt,4,4
+ 884              		.comm	Seat_ADC2_countsPerVolt,2,2
+ 885              		.comm	Seat_ADC2_offset,2,2
+ 886              		.global	Seat_ADC2_initVar
+ 887              		.section	.rodata
+ 888              		.align	1
+ 889              		.set	.LANCHOR0,. + 0
+ 890              		.type	CSWTCH.25, %object
+ 891              		.size	CSWTCH.25, 10
+ 892              	CSWTCH.25:
+ 893 0000 0001     		.short	256
+ 894 0002 0000     		.short	0
+ 895 0004 0004     		.short	1024
+ 896 0006 0000     		.short	0
+ 897 0008 0010     		.short	4096
+ 898              		.type	CSWTCH.26, %object
+ 899              		.size	CSWTCH.26, 10
+ 900              	CSWTCH.26:
+ 901 000a 8000     		.short	128
+ 902 000c 0000     		.short	0
+ 903 000e 0002     		.short	512
+ 904 0010 0000     		.short	0
+ 905 0012 0008     		.short	2048
+ 906              		.bss
+ 907              		.set	.LANCHOR1,. + 0
+ 908              		.type	Seat_ADC2_initVar, %object
+ 909              		.size	Seat_ADC2_initVar, 1
+ 910              	Seat_ADC2_initVar:
+ 911 0000 00       		.space	1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 33
+
+
+ 912              		.text
+ 913              	.Letext0:
+ 914              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 915              		.file 3 "Generated_Source\\PSoC5\\CyLib.h"
+ 916              		.file 4 "Generated_Source\\PSoC5\\Seat_ADC2_theACLK.h"
+ 917              		.section	.debug_info,"",%progbits
+ 918              	.Ldebug_info0:
+ 919 0000 A8050000 		.4byte	0x5a8
+ 920 0004 0400     		.2byte	0x4
+ 921 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 922 000a 04       		.byte	0x4
+ 923 000b 01       		.uleb128 0x1
+ 924 000c B0000000 		.4byte	.LASF67
+ 925 0010 0C       		.byte	0xc
+ 926 0011 81000000 		.4byte	.LASF68
+ 927 0015 7E040000 		.4byte	.LASF69
+ 928 0019 20000000 		.4byte	.Ldebug_ranges0+0x20
+ 929 001d 00000000 		.4byte	0
+ 930 0021 00000000 		.4byte	.Ldebug_line0
+ 931 0025 02       		.uleb128 0x2
+ 932 0026 08       		.byte	0x8
+ 933 0027 07       		.byte	0x7
+ 934 0028 44000000 		.4byte	.LASF0
+ 935 002c 02       		.uleb128 0x2
+ 936 002d 04       		.byte	0x4
+ 937 002e 04       		.byte	0x4
+ 938 002f 13030000 		.4byte	.LASF1
+ 939 0033 02       		.uleb128 0x2
+ 940 0034 08       		.byte	0x8
+ 941 0035 05       		.byte	0x5
+ 942 0036 6C010000 		.4byte	.LASF2
+ 943 003a 03       		.uleb128 0x3
+ 944 003b 04       		.byte	0x4
+ 945 003c 05       		.byte	0x5
+ 946 003d 696E7400 		.ascii	"int\000"
+ 947 0041 02       		.uleb128 0x2
+ 948 0042 02       		.byte	0x2
+ 949 0043 05       		.byte	0x5
+ 950 0044 4C030000 		.4byte	.LASF3
+ 951 0048 02       		.uleb128 0x2
+ 952 0049 04       		.byte	0x4
+ 953 004a 07       		.byte	0x7
+ 954 004b DF010000 		.4byte	.LASF4
+ 955 004f 02       		.uleb128 0x2
+ 956 0050 08       		.byte	0x8
+ 957 0051 04       		.byte	0x4
+ 958 0052 BE020000 		.4byte	.LASF5
+ 959 0056 02       		.uleb128 0x2
+ 960 0057 01       		.byte	0x1
+ 961 0058 06       		.byte	0x6
+ 962 0059 A4000000 		.4byte	.LASF6
+ 963 005d 02       		.uleb128 0x2
+ 964 005e 01       		.byte	0x1
+ 965 005f 08       		.byte	0x8
+ 966 0060 24030000 		.4byte	.LASF7
+ 967 0064 02       		.uleb128 0x2
+ 968 0065 02       		.byte	0x2
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 34
+
+
+ 969 0066 07       		.byte	0x7
+ 970 0067 44020000 		.4byte	.LASF8
+ 971 006b 02       		.uleb128 0x2
+ 972 006c 04       		.byte	0x4
+ 973 006d 05       		.byte	0x5
+ 974 006e 44010000 		.4byte	.LASF9
+ 975 0072 02       		.uleb128 0x2
+ 976 0073 04       		.byte	0x4
+ 977 0074 07       		.byte	0x7
+ 978 0075 06020000 		.4byte	.LASF10
+ 979 0079 02       		.uleb128 0x2
+ 980 007a 04       		.byte	0x4
+ 981 007b 07       		.byte	0x7
+ 982 007c B5020000 		.4byte	.LASF11
+ 983 0080 02       		.uleb128 0x2
+ 984 0081 01       		.byte	0x1
+ 985 0082 08       		.byte	0x8
+ 986 0083 AA030000 		.4byte	.LASF12
+ 987 0087 04       		.uleb128 0x4
+ 988 0088 66010000 		.4byte	.LASF13
+ 989 008c 02       		.byte	0x2
+ 990 008d E401     		.2byte	0x1e4
+ 991 008f 5D000000 		.4byte	0x5d
+ 992 0093 04       		.uleb128 0x4
+ 993 0094 00000000 		.4byte	.LASF14
+ 994 0098 02       		.byte	0x2
+ 995 0099 E501     		.2byte	0x1e5
+ 996 009b 64000000 		.4byte	0x64
+ 997 009f 04       		.uleb128 0x4
+ 998 00a0 9B010000 		.4byte	.LASF15
+ 999 00a4 02       		.byte	0x2
+ 1000 00a5 E601     		.2byte	0x1e6
+ 1001 00a7 72000000 		.4byte	0x72
+ 1002 00ab 04       		.uleb128 0x4
+ 1003 00ac 70020000 		.4byte	.LASF16
+ 1004 00b0 02       		.byte	0x2
+ 1005 00b1 E701     		.2byte	0x1e7
+ 1006 00b3 56000000 		.4byte	0x56
+ 1007 00b7 04       		.uleb128 0x4
+ 1008 00b8 4D040000 		.4byte	.LASF17
+ 1009 00bc 02       		.byte	0x2
+ 1010 00bd E801     		.2byte	0x1e8
+ 1011 00bf 41000000 		.4byte	0x41
+ 1012 00c3 04       		.uleb128 0x4
+ 1013 00c4 3E010000 		.4byte	.LASF18
+ 1014 00c8 02       		.byte	0x2
+ 1015 00c9 E901     		.2byte	0x1e9
+ 1016 00cb 6B000000 		.4byte	0x6b
+ 1017 00cf 04       		.uleb128 0x4
+ 1018 00d0 AD020000 		.4byte	.LASF19
+ 1019 00d4 02       		.byte	0x2
+ 1020 00d5 EA01     		.2byte	0x1ea
+ 1021 00d7 2C000000 		.4byte	0x2c
+ 1022 00db 02       		.uleb128 0x2
+ 1023 00dc 08       		.byte	0x8
+ 1024 00dd 04       		.byte	0x4
+ 1025 00de 84010000 		.4byte	.LASF20
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 35
+
+
+ 1026 00e2 04       		.uleb128 0x4
+ 1027 00e3 E2020000 		.4byte	.LASF21
+ 1028 00e7 02       		.byte	0x2
+ 1029 00e8 EF01     		.2byte	0x1ef
+ 1030 00ea 33000000 		.4byte	0x33
+ 1031 00ee 04       		.uleb128 0x4
+ 1032 00ef 1F030000 		.4byte	.LASF22
+ 1033 00f3 02       		.byte	0x2
+ 1034 00f4 8E02     		.2byte	0x28e
+ 1035 00f6 FA000000 		.4byte	0xfa
+ 1036 00fa 05       		.uleb128 0x5
+ 1037 00fb 87000000 		.4byte	0x87
+ 1038 00ff 04       		.uleb128 0x4
+ 1039 0100 60010000 		.4byte	.LASF23
+ 1040 0104 02       		.byte	0x2
+ 1041 0105 8F02     		.2byte	0x28f
+ 1042 0107 0B010000 		.4byte	0x10b
+ 1043 010b 05       		.uleb128 0x5
+ 1044 010c 93000000 		.4byte	0x93
+ 1045 0110 04       		.uleb128 0x4
+ 1046 0111 7C020000 		.4byte	.LASF24
+ 1047 0115 02       		.byte	0x2
+ 1048 0116 9002     		.2byte	0x290
+ 1049 0118 1C010000 		.4byte	0x11c
+ 1050 011c 05       		.uleb128 0x5
+ 1051 011d 9F000000 		.4byte	0x9f
+ 1052 0121 06       		.uleb128 0x6
+ 1053 0122 56030000 		.4byte	.LASF27
+ 1054 0126 01       		.byte	0x1
+ 1055 0127 8F       		.byte	0x8f
+ 1056 0128 00000000 		.4byte	.LFB2
+ 1057 012c 9C000000 		.4byte	.LFE2-.LFB2
+ 1058 0130 01       		.uleb128 0x1
+ 1059 0131 9C       		.byte	0x9c
+ 1060 0132 7A010000 		.4byte	0x17a
+ 1061 0136 07       		.uleb128 0x7
+ 1062 0137 53040000 		.4byte	.LASF25
+ 1063 013b 01       		.byte	0x1
+ 1064 013c 91       		.byte	0x91
+ 1065 013d 87000000 		.4byte	0x87
+ 1066 0141 00000000 		.4byte	.LLST0
+ 1067 0145 07       		.uleb128 0x7
+ 1068 0146 1D040000 		.4byte	.LASF26
+ 1069 014a 01       		.byte	0x1
+ 1070 014b 92       		.byte	0x92
+ 1071 014c 87000000 		.4byte	0x87
+ 1072 0150 3D000000 		.4byte	.LLST1
+ 1073 0154 08       		.uleb128 0x8
+ 1074 0155 06000000 		.4byte	.LVL0
+ 1075 0159 69050000 		.4byte	0x569
+ 1076 015d 09       		.uleb128 0x9
+ 1077 015e 7A000000 		.4byte	.LVL7
+ 1078 0162 74050000 		.4byte	0x574
+ 1079 0166 70010000 		.4byte	0x170
+ 1080 016a 0A       		.uleb128 0xa
+ 1081 016b 01       		.uleb128 0x1
+ 1082 016c 50       		.byte	0x50
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 36
+
+
+ 1083 016d 01       		.uleb128 0x1
+ 1084 016e 3A       		.byte	0x3a
+ 1085 016f 00       		.byte	0
+ 1086 0170 0B       		.uleb128 0xb
+ 1087 0171 8A000000 		.4byte	.LVL9
+ 1088 0175 7F050000 		.4byte	0x57f
+ 1089 0179 00       		.byte	0
+ 1090 017a 06       		.uleb128 0x6
+ 1091 017b 6F040000 		.4byte	.LASF28
+ 1092 017f 01       		.byte	0x1
+ 1093 0180 F8       		.byte	0xf8
+ 1094 0181 00000000 		.4byte	.LFB3
+ 1095 0185 48000000 		.4byte	.LFE3-.LFB3
+ 1096 0189 01       		.uleb128 0x1
+ 1097 018a 9C       		.byte	0x9c
+ 1098 018b B1010000 		.4byte	0x1b1
+ 1099 018f 07       		.uleb128 0x7
+ 1100 0190 1D040000 		.4byte	.LASF26
+ 1101 0194 01       		.byte	0x1
+ 1102 0195 FA       		.byte	0xfa
+ 1103 0196 87000000 		.4byte	0x87
+ 1104 019a 50000000 		.4byte	.LLST2
+ 1105 019e 08       		.uleb128 0x8
+ 1106 019f 06000000 		.4byte	.LVL10
+ 1107 01a3 69050000 		.4byte	0x569
+ 1108 01a7 0B       		.uleb128 0xb
+ 1109 01a8 42000000 		.4byte	.LVL11
+ 1110 01ac 7F050000 		.4byte	0x57f
+ 1111 01b0 00       		.byte	0
+ 1112 01b1 0C       		.uleb128 0xc
+ 1113 01b2 4D010000 		.4byte	.LASF29
+ 1114 01b6 01       		.byte	0x1
+ 1115 01b7 2201     		.2byte	0x122
+ 1116 01b9 00000000 		.4byte	.LFB4
+ 1117 01bd 18000000 		.4byte	.LFE4-.LFB4
+ 1118 01c1 01       		.uleb128 0x1
+ 1119 01c2 9C       		.byte	0x9c
+ 1120 01c3 E8010000 		.4byte	0x1e8
+ 1121 01c7 0D       		.uleb128 0xd
+ 1122 01c8 19030000 		.4byte	.LASF33
+ 1123 01cc 01       		.byte	0x1
+ 1124 01cd 2201     		.2byte	0x122
+ 1125 01cf 87000000 		.4byte	0x87
+ 1126 01d3 63000000 		.4byte	.LLST3
+ 1127 01d7 0E       		.uleb128 0xe
+ 1128 01d8 53040000 		.4byte	.LASF25
+ 1129 01dc 01       		.byte	0x1
+ 1130 01dd 2401     		.2byte	0x124
+ 1131 01df 87000000 		.4byte	0x87
+ 1132 01e3 95000000 		.4byte	.LLST4
+ 1133 01e7 00       		.byte	0
+ 1134 01e8 0F       		.uleb128 0xf
+ 1135 01e9 F3010000 		.4byte	.LASF70
+ 1136 01ed 01       		.byte	0x1
+ 1137 01ee 6302     		.2byte	0x263
+ 1138 01f0 01       		.byte	0x1
+ 1139 01f1 1A020000 		.4byte	0x21a
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 37
+
+
+ 1140 01f5 10       		.uleb128 0x10
+ 1141 01f6 89030000 		.4byte	.LASF34
+ 1142 01fa 01       		.byte	0x1
+ 1143 01fb 6302     		.2byte	0x263
+ 1144 01fd 87000000 		.4byte	0x87
+ 1145 0201 11       		.uleb128 0x11
+ 1146 0202 25000000 		.4byte	.LASF30
+ 1147 0206 01       		.byte	0x1
+ 1148 0207 6502     		.2byte	0x265
+ 1149 0209 C3000000 		.4byte	0xc3
+ 1150 020d 11       		.uleb128 0x11
+ 1151 020e 32030000 		.4byte	.LASF31
+ 1152 0212 01       		.byte	0x1
+ 1153 0213 6902     		.2byte	0x269
+ 1154 0215 93000000 		.4byte	0x93
+ 1155 0219 00       		.byte	0
+ 1156 021a 0C       		.uleb128 0xc
+ 1157 021b 35040000 		.4byte	.LASF32
+ 1158 021f 01       		.byte	0x1
+ 1159 0220 5401     		.2byte	0x154
+ 1160 0222 00000000 		.4byte	.LFB5
+ 1161 0226 6C000000 		.4byte	.LFE5-.LFB5
+ 1162 022a 01       		.uleb128 0x1
+ 1163 022b 9C       		.byte	0x9c
+ 1164 022c 7F020000 		.4byte	0x27f
+ 1165 0230 0D       		.uleb128 0xd
+ 1166 0231 89030000 		.4byte	.LASF34
+ 1167 0235 01       		.byte	0x1
+ 1168 0236 5401     		.2byte	0x154
+ 1169 0238 87000000 		.4byte	0x87
+ 1170 023c B3000000 		.4byte	.LLST5
+ 1171 0240 0E       		.uleb128 0xe
+ 1172 0241 53040000 		.4byte	.LASF25
+ 1173 0245 01       		.byte	0x1
+ 1174 0246 5601     		.2byte	0x156
+ 1175 0248 87000000 		.4byte	0x87
+ 1176 024c D4000000 		.4byte	.LLST6
+ 1177 0250 12       		.uleb128 0x12
+ 1178 0251 E8010000 		.4byte	0x1e8
+ 1179 0255 1E000000 		.4byte	.LBB4
+ 1180 0259 00000000 		.4byte	.Ldebug_ranges0+0
+ 1181 025d 01       		.byte	0x1
+ 1182 025e 6D01     		.2byte	0x16d
+ 1183 0260 13       		.uleb128 0x13
+ 1184 0261 F5010000 		.4byte	0x1f5
+ 1185 0265 14       		.uleb128 0x14
+ 1186 0266 00000000 		.4byte	.Ldebug_ranges0+0
+ 1187 026a 15       		.uleb128 0x15
+ 1188 026b 01020000 		.4byte	0x201
+ 1189 026f E9000000 		.4byte	.LLST7
+ 1190 0273 15       		.uleb128 0x15
+ 1191 0274 0D020000 		.4byte	0x20d
+ 1192 0278 FC000000 		.4byte	.LLST8
+ 1193 027c 00       		.byte	0
+ 1194 027d 00       		.byte	0
+ 1195 027e 00       		.byte	0
+ 1196 027f 06       		.uleb128 0x6
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 38
+
+
+ 1197 0280 35020000 		.4byte	.LASF35
+ 1198 0284 01       		.byte	0x1
+ 1199 0285 6A       		.byte	0x6a
+ 1200 0286 00000000 		.4byte	.LFB1
+ 1201 028a 3C000000 		.4byte	.LFE1-.LFB1
+ 1202 028e 01       		.uleb128 0x1
+ 1203 028f 9C       		.byte	0x9c
+ 1204 0290 E2020000 		.4byte	0x2e2
+ 1205 0294 09       		.uleb128 0x9
+ 1206 0295 08000000 		.4byte	.LVL24
+ 1207 0299 8A050000 		.4byte	0x58a
+ 1208 029d A7020000 		.4byte	0x2a7
+ 1209 02a1 0A       		.uleb128 0xa
+ 1210 02a2 01       		.uleb128 0x1
+ 1211 02a3 50       		.byte	0x50
+ 1212 02a4 01       		.uleb128 0x1
+ 1213 02a5 40       		.byte	0x40
+ 1214 02a6 00       		.byte	0
+ 1215 02a7 09       		.uleb128 0x9
+ 1216 02a8 10000000 		.4byte	.LVL25
+ 1217 02ac 95050000 		.4byte	0x595
+ 1218 02b0 BF020000 		.4byte	0x2bf
+ 1219 02b4 0A       		.uleb128 0xa
+ 1220 02b5 01       		.uleb128 0x1
+ 1221 02b6 50       		.byte	0x50
+ 1222 02b7 01       		.uleb128 0x1
+ 1223 02b8 30       		.byte	0x30
+ 1224 02b9 0A       		.uleb128 0xa
+ 1225 02ba 01       		.uleb128 0x1
+ 1226 02bb 51       		.byte	0x51
+ 1227 02bc 01       		.uleb128 0x1
+ 1228 02bd 37       		.byte	0x37
+ 1229 02be 00       		.byte	0
+ 1230 02bf 09       		.uleb128 0x9
+ 1231 02c0 18000000 		.4byte	.LVL26
+ 1232 02c4 A0050000 		.4byte	0x5a0
+ 1233 02c8 D2020000 		.4byte	0x2d2
+ 1234 02cc 0A       		.uleb128 0xa
+ 1235 02cd 01       		.uleb128 0x1
+ 1236 02ce 50       		.byte	0x50
+ 1237 02cf 01       		.uleb128 0x1
+ 1238 02d0 30       		.byte	0x30
+ 1239 02d1 00       		.byte	0
+ 1240 02d2 16       		.uleb128 0x16
+ 1241 02d3 28000000 		.4byte	.LVL27
+ 1242 02d7 1A020000 		.4byte	0x21a
+ 1243 02db 0A       		.uleb128 0xa
+ 1244 02dc 01       		.uleb128 0x1
+ 1245 02dd 50       		.byte	0x50
+ 1246 02de 01       		.uleb128 0x1
+ 1247 02df 3C       		.byte	0x3c
+ 1248 02e0 00       		.byte	0
+ 1249 02e1 00       		.byte	0
+ 1250 02e2 06       		.uleb128 0x6
+ 1251 02e3 8B010000 		.4byte	.LASF36
+ 1252 02e7 01       		.byte	0x1
+ 1253 02e8 4A       		.byte	0x4a
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 39
+
+
+ 1254 02e9 00000000 		.4byte	.LFB0
+ 1255 02ed 1C000000 		.4byte	.LFE0-.LFB0
+ 1256 02f1 01       		.uleb128 0x1
+ 1257 02f2 9C       		.byte	0x9c
+ 1258 02f3 0A030000 		.4byte	0x30a
+ 1259 02f7 08       		.uleb128 0x8
+ 1260 02f8 0C000000 		.4byte	.LVL28
+ 1261 02fc 7F020000 		.4byte	0x27f
+ 1262 0300 0B       		.uleb128 0xb
+ 1263 0301 18000000 		.4byte	.LVL29
+ 1264 0305 21010000 		.4byte	0x121
+ 1265 0309 00       		.byte	0
+ 1266 030a 17       		.uleb128 0x17
+ 1267 030b EC030000 		.4byte	.LASF37
+ 1268 030f 01       		.byte	0x1
+ 1269 0310 9101     		.2byte	0x191
+ 1270 0312 00000000 		.4byte	.LFB6
+ 1271 0316 18000000 		.4byte	.LFE6-.LFB6
+ 1272 031a 01       		.uleb128 0x1
+ 1273 031b 9C       		.byte	0x9c
+ 1274 031c 17       		.uleb128 0x17
+ 1275 031d 94030000 		.4byte	.LASF38
+ 1276 0321 01       		.byte	0x1
+ 1277 0322 B301     		.2byte	0x1b3
+ 1278 0324 00000000 		.4byte	.LFB7
+ 1279 0328 18000000 		.4byte	.LFE7-.LFB7
+ 1280 032c 01       		.uleb128 0x1
+ 1281 032d 9C       		.byte	0x9c
+ 1282 032e 18       		.uleb128 0x18
+ 1283 032f B6030000 		.4byte	.LASF41
+ 1284 0333 01       		.byte	0x1
+ 1285 0334 DB01     		.2byte	0x1db
+ 1286 0336 87000000 		.4byte	0x87
+ 1287 033a 00000000 		.4byte	.LFB8
+ 1288 033e 28000000 		.4byte	.LFE8-.LFB8
+ 1289 0342 01       		.uleb128 0x1
+ 1290 0343 9C       		.byte	0x9c
+ 1291 0344 79030000 		.4byte	0x379
+ 1292 0348 0D       		.uleb128 0xd
+ 1293 0349 D7010000 		.4byte	.LASF39
+ 1294 034d 01       		.byte	0x1
+ 1295 034e DB01     		.2byte	0x1db
+ 1296 0350 87000000 		.4byte	0x87
+ 1297 0354 0F010000 		.4byte	.LLST9
+ 1298 0358 0E       		.uleb128 0xe
+ 1299 0359 2E040000 		.4byte	.LASF40
+ 1300 035d 01       		.byte	0x1
+ 1301 035e DD01     		.2byte	0x1dd
+ 1302 0360 87000000 		.4byte	0x87
+ 1303 0364 30010000 		.4byte	.LLST10
+ 1304 0368 16       		.uleb128 0x16
+ 1305 0369 1A000000 		.4byte	.LVL34
+ 1306 036d 74050000 		.4byte	0x574
+ 1307 0371 0A       		.uleb128 0xa
+ 1308 0372 01       		.uleb128 0x1
+ 1309 0373 50       		.byte	0x50
+ 1310 0374 02       		.uleb128 0x2
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 40
+
+
+ 1311 0375 74       		.byte	0x74
+ 1312 0376 00       		.sleb128 0
+ 1313 0377 00       		.byte	0
+ 1314 0378 00       		.byte	0
+ 1315 0379 19       		.uleb128 0x19
+ 1316 037a 5A040000 		.4byte	.LASF71
+ 1317 037e 01       		.byte	0x1
+ 1318 037f 0802     		.2byte	0x208
+ 1319 0381 AB000000 		.4byte	0xab
+ 1320 0385 00000000 		.4byte	.LFB9
+ 1321 0389 18000000 		.4byte	.LFE9-.LFB9
+ 1322 038d 01       		.uleb128 0x1
+ 1323 038e 9C       		.byte	0x9c
+ 1324 038f 18       		.uleb128 0x18
+ 1325 0390 C1010000 		.4byte	.LASF42
+ 1326 0394 01       		.byte	0x1
+ 1327 0395 2602     		.2byte	0x226
+ 1328 0397 B7000000 		.4byte	0xb7
+ 1329 039b 00000000 		.4byte	.LFB10
+ 1330 039f 18000000 		.4byte	.LFE10-.LFB10
+ 1331 03a3 01       		.uleb128 0x1
+ 1332 03a4 9C       		.byte	0x9c
+ 1333 03a5 B8030000 		.4byte	0x3b8
+ 1334 03a9 1A       		.uleb128 0x1a
+ 1335 03aa 72657300 		.ascii	"res\000"
+ 1336 03ae 01       		.byte	0x1
+ 1337 03af 2802     		.2byte	0x228
+ 1338 03b1 93000000 		.4byte	0x93
+ 1339 03b5 01       		.uleb128 0x1
+ 1340 03b6 53       		.byte	0x53
+ 1341 03b7 00       		.byte	0
+ 1342 03b8 0C       		.uleb128 0xc
+ 1343 03b9 6D000000 		.4byte	.LASF43
+ 1344 03bd 01       		.byte	0x1
+ 1345 03be 4902     		.2byte	0x249
+ 1346 03c0 00000000 		.4byte	.LFB11
+ 1347 03c4 0C000000 		.4byte	.LFE11-.LFB11
+ 1348 03c8 01       		.uleb128 0x1
+ 1349 03c9 9C       		.byte	0x9c
+ 1350 03ca DD030000 		.4byte	0x3dd
+ 1351 03ce 1B       		.uleb128 0x1b
+ 1352 03cf AF030000 		.4byte	.LASF44
+ 1353 03d3 01       		.byte	0x1
+ 1354 03d4 4902     		.2byte	0x249
+ 1355 03d6 B7000000 		.4byte	0xb7
+ 1356 03da 01       		.uleb128 0x1
+ 1357 03db 50       		.byte	0x50
+ 1358 03dc 00       		.byte	0
+ 1359 03dd 0C       		.uleb128 0xc
+ 1360 03de 5B000000 		.4byte	.LASF45
+ 1361 03e2 01       		.byte	0x1
+ 1362 03e3 B402     		.2byte	0x2b4
+ 1363 03e5 00000000 		.4byte	.LFB13
+ 1364 03e9 10000000 		.4byte	.LFE13-.LFB13
+ 1365 03ed 01       		.uleb128 0x1
+ 1366 03ee 9C       		.byte	0x9c
+ 1367 03ef 04040000 		.4byte	0x404
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 41
+
+
+ 1368 03f3 0D       		.uleb128 0xd
+ 1369 03f4 07000000 		.4byte	.LASF46
+ 1370 03f8 01       		.byte	0x1
+ 1371 03f9 B402     		.2byte	0x2b4
+ 1372 03fb B7000000 		.4byte	0xb7
+ 1373 03ff 47010000 		.4byte	.LLST11
+ 1374 0403 00       		.byte	0
+ 1375 0404 0C       		.uleb128 0xc
+ 1376 0405 2C000000 		.4byte	.LASF47
+ 1377 0409 01       		.byte	0x1
+ 1378 040a CF02     		.2byte	0x2cf
+ 1379 040c 00000000 		.4byte	.LFB14
+ 1380 0410 0C000000 		.4byte	.LFE14-.LFB14
+ 1381 0414 01       		.uleb128 0x1
+ 1382 0415 9C       		.byte	0x9c
+ 1383 0416 29040000 		.4byte	0x429
+ 1384 041a 1B       		.uleb128 0x1b
+ 1385 041b 07000000 		.4byte	.LASF46
+ 1386 041f 01       		.byte	0x1
+ 1387 0420 CF02     		.2byte	0x2cf
+ 1388 0422 C3000000 		.4byte	0xc3
+ 1389 0426 01       		.uleb128 0x1
+ 1390 0427 50       		.byte	0x50
+ 1391 0428 00       		.byte	0
+ 1392 0429 18       		.uleb128 0x18
+ 1393 042a F9020000 		.4byte	.LASF48
+ 1394 042e 01       		.byte	0x1
+ 1395 042f E702     		.2byte	0x2e7
+ 1396 0431 B7000000 		.4byte	0xb7
+ 1397 0435 00000000 		.4byte	.LFB15
+ 1398 0439 48000000 		.4byte	.LFE15-.LFB15
+ 1399 043d 01       		.uleb128 0x1
+ 1400 043e 9C       		.byte	0x9c
+ 1401 043f 74040000 		.4byte	0x474
+ 1402 0443 0D       		.uleb128 0xd
+ 1403 0444 E2030000 		.4byte	.LASF49
+ 1404 0448 01       		.byte	0x1
+ 1405 0449 E702     		.2byte	0x2e7
+ 1406 044b B7000000 		.4byte	0xb7
+ 1407 044f 68010000 		.4byte	.LLST12
+ 1408 0453 0E       		.uleb128 0xe
+ 1409 0454 75020000 		.4byte	.LASF50
+ 1410 0458 01       		.byte	0x1
+ 1411 0459 E902     		.2byte	0x2e9
+ 1412 045b B7000000 		.4byte	0xb7
+ 1413 045f 94010000 		.4byte	.LLST13
+ 1414 0463 0E       		.uleb128 0xe
+ 1415 0464 A2010000 		.4byte	.LASF51
+ 1416 0468 01       		.byte	0x1
+ 1417 0469 EA02     		.2byte	0x2ea
+ 1418 046b C3000000 		.4byte	0xc3
+ 1419 046f AF010000 		.4byte	.LLST14
+ 1420 0473 00       		.byte	0
+ 1421 0474 1C       		.uleb128 0x1c
+ 1422 0475 82020000 		.4byte	.LASF52
+ 1423 0479 01       		.byte	0x1
+ 1424 047a 1103     		.2byte	0x311
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 42
+
+
+ 1425 047c C3000000 		.4byte	0xc3
+ 1426 0480 00000000 		.4byte	.LFB16
+ 1427 0484 44000000 		.4byte	.LFE16-.LFB16
+ 1428 0488 01       		.uleb128 0x1
+ 1429 0489 9C       		.byte	0x9c
+ 1430 048a BF040000 		.4byte	0x4bf
+ 1431 048e 0D       		.uleb128 0xd
+ 1432 048f E2030000 		.4byte	.LASF49
+ 1433 0493 01       		.byte	0x1
+ 1434 0494 1103     		.2byte	0x311
+ 1435 0496 B7000000 		.4byte	0xb7
+ 1436 049a CD010000 		.4byte	.LLST15
+ 1437 049e 0E       		.uleb128 0xe
+ 1438 049f EC010000 		.4byte	.LASF53
+ 1439 04a3 01       		.byte	0x1
+ 1440 04a4 1403     		.2byte	0x314
+ 1441 04a6 E2000000 		.4byte	0xe2
+ 1442 04aa EB010000 		.4byte	.LLST16
+ 1443 04ae 0E       		.uleb128 0xe
+ 1444 04af A2010000 		.4byte	.LASF51
+ 1445 04b3 01       		.byte	0x1
+ 1446 04b4 1503     		.2byte	0x315
+ 1447 04b6 C3000000 		.4byte	0xc3
+ 1448 04ba 17020000 		.4byte	.LLST17
+ 1449 04be 00       		.byte	0
+ 1450 04bf 1C       		.uleb128 0x1c
+ 1451 04c0 57020000 		.4byte	.LASF54
+ 1452 04c4 01       		.byte	0x1
+ 1453 04c5 3D03     		.2byte	0x33d
+ 1454 04c7 CF000000 		.4byte	0xcf
+ 1455 04cb 00000000 		.4byte	.LFB17
+ 1456 04cf 4C000000 		.4byte	.LFE17-.LFB17
+ 1457 04d3 01       		.uleb128 0x1
+ 1458 04d4 9C       		.byte	0x9c
+ 1459 04d5 0A050000 		.4byte	0x50a
+ 1460 04d9 0D       		.uleb128 0xd
+ 1461 04da E2030000 		.4byte	.LASF49
+ 1462 04de 01       		.byte	0x1
+ 1463 04df 3D03     		.2byte	0x33d
+ 1464 04e1 B7000000 		.4byte	0xb7
+ 1465 04e5 35020000 		.4byte	.LLST18
+ 1466 04e9 0E       		.uleb128 0xe
+ 1467 04ea 18020000 		.4byte	.LASF55
+ 1468 04ee 01       		.byte	0x1
+ 1469 04ef 3F03     		.2byte	0x33f
+ 1470 04f1 CF000000 		.4byte	0xcf
+ 1471 04f5 53020000 		.4byte	.LLST19
+ 1472 04f9 0E       		.uleb128 0xe
+ 1473 04fa A2010000 		.4byte	.LASF51
+ 1474 04fe 01       		.byte	0x1
+ 1475 04ff 4003     		.2byte	0x340
+ 1476 0501 C3000000 		.4byte	0xc3
+ 1477 0505 7B020000 		.4byte	.LLST20
+ 1478 0509 00       		.byte	0
+ 1479 050a 1D       		.uleb128 0x1d
+ 1480 050b D0030000 		.4byte	.LASF56
+ 1481 050f 01       		.byte	0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 43
+
+
+ 1482 0510 23       		.byte	0x23
+ 1483 0511 87000000 		.4byte	0x87
+ 1484 0515 05       		.uleb128 0x5
+ 1485 0516 03       		.byte	0x3
+ 1486 0517 00000000 		.4byte	Seat_ADC2_initVar
+ 1487 051b 1D       		.uleb128 0x1d
+ 1488 051c 9C020000 		.4byte	.LASF57
+ 1489 0520 01       		.byte	0x1
+ 1490 0521 24       		.byte	0x24
+ 1491 0522 2C050000 		.4byte	0x52c
+ 1492 0526 05       		.uleb128 0x5
+ 1493 0527 03       		.byte	0x3
+ 1494 0528 00000000 		.4byte	Seat_ADC2_offset
+ 1495 052c 05       		.uleb128 0x5
+ 1496 052d B7000000 		.4byte	0xb7
+ 1497 0531 1D       		.uleb128 0x1d
+ 1498 0532 CA020000 		.4byte	.LASF58
+ 1499 0536 01       		.byte	0x1
+ 1500 0537 25       		.byte	0x25
+ 1501 0538 2C050000 		.4byte	0x52c
+ 1502 053c 05       		.uleb128 0x5
+ 1503 053d 03       		.byte	0x3
+ 1504 053e 00000000 		.4byte	Seat_ADC2_countsPerVolt
+ 1505 0542 1D       		.uleb128 0x1d
+ 1506 0543 03040000 		.4byte	.LASF59
+ 1507 0547 01       		.byte	0x1
+ 1508 0548 26       		.byte	0x26
+ 1509 0549 53050000 		.4byte	0x553
+ 1510 054d 05       		.uleb128 0x5
+ 1511 054e 03       		.byte	0x3
+ 1512 054f 00000000 		.4byte	Seat_ADC2_countsPer10Volt
+ 1513 0553 05       		.uleb128 0x5
+ 1514 0554 C3000000 		.4byte	0xc3
+ 1515 0558 1D       		.uleb128 0x1d
+ 1516 0559 3C030000 		.4byte	.LASF60
+ 1517 055d 01       		.byte	0x1
+ 1518 055e 27       		.byte	0x27
+ 1519 055f 2C050000 		.4byte	0x52c
+ 1520 0563 05       		.uleb128 0x5
+ 1521 0564 03       		.byte	0x3
+ 1522 0565 00000000 		.4byte	Seat_ADC2_shift
+ 1523 0569 1E       		.uleb128 0x1e
+ 1524 056a 1E020000 		.4byte	.LASF61
+ 1525 056e 1E020000 		.4byte	.LASF61
+ 1526 0572 03       		.byte	0x3
+ 1527 0573 7D       		.byte	0x7d
+ 1528 0574 1E       		.uleb128 0x1e
+ 1529 0575 7A010000 		.4byte	.LASF62
+ 1530 0579 7A010000 		.4byte	.LASF62
+ 1531 057d 03       		.byte	0x3
+ 1532 057e 77       		.byte	0x77
+ 1533 057f 1E       		.uleb128 0x1e
+ 1534 0580 0F000000 		.4byte	.LASF63
+ 1535 0584 0F000000 		.4byte	.LASF63
+ 1536 0588 03       		.byte	0x3
+ 1537 0589 7E       		.byte	0x7e
+ 1538 058a 1E       		.uleb128 0x1e
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 44
+
+
+ 1539 058b 67030000 		.4byte	.LASF64
+ 1540 058f 67030000 		.4byte	.LASF64
+ 1541 0593 04       		.byte	0x4
+ 1542 0594 32       		.byte	0x32
+ 1543 0595 1E       		.uleb128 0x1e
+ 1544 0596 E8020000 		.4byte	.LASF65
+ 1545 059a E8020000 		.4byte	.LASF65
+ 1546 059e 03       		.byte	0x3
+ 1547 059f 8B       		.byte	0x8b
+ 1548 05a0 1E       		.uleb128 0x1e
+ 1549 05a1 B2010000 		.4byte	.LASF66
+ 1550 05a5 B2010000 		.4byte	.LASF66
+ 1551 05a9 03       		.byte	0x3
+ 1552 05aa 88       		.byte	0x88
+ 1553 05ab 00       		.byte	0
+ 1554              		.section	.debug_abbrev,"",%progbits
+ 1555              	.Ldebug_abbrev0:
+ 1556 0000 01       		.uleb128 0x1
+ 1557 0001 11       		.uleb128 0x11
+ 1558 0002 01       		.byte	0x1
+ 1559 0003 25       		.uleb128 0x25
+ 1560 0004 0E       		.uleb128 0xe
+ 1561 0005 13       		.uleb128 0x13
+ 1562 0006 0B       		.uleb128 0xb
+ 1563 0007 03       		.uleb128 0x3
+ 1564 0008 0E       		.uleb128 0xe
+ 1565 0009 1B       		.uleb128 0x1b
+ 1566 000a 0E       		.uleb128 0xe
+ 1567 000b 55       		.uleb128 0x55
+ 1568 000c 17       		.uleb128 0x17
+ 1569 000d 11       		.uleb128 0x11
+ 1570 000e 01       		.uleb128 0x1
+ 1571 000f 10       		.uleb128 0x10
+ 1572 0010 17       		.uleb128 0x17
+ 1573 0011 00       		.byte	0
+ 1574 0012 00       		.byte	0
+ 1575 0013 02       		.uleb128 0x2
+ 1576 0014 24       		.uleb128 0x24
+ 1577 0015 00       		.byte	0
+ 1578 0016 0B       		.uleb128 0xb
+ 1579 0017 0B       		.uleb128 0xb
+ 1580 0018 3E       		.uleb128 0x3e
+ 1581 0019 0B       		.uleb128 0xb
+ 1582 001a 03       		.uleb128 0x3
+ 1583 001b 0E       		.uleb128 0xe
+ 1584 001c 00       		.byte	0
+ 1585 001d 00       		.byte	0
+ 1586 001e 03       		.uleb128 0x3
+ 1587 001f 24       		.uleb128 0x24
+ 1588 0020 00       		.byte	0
+ 1589 0021 0B       		.uleb128 0xb
+ 1590 0022 0B       		.uleb128 0xb
+ 1591 0023 3E       		.uleb128 0x3e
+ 1592 0024 0B       		.uleb128 0xb
+ 1593 0025 03       		.uleb128 0x3
+ 1594 0026 08       		.uleb128 0x8
+ 1595 0027 00       		.byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 45
+
+
+ 1596 0028 00       		.byte	0
+ 1597 0029 04       		.uleb128 0x4
+ 1598 002a 16       		.uleb128 0x16
+ 1599 002b 00       		.byte	0
+ 1600 002c 03       		.uleb128 0x3
+ 1601 002d 0E       		.uleb128 0xe
+ 1602 002e 3A       		.uleb128 0x3a
+ 1603 002f 0B       		.uleb128 0xb
+ 1604 0030 3B       		.uleb128 0x3b
+ 1605 0031 05       		.uleb128 0x5
+ 1606 0032 49       		.uleb128 0x49
+ 1607 0033 13       		.uleb128 0x13
+ 1608 0034 00       		.byte	0
+ 1609 0035 00       		.byte	0
+ 1610 0036 05       		.uleb128 0x5
+ 1611 0037 35       		.uleb128 0x35
+ 1612 0038 00       		.byte	0
+ 1613 0039 49       		.uleb128 0x49
+ 1614 003a 13       		.uleb128 0x13
+ 1615 003b 00       		.byte	0
+ 1616 003c 00       		.byte	0
+ 1617 003d 06       		.uleb128 0x6
+ 1618 003e 2E       		.uleb128 0x2e
+ 1619 003f 01       		.byte	0x1
+ 1620 0040 3F       		.uleb128 0x3f
+ 1621 0041 19       		.uleb128 0x19
+ 1622 0042 03       		.uleb128 0x3
+ 1623 0043 0E       		.uleb128 0xe
+ 1624 0044 3A       		.uleb128 0x3a
+ 1625 0045 0B       		.uleb128 0xb
+ 1626 0046 3B       		.uleb128 0x3b
+ 1627 0047 0B       		.uleb128 0xb
+ 1628 0048 27       		.uleb128 0x27
+ 1629 0049 19       		.uleb128 0x19
+ 1630 004a 11       		.uleb128 0x11
+ 1631 004b 01       		.uleb128 0x1
+ 1632 004c 12       		.uleb128 0x12
+ 1633 004d 06       		.uleb128 0x6
+ 1634 004e 40       		.uleb128 0x40
+ 1635 004f 18       		.uleb128 0x18
+ 1636 0050 9742     		.uleb128 0x2117
+ 1637 0052 19       		.uleb128 0x19
+ 1638 0053 01       		.uleb128 0x1
+ 1639 0054 13       		.uleb128 0x13
+ 1640 0055 00       		.byte	0
+ 1641 0056 00       		.byte	0
+ 1642 0057 07       		.uleb128 0x7
+ 1643 0058 34       		.uleb128 0x34
+ 1644 0059 00       		.byte	0
+ 1645 005a 03       		.uleb128 0x3
+ 1646 005b 0E       		.uleb128 0xe
+ 1647 005c 3A       		.uleb128 0x3a
+ 1648 005d 0B       		.uleb128 0xb
+ 1649 005e 3B       		.uleb128 0x3b
+ 1650 005f 0B       		.uleb128 0xb
+ 1651 0060 49       		.uleb128 0x49
+ 1652 0061 13       		.uleb128 0x13
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 46
+
+
+ 1653 0062 02       		.uleb128 0x2
+ 1654 0063 17       		.uleb128 0x17
+ 1655 0064 00       		.byte	0
+ 1656 0065 00       		.byte	0
+ 1657 0066 08       		.uleb128 0x8
+ 1658 0067 898201   		.uleb128 0x4109
+ 1659 006a 00       		.byte	0
+ 1660 006b 11       		.uleb128 0x11
+ 1661 006c 01       		.uleb128 0x1
+ 1662 006d 31       		.uleb128 0x31
+ 1663 006e 13       		.uleb128 0x13
+ 1664 006f 00       		.byte	0
+ 1665 0070 00       		.byte	0
+ 1666 0071 09       		.uleb128 0x9
+ 1667 0072 898201   		.uleb128 0x4109
+ 1668 0075 01       		.byte	0x1
+ 1669 0076 11       		.uleb128 0x11
+ 1670 0077 01       		.uleb128 0x1
+ 1671 0078 31       		.uleb128 0x31
+ 1672 0079 13       		.uleb128 0x13
+ 1673 007a 01       		.uleb128 0x1
+ 1674 007b 13       		.uleb128 0x13
+ 1675 007c 00       		.byte	0
+ 1676 007d 00       		.byte	0
+ 1677 007e 0A       		.uleb128 0xa
+ 1678 007f 8A8201   		.uleb128 0x410a
+ 1679 0082 00       		.byte	0
+ 1680 0083 02       		.uleb128 0x2
+ 1681 0084 18       		.uleb128 0x18
+ 1682 0085 9142     		.uleb128 0x2111
+ 1683 0087 18       		.uleb128 0x18
+ 1684 0088 00       		.byte	0
+ 1685 0089 00       		.byte	0
+ 1686 008a 0B       		.uleb128 0xb
+ 1687 008b 898201   		.uleb128 0x4109
+ 1688 008e 00       		.byte	0
+ 1689 008f 11       		.uleb128 0x11
+ 1690 0090 01       		.uleb128 0x1
+ 1691 0091 9542     		.uleb128 0x2115
+ 1692 0093 19       		.uleb128 0x19
+ 1693 0094 31       		.uleb128 0x31
+ 1694 0095 13       		.uleb128 0x13
+ 1695 0096 00       		.byte	0
+ 1696 0097 00       		.byte	0
+ 1697 0098 0C       		.uleb128 0xc
+ 1698 0099 2E       		.uleb128 0x2e
+ 1699 009a 01       		.byte	0x1
+ 1700 009b 3F       		.uleb128 0x3f
+ 1701 009c 19       		.uleb128 0x19
+ 1702 009d 03       		.uleb128 0x3
+ 1703 009e 0E       		.uleb128 0xe
+ 1704 009f 3A       		.uleb128 0x3a
+ 1705 00a0 0B       		.uleb128 0xb
+ 1706 00a1 3B       		.uleb128 0x3b
+ 1707 00a2 05       		.uleb128 0x5
+ 1708 00a3 27       		.uleb128 0x27
+ 1709 00a4 19       		.uleb128 0x19
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 47
+
+
+ 1710 00a5 11       		.uleb128 0x11
+ 1711 00a6 01       		.uleb128 0x1
+ 1712 00a7 12       		.uleb128 0x12
+ 1713 00a8 06       		.uleb128 0x6
+ 1714 00a9 40       		.uleb128 0x40
+ 1715 00aa 18       		.uleb128 0x18
+ 1716 00ab 9742     		.uleb128 0x2117
+ 1717 00ad 19       		.uleb128 0x19
+ 1718 00ae 01       		.uleb128 0x1
+ 1719 00af 13       		.uleb128 0x13
+ 1720 00b0 00       		.byte	0
+ 1721 00b1 00       		.byte	0
+ 1722 00b2 0D       		.uleb128 0xd
+ 1723 00b3 05       		.uleb128 0x5
+ 1724 00b4 00       		.byte	0
+ 1725 00b5 03       		.uleb128 0x3
+ 1726 00b6 0E       		.uleb128 0xe
+ 1727 00b7 3A       		.uleb128 0x3a
+ 1728 00b8 0B       		.uleb128 0xb
+ 1729 00b9 3B       		.uleb128 0x3b
+ 1730 00ba 05       		.uleb128 0x5
+ 1731 00bb 49       		.uleb128 0x49
+ 1732 00bc 13       		.uleb128 0x13
+ 1733 00bd 02       		.uleb128 0x2
+ 1734 00be 17       		.uleb128 0x17
+ 1735 00bf 00       		.byte	0
+ 1736 00c0 00       		.byte	0
+ 1737 00c1 0E       		.uleb128 0xe
+ 1738 00c2 34       		.uleb128 0x34
+ 1739 00c3 00       		.byte	0
+ 1740 00c4 03       		.uleb128 0x3
+ 1741 00c5 0E       		.uleb128 0xe
+ 1742 00c6 3A       		.uleb128 0x3a
+ 1743 00c7 0B       		.uleb128 0xb
+ 1744 00c8 3B       		.uleb128 0x3b
+ 1745 00c9 05       		.uleb128 0x5
+ 1746 00ca 49       		.uleb128 0x49
+ 1747 00cb 13       		.uleb128 0x13
+ 1748 00cc 02       		.uleb128 0x2
+ 1749 00cd 17       		.uleb128 0x17
+ 1750 00ce 00       		.byte	0
+ 1751 00cf 00       		.byte	0
+ 1752 00d0 0F       		.uleb128 0xf
+ 1753 00d1 2E       		.uleb128 0x2e
+ 1754 00d2 01       		.byte	0x1
+ 1755 00d3 03       		.uleb128 0x3
+ 1756 00d4 0E       		.uleb128 0xe
+ 1757 00d5 3A       		.uleb128 0x3a
+ 1758 00d6 0B       		.uleb128 0xb
+ 1759 00d7 3B       		.uleb128 0x3b
+ 1760 00d8 05       		.uleb128 0x5
+ 1761 00d9 27       		.uleb128 0x27
+ 1762 00da 19       		.uleb128 0x19
+ 1763 00db 20       		.uleb128 0x20
+ 1764 00dc 0B       		.uleb128 0xb
+ 1765 00dd 01       		.uleb128 0x1
+ 1766 00de 13       		.uleb128 0x13
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 48
+
+
+ 1767 00df 00       		.byte	0
+ 1768 00e0 00       		.byte	0
+ 1769 00e1 10       		.uleb128 0x10
+ 1770 00e2 05       		.uleb128 0x5
+ 1771 00e3 00       		.byte	0
+ 1772 00e4 03       		.uleb128 0x3
+ 1773 00e5 0E       		.uleb128 0xe
+ 1774 00e6 3A       		.uleb128 0x3a
+ 1775 00e7 0B       		.uleb128 0xb
+ 1776 00e8 3B       		.uleb128 0x3b
+ 1777 00e9 05       		.uleb128 0x5
+ 1778 00ea 49       		.uleb128 0x49
+ 1779 00eb 13       		.uleb128 0x13
+ 1780 00ec 00       		.byte	0
+ 1781 00ed 00       		.byte	0
+ 1782 00ee 11       		.uleb128 0x11
+ 1783 00ef 34       		.uleb128 0x34
+ 1784 00f0 00       		.byte	0
+ 1785 00f1 03       		.uleb128 0x3
+ 1786 00f2 0E       		.uleb128 0xe
+ 1787 00f3 3A       		.uleb128 0x3a
+ 1788 00f4 0B       		.uleb128 0xb
+ 1789 00f5 3B       		.uleb128 0x3b
+ 1790 00f6 05       		.uleb128 0x5
+ 1791 00f7 49       		.uleb128 0x49
+ 1792 00f8 13       		.uleb128 0x13
+ 1793 00f9 00       		.byte	0
+ 1794 00fa 00       		.byte	0
+ 1795 00fb 12       		.uleb128 0x12
+ 1796 00fc 1D       		.uleb128 0x1d
+ 1797 00fd 01       		.byte	0x1
+ 1798 00fe 31       		.uleb128 0x31
+ 1799 00ff 13       		.uleb128 0x13
+ 1800 0100 52       		.uleb128 0x52
+ 1801 0101 01       		.uleb128 0x1
+ 1802 0102 55       		.uleb128 0x55
+ 1803 0103 17       		.uleb128 0x17
+ 1804 0104 58       		.uleb128 0x58
+ 1805 0105 0B       		.uleb128 0xb
+ 1806 0106 59       		.uleb128 0x59
+ 1807 0107 05       		.uleb128 0x5
+ 1808 0108 00       		.byte	0
+ 1809 0109 00       		.byte	0
+ 1810 010a 13       		.uleb128 0x13
+ 1811 010b 05       		.uleb128 0x5
+ 1812 010c 00       		.byte	0
+ 1813 010d 31       		.uleb128 0x31
+ 1814 010e 13       		.uleb128 0x13
+ 1815 010f 00       		.byte	0
+ 1816 0110 00       		.byte	0
+ 1817 0111 14       		.uleb128 0x14
+ 1818 0112 0B       		.uleb128 0xb
+ 1819 0113 01       		.byte	0x1
+ 1820 0114 55       		.uleb128 0x55
+ 1821 0115 17       		.uleb128 0x17
+ 1822 0116 00       		.byte	0
+ 1823 0117 00       		.byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 49
+
+
+ 1824 0118 15       		.uleb128 0x15
+ 1825 0119 34       		.uleb128 0x34
+ 1826 011a 00       		.byte	0
+ 1827 011b 31       		.uleb128 0x31
+ 1828 011c 13       		.uleb128 0x13
+ 1829 011d 02       		.uleb128 0x2
+ 1830 011e 17       		.uleb128 0x17
+ 1831 011f 00       		.byte	0
+ 1832 0120 00       		.byte	0
+ 1833 0121 16       		.uleb128 0x16
+ 1834 0122 898201   		.uleb128 0x4109
+ 1835 0125 01       		.byte	0x1
+ 1836 0126 11       		.uleb128 0x11
+ 1837 0127 01       		.uleb128 0x1
+ 1838 0128 31       		.uleb128 0x31
+ 1839 0129 13       		.uleb128 0x13
+ 1840 012a 00       		.byte	0
+ 1841 012b 00       		.byte	0
+ 1842 012c 17       		.uleb128 0x17
+ 1843 012d 2E       		.uleb128 0x2e
+ 1844 012e 00       		.byte	0
+ 1845 012f 3F       		.uleb128 0x3f
+ 1846 0130 19       		.uleb128 0x19
+ 1847 0131 03       		.uleb128 0x3
+ 1848 0132 0E       		.uleb128 0xe
+ 1849 0133 3A       		.uleb128 0x3a
+ 1850 0134 0B       		.uleb128 0xb
+ 1851 0135 3B       		.uleb128 0x3b
+ 1852 0136 05       		.uleb128 0x5
+ 1853 0137 27       		.uleb128 0x27
+ 1854 0138 19       		.uleb128 0x19
+ 1855 0139 11       		.uleb128 0x11
+ 1856 013a 01       		.uleb128 0x1
+ 1857 013b 12       		.uleb128 0x12
+ 1858 013c 06       		.uleb128 0x6
+ 1859 013d 40       		.uleb128 0x40
+ 1860 013e 18       		.uleb128 0x18
+ 1861 013f 9742     		.uleb128 0x2117
+ 1862 0141 19       		.uleb128 0x19
+ 1863 0142 00       		.byte	0
+ 1864 0143 00       		.byte	0
+ 1865 0144 18       		.uleb128 0x18
+ 1866 0145 2E       		.uleb128 0x2e
+ 1867 0146 01       		.byte	0x1
+ 1868 0147 3F       		.uleb128 0x3f
+ 1869 0148 19       		.uleb128 0x19
+ 1870 0149 03       		.uleb128 0x3
+ 1871 014a 0E       		.uleb128 0xe
+ 1872 014b 3A       		.uleb128 0x3a
+ 1873 014c 0B       		.uleb128 0xb
+ 1874 014d 3B       		.uleb128 0x3b
+ 1875 014e 05       		.uleb128 0x5
+ 1876 014f 27       		.uleb128 0x27
+ 1877 0150 19       		.uleb128 0x19
+ 1878 0151 49       		.uleb128 0x49
+ 1879 0152 13       		.uleb128 0x13
+ 1880 0153 11       		.uleb128 0x11
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 50
+
+
+ 1881 0154 01       		.uleb128 0x1
+ 1882 0155 12       		.uleb128 0x12
+ 1883 0156 06       		.uleb128 0x6
+ 1884 0157 40       		.uleb128 0x40
+ 1885 0158 18       		.uleb128 0x18
+ 1886 0159 9742     		.uleb128 0x2117
+ 1887 015b 19       		.uleb128 0x19
+ 1888 015c 01       		.uleb128 0x1
+ 1889 015d 13       		.uleb128 0x13
+ 1890 015e 00       		.byte	0
+ 1891 015f 00       		.byte	0
+ 1892 0160 19       		.uleb128 0x19
+ 1893 0161 2E       		.uleb128 0x2e
+ 1894 0162 00       		.byte	0
+ 1895 0163 3F       		.uleb128 0x3f
+ 1896 0164 19       		.uleb128 0x19
+ 1897 0165 03       		.uleb128 0x3
+ 1898 0166 0E       		.uleb128 0xe
+ 1899 0167 3A       		.uleb128 0x3a
+ 1900 0168 0B       		.uleb128 0xb
+ 1901 0169 3B       		.uleb128 0x3b
+ 1902 016a 05       		.uleb128 0x5
+ 1903 016b 27       		.uleb128 0x27
+ 1904 016c 19       		.uleb128 0x19
+ 1905 016d 49       		.uleb128 0x49
+ 1906 016e 13       		.uleb128 0x13
+ 1907 016f 11       		.uleb128 0x11
+ 1908 0170 01       		.uleb128 0x1
+ 1909 0171 12       		.uleb128 0x12
+ 1910 0172 06       		.uleb128 0x6
+ 1911 0173 40       		.uleb128 0x40
+ 1912 0174 18       		.uleb128 0x18
+ 1913 0175 9742     		.uleb128 0x2117
+ 1914 0177 19       		.uleb128 0x19
+ 1915 0178 00       		.byte	0
+ 1916 0179 00       		.byte	0
+ 1917 017a 1A       		.uleb128 0x1a
+ 1918 017b 34       		.uleb128 0x34
+ 1919 017c 00       		.byte	0
+ 1920 017d 03       		.uleb128 0x3
+ 1921 017e 08       		.uleb128 0x8
+ 1922 017f 3A       		.uleb128 0x3a
+ 1923 0180 0B       		.uleb128 0xb
+ 1924 0181 3B       		.uleb128 0x3b
+ 1925 0182 05       		.uleb128 0x5
+ 1926 0183 49       		.uleb128 0x49
+ 1927 0184 13       		.uleb128 0x13
+ 1928 0185 02       		.uleb128 0x2
+ 1929 0186 18       		.uleb128 0x18
+ 1930 0187 00       		.byte	0
+ 1931 0188 00       		.byte	0
+ 1932 0189 1B       		.uleb128 0x1b
+ 1933 018a 05       		.uleb128 0x5
+ 1934 018b 00       		.byte	0
+ 1935 018c 03       		.uleb128 0x3
+ 1936 018d 0E       		.uleb128 0xe
+ 1937 018e 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 51
+
+
+ 1938 018f 0B       		.uleb128 0xb
+ 1939 0190 3B       		.uleb128 0x3b
+ 1940 0191 05       		.uleb128 0x5
+ 1941 0192 49       		.uleb128 0x49
+ 1942 0193 13       		.uleb128 0x13
+ 1943 0194 02       		.uleb128 0x2
+ 1944 0195 18       		.uleb128 0x18
+ 1945 0196 00       		.byte	0
+ 1946 0197 00       		.byte	0
+ 1947 0198 1C       		.uleb128 0x1c
+ 1948 0199 2E       		.uleb128 0x2e
+ 1949 019a 01       		.byte	0x1
+ 1950 019b 3F       		.uleb128 0x3f
+ 1951 019c 19       		.uleb128 0x19
+ 1952 019d 03       		.uleb128 0x3
+ 1953 019e 0E       		.uleb128 0xe
+ 1954 019f 3A       		.uleb128 0x3a
+ 1955 01a0 0B       		.uleb128 0xb
+ 1956 01a1 3B       		.uleb128 0x3b
+ 1957 01a2 05       		.uleb128 0x5
+ 1958 01a3 27       		.uleb128 0x27
+ 1959 01a4 19       		.uleb128 0x19
+ 1960 01a5 49       		.uleb128 0x49
+ 1961 01a6 13       		.uleb128 0x13
+ 1962 01a7 11       		.uleb128 0x11
+ 1963 01a8 01       		.uleb128 0x1
+ 1964 01a9 12       		.uleb128 0x12
+ 1965 01aa 06       		.uleb128 0x6
+ 1966 01ab 40       		.uleb128 0x40
+ 1967 01ac 18       		.uleb128 0x18
+ 1968 01ad 9642     		.uleb128 0x2116
+ 1969 01af 19       		.uleb128 0x19
+ 1970 01b0 01       		.uleb128 0x1
+ 1971 01b1 13       		.uleb128 0x13
+ 1972 01b2 00       		.byte	0
+ 1973 01b3 00       		.byte	0
+ 1974 01b4 1D       		.uleb128 0x1d
+ 1975 01b5 34       		.uleb128 0x34
+ 1976 01b6 00       		.byte	0
+ 1977 01b7 03       		.uleb128 0x3
+ 1978 01b8 0E       		.uleb128 0xe
+ 1979 01b9 3A       		.uleb128 0x3a
+ 1980 01ba 0B       		.uleb128 0xb
+ 1981 01bb 3B       		.uleb128 0x3b
+ 1982 01bc 0B       		.uleb128 0xb
+ 1983 01bd 49       		.uleb128 0x49
+ 1984 01be 13       		.uleb128 0x13
+ 1985 01bf 3F       		.uleb128 0x3f
+ 1986 01c0 19       		.uleb128 0x19
+ 1987 01c1 02       		.uleb128 0x2
+ 1988 01c2 18       		.uleb128 0x18
+ 1989 01c3 00       		.byte	0
+ 1990 01c4 00       		.byte	0
+ 1991 01c5 1E       		.uleb128 0x1e
+ 1992 01c6 2E       		.uleb128 0x2e
+ 1993 01c7 00       		.byte	0
+ 1994 01c8 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 52
+
+
+ 1995 01c9 19       		.uleb128 0x19
+ 1996 01ca 3C       		.uleb128 0x3c
+ 1997 01cb 19       		.uleb128 0x19
+ 1998 01cc 6E       		.uleb128 0x6e
+ 1999 01cd 0E       		.uleb128 0xe
+ 2000 01ce 03       		.uleb128 0x3
+ 2001 01cf 0E       		.uleb128 0xe
+ 2002 01d0 3A       		.uleb128 0x3a
+ 2003 01d1 0B       		.uleb128 0xb
+ 2004 01d2 3B       		.uleb128 0x3b
+ 2005 01d3 0B       		.uleb128 0xb
+ 2006 01d4 00       		.byte	0
+ 2007 01d5 00       		.byte	0
+ 2008 01d6 00       		.byte	0
+ 2009              		.section	.debug_loc,"",%progbits
+ 2010              	.Ldebug_loc0:
+ 2011              	.LLST0:
+ 2012 0000 38000000 		.4byte	.LVL2
+ 2013 0004 3C000000 		.4byte	.LVL3
+ 2014 0008 0500     		.2byte	0x5
+ 2015 000a 73       		.byte	0x73
+ 2016 000b 00       		.sleb128 0
+ 2017 000c 32       		.byte	0x32
+ 2018 000d 21       		.byte	0x21
+ 2019 000e 9F       		.byte	0x9f
+ 2020 000f 3C000000 		.4byte	.LVL3
+ 2021 0013 40000000 		.4byte	.LVL4
+ 2022 0017 0100     		.2byte	0x1
+ 2023 0019 53       		.byte	0x53
+ 2024 001a 40000000 		.4byte	.LVL4
+ 2025 001e 42000000 		.4byte	.LVL5
+ 2026 0022 0200     		.2byte	0x2
+ 2027 0024 72       		.byte	0x72
+ 2028 0025 00       		.sleb128 0
+ 2029 0026 42000000 		.4byte	.LVL5
+ 2030 002a 44000000 		.4byte	.LVL6
+ 2031 002e 0500     		.2byte	0x5
+ 2032 0030 0C       		.byte	0xc
+ 2033 0031 03590040 		.4byte	0x40005903
+ 2034 0035 00000000 		.4byte	0
+ 2035 0039 00000000 		.4byte	0
+ 2036              	.LLST1:
+ 2037 003d 0A000000 		.4byte	.LVL1
+ 2038 0041 84000000 		.4byte	.LVL8
+ 2039 0045 0100     		.2byte	0x1
+ 2040 0047 54       		.byte	0x54
+ 2041 0048 00000000 		.4byte	0
+ 2042 004c 00000000 		.4byte	0
+ 2043              	.LLST2:
+ 2044 0050 06000000 		.4byte	.LVL10
+ 2045 0054 41000000 		.4byte	.LVL11-1
+ 2046 0058 0100     		.2byte	0x1
+ 2047 005a 50       		.byte	0x50
+ 2048 005b 00000000 		.4byte	0
+ 2049 005f 00000000 		.4byte	0
+ 2050              	.LLST3:
+ 2051 0063 00000000 		.4byte	.LVL12
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 53
+
+
+ 2052 0067 00000000 		.4byte	.LVL12
+ 2053 006b 0100     		.2byte	0x1
+ 2054 006d 50       		.byte	0x50
+ 2055 006e 00000000 		.4byte	.LVL12
+ 2056 0072 0C000000 		.4byte	.LVL14
+ 2057 0076 0500     		.2byte	0x5
+ 2058 0078 70       		.byte	0x70
+ 2059 0079 00       		.sleb128 0
+ 2060 007a 33       		.byte	0x33
+ 2061 007b 1A       		.byte	0x1a
+ 2062 007c 9F       		.byte	0x9f
+ 2063 007d 0C000000 		.4byte	.LVL14
+ 2064 0081 18000000 		.4byte	.LFE4
+ 2065 0085 0600     		.2byte	0x6
+ 2066 0087 F3       		.byte	0xf3
+ 2067 0088 01       		.uleb128 0x1
+ 2068 0089 50       		.byte	0x50
+ 2069 008a 33       		.byte	0x33
+ 2070 008b 1A       		.byte	0x1a
+ 2071 008c 9F       		.byte	0x9f
+ 2072 008d 00000000 		.4byte	0
+ 2073 0091 00000000 		.4byte	0
+ 2074              	.LLST4:
+ 2075 0095 08000000 		.4byte	.LVL13
+ 2076 0099 0E000000 		.4byte	.LVL15
+ 2077 009d 0100     		.2byte	0x1
+ 2078 009f 53       		.byte	0x53
+ 2079 00a0 0E000000 		.4byte	.LVL15
+ 2080 00a4 18000000 		.4byte	.LFE4
+ 2081 00a8 0100     		.2byte	0x1
+ 2082 00aa 50       		.byte	0x50
+ 2083 00ab 00000000 		.4byte	0
+ 2084 00af 00000000 		.4byte	0
+ 2085              	.LLST5:
+ 2086 00b3 00000000 		.4byte	.LVL16
+ 2087 00b7 12000000 		.4byte	.LVL19
+ 2088 00bb 0100     		.2byte	0x1
+ 2089 00bd 50       		.byte	0x50
+ 2090 00be 12000000 		.4byte	.LVL19
+ 2091 00c2 6C000000 		.4byte	.LFE5
+ 2092 00c6 0400     		.2byte	0x4
+ 2093 00c8 F3       		.byte	0xf3
+ 2094 00c9 01       		.uleb128 0x1
+ 2095 00ca 50       		.byte	0x50
+ 2096 00cb 9F       		.byte	0x9f
+ 2097 00cc 00000000 		.4byte	0
+ 2098 00d0 00000000 		.4byte	0
+ 2099              	.LLST6:
+ 2100 00d4 0E000000 		.4byte	.LVL17
+ 2101 00d8 10000000 		.4byte	.LVL18
+ 2102 00dc 0300     		.2byte	0x3
+ 2103 00de 08       		.byte	0x8
+ 2104 00df 42       		.byte	0x42
+ 2105 00e0 9F       		.byte	0x9f
+ 2106 00e1 00000000 		.4byte	0
+ 2107 00e5 00000000 		.4byte	0
+ 2108              	.LLST7:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 54
+
+
+ 2109 00e9 36000000 		.4byte	.LVL21
+ 2110 00ed 42000000 		.4byte	.LVL22
+ 2111 00f1 0100     		.2byte	0x1
+ 2112 00f3 51       		.byte	0x51
+ 2113 00f4 00000000 		.4byte	0
+ 2114 00f8 00000000 		.4byte	0
+ 2115              	.LLST8:
+ 2116 00fc 36000000 		.4byte	.LVL21
+ 2117 0100 54000000 		.4byte	.LVL23
+ 2118 0104 0100     		.2byte	0x1
+ 2119 0106 52       		.byte	0x52
+ 2120 0107 00000000 		.4byte	0
+ 2121 010b 00000000 		.4byte	0
+ 2122              	.LLST9:
+ 2123 010f 00000000 		.4byte	.LVL30
+ 2124 0113 16000000 		.4byte	.LVL33
+ 2125 0117 0100     		.2byte	0x1
+ 2126 0119 50       		.byte	0x50
+ 2127 011a 16000000 		.4byte	.LVL33
+ 2128 011e 28000000 		.4byte	.LFE8
+ 2129 0122 0400     		.2byte	0x4
+ 2130 0124 F3       		.byte	0xf3
+ 2131 0125 01       		.uleb128 0x1
+ 2132 0126 50       		.byte	0x50
+ 2133 0127 9F       		.byte	0x9f
+ 2134 0128 00000000 		.4byte	0
+ 2135 012c 00000000 		.4byte	0
+ 2136              	.LLST10:
+ 2137 0130 06000000 		.4byte	.LVL31
+ 2138 0134 0A000000 		.4byte	.LVL32
+ 2139 0138 0500     		.2byte	0x5
+ 2140 013a 74       		.byte	0x74
+ 2141 013b 00       		.sleb128 0
+ 2142 013c 31       		.byte	0x31
+ 2143 013d 1A       		.byte	0x1a
+ 2144 013e 9F       		.byte	0x9f
+ 2145 013f 00000000 		.4byte	0
+ 2146 0143 00000000 		.4byte	0
+ 2147              	.LLST11:
+ 2148 0147 00000000 		.4byte	.LVL37
+ 2149 014b 04000000 		.4byte	.LVL38
+ 2150 014f 0100     		.2byte	0x1
+ 2151 0151 50       		.byte	0x50
+ 2152 0152 04000000 		.4byte	.LVL38
+ 2153 0156 10000000 		.4byte	.LFE13
+ 2154 015a 0400     		.2byte	0x4
+ 2155 015c F3       		.byte	0xf3
+ 2156 015d 01       		.uleb128 0x1
+ 2157 015e 50       		.byte	0x50
+ 2158 015f 9F       		.byte	0x9f
+ 2159 0160 00000000 		.4byte	0
+ 2160 0164 00000000 		.4byte	0
+ 2161              	.LLST12:
+ 2162 0168 00000000 		.4byte	.LVL40
+ 2163 016c 1C000000 		.4byte	.LVL44
+ 2164 0170 0100     		.2byte	0x1
+ 2165 0172 50       		.byte	0x50
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 55
+
+
+ 2166 0173 1C000000 		.4byte	.LVL44
+ 2167 0177 22000000 		.4byte	.LVL45
+ 2168 017b 0400     		.2byte	0x4
+ 2169 017d F3       		.byte	0xf3
+ 2170 017e 01       		.uleb128 0x1
+ 2171 017f 50       		.byte	0x50
+ 2172 0180 9F       		.byte	0x9f
+ 2173 0181 22000000 		.4byte	.LVL45
+ 2174 0185 38000000 		.4byte	.LVL48
+ 2175 0189 0100     		.2byte	0x1
+ 2176 018b 50       		.byte	0x50
+ 2177 018c 00000000 		.4byte	0
+ 2178 0190 00000000 		.4byte	0
+ 2179              	.LLST13:
+ 2180 0194 32000000 		.4byte	.LVL46
+ 2181 0198 34000000 		.4byte	.LVL47
+ 2182 019c 0900     		.2byte	0x9
+ 2183 019e 73       		.byte	0x73
+ 2184 019f 00       		.sleb128 0
+ 2185 01a0 72       		.byte	0x72
+ 2186 01a1 00       		.sleb128 0
+ 2187 01a2 22       		.byte	0x22
+ 2188 01a3 71       		.byte	0x71
+ 2189 01a4 00       		.sleb128 0
+ 2190 01a5 1B       		.byte	0x1b
+ 2191 01a6 9F       		.byte	0x9f
+ 2192 01a7 00000000 		.4byte	0
+ 2193 01ab 00000000 		.4byte	0
+ 2194              	.LLST14:
+ 2195 01af 10000000 		.4byte	.LVL41
+ 2196 01b3 12000000 		.4byte	.LVL42
+ 2197 01b7 0100     		.2byte	0x1
+ 2198 01b9 51       		.byte	0x51
+ 2199 01ba 16000000 		.4byte	.LVL43
+ 2200 01be 48000000 		.4byte	.LFE15
+ 2201 01c2 0100     		.2byte	0x1
+ 2202 01c4 51       		.byte	0x51
+ 2203 01c5 00000000 		.4byte	0
+ 2204 01c9 00000000 		.4byte	0
+ 2205              	.LLST15:
+ 2206 01cd 00000000 		.4byte	.LVL49
+ 2207 01d1 20000000 		.4byte	.LVL53
+ 2208 01d5 0100     		.2byte	0x1
+ 2209 01d7 50       		.byte	0x50
+ 2210 01d8 20000000 		.4byte	.LVL53
+ 2211 01dc 34000000 		.4byte	.LVL55
+ 2212 01e0 0100     		.2byte	0x1
+ 2213 01e2 54       		.byte	0x54
+ 2214 01e3 00000000 		.4byte	0
+ 2215 01e7 00000000 		.4byte	0
+ 2216              	.LLST16:
+ 2217 01eb 20000000 		.4byte	.LVL53
+ 2218 01ef 31000000 		.4byte	.LVL54-1
+ 2219 01f3 1A00     		.2byte	0x1a
+ 2220 01f5 74       		.byte	0x74
+ 2221 01f6 00       		.sleb128 0
+ 2222 01f7 F7       		.byte	0xf7
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 56
+
+
+ 2223 01f8 41       		.uleb128 0x41
+ 2224 01f9 F7       		.byte	0xf7
+ 2225 01fa 25       		.uleb128 0x25
+ 2226 01fb 0C       		.byte	0xc
+ 2227 01fc 80969800 		.4byte	0x989680
+ 2228 0200 F7       		.byte	0xf7
+ 2229 0201 25       		.uleb128 0x25
+ 2230 0202 1E       		.byte	0x1e
+ 2231 0203 F7       		.byte	0xf7
+ 2232 0204 33       		.uleb128 0x33
+ 2233 0205 72       		.byte	0x72
+ 2234 0206 00       		.sleb128 0
+ 2235 0207 F7       		.byte	0xf7
+ 2236 0208 3A       		.uleb128 0x3a
+ 2237 0209 F7       		.byte	0xf7
+ 2238 020a 33       		.uleb128 0x33
+ 2239 020b 1B       		.byte	0x1b
+ 2240 020c F7       		.byte	0xf7
+ 2241 020d 25       		.uleb128 0x25
+ 2242 020e 9F       		.byte	0x9f
+ 2243 020f 00000000 		.4byte	0
+ 2244 0213 00000000 		.4byte	0
+ 2245              	.LLST17:
+ 2246 0217 12000000 		.4byte	.LVL50
+ 2247 021b 14000000 		.4byte	.LVL51
+ 2248 021f 0100     		.2byte	0x1
+ 2249 0221 52       		.byte	0x52
+ 2250 0222 18000000 		.4byte	.LVL52
+ 2251 0226 31000000 		.4byte	.LVL54-1
+ 2252 022a 0100     		.2byte	0x1
+ 2253 022c 52       		.byte	0x52
+ 2254 022d 00000000 		.4byte	0
+ 2255 0231 00000000 		.4byte	0
+ 2256              	.LLST18:
+ 2257 0235 00000000 		.4byte	.LVL56
+ 2258 0239 1E000000 		.4byte	.LVL60
+ 2259 023d 0100     		.2byte	0x1
+ 2260 023f 50       		.byte	0x50
+ 2261 0240 1E000000 		.4byte	.LVL60
+ 2262 0244 23000000 		.4byte	.LVL61-1
+ 2263 0248 0100     		.2byte	0x1
+ 2264 024a 50       		.byte	0x50
+ 2265 024b 00000000 		.4byte	0
+ 2266 024f 00000000 		.4byte	0
+ 2267              	.LLST19:
+ 2268 0253 1E000000 		.4byte	.LVL60
+ 2269 0257 23000000 		.4byte	.LVL61-1
+ 2270 025b 1600     		.2byte	0x16
+ 2271 025d 70       		.byte	0x70
+ 2272 025e 00       		.sleb128 0
+ 2273 025f F7       		.byte	0xf7
+ 2274 0260 41       		.uleb128 0x41
+ 2275 0261 F7       		.byte	0xf7
+ 2276 0262 2C       		.uleb128 0x2c
+ 2277 0263 F4       		.byte	0xf4
+ 2278 0264 2C       		.uleb128 0x2c
+ 2279 0265 04       		.byte	0x4
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 57
+
+
+ 2280 0266 00002041 		.4byte	0x41200000
+ 2281 026a 1E       		.byte	0x1e
+ 2282 026b 74       		.byte	0x74
+ 2283 026c 00       		.sleb128 0
+ 2284 026d F7       		.byte	0xf7
+ 2285 026e 3A       		.uleb128 0x3a
+ 2286 026f F7       		.byte	0xf7
+ 2287 0270 2C       		.uleb128 0x2c
+ 2288 0271 1B       		.byte	0x1b
+ 2289 0272 9F       		.byte	0x9f
+ 2290 0273 00000000 		.4byte	0
+ 2291 0277 00000000 		.4byte	0
+ 2292              	.LLST20:
+ 2293 027b 12000000 		.4byte	.LVL57
+ 2294 027f 14000000 		.4byte	.LVL58
+ 2295 0283 0100     		.2byte	0x1
+ 2296 0285 54       		.byte	0x54
+ 2297 0286 18000000 		.4byte	.LVL59
+ 2298 028a 3C000000 		.4byte	.LVL65
+ 2299 028e 0100     		.2byte	0x1
+ 2300 0290 54       		.byte	0x54
+ 2301 0291 00000000 		.4byte	0
+ 2302 0295 00000000 		.4byte	0
+ 2303              		.section	.debug_aranges,"",%progbits
+ 2304 0000 9C000000 		.4byte	0x9c
+ 2305 0004 0200     		.2byte	0x2
+ 2306 0006 00000000 		.4byte	.Ldebug_info0
+ 2307 000a 04       		.byte	0x4
+ 2308 000b 00       		.byte	0
+ 2309 000c 0000     		.2byte	0
+ 2310 000e 0000     		.2byte	0
+ 2311 0010 00000000 		.4byte	.LFB2
+ 2312 0014 9C000000 		.4byte	.LFE2-.LFB2
+ 2313 0018 00000000 		.4byte	.LFB3
+ 2314 001c 48000000 		.4byte	.LFE3-.LFB3
+ 2315 0020 00000000 		.4byte	.LFB4
+ 2316 0024 18000000 		.4byte	.LFE4-.LFB4
+ 2317 0028 00000000 		.4byte	.LFB5
+ 2318 002c 6C000000 		.4byte	.LFE5-.LFB5
+ 2319 0030 00000000 		.4byte	.LFB1
+ 2320 0034 3C000000 		.4byte	.LFE1-.LFB1
+ 2321 0038 00000000 		.4byte	.LFB0
+ 2322 003c 1C000000 		.4byte	.LFE0-.LFB0
+ 2323 0040 00000000 		.4byte	.LFB6
+ 2324 0044 18000000 		.4byte	.LFE6-.LFB6
+ 2325 0048 00000000 		.4byte	.LFB7
+ 2326 004c 18000000 		.4byte	.LFE7-.LFB7
+ 2327 0050 00000000 		.4byte	.LFB8
+ 2328 0054 28000000 		.4byte	.LFE8-.LFB8
+ 2329 0058 00000000 		.4byte	.LFB9
+ 2330 005c 18000000 		.4byte	.LFE9-.LFB9
+ 2331 0060 00000000 		.4byte	.LFB10
+ 2332 0064 18000000 		.4byte	.LFE10-.LFB10
+ 2333 0068 00000000 		.4byte	.LFB11
+ 2334 006c 0C000000 		.4byte	.LFE11-.LFB11
+ 2335 0070 00000000 		.4byte	.LFB13
+ 2336 0074 10000000 		.4byte	.LFE13-.LFB13
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 58
+
+
+ 2337 0078 00000000 		.4byte	.LFB14
+ 2338 007c 0C000000 		.4byte	.LFE14-.LFB14
+ 2339 0080 00000000 		.4byte	.LFB15
+ 2340 0084 48000000 		.4byte	.LFE15-.LFB15
+ 2341 0088 00000000 		.4byte	.LFB16
+ 2342 008c 44000000 		.4byte	.LFE16-.LFB16
+ 2343 0090 00000000 		.4byte	.LFB17
+ 2344 0094 4C000000 		.4byte	.LFE17-.LFB17
+ 2345 0098 00000000 		.4byte	0
+ 2346 009c 00000000 		.4byte	0
+ 2347              		.section	.debug_ranges,"",%progbits
+ 2348              	.Ldebug_ranges0:
+ 2349 0000 1E000000 		.4byte	.LBB4
+ 2350 0004 2C000000 		.4byte	.LBE4
+ 2351 0008 2E000000 		.4byte	.LBB8
+ 2352 000c 32000000 		.4byte	.LBE8
+ 2353 0010 36000000 		.4byte	.LBB9
+ 2354 0014 6C000000 		.4byte	.LBE9
+ 2355 0018 00000000 		.4byte	0
+ 2356 001c 00000000 		.4byte	0
+ 2357 0020 00000000 		.4byte	.LFB2
+ 2358 0024 9C000000 		.4byte	.LFE2
+ 2359 0028 00000000 		.4byte	.LFB3
+ 2360 002c 48000000 		.4byte	.LFE3
+ 2361 0030 00000000 		.4byte	.LFB4
+ 2362 0034 18000000 		.4byte	.LFE4
+ 2363 0038 00000000 		.4byte	.LFB5
+ 2364 003c 6C000000 		.4byte	.LFE5
+ 2365 0040 00000000 		.4byte	.LFB1
+ 2366 0044 3C000000 		.4byte	.LFE1
+ 2367 0048 00000000 		.4byte	.LFB0
+ 2368 004c 1C000000 		.4byte	.LFE0
+ 2369 0050 00000000 		.4byte	.LFB6
+ 2370 0054 18000000 		.4byte	.LFE6
+ 2371 0058 00000000 		.4byte	.LFB7
+ 2372 005c 18000000 		.4byte	.LFE7
+ 2373 0060 00000000 		.4byte	.LFB8
+ 2374 0064 28000000 		.4byte	.LFE8
+ 2375 0068 00000000 		.4byte	.LFB9
+ 2376 006c 18000000 		.4byte	.LFE9
+ 2377 0070 00000000 		.4byte	.LFB10
+ 2378 0074 18000000 		.4byte	.LFE10
+ 2379 0078 00000000 		.4byte	.LFB11
+ 2380 007c 0C000000 		.4byte	.LFE11
+ 2381 0080 00000000 		.4byte	.LFB13
+ 2382 0084 10000000 		.4byte	.LFE13
+ 2383 0088 00000000 		.4byte	.LFB14
+ 2384 008c 0C000000 		.4byte	.LFE14
+ 2385 0090 00000000 		.4byte	.LFB15
+ 2386 0094 48000000 		.4byte	.LFE15
+ 2387 0098 00000000 		.4byte	.LFB16
+ 2388 009c 44000000 		.4byte	.LFE16
+ 2389 00a0 00000000 		.4byte	.LFB17
+ 2390 00a4 4C000000 		.4byte	.LFE17
+ 2391 00a8 00000000 		.4byte	0
+ 2392 00ac 00000000 		.4byte	0
+ 2393              		.section	.debug_line,"",%progbits
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 59
+
+
+ 2394              	.Ldebug_line0:
+ 2395 0000 1D020000 		.section	.debug_str,"MS",%progbits,1
+ 2395      02006800 
+ 2395      00000201 
+ 2395      FB0E0D00 
+ 2395      01010101 
+ 2396              	.LASF14:
+ 2397 0000 75696E74 		.ascii	"uint16\000"
+ 2397      313600
+ 2398              	.LASF46:
+ 2399 0007 61646347 		.ascii	"adcGain\000"
+ 2399      61696E00 
+ 2400              	.LASF63:
+ 2401 000f 43794578 		.ascii	"CyExitCriticalSection\000"
+ 2401      69744372 
+ 2401      69746963 
+ 2401      616C5365 
+ 2401      6374696F 
+ 2402              	.LASF30:
+ 2403 0025 636F756E 		.ascii	"counts\000"
+ 2403      747300
+ 2404              	.LASF47:
+ 2405 002c 53656174 		.ascii	"Seat_ADC2_SetScaledGain\000"
+ 2405      5F414443 
+ 2405      325F5365 
+ 2405      74536361 
+ 2405      6C656447 
+ 2406              	.LASF0:
+ 2407 0044 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2407      206C6F6E 
+ 2407      6720756E 
+ 2407      7369676E 
+ 2407      65642069 
+ 2408              	.LASF45:
+ 2409 005b 53656174 		.ascii	"Seat_ADC2_SetGain\000"
+ 2409      5F414443 
+ 2409      325F5365 
+ 2409      74476169 
+ 2409      6E00
+ 2410              	.LASF43:
+ 2411 006d 53656174 		.ascii	"Seat_ADC2_SetOffset\000"
+ 2411      5F414443 
+ 2411      325F5365 
+ 2411      744F6666 
+ 2411      73657400 
+ 2412              	.LASF68:
+ 2413 0081 47656E65 		.ascii	"Generated_Source\\PSoC5\\Seat_ADC2.c\000"
+ 2413      72617465 
+ 2413      645F536F 
+ 2413      75726365 
+ 2413      5C50536F 
+ 2414              	.LASF6:
+ 2415 00a4 7369676E 		.ascii	"signed char\000"
+ 2415      65642063 
+ 2415      68617200 
+ 2416              	.LASF67:
+ 2417 00b0 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 60
+
+
+ 2417      43313120 
+ 2417      352E342E 
+ 2417      31203230 
+ 2417      31363036 
+ 2418 00e3 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2418      20726576 
+ 2418      6973696F 
+ 2418      6E203233 
+ 2418      37373135 
+ 2419 0116 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 2419      66756E63 
+ 2419      74696F6E 
+ 2419      2D736563 
+ 2419      74696F6E 
+ 2420              	.LASF18:
+ 2421 013e 696E7433 		.ascii	"int32\000"
+ 2421      3200
+ 2422              	.LASF9:
+ 2423 0144 6C6F6E67 		.ascii	"long int\000"
+ 2423      20696E74 
+ 2423      00
+ 2424              	.LASF29:
+ 2425 014d 53656174 		.ascii	"Seat_ADC2_SetPower\000"
+ 2425      5F414443 
+ 2425      325F5365 
+ 2425      74506F77 
+ 2425      657200
+ 2426              	.LASF23:
+ 2427 0160 72656731 		.ascii	"reg16\000"
+ 2427      3600
+ 2428              	.LASF13:
+ 2429 0166 75696E74 		.ascii	"uint8\000"
+ 2429      3800
+ 2430              	.LASF2:
+ 2431 016c 6C6F6E67 		.ascii	"long long int\000"
+ 2431      206C6F6E 
+ 2431      6720696E 
+ 2431      7400
+ 2432              	.LASF62:
+ 2433 017a 43794465 		.ascii	"CyDelayUs\000"
+ 2433      6C617955 
+ 2433      7300
+ 2434              	.LASF20:
+ 2435 0184 646F7562 		.ascii	"double\000"
+ 2435      6C6500
+ 2436              	.LASF36:
+ 2437 018b 53656174 		.ascii	"Seat_ADC2_Start\000"
+ 2437      5F414443 
+ 2437      325F5374 
+ 2437      61727400 
+ 2438              	.LASF15:
+ 2439 019b 75696E74 		.ascii	"uint32\000"
+ 2439      333200
+ 2440              	.LASF51:
+ 2441 01a2 636F756E 		.ascii	"countsPer10Volt\000"
+ 2441      74735065 
+ 2441      72313056 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 61
+
+
+ 2441      6F6C7400 
+ 2442              	.LASF66:
+ 2443 01b2 4379496E 		.ascii	"CyIntSetVector\000"
+ 2443      74536574 
+ 2443      56656374 
+ 2443      6F7200
+ 2444              	.LASF42:
+ 2445 01c1 53656174 		.ascii	"Seat_ADC2_GetResult16\000"
+ 2445      5F414443 
+ 2445      325F4765 
+ 2445      74526573 
+ 2445      756C7431 
+ 2446              	.LASF39:
+ 2447 01d7 7265744D 		.ascii	"retMode\000"
+ 2447      6F646500 
+ 2448              	.LASF4:
+ 2449 01df 756E7369 		.ascii	"unsigned int\000"
+ 2449      676E6564 
+ 2449      20696E74 
+ 2449      00
+ 2450              	.LASF53:
+ 2451 01ec 75566F6C 		.ascii	"uVolts\000"
+ 2451      747300
+ 2452              	.LASF70:
+ 2453 01f3 53656174 		.ascii	"Seat_ADC2_CalcGain\000"
+ 2453      5F414443 
+ 2453      325F4361 
+ 2453      6C634761 
+ 2453      696E00
+ 2454              	.LASF10:
+ 2455 0206 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2455      20756E73 
+ 2455      69676E65 
+ 2455      6420696E 
+ 2455      7400
+ 2456              	.LASF55:
+ 2457 0218 766F6C74 		.ascii	"volts\000"
+ 2457      7300
+ 2458              	.LASF61:
+ 2459 021e 4379456E 		.ascii	"CyEnterCriticalSection\000"
+ 2459      74657243 
+ 2459      72697469 
+ 2459      63616C53 
+ 2459      65637469 
+ 2460              	.LASF35:
+ 2461 0235 53656174 		.ascii	"Seat_ADC2_Init\000"
+ 2461      5F414443 
+ 2461      325F496E 
+ 2461      697400
+ 2462              	.LASF8:
+ 2463 0244 73686F72 		.ascii	"short unsigned int\000"
+ 2463      7420756E 
+ 2463      7369676E 
+ 2463      65642069 
+ 2463      6E7400
+ 2464              	.LASF54:
+ 2465 0257 53656174 		.ascii	"Seat_ADC2_CountsTo_Volts\000"
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 62
+
+
+ 2465      5F414443 
+ 2465      325F436F 
+ 2465      756E7473 
+ 2465      546F5F56 
+ 2466              	.LASF16:
+ 2467 0270 696E7438 		.ascii	"int8\000"
+ 2467      00
+ 2468              	.LASF50:
+ 2469 0275 6D566F6C 		.ascii	"mVolts\000"
+ 2469      747300
+ 2470              	.LASF24:
+ 2471 027c 72656733 		.ascii	"reg32\000"
+ 2471      3200
+ 2472              	.LASF52:
+ 2473 0282 53656174 		.ascii	"Seat_ADC2_CountsTo_uVolts\000"
+ 2473      5F414443 
+ 2473      325F436F 
+ 2473      756E7473 
+ 2473      546F5F75 
+ 2474              	.LASF57:
+ 2475 029c 53656174 		.ascii	"Seat_ADC2_offset\000"
+ 2475      5F414443 
+ 2475      325F6F66 
+ 2475      66736574 
+ 2475      00
+ 2476              	.LASF19:
+ 2477 02ad 666C6F61 		.ascii	"float32\000"
+ 2477      74333200 
+ 2478              	.LASF11:
+ 2479 02b5 73697A65 		.ascii	"sizetype\000"
+ 2479      74797065 
+ 2479      00
+ 2480              	.LASF5:
+ 2481 02be 6C6F6E67 		.ascii	"long double\000"
+ 2481      20646F75 
+ 2481      626C6500 
+ 2482              	.LASF58:
+ 2483 02ca 53656174 		.ascii	"Seat_ADC2_countsPerVolt\000"
+ 2483      5F414443 
+ 2483      325F636F 
+ 2483      756E7473 
+ 2483      50657256 
+ 2484              	.LASF21:
+ 2485 02e2 696E7436 		.ascii	"int64\000"
+ 2485      3400
+ 2486              	.LASF65:
+ 2487 02e8 4379496E 		.ascii	"CyIntSetPriority\000"
+ 2487      74536574 
+ 2487      5072696F 
+ 2487      72697479 
+ 2487      00
+ 2488              	.LASF48:
+ 2489 02f9 53656174 		.ascii	"Seat_ADC2_CountsTo_mVolts\000"
+ 2489      5F414443 
+ 2489      325F436F 
+ 2489      756E7473 
+ 2489      546F5F6D 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 63
+
+
+ 2490              	.LASF1:
+ 2491 0313 666C6F61 		.ascii	"float\000"
+ 2491      7400
+ 2492              	.LASF33:
+ 2493 0319 706F7765 		.ascii	"power\000"
+ 2493      7200
+ 2494              	.LASF22:
+ 2495 031f 72656738 		.ascii	"reg8\000"
+ 2495      00
+ 2496              	.LASF7:
+ 2497 0324 756E7369 		.ascii	"unsigned char\000"
+ 2497      676E6564 
+ 2497      20636861 
+ 2497      7200
+ 2498              	.LASF31:
+ 2499 0332 64696666 		.ascii	"diff_zero\000"
+ 2499      5F7A6572 
+ 2499      6F00
+ 2500              	.LASF60:
+ 2501 033c 53656174 		.ascii	"Seat_ADC2_shift\000"
+ 2501      5F414443 
+ 2501      325F7368 
+ 2501      69667400 
+ 2502              	.LASF3:
+ 2503 034c 73686F72 		.ascii	"short int\000"
+ 2503      7420696E 
+ 2503      7400
+ 2504              	.LASF27:
+ 2505 0356 53656174 		.ascii	"Seat_ADC2_Enable\000"
+ 2505      5F414443 
+ 2505      325F456E 
+ 2505      61626C65 
+ 2505      00
+ 2506              	.LASF64:
+ 2507 0367 53656174 		.ascii	"Seat_ADC2_theACLK_SetModeRegister\000"
+ 2507      5F414443 
+ 2507      325F7468 
+ 2507      6541434C 
+ 2507      4B5F5365 
+ 2508              	.LASF34:
+ 2509 0389 7265736F 		.ascii	"resolution\000"
+ 2509      6C757469 
+ 2509      6F6E00
+ 2510              	.LASF38:
+ 2511 0394 53656174 		.ascii	"Seat_ADC2_StopConvert\000"
+ 2511      5F414443 
+ 2511      325F5374 
+ 2511      6F70436F 
+ 2511      6E766572 
+ 2512              	.LASF12:
+ 2513 03aa 63686172 		.ascii	"char\000"
+ 2513      00
+ 2514              	.LASF44:
+ 2515 03af 6F666673 		.ascii	"offset\000"
+ 2515      657400
+ 2516              	.LASF41:
+ 2517 03b6 53656174 		.ascii	"Seat_ADC2_IsEndConversion\000"
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 64
+
+
+ 2517      5F414443 
+ 2517      325F4973 
+ 2517      456E6443 
+ 2517      6F6E7665 
+ 2518              	.LASF56:
+ 2519 03d0 53656174 		.ascii	"Seat_ADC2_initVar\000"
+ 2519      5F414443 
+ 2519      325F696E 
+ 2519      69745661 
+ 2519      7200
+ 2520              	.LASF49:
+ 2521 03e2 61646343 		.ascii	"adcCounts\000"
+ 2521      6F756E74 
+ 2521      7300
+ 2522              	.LASF37:
+ 2523 03ec 53656174 		.ascii	"Seat_ADC2_StartConvert\000"
+ 2523      5F414443 
+ 2523      325F5374 
+ 2523      61727443 
+ 2523      6F6E7665 
+ 2524              	.LASF59:
+ 2525 0403 53656174 		.ascii	"Seat_ADC2_countsPer10Volt\000"
+ 2525      5F414443 
+ 2525      325F636F 
+ 2525      756E7473 
+ 2525      50657231 
+ 2526              	.LASF26:
+ 2527 041d 656E6162 		.ascii	"enableInterrupts\000"
+ 2527      6C65496E 
+ 2527      74657272 
+ 2527      75707473 
+ 2527      00
+ 2528              	.LASF40:
+ 2529 042e 73746174 		.ascii	"status\000"
+ 2529      757300
+ 2530              	.LASF32:
+ 2531 0435 53656174 		.ascii	"Seat_ADC2_SetResolution\000"
+ 2531      5F414443 
+ 2531      325F5365 
+ 2531      74526573 
+ 2531      6F6C7574 
+ 2532              	.LASF17:
+ 2533 044d 696E7431 		.ascii	"int16\000"
+ 2533      3600
+ 2534              	.LASF25:
+ 2535 0453 746D7052 		.ascii	"tmpReg\000"
+ 2535      656700
+ 2536              	.LASF71:
+ 2537 045a 53656174 		.ascii	"Seat_ADC2_GetResult8\000"
+ 2537      5F414443 
+ 2537      325F4765 
+ 2537      74526573 
+ 2537      756C7438 
+ 2538              	.LASF28:
+ 2539 046f 53656174 		.ascii	"Seat_ADC2_Stop\000"
+ 2539      5F414443 
+ 2539      325F5374 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccpvBk7b.s 			page 65
+
+
+ 2539      6F7000
+ 2540              	.LASF69:
+ 2541 047e 433A5C55 		.ascii	"C:\\Users\\jebush2\\Desktop\\PSoC 3-19-2019\\PSoC P"
+ 2541      73657273 
+ 2541      5C6A6562 
+ 2541      75736832 
+ 2541      5C446573 
+ 2542 04ac 726F6A65 		.ascii	"rojects\\Seat.cydsn\000"
+ 2542      6374735C 
+ 2542      53656174 
+ 2542      2E637964 
+ 2542      736E00
+ 2543              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

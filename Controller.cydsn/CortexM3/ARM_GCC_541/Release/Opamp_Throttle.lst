@@ -1,0 +1,1206 @@
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Opamp_Throttle.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.Opamp_Throttle_Init,"ax",%progbits
+  20              		.align	2
+  21              		.global	Opamp_Throttle_Init
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	Opamp_Throttle_Init, %function
+  25              	Opamp_Throttle_Init:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\Opamp_Throttle.c"
+   1:Generated_Source\PSoC5/Opamp_Throttle.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Opamp_Throttle.c **** * File Name: Opamp_Throttle.c
+   3:Generated_Source\PSoC5/Opamp_Throttle.c **** * Version 1.90
+   4:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+   5:Generated_Source\PSoC5/Opamp_Throttle.c **** * Description:
+   6:Generated_Source\PSoC5/Opamp_Throttle.c **** *  This file provides the source code to the API for OpAmp (Analog Buffer) 
+   7:Generated_Source\PSoC5/Opamp_Throttle.c **** *  Component.
+   8:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+   9:Generated_Source\PSoC5/Opamp_Throttle.c **** * Note:
+  10:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  11:Generated_Source\PSoC5/Opamp_Throttle.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/Opamp_Throttle.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/Opamp_Throttle.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  14:Generated_Source\PSoC5/Opamp_Throttle.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  15:Generated_Source\PSoC5/Opamp_Throttle.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/Opamp_Throttle.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  18:Generated_Source\PSoC5/Opamp_Throttle.c **** #include "Opamp_Throttle.h"
+  19:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  20:Generated_Source\PSoC5/Opamp_Throttle.c **** uint8 Opamp_Throttle_initVar = 0u;
+  21:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  22:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  23:Generated_Source\PSoC5/Opamp_Throttle.c **** /*******************************************************************************   
+  24:Generated_Source\PSoC5/Opamp_Throttle.c **** * Function Name: Opamp_Throttle_Init
+  25:Generated_Source\PSoC5/Opamp_Throttle.c **** ********************************************************************************
+  26:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  27:Generated_Source\PSoC5/Opamp_Throttle.c **** * Summary:
+  28:Generated_Source\PSoC5/Opamp_Throttle.c **** *  Initialize component's parameters to the parameters set by user in the 
+  29:Generated_Source\PSoC5/Opamp_Throttle.c **** *  customizer of the component placed onto schematic. Usually called in 
+  30:Generated_Source\PSoC5/Opamp_Throttle.c **** *  Opamp_Throttle_Start().
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 2
+
+
+  31:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  32:Generated_Source\PSoC5/Opamp_Throttle.c **** * Parameters:
+  33:Generated_Source\PSoC5/Opamp_Throttle.c **** *  void
+  34:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  35:Generated_Source\PSoC5/Opamp_Throttle.c **** * Return:
+  36:Generated_Source\PSoC5/Opamp_Throttle.c **** *  void
+  37:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  38:Generated_Source\PSoC5/Opamp_Throttle.c **** *******************************************************************************/
+  39:Generated_Source\PSoC5/Opamp_Throttle.c **** void Opamp_Throttle_Init(void) 
+  40:Generated_Source\PSoC5/Opamp_Throttle.c **** {
+  28              		.loc 1 40 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33              	.LVL0:
+  34              	.LBB10:
+  35              	.LBB11:
+  41:Generated_Source\PSoC5/Opamp_Throttle.c ****     Opamp_Throttle_SetPower(Opamp_Throttle_DEFAULT_POWER);
+  42:Generated_Source\PSoC5/Opamp_Throttle.c **** }
+  43:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  44:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  45:Generated_Source\PSoC5/Opamp_Throttle.c **** /*******************************************************************************   
+  46:Generated_Source\PSoC5/Opamp_Throttle.c **** * Function Name: Opamp_Throttle_Enable
+  47:Generated_Source\PSoC5/Opamp_Throttle.c **** ********************************************************************************
+  48:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  49:Generated_Source\PSoC5/Opamp_Throttle.c **** * Summary:
+  50:Generated_Source\PSoC5/Opamp_Throttle.c **** *  Enables the OpAmp block operation
+  51:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  52:Generated_Source\PSoC5/Opamp_Throttle.c **** * Parameters:
+  53:Generated_Source\PSoC5/Opamp_Throttle.c **** *  void
+  54:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  55:Generated_Source\PSoC5/Opamp_Throttle.c **** * Return:
+  56:Generated_Source\PSoC5/Opamp_Throttle.c **** *  void
+  57:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  58:Generated_Source\PSoC5/Opamp_Throttle.c **** *******************************************************************************/
+  59:Generated_Source\PSoC5/Opamp_Throttle.c **** void Opamp_Throttle_Enable(void) 
+  60:Generated_Source\PSoC5/Opamp_Throttle.c **** {
+  61:Generated_Source\PSoC5/Opamp_Throttle.c ****     /* Enable negative charge pumps in ANIF */
+  62:Generated_Source\PSoC5/Opamp_Throttle.c ****     Opamp_Throttle_PUMP_CR1_REG  |= (Opamp_Throttle_PUMP_CR1_CLKSEL | Opamp_Throttle_PUMP_CR1_FORCE
+  63:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  64:Generated_Source\PSoC5/Opamp_Throttle.c ****     /* Enable power to buffer in active mode */
+  65:Generated_Source\PSoC5/Opamp_Throttle.c ****     Opamp_Throttle_PM_ACT_CFG_REG |= Opamp_Throttle_ACT_PWR_EN;
+  66:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  67:Generated_Source\PSoC5/Opamp_Throttle.c ****     /* Enable power to buffer in alternative active mode */
+  68:Generated_Source\PSoC5/Opamp_Throttle.c ****     Opamp_Throttle_PM_STBY_CFG_REG |= Opamp_Throttle_STBY_PWR_EN;
+  69:Generated_Source\PSoC5/Opamp_Throttle.c **** }
+  70:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  71:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  72:Generated_Source\PSoC5/Opamp_Throttle.c **** /*******************************************************************************
+  73:Generated_Source\PSoC5/Opamp_Throttle.c **** * Function Name:   Opamp_Throttle_Start
+  74:Generated_Source\PSoC5/Opamp_Throttle.c **** ********************************************************************************
+  75:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  76:Generated_Source\PSoC5/Opamp_Throttle.c **** * Summary:
+  77:Generated_Source\PSoC5/Opamp_Throttle.c **** *  The start function initializes the Analog Buffer with the default values and 
+  78:Generated_Source\PSoC5/Opamp_Throttle.c **** *  sets the power to the given level. A power level of 0, is same as 
+  79:Generated_Source\PSoC5/Opamp_Throttle.c **** *  executing the stop function.
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 3
+
+
+  80:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  81:Generated_Source\PSoC5/Opamp_Throttle.c **** * Parameters:
+  82:Generated_Source\PSoC5/Opamp_Throttle.c **** *  void
+  83:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  84:Generated_Source\PSoC5/Opamp_Throttle.c **** * Return:
+  85:Generated_Source\PSoC5/Opamp_Throttle.c **** *  void
+  86:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  87:Generated_Source\PSoC5/Opamp_Throttle.c **** * Global variables:
+  88:Generated_Source\PSoC5/Opamp_Throttle.c **** *  Opamp_Throttle_initVar: Used to check the initial configuration, modified 
+  89:Generated_Source\PSoC5/Opamp_Throttle.c **** *  when this function is called for the first time.
+  90:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+  91:Generated_Source\PSoC5/Opamp_Throttle.c **** *******************************************************************************/
+  92:Generated_Source\PSoC5/Opamp_Throttle.c **** void Opamp_Throttle_Start(void) 
+  93:Generated_Source\PSoC5/Opamp_Throttle.c **** {
+  94:Generated_Source\PSoC5/Opamp_Throttle.c ****     if(Opamp_Throttle_initVar == 0u)
+  95:Generated_Source\PSoC5/Opamp_Throttle.c ****     {
+  96:Generated_Source\PSoC5/Opamp_Throttle.c ****         Opamp_Throttle_initVar = 1u;
+  97:Generated_Source\PSoC5/Opamp_Throttle.c ****         Opamp_Throttle_Init();
+  98:Generated_Source\PSoC5/Opamp_Throttle.c ****     }
+  99:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+ 100:Generated_Source\PSoC5/Opamp_Throttle.c ****     Opamp_Throttle_Enable();
+ 101:Generated_Source\PSoC5/Opamp_Throttle.c **** }
+ 102:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+ 103:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+ 104:Generated_Source\PSoC5/Opamp_Throttle.c **** /*******************************************************************************
+ 105:Generated_Source\PSoC5/Opamp_Throttle.c **** * Function Name: Opamp_Throttle_Stop
+ 106:Generated_Source\PSoC5/Opamp_Throttle.c **** ********************************************************************************
+ 107:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+ 108:Generated_Source\PSoC5/Opamp_Throttle.c **** * Summary:
+ 109:Generated_Source\PSoC5/Opamp_Throttle.c **** *  Powers down amplifier to lowest power state.
+ 110:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+ 111:Generated_Source\PSoC5/Opamp_Throttle.c **** * Parameters:
+ 112:Generated_Source\PSoC5/Opamp_Throttle.c **** *  void
+ 113:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+ 114:Generated_Source\PSoC5/Opamp_Throttle.c **** * Return:
+ 115:Generated_Source\PSoC5/Opamp_Throttle.c **** *  void
+ 116:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+ 117:Generated_Source\PSoC5/Opamp_Throttle.c **** *******************************************************************************/
+ 118:Generated_Source\PSoC5/Opamp_Throttle.c **** void Opamp_Throttle_Stop(void) 
+ 119:Generated_Source\PSoC5/Opamp_Throttle.c **** {
+ 120:Generated_Source\PSoC5/Opamp_Throttle.c ****     /* Disable power to buffer in active mode template */
+ 121:Generated_Source\PSoC5/Opamp_Throttle.c ****     Opamp_Throttle_PM_ACT_CFG_REG &= (uint8)(~Opamp_Throttle_ACT_PWR_EN);
+ 122:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+ 123:Generated_Source\PSoC5/Opamp_Throttle.c ****     /* Disable power to buffer in alternative active mode template */
+ 124:Generated_Source\PSoC5/Opamp_Throttle.c ****     Opamp_Throttle_PM_STBY_CFG_REG &= (uint8)(~Opamp_Throttle_STBY_PWR_EN);
+ 125:Generated_Source\PSoC5/Opamp_Throttle.c ****     
+ 126:Generated_Source\PSoC5/Opamp_Throttle.c ****     /* Disable negative charge pumps for ANIF only if all ABuf is turned OFF */
+ 127:Generated_Source\PSoC5/Opamp_Throttle.c ****     if(Opamp_Throttle_PM_ACT_CFG_REG == 0u)
+ 128:Generated_Source\PSoC5/Opamp_Throttle.c ****     {
+ 129:Generated_Source\PSoC5/Opamp_Throttle.c ****         Opamp_Throttle_PUMP_CR1_REG &= (uint8)(~(Opamp_Throttle_PUMP_CR1_CLKSEL | Opamp_Throttle_PU
+ 130:Generated_Source\PSoC5/Opamp_Throttle.c ****     }
+ 131:Generated_Source\PSoC5/Opamp_Throttle.c **** }
+ 132:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+ 133:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+ 134:Generated_Source\PSoC5/Opamp_Throttle.c **** /*******************************************************************************
+ 135:Generated_Source\PSoC5/Opamp_Throttle.c **** * Function Name: Opamp_Throttle_SetPower
+ 136:Generated_Source\PSoC5/Opamp_Throttle.c **** ********************************************************************************
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 4
+
+
+ 137:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+ 138:Generated_Source\PSoC5/Opamp_Throttle.c **** * Summary:
+ 139:Generated_Source\PSoC5/Opamp_Throttle.c **** *  Sets power level of Analog buffer.
+ 140:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+ 141:Generated_Source\PSoC5/Opamp_Throttle.c **** * Parameters: 
+ 142:Generated_Source\PSoC5/Opamp_Throttle.c **** *  power: PSoC3: Sets power level between low (1) and high power (3).
+ 143:Generated_Source\PSoC5/Opamp_Throttle.c **** *         PSoC5: Sets power level High (0)
+ 144:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+ 145:Generated_Source\PSoC5/Opamp_Throttle.c **** * Return:
+ 146:Generated_Source\PSoC5/Opamp_Throttle.c **** *  void
+ 147:Generated_Source\PSoC5/Opamp_Throttle.c **** *
+ 148:Generated_Source\PSoC5/Opamp_Throttle.c **** **********************************************************************************/
+ 149:Generated_Source\PSoC5/Opamp_Throttle.c **** void Opamp_Throttle_SetPower(uint8 power) 
+ 150:Generated_Source\PSoC5/Opamp_Throttle.c **** {
+ 151:Generated_Source\PSoC5/Opamp_Throttle.c ****     #if (CY_PSOC3 || CY_PSOC5LP)
+ 152:Generated_Source\PSoC5/Opamp_Throttle.c ****         Opamp_Throttle_CR_REG &= (uint8)(~Opamp_Throttle_PWR_MASK);
+  36              		.loc 1 152 0
+  37 0000 044B     		ldr	r3, .L2
+  38 0002 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+  39 0004 02F0FC02 		and	r2, r2, #252
+  40 0008 1A70     		strb	r2, [r3]
+ 153:Generated_Source\PSoC5/Opamp_Throttle.c ****         Opamp_Throttle_CR_REG |= power & Opamp_Throttle_PWR_MASK;      /* Set device power */
+  41              		.loc 1 153 0
+  42 000a 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+  43 000c 42F00302 		orr	r2, r2, #3
+  44 0010 1A70     		strb	r2, [r3]
+  45              	.LVL1:
+  46 0012 7047     		bx	lr
+  47              	.L3:
+  48              		.align	2
+  49              	.L2:
+  50 0014 5E580040 		.word	1073764446
+  51              	.LBE11:
+  52              	.LBE10:
+  53              		.cfi_endproc
+  54              	.LFE0:
+  55              		.size	Opamp_Throttle_Init, .-Opamp_Throttle_Init
+  56              		.section	.text.Opamp_Throttle_Enable,"ax",%progbits
+  57              		.align	2
+  58              		.global	Opamp_Throttle_Enable
+  59              		.thumb
+  60              		.thumb_func
+  61              		.type	Opamp_Throttle_Enable, %function
+  62              	Opamp_Throttle_Enable:
+  63              	.LFB1:
+  60:Generated_Source\PSoC5/Opamp_Throttle.c ****     /* Enable negative charge pumps in ANIF */
+  64              		.loc 1 60 0
+  65              		.cfi_startproc
+  66              		@ args = 0, pretend = 0, frame = 0
+  67              		@ frame_needed = 0, uses_anonymous_args = 0
+  68              		@ link register save eliminated.
+  62:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  69              		.loc 1 62 0
+  70 0000 0748     		ldr	r0, .L5
+  65:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  71              		.loc 1 65 0
+  72 0002 0849     		ldr	r1, .L5+4
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 5
+
+
+  62:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  73              		.loc 1 62 0
+  74 0004 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+  68:Generated_Source\PSoC5/Opamp_Throttle.c **** }
+  75              		.loc 1 68 0
+  76 0006 084A     		ldr	r2, .L5+8
+  62:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  77              		.loc 1 62 0
+  78 0008 43F06003 		orr	r3, r3, #96
+  79 000c 0370     		strb	r3, [r0]
+  65:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+  80              		.loc 1 65 0
+  81 000e 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+  82 0010 43F00803 		orr	r3, r3, #8
+  83 0014 0B70     		strb	r3, [r1]
+  68:Generated_Source\PSoC5/Opamp_Throttle.c **** }
+  84              		.loc 1 68 0
+  85 0016 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  86 0018 43F00803 		orr	r3, r3, #8
+  87 001c 1370     		strb	r3, [r2]
+  88 001e 7047     		bx	lr
+  89              	.L6:
+  90              		.align	2
+  91              	.L5:
+  92 0020 77580040 		.word	1073764471
+  93 0024 A4430040 		.word	1073759140
+  94 0028 B4430040 		.word	1073759156
+  95              		.cfi_endproc
+  96              	.LFE1:
+  97              		.size	Opamp_Throttle_Enable, .-Opamp_Throttle_Enable
+  98              		.section	.text.Opamp_Throttle_Start,"ax",%progbits
+  99              		.align	2
+ 100              		.global	Opamp_Throttle_Start
+ 101              		.thumb
+ 102              		.thumb_func
+ 103              		.type	Opamp_Throttle_Start, %function
+ 104              	Opamp_Throttle_Start:
+ 105              	.LFB2:
+  93:Generated_Source\PSoC5/Opamp_Throttle.c ****     if(Opamp_Throttle_initVar == 0u)
+ 106              		.loc 1 93 0
+ 107              		.cfi_startproc
+ 108              		@ args = 0, pretend = 0, frame = 0
+ 109              		@ frame_needed = 0, uses_anonymous_args = 0
+ 110              		@ link register save eliminated.
+  94:Generated_Source\PSoC5/Opamp_Throttle.c ****     {
+ 111              		.loc 1 94 0
+ 112 0000 0E4A     		ldr	r2, .L10
+ 113 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 114 0004 53B9     		cbnz	r3, .L8
+ 115              	.LBB12:
+ 116              	.LBB13:
+ 117              	.LBB14:
+ 152:Generated_Source\PSoC5/Opamp_Throttle.c ****         Opamp_Throttle_CR_REG |= power & Opamp_Throttle_PWR_MASK;      /* Set device power */
+ 118              		.loc 1 152 0
+ 119 0006 0E4B     		ldr	r3, .L10+4
+ 120              	.LBE14:
+ 121              	.LBE13:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 6
+
+
+ 122              	.LBE12:
+  96:Generated_Source\PSoC5/Opamp_Throttle.c ****         Opamp_Throttle_Init();
+ 123              		.loc 1 96 0
+ 124 0008 0121     		movs	r1, #1
+ 125 000a 1170     		strb	r1, [r2]
+ 126              	.LVL2:
+ 127              	.LBB17:
+ 128              	.LBB16:
+ 129              	.LBB15:
+ 152:Generated_Source\PSoC5/Opamp_Throttle.c ****         Opamp_Throttle_CR_REG |= power & Opamp_Throttle_PWR_MASK;      /* Set device power */
+ 130              		.loc 1 152 0
+ 131 000c 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 132 000e 02F0FC02 		and	r2, r2, #252
+ 133 0012 1A70     		strb	r2, [r3]
+ 134              		.loc 1 153 0
+ 135 0014 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 136 0016 42F00302 		orr	r2, r2, #3
+ 137 001a 1A70     		strb	r2, [r3]
+ 138              	.LVL3:
+ 139              	.L8:
+ 140              	.LBE15:
+ 141              	.LBE16:
+ 142              	.LBE17:
+ 143              	.LBB18:
+ 144              	.LBB19:
+  62:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+ 145              		.loc 1 62 0
+ 146 001c 0948     		ldr	r0, .L10+8
+  65:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+ 147              		.loc 1 65 0
+ 148 001e 0A49     		ldr	r1, .L10+12
+  62:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+ 149              		.loc 1 62 0
+ 150 0020 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+  68:Generated_Source\PSoC5/Opamp_Throttle.c **** }
+ 151              		.loc 1 68 0
+ 152 0022 0A4A     		ldr	r2, .L10+16
+  62:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+ 153              		.loc 1 62 0
+ 154 0024 43F06003 		orr	r3, r3, #96
+ 155 0028 0370     		strb	r3, [r0]
+  65:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+ 156              		.loc 1 65 0
+ 157 002a 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 158 002c 43F00803 		orr	r3, r3, #8
+ 159 0030 0B70     		strb	r3, [r1]
+  68:Generated_Source\PSoC5/Opamp_Throttle.c **** }
+ 160              		.loc 1 68 0
+ 161 0032 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 162 0034 43F00803 		orr	r3, r3, #8
+ 163 0038 1370     		strb	r3, [r2]
+ 164 003a 7047     		bx	lr
+ 165              	.L11:
+ 166              		.align	2
+ 167              	.L10:
+ 168 003c 00000000 		.word	.LANCHOR0
+ 169 0040 5E580040 		.word	1073764446
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 7
+
+
+ 170 0044 77580040 		.word	1073764471
+ 171 0048 A4430040 		.word	1073759140
+ 172 004c B4430040 		.word	1073759156
+ 173              	.LBE19:
+ 174              	.LBE18:
+ 175              		.cfi_endproc
+ 176              	.LFE2:
+ 177              		.size	Opamp_Throttle_Start, .-Opamp_Throttle_Start
+ 178              		.section	.text.Opamp_Throttle_Stop,"ax",%progbits
+ 179              		.align	2
+ 180              		.global	Opamp_Throttle_Stop
+ 181              		.thumb
+ 182              		.thumb_func
+ 183              		.type	Opamp_Throttle_Stop, %function
+ 184              	Opamp_Throttle_Stop:
+ 185              	.LFB3:
+ 119:Generated_Source\PSoC5/Opamp_Throttle.c ****     /* Disable power to buffer in active mode template */
+ 186              		.loc 1 119 0
+ 187              		.cfi_startproc
+ 188              		@ args = 0, pretend = 0, frame = 0
+ 189              		@ frame_needed = 0, uses_anonymous_args = 0
+ 190              		@ link register save eliminated.
+ 121:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+ 191              		.loc 1 121 0
+ 192 0000 084B     		ldr	r3, .L14
+ 124:Generated_Source\PSoC5/Opamp_Throttle.c ****     
+ 193              		.loc 1 124 0
+ 194 0002 0949     		ldr	r1, .L14+4
+ 121:Generated_Source\PSoC5/Opamp_Throttle.c **** 
+ 195              		.loc 1 121 0
+ 196 0004 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 197 0006 02F0F702 		and	r2, r2, #247
+ 198 000a 1A70     		strb	r2, [r3]
+ 124:Generated_Source\PSoC5/Opamp_Throttle.c ****     
+ 199              		.loc 1 124 0
+ 200 000c 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 201 000e 02F0F702 		and	r2, r2, #247
+ 202 0012 0A70     		strb	r2, [r1]
+ 127:Generated_Source\PSoC5/Opamp_Throttle.c ****     {
+ 203              		.loc 1 127 0
+ 204 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 205 0016 23B9     		cbnz	r3, .L12
+ 129:Generated_Source\PSoC5/Opamp_Throttle.c ****     }
+ 206              		.loc 1 129 0
+ 207 0018 044A     		ldr	r2, .L14+8
+ 208 001a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 209 001c 03F09F03 		and	r3, r3, #159
+ 210 0020 1370     		strb	r3, [r2]
+ 211              	.L12:
+ 212 0022 7047     		bx	lr
+ 213              	.L15:
+ 214              		.align	2
+ 215              	.L14:
+ 216 0024 A4430040 		.word	1073759140
+ 217 0028 B4430040 		.word	1073759156
+ 218 002c 77580040 		.word	1073764471
+ 219              		.cfi_endproc
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 8
+
+
+ 220              	.LFE3:
+ 221              		.size	Opamp_Throttle_Stop, .-Opamp_Throttle_Stop
+ 222              		.section	.text.Opamp_Throttle_SetPower,"ax",%progbits
+ 223              		.align	2
+ 224              		.global	Opamp_Throttle_SetPower
+ 225              		.thumb
+ 226              		.thumb_func
+ 227              		.type	Opamp_Throttle_SetPower, %function
+ 228              	Opamp_Throttle_SetPower:
+ 229              	.LFB4:
+ 150:Generated_Source\PSoC5/Opamp_Throttle.c ****     #if (CY_PSOC3 || CY_PSOC5LP)
+ 230              		.loc 1 150 0
+ 231              		.cfi_startproc
+ 232              		@ args = 0, pretend = 0, frame = 0
+ 233              		@ frame_needed = 0, uses_anonymous_args = 0
+ 234              		@ link register save eliminated.
+ 235              	.LVL4:
+ 152:Generated_Source\PSoC5/Opamp_Throttle.c ****         Opamp_Throttle_CR_REG |= power & Opamp_Throttle_PWR_MASK;      /* Set device power */
+ 236              		.loc 1 152 0
+ 237 0000 054B     		ldr	r3, .L17
+ 238              		.loc 1 153 0
+ 239 0002 00F00300 		and	r0, r0, #3
+ 240              	.LVL5:
+ 152:Generated_Source\PSoC5/Opamp_Throttle.c ****         Opamp_Throttle_CR_REG |= power & Opamp_Throttle_PWR_MASK;      /* Set device power */
+ 241              		.loc 1 152 0
+ 242 0006 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 243 0008 02F0FC02 		and	r2, r2, #252
+ 244 000c 1A70     		strb	r2, [r3]
+ 245              		.loc 1 153 0
+ 246 000e 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 247 0010 1043     		orrs	r0, r0, r2
+ 248 0012 1870     		strb	r0, [r3]
+ 249 0014 7047     		bx	lr
+ 250              	.L18:
+ 251 0016 00BF     		.align	2
+ 252              	.L17:
+ 253 0018 5E580040 		.word	1073764446
+ 254              		.cfi_endproc
+ 255              	.LFE4:
+ 256              		.size	Opamp_Throttle_SetPower, .-Opamp_Throttle_SetPower
+ 257              		.global	Opamp_Throttle_initVar
+ 258              		.bss
+ 259              		.set	.LANCHOR0,. + 0
+ 260              		.type	Opamp_Throttle_initVar, %object
+ 261              		.size	Opamp_Throttle_initVar, 1
+ 262              	Opamp_Throttle_initVar:
+ 263 0000 00       		.space	1
+ 264              		.text
+ 265              	.Letext0:
+ 266              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 267              		.section	.debug_info,"",%progbits
+ 268              	.Ldebug_info0:
+ 269 0000 9D010000 		.4byte	0x19d
+ 270 0004 0400     		.2byte	0x4
+ 271 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 272 000a 04       		.byte	0x4
+ 273 000b 01       		.uleb128 0x1
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 9
+
+
+ 274 000c B2000000 		.4byte	.LASF18
+ 275 0010 0C       		.byte	0xc
+ 276 0011 2F000000 		.4byte	.LASF19
+ 277 0015 D6010000 		.4byte	.LASF20
+ 278 0019 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 279 001d 00000000 		.4byte	0
+ 280 0021 00000000 		.4byte	.Ldebug_line0
+ 281 0025 02       		.uleb128 0x2
+ 282 0026 01       		.byte	0x1
+ 283 0027 06       		.byte	0x6
+ 284 0028 A9010000 		.4byte	.LASF0
+ 285 002c 02       		.uleb128 0x2
+ 286 002d 01       		.byte	0x1
+ 287 002e 08       		.byte	0x8
+ 288 002f A4000000 		.4byte	.LASF1
+ 289 0033 02       		.uleb128 0x2
+ 290 0034 02       		.byte	0x2
+ 291 0035 05       		.byte	0x5
+ 292 0036 10020000 		.4byte	.LASF2
+ 293 003a 02       		.uleb128 0x2
+ 294 003b 02       		.byte	0x2
+ 295 003c 07       		.byte	0x7
+ 296 003d 96010000 		.4byte	.LASF3
+ 297 0041 02       		.uleb128 0x2
+ 298 0042 04       		.byte	0x4
+ 299 0043 05       		.byte	0x5
+ 300 0044 5C010000 		.4byte	.LASF4
+ 301 0048 02       		.uleb128 0x2
+ 302 0049 04       		.byte	0x4
+ 303 004a 07       		.byte	0x7
+ 304 004b 5D000000 		.4byte	.LASF5
+ 305 004f 02       		.uleb128 0x2
+ 306 0050 08       		.byte	0x8
+ 307 0051 05       		.byte	0x5
+ 308 0052 00000000 		.4byte	.LASF6
+ 309 0056 02       		.uleb128 0x2
+ 310 0057 08       		.byte	0x8
+ 311 0058 07       		.byte	0x7
+ 312 0059 6F000000 		.4byte	.LASF7
+ 313 005d 03       		.uleb128 0x3
+ 314 005e 04       		.byte	0x4
+ 315 005f 05       		.byte	0x5
+ 316 0060 696E7400 		.ascii	"int\000"
+ 317 0064 02       		.uleb128 0x2
+ 318 0065 04       		.byte	0x4
+ 319 0066 07       		.byte	0x7
+ 320 0067 0E000000 		.4byte	.LASF8
+ 321 006b 04       		.uleb128 0x4
+ 322 006c 57000000 		.4byte	.LASF12
+ 323 0070 02       		.byte	0x2
+ 324 0071 E401     		.2byte	0x1e4
+ 325 0073 2C000000 		.4byte	0x2c
+ 326 0077 02       		.uleb128 0x2
+ 327 0078 04       		.byte	0x4
+ 328 0079 04       		.byte	0x4
+ 329 007a 86000000 		.4byte	.LASF9
+ 330 007e 02       		.uleb128 0x2
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 10
+
+
+ 331 007f 08       		.byte	0x8
+ 332 0080 04       		.byte	0x4
+ 333 0081 79010000 		.4byte	.LASF10
+ 334 0085 02       		.uleb128 0x2
+ 335 0086 01       		.byte	0x1
+ 336 0087 08       		.byte	0x8
+ 337 0088 40010000 		.4byte	.LASF11
+ 338 008c 04       		.uleb128 0x4
+ 339 008d 1A020000 		.4byte	.LASF13
+ 340 0091 02       		.byte	0x2
+ 341 0092 8E02     		.2byte	0x28e
+ 342 0094 98000000 		.4byte	0x98
+ 343 0098 05       		.uleb128 0x5
+ 344 0099 6B000000 		.4byte	0x6b
+ 345 009d 02       		.uleb128 0x2
+ 346 009e 08       		.byte	0x8
+ 347 009f 04       		.byte	0x4
+ 348 00a0 CA010000 		.4byte	.LASF14
+ 349 00a4 02       		.uleb128 0x2
+ 350 00a5 04       		.byte	0x4
+ 351 00a6 07       		.byte	0x7
+ 352 00a7 1F020000 		.4byte	.LASF15
+ 353 00ab 06       		.uleb128 0x6
+ 354 00ac 8C000000 		.4byte	.LASF21
+ 355 00b0 01       		.byte	0x1
+ 356 00b1 95       		.byte	0x95
+ 357 00b2 01       		.byte	0x1
+ 358 00b3 C3000000 		.4byte	0xc3
+ 359 00b7 07       		.uleb128 0x7
+ 360 00b8 28020000 		.4byte	.LASF22
+ 361 00bc 01       		.byte	0x1
+ 362 00bd 95       		.byte	0x95
+ 363 00be 6B000000 		.4byte	0x6b
+ 364 00c2 00       		.byte	0
+ 365 00c3 08       		.uleb128 0x8
+ 366 00c4 1B000000 		.4byte	.LASF16
+ 367 00c8 01       		.byte	0x1
+ 368 00c9 27       		.byte	0x27
+ 369 00ca 01       		.byte	0x1
+ 370 00cb 08       		.uleb128 0x8
+ 371 00cc 80010000 		.4byte	.LASF17
+ 372 00d0 01       		.byte	0x1
+ 373 00d1 3B       		.byte	0x3b
+ 374 00d2 01       		.byte	0x1
+ 375 00d3 09       		.uleb128 0x9
+ 376 00d4 C3000000 		.4byte	0xc3
+ 377 00d8 00000000 		.4byte	.LFB0
+ 378 00dc 18000000 		.4byte	.LFE0-.LFB0
+ 379 00e0 01       		.uleb128 0x1
+ 380 00e1 9C       		.byte	0x9c
+ 381 00e2 00010000 		.4byte	0x100
+ 382 00e6 0A       		.uleb128 0xa
+ 383 00e7 AB000000 		.4byte	0xab
+ 384 00eb 00000000 		.4byte	.LBB10
+ 385 00ef 18000000 		.4byte	.LBE10-.LBB10
+ 386 00f3 01       		.byte	0x1
+ 387 00f4 29       		.byte	0x29
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 11
+
+
+ 388 00f5 0B       		.uleb128 0xb
+ 389 00f6 B7000000 		.4byte	0xb7
+ 390 00fa 00000000 		.4byte	.LLST0
+ 391 00fe 00       		.byte	0
+ 392 00ff 00       		.byte	0
+ 393 0100 0C       		.uleb128 0xc
+ 394 0101 CB000000 		.4byte	0xcb
+ 395 0105 00000000 		.4byte	.LFB1
+ 396 0109 2C000000 		.4byte	.LFE1-.LFB1
+ 397 010d 01       		.uleb128 0x1
+ 398 010e 9C       		.byte	0x9c
+ 399 010f 0D       		.uleb128 0xd
+ 400 0110 B5010000 		.4byte	.LASF23
+ 401 0114 01       		.byte	0x1
+ 402 0115 5C       		.byte	0x5c
+ 403 0116 00000000 		.4byte	.LFB2
+ 404 011a 50000000 		.4byte	.LFE2-.LFB2
+ 405 011e 01       		.uleb128 0x1
+ 406 011f 9C       		.byte	0x9c
+ 407 0120 61010000 		.4byte	0x161
+ 408 0124 0E       		.uleb128 0xe
+ 409 0125 C3000000 		.4byte	0xc3
+ 410 0129 06000000 		.4byte	.LBB12
+ 411 012d 00000000 		.4byte	.Ldebug_ranges0+0
+ 412 0131 01       		.byte	0x1
+ 413 0132 61       		.byte	0x61
+ 414 0133 51010000 		.4byte	0x151
+ 415 0137 0F       		.uleb128 0xf
+ 416 0138 AB000000 		.4byte	0xab
+ 417 013c 06000000 		.4byte	.LBB13
+ 418 0140 00000000 		.4byte	.Ldebug_ranges0+0
+ 419 0144 01       		.byte	0x1
+ 420 0145 29       		.byte	0x29
+ 421 0146 0B       		.uleb128 0xb
+ 422 0147 B7000000 		.4byte	0xb7
+ 423 014b 14000000 		.4byte	.LLST1
+ 424 014f 00       		.byte	0
+ 425 0150 00       		.byte	0
+ 426 0151 10       		.uleb128 0x10
+ 427 0152 CB000000 		.4byte	0xcb
+ 428 0156 1C000000 		.4byte	.LBB18
+ 429 015a 34000000 		.4byte	.LBE18-.LBB18
+ 430 015e 01       		.byte	0x1
+ 431 015f 64       		.byte	0x64
+ 432 0160 00       		.byte	0
+ 433 0161 11       		.uleb128 0x11
+ 434 0162 65010000 		.4byte	.LASF24
+ 435 0166 01       		.byte	0x1
+ 436 0167 76       		.byte	0x76
+ 437 0168 00000000 		.4byte	.LFB3
+ 438 016c 30000000 		.4byte	.LFE3-.LFB3
+ 439 0170 01       		.uleb128 0x1
+ 440 0171 9C       		.byte	0x9c
+ 441 0172 09       		.uleb128 0x9
+ 442 0173 AB000000 		.4byte	0xab
+ 443 0177 00000000 		.4byte	.LFB4
+ 444 017b 1C000000 		.4byte	.LFE4-.LFB4
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 12
+
+
+ 445 017f 01       		.uleb128 0x1
+ 446 0180 9C       		.byte	0x9c
+ 447 0181 8F010000 		.4byte	0x18f
+ 448 0185 0B       		.uleb128 0xb
+ 449 0186 B7000000 		.4byte	0xb7
+ 450 018a 28000000 		.4byte	.LLST2
+ 451 018e 00       		.byte	0
+ 452 018f 12       		.uleb128 0x12
+ 453 0190 45010000 		.4byte	.LASF25
+ 454 0194 01       		.byte	0x1
+ 455 0195 14       		.byte	0x14
+ 456 0196 6B000000 		.4byte	0x6b
+ 457 019a 05       		.uleb128 0x5
+ 458 019b 03       		.byte	0x3
+ 459 019c 00000000 		.4byte	Opamp_Throttle_initVar
+ 460 01a0 00       		.byte	0
+ 461              		.section	.debug_abbrev,"",%progbits
+ 462              	.Ldebug_abbrev0:
+ 463 0000 01       		.uleb128 0x1
+ 464 0001 11       		.uleb128 0x11
+ 465 0002 01       		.byte	0x1
+ 466 0003 25       		.uleb128 0x25
+ 467 0004 0E       		.uleb128 0xe
+ 468 0005 13       		.uleb128 0x13
+ 469 0006 0B       		.uleb128 0xb
+ 470 0007 03       		.uleb128 0x3
+ 471 0008 0E       		.uleb128 0xe
+ 472 0009 1B       		.uleb128 0x1b
+ 473 000a 0E       		.uleb128 0xe
+ 474 000b 55       		.uleb128 0x55
+ 475 000c 17       		.uleb128 0x17
+ 476 000d 11       		.uleb128 0x11
+ 477 000e 01       		.uleb128 0x1
+ 478 000f 10       		.uleb128 0x10
+ 479 0010 17       		.uleb128 0x17
+ 480 0011 00       		.byte	0
+ 481 0012 00       		.byte	0
+ 482 0013 02       		.uleb128 0x2
+ 483 0014 24       		.uleb128 0x24
+ 484 0015 00       		.byte	0
+ 485 0016 0B       		.uleb128 0xb
+ 486 0017 0B       		.uleb128 0xb
+ 487 0018 3E       		.uleb128 0x3e
+ 488 0019 0B       		.uleb128 0xb
+ 489 001a 03       		.uleb128 0x3
+ 490 001b 0E       		.uleb128 0xe
+ 491 001c 00       		.byte	0
+ 492 001d 00       		.byte	0
+ 493 001e 03       		.uleb128 0x3
+ 494 001f 24       		.uleb128 0x24
+ 495 0020 00       		.byte	0
+ 496 0021 0B       		.uleb128 0xb
+ 497 0022 0B       		.uleb128 0xb
+ 498 0023 3E       		.uleb128 0x3e
+ 499 0024 0B       		.uleb128 0xb
+ 500 0025 03       		.uleb128 0x3
+ 501 0026 08       		.uleb128 0x8
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 13
+
+
+ 502 0027 00       		.byte	0
+ 503 0028 00       		.byte	0
+ 504 0029 04       		.uleb128 0x4
+ 505 002a 16       		.uleb128 0x16
+ 506 002b 00       		.byte	0
+ 507 002c 03       		.uleb128 0x3
+ 508 002d 0E       		.uleb128 0xe
+ 509 002e 3A       		.uleb128 0x3a
+ 510 002f 0B       		.uleb128 0xb
+ 511 0030 3B       		.uleb128 0x3b
+ 512 0031 05       		.uleb128 0x5
+ 513 0032 49       		.uleb128 0x49
+ 514 0033 13       		.uleb128 0x13
+ 515 0034 00       		.byte	0
+ 516 0035 00       		.byte	0
+ 517 0036 05       		.uleb128 0x5
+ 518 0037 35       		.uleb128 0x35
+ 519 0038 00       		.byte	0
+ 520 0039 49       		.uleb128 0x49
+ 521 003a 13       		.uleb128 0x13
+ 522 003b 00       		.byte	0
+ 523 003c 00       		.byte	0
+ 524 003d 06       		.uleb128 0x6
+ 525 003e 2E       		.uleb128 0x2e
+ 526 003f 01       		.byte	0x1
+ 527 0040 3F       		.uleb128 0x3f
+ 528 0041 19       		.uleb128 0x19
+ 529 0042 03       		.uleb128 0x3
+ 530 0043 0E       		.uleb128 0xe
+ 531 0044 3A       		.uleb128 0x3a
+ 532 0045 0B       		.uleb128 0xb
+ 533 0046 3B       		.uleb128 0x3b
+ 534 0047 0B       		.uleb128 0xb
+ 535 0048 27       		.uleb128 0x27
+ 536 0049 19       		.uleb128 0x19
+ 537 004a 20       		.uleb128 0x20
+ 538 004b 0B       		.uleb128 0xb
+ 539 004c 01       		.uleb128 0x1
+ 540 004d 13       		.uleb128 0x13
+ 541 004e 00       		.byte	0
+ 542 004f 00       		.byte	0
+ 543 0050 07       		.uleb128 0x7
+ 544 0051 05       		.uleb128 0x5
+ 545 0052 00       		.byte	0
+ 546 0053 03       		.uleb128 0x3
+ 547 0054 0E       		.uleb128 0xe
+ 548 0055 3A       		.uleb128 0x3a
+ 549 0056 0B       		.uleb128 0xb
+ 550 0057 3B       		.uleb128 0x3b
+ 551 0058 0B       		.uleb128 0xb
+ 552 0059 49       		.uleb128 0x49
+ 553 005a 13       		.uleb128 0x13
+ 554 005b 00       		.byte	0
+ 555 005c 00       		.byte	0
+ 556 005d 08       		.uleb128 0x8
+ 557 005e 2E       		.uleb128 0x2e
+ 558 005f 00       		.byte	0
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 14
+
+
+ 559 0060 3F       		.uleb128 0x3f
+ 560 0061 19       		.uleb128 0x19
+ 561 0062 03       		.uleb128 0x3
+ 562 0063 0E       		.uleb128 0xe
+ 563 0064 3A       		.uleb128 0x3a
+ 564 0065 0B       		.uleb128 0xb
+ 565 0066 3B       		.uleb128 0x3b
+ 566 0067 0B       		.uleb128 0xb
+ 567 0068 27       		.uleb128 0x27
+ 568 0069 19       		.uleb128 0x19
+ 569 006a 20       		.uleb128 0x20
+ 570 006b 0B       		.uleb128 0xb
+ 571 006c 00       		.byte	0
+ 572 006d 00       		.byte	0
+ 573 006e 09       		.uleb128 0x9
+ 574 006f 2E       		.uleb128 0x2e
+ 575 0070 01       		.byte	0x1
+ 576 0071 31       		.uleb128 0x31
+ 577 0072 13       		.uleb128 0x13
+ 578 0073 11       		.uleb128 0x11
+ 579 0074 01       		.uleb128 0x1
+ 580 0075 12       		.uleb128 0x12
+ 581 0076 06       		.uleb128 0x6
+ 582 0077 40       		.uleb128 0x40
+ 583 0078 18       		.uleb128 0x18
+ 584 0079 9742     		.uleb128 0x2117
+ 585 007b 19       		.uleb128 0x19
+ 586 007c 01       		.uleb128 0x1
+ 587 007d 13       		.uleb128 0x13
+ 588 007e 00       		.byte	0
+ 589 007f 00       		.byte	0
+ 590 0080 0A       		.uleb128 0xa
+ 591 0081 1D       		.uleb128 0x1d
+ 592 0082 01       		.byte	0x1
+ 593 0083 31       		.uleb128 0x31
+ 594 0084 13       		.uleb128 0x13
+ 595 0085 11       		.uleb128 0x11
+ 596 0086 01       		.uleb128 0x1
+ 597 0087 12       		.uleb128 0x12
+ 598 0088 06       		.uleb128 0x6
+ 599 0089 58       		.uleb128 0x58
+ 600 008a 0B       		.uleb128 0xb
+ 601 008b 59       		.uleb128 0x59
+ 602 008c 0B       		.uleb128 0xb
+ 603 008d 00       		.byte	0
+ 604 008e 00       		.byte	0
+ 605 008f 0B       		.uleb128 0xb
+ 606 0090 05       		.uleb128 0x5
+ 607 0091 00       		.byte	0
+ 608 0092 31       		.uleb128 0x31
+ 609 0093 13       		.uleb128 0x13
+ 610 0094 02       		.uleb128 0x2
+ 611 0095 17       		.uleb128 0x17
+ 612 0096 00       		.byte	0
+ 613 0097 00       		.byte	0
+ 614 0098 0C       		.uleb128 0xc
+ 615 0099 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 15
+
+
+ 616 009a 00       		.byte	0
+ 617 009b 31       		.uleb128 0x31
+ 618 009c 13       		.uleb128 0x13
+ 619 009d 11       		.uleb128 0x11
+ 620 009e 01       		.uleb128 0x1
+ 621 009f 12       		.uleb128 0x12
+ 622 00a0 06       		.uleb128 0x6
+ 623 00a1 40       		.uleb128 0x40
+ 624 00a2 18       		.uleb128 0x18
+ 625 00a3 9742     		.uleb128 0x2117
+ 626 00a5 19       		.uleb128 0x19
+ 627 00a6 00       		.byte	0
+ 628 00a7 00       		.byte	0
+ 629 00a8 0D       		.uleb128 0xd
+ 630 00a9 2E       		.uleb128 0x2e
+ 631 00aa 01       		.byte	0x1
+ 632 00ab 3F       		.uleb128 0x3f
+ 633 00ac 19       		.uleb128 0x19
+ 634 00ad 03       		.uleb128 0x3
+ 635 00ae 0E       		.uleb128 0xe
+ 636 00af 3A       		.uleb128 0x3a
+ 637 00b0 0B       		.uleb128 0xb
+ 638 00b1 3B       		.uleb128 0x3b
+ 639 00b2 0B       		.uleb128 0xb
+ 640 00b3 27       		.uleb128 0x27
+ 641 00b4 19       		.uleb128 0x19
+ 642 00b5 11       		.uleb128 0x11
+ 643 00b6 01       		.uleb128 0x1
+ 644 00b7 12       		.uleb128 0x12
+ 645 00b8 06       		.uleb128 0x6
+ 646 00b9 40       		.uleb128 0x40
+ 647 00ba 18       		.uleb128 0x18
+ 648 00bb 9742     		.uleb128 0x2117
+ 649 00bd 19       		.uleb128 0x19
+ 650 00be 01       		.uleb128 0x1
+ 651 00bf 13       		.uleb128 0x13
+ 652 00c0 00       		.byte	0
+ 653 00c1 00       		.byte	0
+ 654 00c2 0E       		.uleb128 0xe
+ 655 00c3 1D       		.uleb128 0x1d
+ 656 00c4 01       		.byte	0x1
+ 657 00c5 31       		.uleb128 0x31
+ 658 00c6 13       		.uleb128 0x13
+ 659 00c7 52       		.uleb128 0x52
+ 660 00c8 01       		.uleb128 0x1
+ 661 00c9 55       		.uleb128 0x55
+ 662 00ca 17       		.uleb128 0x17
+ 663 00cb 58       		.uleb128 0x58
+ 664 00cc 0B       		.uleb128 0xb
+ 665 00cd 59       		.uleb128 0x59
+ 666 00ce 0B       		.uleb128 0xb
+ 667 00cf 01       		.uleb128 0x1
+ 668 00d0 13       		.uleb128 0x13
+ 669 00d1 00       		.byte	0
+ 670 00d2 00       		.byte	0
+ 671 00d3 0F       		.uleb128 0xf
+ 672 00d4 1D       		.uleb128 0x1d
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 16
+
+
+ 673 00d5 01       		.byte	0x1
+ 674 00d6 31       		.uleb128 0x31
+ 675 00d7 13       		.uleb128 0x13
+ 676 00d8 52       		.uleb128 0x52
+ 677 00d9 01       		.uleb128 0x1
+ 678 00da 55       		.uleb128 0x55
+ 679 00db 17       		.uleb128 0x17
+ 680 00dc 58       		.uleb128 0x58
+ 681 00dd 0B       		.uleb128 0xb
+ 682 00de 59       		.uleb128 0x59
+ 683 00df 0B       		.uleb128 0xb
+ 684 00e0 00       		.byte	0
+ 685 00e1 00       		.byte	0
+ 686 00e2 10       		.uleb128 0x10
+ 687 00e3 1D       		.uleb128 0x1d
+ 688 00e4 00       		.byte	0
+ 689 00e5 31       		.uleb128 0x31
+ 690 00e6 13       		.uleb128 0x13
+ 691 00e7 11       		.uleb128 0x11
+ 692 00e8 01       		.uleb128 0x1
+ 693 00e9 12       		.uleb128 0x12
+ 694 00ea 06       		.uleb128 0x6
+ 695 00eb 58       		.uleb128 0x58
+ 696 00ec 0B       		.uleb128 0xb
+ 697 00ed 59       		.uleb128 0x59
+ 698 00ee 0B       		.uleb128 0xb
+ 699 00ef 00       		.byte	0
+ 700 00f0 00       		.byte	0
+ 701 00f1 11       		.uleb128 0x11
+ 702 00f2 2E       		.uleb128 0x2e
+ 703 00f3 00       		.byte	0
+ 704 00f4 3F       		.uleb128 0x3f
+ 705 00f5 19       		.uleb128 0x19
+ 706 00f6 03       		.uleb128 0x3
+ 707 00f7 0E       		.uleb128 0xe
+ 708 00f8 3A       		.uleb128 0x3a
+ 709 00f9 0B       		.uleb128 0xb
+ 710 00fa 3B       		.uleb128 0x3b
+ 711 00fb 0B       		.uleb128 0xb
+ 712 00fc 27       		.uleb128 0x27
+ 713 00fd 19       		.uleb128 0x19
+ 714 00fe 11       		.uleb128 0x11
+ 715 00ff 01       		.uleb128 0x1
+ 716 0100 12       		.uleb128 0x12
+ 717 0101 06       		.uleb128 0x6
+ 718 0102 40       		.uleb128 0x40
+ 719 0103 18       		.uleb128 0x18
+ 720 0104 9742     		.uleb128 0x2117
+ 721 0106 19       		.uleb128 0x19
+ 722 0107 00       		.byte	0
+ 723 0108 00       		.byte	0
+ 724 0109 12       		.uleb128 0x12
+ 725 010a 34       		.uleb128 0x34
+ 726 010b 00       		.byte	0
+ 727 010c 03       		.uleb128 0x3
+ 728 010d 0E       		.uleb128 0xe
+ 729 010e 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 17
+
+
+ 730 010f 0B       		.uleb128 0xb
+ 731 0110 3B       		.uleb128 0x3b
+ 732 0111 0B       		.uleb128 0xb
+ 733 0112 49       		.uleb128 0x49
+ 734 0113 13       		.uleb128 0x13
+ 735 0114 3F       		.uleb128 0x3f
+ 736 0115 19       		.uleb128 0x19
+ 737 0116 02       		.uleb128 0x2
+ 738 0117 18       		.uleb128 0x18
+ 739 0118 00       		.byte	0
+ 740 0119 00       		.byte	0
+ 741 011a 00       		.byte	0
+ 742              		.section	.debug_loc,"",%progbits
+ 743              	.Ldebug_loc0:
+ 744              	.LLST0:
+ 745 0000 00000000 		.4byte	.LVL0
+ 746 0004 12000000 		.4byte	.LVL1
+ 747 0008 0200     		.2byte	0x2
+ 748 000a 33       		.byte	0x33
+ 749 000b 9F       		.byte	0x9f
+ 750 000c 00000000 		.4byte	0
+ 751 0010 00000000 		.4byte	0
+ 752              	.LLST1:
+ 753 0014 0C000000 		.4byte	.LVL2
+ 754 0018 1C000000 		.4byte	.LVL3
+ 755 001c 0200     		.2byte	0x2
+ 756 001e 33       		.byte	0x33
+ 757 001f 9F       		.byte	0x9f
+ 758 0020 00000000 		.4byte	0
+ 759 0024 00000000 		.4byte	0
+ 760              	.LLST2:
+ 761 0028 00000000 		.4byte	.LVL4
+ 762 002c 06000000 		.4byte	.LVL5
+ 763 0030 0100     		.2byte	0x1
+ 764 0032 50       		.byte	0x50
+ 765 0033 06000000 		.4byte	.LVL5
+ 766 0037 1C000000 		.4byte	.LFE4
+ 767 003b 0400     		.2byte	0x4
+ 768 003d F3       		.byte	0xf3
+ 769 003e 01       		.uleb128 0x1
+ 770 003f 50       		.byte	0x50
+ 771 0040 9F       		.byte	0x9f
+ 772 0041 00000000 		.4byte	0
+ 773 0045 00000000 		.4byte	0
+ 774              		.section	.debug_aranges,"",%progbits
+ 775 0000 3C000000 		.4byte	0x3c
+ 776 0004 0200     		.2byte	0x2
+ 777 0006 00000000 		.4byte	.Ldebug_info0
+ 778 000a 04       		.byte	0x4
+ 779 000b 00       		.byte	0
+ 780 000c 0000     		.2byte	0
+ 781 000e 0000     		.2byte	0
+ 782 0010 00000000 		.4byte	.LFB0
+ 783 0014 18000000 		.4byte	.LFE0-.LFB0
+ 784 0018 00000000 		.4byte	.LFB1
+ 785 001c 2C000000 		.4byte	.LFE1-.LFB1
+ 786 0020 00000000 		.4byte	.LFB2
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 18
+
+
+ 787 0024 50000000 		.4byte	.LFE2-.LFB2
+ 788 0028 00000000 		.4byte	.LFB3
+ 789 002c 30000000 		.4byte	.LFE3-.LFB3
+ 790 0030 00000000 		.4byte	.LFB4
+ 791 0034 1C000000 		.4byte	.LFE4-.LFB4
+ 792 0038 00000000 		.4byte	0
+ 793 003c 00000000 		.4byte	0
+ 794              		.section	.debug_ranges,"",%progbits
+ 795              	.Ldebug_ranges0:
+ 796 0000 06000000 		.4byte	.LBB12
+ 797 0004 08000000 		.4byte	.LBE12
+ 798 0008 0C000000 		.4byte	.LBB17
+ 799 000c 1C000000 		.4byte	.LBE17
+ 800 0010 00000000 		.4byte	0
+ 801 0014 00000000 		.4byte	0
+ 802 0018 00000000 		.4byte	.LFB0
+ 803 001c 18000000 		.4byte	.LFE0
+ 804 0020 00000000 		.4byte	.LFB1
+ 805 0024 2C000000 		.4byte	.LFE1
+ 806 0028 00000000 		.4byte	.LFB2
+ 807 002c 50000000 		.4byte	.LFE2
+ 808 0030 00000000 		.4byte	.LFB3
+ 809 0034 30000000 		.4byte	.LFE3
+ 810 0038 00000000 		.4byte	.LFB4
+ 811 003c 1C000000 		.4byte	.LFE4
+ 812 0040 00000000 		.4byte	0
+ 813 0044 00000000 		.4byte	0
+ 814              		.section	.debug_line,"",%progbits
+ 815              	.Ldebug_line0:
+ 816 0000 CE000000 		.section	.debug_str,"MS",%progbits,1
+ 816      02004B00 
+ 816      00000201 
+ 816      FB0E0D00 
+ 816      01010101 
+ 817              	.LASF6:
+ 818 0000 6C6F6E67 		.ascii	"long long int\000"
+ 818      206C6F6E 
+ 818      6720696E 
+ 818      7400
+ 819              	.LASF8:
+ 820 000e 756E7369 		.ascii	"unsigned int\000"
+ 820      676E6564 
+ 820      20696E74 
+ 820      00
+ 821              	.LASF16:
+ 822 001b 4F70616D 		.ascii	"Opamp_Throttle_Init\000"
+ 822      705F5468 
+ 822      726F7474 
+ 822      6C655F49 
+ 822      6E697400 
+ 823              	.LASF19:
+ 824 002f 47656E65 		.ascii	"Generated_Source\\PSoC5\\Opamp_Throttle.c\000"
+ 824      72617465 
+ 824      645F536F 
+ 824      75726365 
+ 824      5C50536F 
+ 825              	.LASF12:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 19
+
+
+ 826 0057 75696E74 		.ascii	"uint8\000"
+ 826      3800
+ 827              	.LASF5:
+ 828 005d 6C6F6E67 		.ascii	"long unsigned int\000"
+ 828      20756E73 
+ 828      69676E65 
+ 828      6420696E 
+ 828      7400
+ 829              	.LASF7:
+ 830 006f 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 830      206C6F6E 
+ 830      6720756E 
+ 830      7369676E 
+ 830      65642069 
+ 831              	.LASF9:
+ 832 0086 666C6F61 		.ascii	"float\000"
+ 832      7400
+ 833              	.LASF21:
+ 834 008c 4F70616D 		.ascii	"Opamp_Throttle_SetPower\000"
+ 834      705F5468 
+ 834      726F7474 
+ 834      6C655F53 
+ 834      6574506F 
+ 835              	.LASF1:
+ 836 00a4 756E7369 		.ascii	"unsigned char\000"
+ 836      676E6564 
+ 836      20636861 
+ 836      7200
+ 837              	.LASF18:
+ 838 00b2 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 838      43313120 
+ 838      352E342E 
+ 838      31203230 
+ 838      31363036 
+ 839 00e5 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 839      20726576 
+ 839      6973696F 
+ 839      6E203233 
+ 839      37373135 
+ 840 0118 33202D66 		.ascii	"3 -ffunction-sections -ffat-lto-objects\000"
+ 840      66756E63 
+ 840      74696F6E 
+ 840      2D736563 
+ 840      74696F6E 
+ 841              	.LASF11:
+ 842 0140 63686172 		.ascii	"char\000"
+ 842      00
+ 843              	.LASF25:
+ 844 0145 4F70616D 		.ascii	"Opamp_Throttle_initVar\000"
+ 844      705F5468 
+ 844      726F7474 
+ 844      6C655F69 
+ 844      6E697456 
+ 845              	.LASF4:
+ 846 015c 6C6F6E67 		.ascii	"long int\000"
+ 846      20696E74 
+ 846      00
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 20
+
+
+ 847              	.LASF24:
+ 848 0165 4F70616D 		.ascii	"Opamp_Throttle_Stop\000"
+ 848      705F5468 
+ 848      726F7474 
+ 848      6C655F53 
+ 848      746F7000 
+ 849              	.LASF10:
+ 850 0179 646F7562 		.ascii	"double\000"
+ 850      6C6500
+ 851              	.LASF17:
+ 852 0180 4F70616D 		.ascii	"Opamp_Throttle_Enable\000"
+ 852      705F5468 
+ 852      726F7474 
+ 852      6C655F45 
+ 852      6E61626C 
+ 853              	.LASF3:
+ 854 0196 73686F72 		.ascii	"short unsigned int\000"
+ 854      7420756E 
+ 854      7369676E 
+ 854      65642069 
+ 854      6E7400
+ 855              	.LASF0:
+ 856 01a9 7369676E 		.ascii	"signed char\000"
+ 856      65642063 
+ 856      68617200 
+ 857              	.LASF23:
+ 858 01b5 4F70616D 		.ascii	"Opamp_Throttle_Start\000"
+ 858      705F5468 
+ 858      726F7474 
+ 858      6C655F53 
+ 858      74617274 
+ 859              	.LASF14:
+ 860 01ca 6C6F6E67 		.ascii	"long double\000"
+ 860      20646F75 
+ 860      626C6500 
+ 861              	.LASF20:
+ 862 01d6 433A5C55 		.ascii	"C:\\Users\\jon\\Sync\\Research\\PSoC Projects\\Cont"
+ 862      73657273 
+ 862      5C6A6F6E 
+ 862      5C53796E 
+ 862      635C5265 
+ 863 0203 726F6C6C 		.ascii	"roller.cydsn\000"
+ 863      65722E63 
+ 863      7964736E 
+ 863      00
+ 864              	.LASF2:
+ 865 0210 73686F72 		.ascii	"short int\000"
+ 865      7420696E 
+ 865      7400
+ 866              	.LASF13:
+ 867 021a 72656738 		.ascii	"reg8\000"
+ 867      00
+ 868              	.LASF15:
+ 869 021f 73697A65 		.ascii	"sizetype\000"
+ 869      74797065 
+ 869      00
+ 870              	.LASF22:
+ARM GAS  C:\Users\jon\AppData\Local\Temp\cc4eWXqs.s 			page 21
+
+
+ 871 0228 706F7765 		.ascii	"power\000"
+ 871      7200
+ 872              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
