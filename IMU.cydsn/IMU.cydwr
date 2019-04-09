@@ -293,7 +293,7 @@
     <Group key="v1">
       <Data key="cy_boot" value="cy_boot_v5_80" />
       <Data key="Em_EEPROM_Dynamic" value="Em_EEPROM_Dynamic_v2_20" />
-      <Data key="LIN_Dynamic" value="LIN_Dynamic_v4_0" />
+      <Data key="LIN_Dynamic" value="LIN_Dynamic_v5_0" />
     </Group>
   </Group>
   <Data key="DataVersionKey" value="2" />
@@ -303,13 +303,16 @@
       <Data key="032d4e88-2478-4728-96e9-9200faa8eb4a/9725d809-97e7-404e-b621-dfdbe78d0ca9" value="Seat_ADC_IntClock" />
     </Group>
     <Group key="Pin">
+      <Data key="02f2cf2c-2c7a-49df-9246-7a3435c21be3" value="SCL_1" />
       <Data key="4ae84196-b90c-4320-a087-7f35b04826f5" value="sCn" />
       <Data key="071d8ed8-4974-45ad-916b-2379ae6df023" value="sAn" />
       <Data key="85bacf93-295b-47eb-9af1-e59cb0dca1fc" value="sBn" />
       <Data key="93c95144-f6b5-43b6-8ecc-4cd2f9e79f17" value="sCp" />
+      <Data key="22863ebe-a37b-476f-b252-6e49a8c00b12" value="SDA_1" />
       <Data key="77715107-f8d5-47e5-a629-0fb83101ac6b" value="sAp" />
       <Data key="beca5e2d-f70f-4900-a4db-7eca1ed3126e/8b77a6c4-10a0-4390-971c-672353e2a49c" value="USBUART_Dm" />
       <Data key="beca5e2d-f70f-4900-a4db-7eca1ed3126e/618a72fc-5ddd-4df5-958f-a3d55102db42" value="USBUART_Dp" />
+      <Data key="c59b282e-e1f3-4337-a9c1-a81927dad1c1" value="BNO_Interupt" />
       <Data key="e851a3b9-efb8-48be-bbb8-b303b216c393" value="LED" />
       <Data key="ff13edf1-ab5d-430e-bc24-448016d38e57" value="sBp" />
     </Group>
@@ -3398,6 +3401,11 @@
     </Group>
   </Group>
   <Group key="Pin2">
+    <Group key="02f2cf2c-2c7a-49df-9246-7a3435c21be3">
+      <Group key="0">
+        <Data key="Port Format" value="3,2" />
+      </Group>
+    </Group>
     <Group key="4ae84196-b90c-4320-a087-7f35b04826f5">
       <Group key="0">
         <Data key="Port Format" value="0,4" />
@@ -3418,9 +3426,19 @@
         <Data key="Port Format" value="0,5" />
       </Group>
     </Group>
+    <Group key="22863ebe-a37b-476f-b252-6e49a8c00b12">
+      <Group key="0">
+        <Data key="Port Format" value="3,3" />
+      </Group>
+    </Group>
     <Group key="77715107-f8d5-47e5-a629-0fb83101ac6b">
       <Group key="0">
         <Data key="Port Format" value="0,1" />
+      </Group>
+    </Group>
+    <Group key="c59b282e-e1f3-4337-a9c1-a81927dad1c1">
+      <Group key="0">
+        <Data key="Port Format" value="3,1" />
       </Group>
     </Group>
     <Group key="e851a3b9-efb8-48be-bbb8-b303b216c393">

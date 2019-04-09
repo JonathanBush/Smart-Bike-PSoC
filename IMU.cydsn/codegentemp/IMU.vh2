@@ -1,0 +1,1939 @@
+--
+--	Conversion of IMU.v to vh2:
+--
+--	Cypress Semiconductor - WARP Version 6.3 IR 41
+--	Tue Apr 09 16:14:41 2019
+--
+
+USE cypress.cypress.all;
+USE cypress.rtlpkg.all;
+ENTITY top_RTL IS
+ATTRIBUTE part_name of top_RTL:TYPE IS "cpsoc3";
+END top_RTL;
+--------------------------------------------------------
+ARCHITECTURE R_T_L OF top_RTL IS
+TERMINAL \Seat_ADC:SAR:Net_248\ : bit;
+TERMINAL \Seat_ADC:SAR:Net_233\ : bit;
+SIGNAL \Seat_ADC:SAR:vp_ctl_0\ : bit;
+SIGNAL \Seat_ADC:SAR:vp_ctl_2\ : bit;
+SIGNAL \Seat_ADC:SAR:vn_ctl_1\ : bit;
+SIGNAL \Seat_ADC:SAR:vn_ctl_3\ : bit;
+SIGNAL \Seat_ADC:SAR:vp_ctl_1\ : bit;
+SIGNAL \Seat_ADC:SAR:vp_ctl_3\ : bit;
+SIGNAL \Seat_ADC:SAR:vn_ctl_0\ : bit;
+SIGNAL \Seat_ADC:SAR:vn_ctl_2\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_188\ : bit;
+SIGNAL \Seat_ADC:clock\ : bit;
+TERMINAL \Seat_ADC:Net_2803\ : bit;
+TERMINAL \Seat_ADC:SAR:Net_126\ : bit;
+TERMINAL \Seat_ADC:SAR:Net_215\ : bit;
+TERMINAL \Seat_ADC:SAR:Net_257\ : bit;
+SIGNAL \Seat_ADC:soc_out\ : bit;
+SIGNAL zero : bit;
+SIGNAL \Seat_ADC:SAR:Net_252\ : bit;
+SIGNAL Net_255 : bit;
+SIGNAL \Seat_ADC:SAR:Net_207_11\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_207_10\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_207_9\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_207_8\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_207_7\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_207_6\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_207_5\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_207_4\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_207_3\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_207_2\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_207_1\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_207_0\ : bit;
+SIGNAL \Seat_ADC:Net_3830\ : bit;
+TERMINAL \Seat_ADC:SAR:Net_209\ : bit;
+TERMINAL \Seat_ADC:V_diff1\ : bit;
+TERMINAL \Seat_ADC:SAR:Net_255\ : bit;
+TERMINAL \Seat_ADC:SAR:Net_368\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_221\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_383\ : bit;
+SIGNAL \Seat_ADC:SAR:Net_385\ : bit;
+TERMINAL \Seat_ADC:V_diff0\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:enable\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:control_0\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:load_period\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:control_1\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:sw_soc\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:control_2\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:clk_fin\ : bit;
+SIGNAL one : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:clk_ctrl\ : bit;
+SIGNAL \Seat_ADC:ch_addr_5\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:count_5\ : bit;
+SIGNAL \Seat_ADC:ch_addr_4\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:count_4\ : bit;
+SIGNAL \Seat_ADC:ch_addr_3\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:count_3\ : bit;
+SIGNAL \Seat_ADC:ch_addr_2\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:count_2\ : bit;
+SIGNAL \Seat_ADC:ch_addr_1\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:count_1\ : bit;
+SIGNAL \Seat_ADC:ch_addr_0\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:count_0\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:status_7\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:status_6\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:status_5\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:status_4\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:status_3\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:status_2\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:status_1\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:status_0\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:nrq_edge_detect_reg\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:cnt_enable\ : bit;
+SIGNAL \Seat_ADC:Net_3710\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:bus_clk_nrq_reg\ : bit;
+SIGNAL \Seat_ADC:Net_3935\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:nrq_reg\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:nrq_edge_detect\ : bit;
+SIGNAL Net_256 : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:soc_in\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:state_0\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:soc_reg\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:soc_edge_detect_reg\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:soc_edge_detect\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:state_2\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:state_1\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:cnt_tc\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:control_7\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:control_6\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:control_5\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:control_4\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:control_3\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:count_6\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_enable\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_is_active\ : bit;
+ATTRIBUTE soft of \Seat_ADC:AMuxHw_1_Decoder_is_active\:SIGNAL IS '1';
+SIGNAL \Seat_ADC:cmp_vv_vv_MODGEN_1\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_0\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_1\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_2\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_3\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_4\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_5\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_6\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_7\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_8\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_9\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_10\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_11\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_12\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_13\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_14\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_15\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_16\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_17\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_18\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_19\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_20\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_21\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_22\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_23\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_24\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_25\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_26\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_27\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_28\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_29\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_30\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_31\ : bit;
+TERMINAL Net_329 : bit;
+TERMINAL Net_326 : bit;
+TERMINAL Net_324 : bit;
+TERMINAL Net_321 : bit;
+TERMINAL Net_319 : bit;
+TERMINAL Net_316 : bit;
+TERMINAL Net_314 : bit;
+TERMINAL Net_311 : bit;
+TERMINAL Net_309 : bit;
+TERMINAL Net_306 : bit;
+TERMINAL Net_304 : bit;
+TERMINAL Net_301 : bit;
+TERMINAL Net_299 : bit;
+TERMINAL Net_296 : bit;
+TERMINAL Net_294 : bit;
+TERMINAL Net_291 : bit;
+TERMINAL Net_289 : bit;
+TERMINAL Net_286 : bit;
+TERMINAL Net_284 : bit;
+TERMINAL Net_281 : bit;
+TERMINAL Net_279 : bit;
+TERMINAL Net_276 : bit;
+TERMINAL Net_274 : bit;
+TERMINAL Net_271 : bit;
+TERMINAL Net_269 : bit;
+TERMINAL Net_266 : bit;
+TERMINAL Net_264 : bit;
+TERMINAL Net_261 : bit;
+TERMINAL Net_259 : bit;
+TERMINAL Net_187 : bit;
+TERMINAL Net_190 : bit;
+TERMINAL Net_182 : bit;
+TERMINAL Net_330 : bit;
+TERMINAL Net_327 : bit;
+TERMINAL Net_325 : bit;
+TERMINAL Net_322 : bit;
+TERMINAL Net_320 : bit;
+TERMINAL Net_317 : bit;
+TERMINAL Net_315 : bit;
+TERMINAL Net_312 : bit;
+TERMINAL Net_310 : bit;
+TERMINAL Net_307 : bit;
+TERMINAL Net_305 : bit;
+TERMINAL Net_302 : bit;
+TERMINAL Net_300 : bit;
+TERMINAL Net_297 : bit;
+TERMINAL Net_295 : bit;
+TERMINAL Net_292 : bit;
+TERMINAL Net_290 : bit;
+TERMINAL Net_287 : bit;
+TERMINAL Net_285 : bit;
+TERMINAL Net_282 : bit;
+TERMINAL Net_280 : bit;
+TERMINAL Net_277 : bit;
+TERMINAL Net_275 : bit;
+TERMINAL Net_272 : bit;
+TERMINAL Net_270 : bit;
+TERMINAL Net_267 : bit;
+TERMINAL Net_265 : bit;
+TERMINAL Net_262 : bit;
+TERMINAL Net_260 : bit;
+TERMINAL Net_180 : bit;
+TERMINAL Net_189 : bit;
+TERMINAL Net_178 : bit;
+SIGNAL \Seat_ADC:Net_3874\ : bit;
+SIGNAL \Seat_ADC:Net_3698\ : bit;
+SIGNAL \Seat_ADC:nrq\ : bit;
+SIGNAL \Seat_ADC:Net_3905\ : bit;
+SIGNAL \Seat_ADC:Net_3867\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:newa_4\ : bit;
+SIGNAL \Seat_ADC:MODIN1_4\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:newa_3\ : bit;
+SIGNAL \Seat_ADC:MODIN1_3\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:newa_2\ : bit;
+SIGNAL \Seat_ADC:MODIN1_2\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:newa_1\ : bit;
+SIGNAL \Seat_ADC:MODIN1_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:newa_0\ : bit;
+SIGNAL \Seat_ADC:MODIN1_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:newb_4\ : bit;
+SIGNAL \Seat_ADC:MODIN2_4\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:newb_3\ : bit;
+SIGNAL \Seat_ADC:MODIN2_3\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:newb_2\ : bit;
+SIGNAL \Seat_ADC:MODIN2_2\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:newb_1\ : bit;
+SIGNAL \Seat_ADC:MODIN2_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:newb_0\ : bit;
+SIGNAL \Seat_ADC:MODIN2_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:dataa_4\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:dataa_3\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:dataa_2\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:dataa_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:dataa_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:datab_4\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:datab_3\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:datab_2\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:datab_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:datab_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:a_4\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:a_3\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:a_2\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:a_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:a_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:b_4\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:b_3\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:b_2\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:b_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:b_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:xnor_array_4\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:xnor_array_3\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:xnor_array_2\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:xnor_array_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:xnor_array_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:aeqb_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:eq_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:eq_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:eq_2\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:eq_3\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:eq_4\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:eqi_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:aeqb_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:albi_2\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:agbi_2\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:lt_3\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:gt_3\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:lt_4\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:gt_4\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:lti_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:gti_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:albi_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:agbi_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:lt_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:gt_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:lt_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:gt_1\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:lt_2\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:gt_2\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:lti_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:gti_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:albi_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:gx:u0:agbi_0\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:xeq\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:xneq\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:xlt\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:xlte\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:xgt\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:g1:a0:xgte\ : bit;
+SIGNAL \Seat_ADC:MODULE_1:lt\ : bit;
+ATTRIBUTE port_state_att of \Seat_ADC:MODULE_1:lt\:SIGNAL IS 2;
+SIGNAL \Seat_ADC:MODULE_1:gt\ : bit;
+ATTRIBUTE port_state_att of \Seat_ADC:MODULE_1:gt\:SIGNAL IS 2;
+SIGNAL \Seat_ADC:MODULE_1:gte\ : bit;
+ATTRIBUTE port_state_att of \Seat_ADC:MODULE_1:gte\:SIGNAL IS 2;
+SIGNAL \Seat_ADC:MODULE_1:lte\ : bit;
+ATTRIBUTE port_state_att of \Seat_ADC:MODULE_1:lte\:SIGNAL IS 2;
+SIGNAL \Seat_ADC:MODULE_1:neq\ : bit;
+ATTRIBUTE port_state_att of \Seat_ADC:MODULE_1:neq\:SIGNAL IS 2;
+SIGNAL tmpOE__sAn_net_0 : bit;
+SIGNAL tmpFB_0__sAn_net_0 : bit;
+SIGNAL tmpIO_0__sAn_net_0 : bit;
+TERMINAL tmpSIOVREF__sAn_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__sAn_net_0 : bit;
+SIGNAL tmpOE__sAp_net_0 : bit;
+SIGNAL tmpFB_0__sAp_net_0 : bit;
+SIGNAL tmpIO_0__sAp_net_0 : bit;
+TERMINAL tmpSIOVREF__sAp_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__sAp_net_0 : bit;
+SIGNAL tmpOE__sBp_net_0 : bit;
+SIGNAL tmpFB_0__sBp_net_0 : bit;
+SIGNAL tmpIO_0__sBp_net_0 : bit;
+TERMINAL tmpSIOVREF__sBp_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__sBp_net_0 : bit;
+SIGNAL tmpOE__sBn_net_0 : bit;
+SIGNAL tmpFB_0__sBn_net_0 : bit;
+SIGNAL tmpIO_0__sBn_net_0 : bit;
+TERMINAL tmpSIOVREF__sBn_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__sBn_net_0 : bit;
+SIGNAL tmpOE__sCp_net_0 : bit;
+SIGNAL tmpFB_0__sCp_net_0 : bit;
+SIGNAL tmpIO_0__sCp_net_0 : bit;
+TERMINAL tmpSIOVREF__sCp_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__sCp_net_0 : bit;
+SIGNAL tmpOE__sCn_net_0 : bit;
+SIGNAL tmpFB_0__sCn_net_0 : bit;
+SIGNAL tmpIO_0__sCn_net_0 : bit;
+TERMINAL tmpSIOVREF__sCn_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__sCn_net_0 : bit;
+SIGNAL \USBUART:Net_1010\ : bit;
+SIGNAL \USBUART:tmpOE__Dm_net_0\ : bit;
+SIGNAL \USBUART:tmpFB_0__Dm_net_0\ : bit;
+TERMINAL \USBUART:Net_597\ : bit;
+SIGNAL \USBUART:tmpIO_0__Dm_net_0\ : bit;
+TERMINAL \USBUART:tmpSIOVREF__Dm_net_0\ : bit;
+SIGNAL \USBUART:tmpINTERRUPT_0__Dm_net_0\ : bit;
+SIGNAL \USBUART:tmpOE__Dp_net_0\ : bit;
+SIGNAL \USBUART:tmpFB_0__Dp_net_0\ : bit;
+TERMINAL \USBUART:Net_1000\ : bit;
+SIGNAL \USBUART:tmpIO_0__Dp_net_0\ : bit;
+TERMINAL \USBUART:tmpSIOVREF__Dp_net_0\ : bit;
+SIGNAL Net_120 : bit;
+SIGNAL \USBUART:Net_1889\ : bit;
+SIGNAL \USBUART:Net_1876\ : bit;
+SIGNAL \USBUART:ep_int_8\ : bit;
+SIGNAL \USBUART:ep_int_7\ : bit;
+SIGNAL \USBUART:ep_int_6\ : bit;
+SIGNAL \USBUART:ep_int_5\ : bit;
+SIGNAL \USBUART:ep_int_4\ : bit;
+SIGNAL \USBUART:ep_int_3\ : bit;
+SIGNAL \USBUART:ep_int_2\ : bit;
+SIGNAL \USBUART:ep_int_1\ : bit;
+SIGNAL \USBUART:ep_int_0\ : bit;
+SIGNAL \USBUART:Net_95\ : bit;
+SIGNAL \USBUART:dma_request_7\ : bit;
+SIGNAL \USBUART:dma_request_6\ : bit;
+SIGNAL \USBUART:dma_request_5\ : bit;
+SIGNAL \USBUART:dma_request_4\ : bit;
+SIGNAL \USBUART:dma_request_3\ : bit;
+SIGNAL \USBUART:dma_request_2\ : bit;
+SIGNAL \USBUART:dma_request_1\ : bit;
+SIGNAL \USBUART:dma_request_0\ : bit;
+SIGNAL \USBUART:dma_terminate\ : bit;
+SIGNAL \USBUART:dma_complete_0\ : bit;
+SIGNAL \USBUART:Net_1922\ : bit;
+SIGNAL \USBUART:dma_complete_1\ : bit;
+SIGNAL \USBUART:Net_1921\ : bit;
+SIGNAL \USBUART:dma_complete_2\ : bit;
+SIGNAL \USBUART:Net_1920\ : bit;
+SIGNAL \USBUART:dma_complete_3\ : bit;
+SIGNAL \USBUART:Net_1919\ : bit;
+SIGNAL \USBUART:dma_complete_4\ : bit;
+SIGNAL \USBUART:Net_1918\ : bit;
+SIGNAL \USBUART:dma_complete_5\ : bit;
+SIGNAL \USBUART:Net_1917\ : bit;
+SIGNAL \USBUART:dma_complete_6\ : bit;
+SIGNAL \USBUART:Net_1916\ : bit;
+SIGNAL \USBUART:dma_complete_7\ : bit;
+SIGNAL \USBUART:Net_1915\ : bit;
+SIGNAL tmpOE__LED_net_0 : bit;
+SIGNAL tmpFB_0__LED_net_0 : bit;
+SIGNAL tmpIO_0__LED_net_0 : bit;
+TERMINAL tmpSIOVREF__LED_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__LED_net_0 : bit;
+SIGNAL Net_202 : bit;
+SIGNAL \Sample_Timer:Net_260\ : bit;
+SIGNAL \Sample_Timer:Net_266\ : bit;
+SIGNAL Net_195 : bit;
+SIGNAL \Sample_Timer:Net_51\ : bit;
+SIGNAL \Sample_Timer:Net_261\ : bit;
+SIGNAL \Sample_Timer:Net_57\ : bit;
+SIGNAL Net_196 : bit;
+SIGNAL Net_201 : bit;
+SIGNAL \Sample_Timer:Net_102\ : bit;
+SIGNAL tmpOE__SDA_1_net_0 : bit;
+SIGNAL tmpFB_0__SDA_1_net_0 : bit;
+SIGNAL Net_225 : bit;
+TERMINAL tmpSIOVREF__SDA_1_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__SDA_1_net_0 : bit;
+SIGNAL tmpOE__SCL_1_net_0 : bit;
+SIGNAL tmpFB_0__SCL_1_net_0 : bit;
+SIGNAL Net_226 : bit;
+TERMINAL tmpSIOVREF__SCL_1_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__SCL_1_net_0 : bit;
+SIGNAL \I2C:sda_x_wire\ : bit;
+SIGNAL \I2C:Net_643_1\ : bit;
+SIGNAL \I2C:Net_697\ : bit;
+SIGNAL \I2C:bus_clk\ : bit;
+SIGNAL \I2C:Net_1109_0\ : bit;
+SIGNAL \I2C:Net_1109_1\ : bit;
+SIGNAL \I2C:Net_643_0\ : bit;
+SIGNAL \I2C:Net_643_2\ : bit;
+SIGNAL \I2C:scl_x_wire\ : bit;
+SIGNAL \I2C:Net_969\ : bit;
+SIGNAL \I2C:Net_968\ : bit;
+SIGNAL \I2C:udb_clk\ : bit;
+SIGNAL Net_229 : bit;
+SIGNAL \I2C:Net_973\ : bit;
+SIGNAL Net_230 : bit;
+SIGNAL \I2C:Net_974\ : bit;
+SIGNAL \I2C:scl_yfb\ : bit;
+SIGNAL \I2C:sda_yfb\ : bit;
+SIGNAL \I2C:tmpOE__Bufoe_scl_net_0\ : bit;
+SIGNAL \I2C:tmpOE__Bufoe_sda_net_0\ : bit;
+SIGNAL \I2C:timeout_clk\ : bit;
+SIGNAL Net_235 : bit;
+SIGNAL \I2C:Net_975\ : bit;
+SIGNAL Net_233 : bit;
+SIGNAL Net_234 : bit;
+SIGNAL Net_388 : bit;
+SIGNAL tmpOE__BNO_Interupt_net_0 : bit;
+SIGNAL tmpIO_0__BNO_Interupt_net_0 : bit;
+TERMINAL tmpSIOVREF__BNO_Interupt_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__BNO_Interupt_net_0 : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:nrq_edge_detect_reg\\D\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:bus_clk_nrq_reg\\D\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:nrq_reg\\D\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:state_0\\D\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:soc_reg\\D\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:soc_edge_detect_reg\\D\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:state_2\\D\ : bit;
+SIGNAL \Seat_ADC:bSAR_SEQ:state_1\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_old_id_4\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_old_id_3\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_old_id_2\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_old_id_1\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_old_id_0\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_0\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_1\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_2\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_3\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_4\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_5\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_6\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_7\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_8\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_9\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_10\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_11\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_12\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_13\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_14\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_15\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_16\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_17\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_18\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_19\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_20\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_21\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_22\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_23\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_24\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_25\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_26\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_27\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_28\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_29\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_30\\D\ : bit;
+SIGNAL \Seat_ADC:AMuxHw_1_Decoder_one_hot_31\\D\ : bit;
+BEGIN
+
+zero <=  ('0') ;
+
+one <=  ('1') ;
+
+\Seat_ADC:bSAR_SEQ:cnt_enable\ <= (\Seat_ADC:bSAR_SEQ:load_period\
+	OR Net_255);
+
+\Seat_ADC:bSAR_SEQ:bus_clk_nrq_reg\\D\ <= ((not Net_256 and \Seat_ADC:bSAR_SEQ:bus_clk_nrq_reg\)
+	OR \Seat_ADC:Net_3935\);
+
+\Seat_ADC:bSAR_SEQ:nrq_edge_detect\ <= ((not \Seat_ADC:bSAR_SEQ:nrq_reg\ and \Seat_ADC:bSAR_SEQ:bus_clk_nrq_reg\));
+
+\Seat_ADC:bSAR_SEQ:state_1\\D\ <= ((not \Seat_ADC:soc_out\ and not \Seat_ADC:Net_3830\ and not \Seat_ADC:bSAR_SEQ:load_period\ and not \Seat_ADC:bSAR_SEQ:state_2\ and \Seat_ADC:bSAR_SEQ:state_1\)
+	OR (not \Seat_ADC:bSAR_SEQ:load_period\ and not \Seat_ADC:bSAR_SEQ:state_2\ and not \Seat_ADC:bSAR_SEQ:state_1\ and \Seat_ADC:soc_out\));
+
+\Seat_ADC:bSAR_SEQ:state_0\\D\ <= ((not \Seat_ADC:soc_out\ and not \Seat_ADC:bSAR_SEQ:load_period\ and not \Seat_ADC:bSAR_SEQ:state_2\ and not \Seat_ADC:bSAR_SEQ:cnt_tc\ and \Seat_ADC:Net_3830\ and \Seat_ADC:bSAR_SEQ:state_1\)
+	OR (not \Seat_ADC:soc_out\ and not \Seat_ADC:bSAR_SEQ:load_period\ and not \Seat_ADC:bSAR_SEQ:state_2\ and not \Seat_ADC:bSAR_SEQ:state_1\ and \Seat_ADC:bSAR_SEQ:sw_soc\));
+
+\Seat_ADC:AMuxHw_1_Decoder_is_active\ <= ((not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\)
+	OR (not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\)
+	OR (not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\)
+	OR (not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\)
+	OR (not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\)
+	OR (not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\)
+	OR (not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\)
+	OR (not \Seat_ADC:ch_addr_0\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (\Seat_ADC:ch_addr_4\ and \Seat_ADC:ch_addr_3\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_0\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_1\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_2\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_3\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_4\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_5\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_6\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_7\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_8\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_9\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_10\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_11\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_12\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_13\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_14\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_15\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_16\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_17\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_18\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_19\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_20\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_21\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_22\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_23\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_24\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_25\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_26\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_27\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_28\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_29\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_30\\D\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\));
+
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_31\\D\ <= ((\Seat_ADC:AMuxHw_1_Decoder_is_active\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_4\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_3\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\));
+
+\Seat_ADC:MODULE_1:g1:a0:gx:u0:lt_2\ <= ((not \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_1\ and not \Seat_ADC:ch_addr_0\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_0\)
+	OR (not \Seat_ADC:ch_addr_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\)
+	OR (not \Seat_ADC:ch_addr_2\ and not \Seat_ADC:ch_addr_1\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_1\)
+	OR (not \Seat_ADC:ch_addr_2\ and \Seat_ADC:AMuxHw_1_Decoder_old_id_2\));
+
+\Seat_ADC:MODULE_1:g1:a0:gx:u0:gt_2\ <= ((not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_0\)
+	OR (not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_0\)
+	OR (not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:ch_addr_0\)
+	OR (not \Seat_ADC:AMuxHw_1_Decoder_old_id_0\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_1\ and \Seat_ADC:ch_addr_0\)
+	OR (not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:ch_addr_1\)
+	OR (not \Seat_ADC:AMuxHw_1_Decoder_old_id_1\ and \Seat_ADC:ch_addr_2\ and \Seat_ADC:ch_addr_1\)
+	OR (not \Seat_ADC:AMuxHw_1_Decoder_old_id_2\ and \Seat_ADC:ch_addr_2\));
+
+\Seat_ADC:SAR:cy_analog_virtualmux_3_connect\:cy_connect_v1_0
+	GENERIC MAP(sig_width=>1,
+		is_net_join=>'0')
+	PORT MAP(signal1=>\Seat_ADC:SAR:Net_248\,
+		signal2=>\Seat_ADC:SAR:Net_233\);
+\Seat_ADC:SAR:ADC_SAR\:cy_psoc5_sar_v2_0
+	GENERIC MAP(cy_registers=>"")
+	PORT MAP(vplus=>\Seat_ADC:Net_2803\,
+		vminus=>\Seat_ADC:SAR:Net_126\,
+		ext_pin=>\Seat_ADC:SAR:Net_215\,
+		vrefhi_out=>\Seat_ADC:SAR:Net_257\,
+		vref=>\Seat_ADC:SAR:Net_248\,
+		clock=>\Seat_ADC:clock\,
+		pump_clock=>\Seat_ADC:clock\,
+		sof_udb=>\Seat_ADC:soc_out\,
+		clk_udb=>zero,
+		vp_ctl_udb=>(zero, zero, zero, zero),
+		vn_ctl_udb=>(zero, zero, zero, zero),
+		irq=>\Seat_ADC:SAR:Net_252\,
+		next_out=>Net_255,
+		data_out=>(\Seat_ADC:SAR:Net_207_11\, \Seat_ADC:SAR:Net_207_10\, \Seat_ADC:SAR:Net_207_9\, \Seat_ADC:SAR:Net_207_8\,
+			\Seat_ADC:SAR:Net_207_7\, \Seat_ADC:SAR:Net_207_6\, \Seat_ADC:SAR:Net_207_5\, \Seat_ADC:SAR:Net_207_4\,
+			\Seat_ADC:SAR:Net_207_3\, \Seat_ADC:SAR:Net_207_2\, \Seat_ADC:SAR:Net_207_1\, \Seat_ADC:SAR:Net_207_0\),
+		eof_udb=>\Seat_ADC:Net_3830\);
+\Seat_ADC:SAR:cy_analog_virtualmux_2_connect\:cy_connect_v1_0
+	GENERIC MAP(sig_width=>1,
+		is_net_join=>'0')
+	PORT MAP(signal1=>\Seat_ADC:SAR:Net_215\,
+		signal2=>\Seat_ADC:SAR:Net_209\);
+\Seat_ADC:SAR:cy_analog_virtualmux_1_connect\:cy_connect_v1_0
+	GENERIC MAP(sig_width=>1,
+		is_net_join=>'0')
+	PORT MAP(signal1=>\Seat_ADC:SAR:Net_126\,
+		signal2=>\Seat_ADC:V_diff1\);
+\Seat_ADC:SAR:noconnect\:cy_analog_noconnect_v1_0
+	PORT MAP(noconnect=>\Seat_ADC:SAR:Net_209\);
+\Seat_ADC:SAR:vRef_1024\:cy_vref_v1_0
+	GENERIC MAP(guid=>"89B398AD-36A8-4627-9212-707F2986319E",
+		name=>"1.024V",
+		autoenable=>'1',
+		ignoresleep=>'0')
+	PORT MAP(vout=>\Seat_ADC:SAR:Net_233\);
+\Seat_ADC:SAR:cy_analog_virtualmux_4_connect\:cy_connect_v1_0
+	GENERIC MAP(sig_width=>1,
+		is_net_join=>'0')
+	PORT MAP(signal1=>\Seat_ADC:SAR:Net_257\,
+		signal2=>\Seat_ADC:SAR:Net_255\);
+\Seat_ADC:SAR:cy_analog_noconnect_1\:cy_analog_noconnect_v1_0
+	PORT MAP(noconnect=>\Seat_ADC:SAR:Net_255\);
+\Seat_ADC:SAR:noconnect_1\:cy_analog_noconnect_v1_0
+	PORT MAP(noconnect=>\Seat_ADC:SAR:Net_368\);
+\Seat_ADC:cy_analog_virtualmux_1_connect\:cy_connect_v1_0
+	GENERIC MAP(sig_width=>1,
+		is_net_join=>'0')
+	PORT MAP(signal1=>\Seat_ADC:Net_2803\,
+		signal2=>\Seat_ADC:V_diff0\);
+\Seat_ADC:bSAR_SEQ:ClkEn\:cy_psoc3_udb_clock_enable_v1_0
+	GENERIC MAP(sync_mode=>'1')
+	PORT MAP(clock_in=>\Seat_ADC:clock\,
+		enable=>\Seat_ADC:bSAR_SEQ:enable\,
+		clock_out=>\Seat_ADC:bSAR_SEQ:clk_fin\);
+\Seat_ADC:bSAR_SEQ:ClkCtrl\:cy_psoc3_udb_clock_enable_v1_0
+	GENERIC MAP(sync_mode=>'1')
+	PORT MAP(clock_in=>\Seat_ADC:clock\,
+		enable=>one,
+		clock_out=>\Seat_ADC:bSAR_SEQ:clk_ctrl\);
+\Seat_ADC:bSAR_SEQ:CtrlReg\:cy_psoc3_control
+	GENERIC MAP(cy_init_value=>"00000000",
+		cy_force_order=>'1',
+		cy_ctrl_mode_1=>"00000110",
+		cy_ctrl_mode_0=>"00000111",
+		cy_ext_reset=>'0')
+	PORT MAP(reset=>zero,
+		clock=>\Seat_ADC:bSAR_SEQ:clk_ctrl\,
+		control=>(\Seat_ADC:bSAR_SEQ:control_7\, \Seat_ADC:bSAR_SEQ:control_6\, \Seat_ADC:bSAR_SEQ:control_5\, \Seat_ADC:bSAR_SEQ:control_4\,
+			\Seat_ADC:bSAR_SEQ:control_3\, \Seat_ADC:bSAR_SEQ:sw_soc\, \Seat_ADC:bSAR_SEQ:load_period\, \Seat_ADC:bSAR_SEQ:enable\));
+\Seat_ADC:bSAR_SEQ:ChannelCounter\:cy_psoc3_count7
+	GENERIC MAP(cy_period=>"0000010",
+		cy_init_value=>"0000000",
+		cy_route_ld=>'1',
+		cy_route_en=>'1',
+		cy_alt_mode=>'0')
+	PORT MAP(clock=>\Seat_ADC:bSAR_SEQ:clk_fin\,
+		reset=>zero,
+		load=>\Seat_ADC:bSAR_SEQ:load_period\,
+		enable=>\Seat_ADC:bSAR_SEQ:cnt_enable\,
+		count=>(\Seat_ADC:bSAR_SEQ:count_6\, \Seat_ADC:bSAR_SEQ:count_5\, \Seat_ADC:ch_addr_4\, \Seat_ADC:ch_addr_3\,
+			\Seat_ADC:ch_addr_2\, \Seat_ADC:ch_addr_1\, \Seat_ADC:ch_addr_0\),
+		tc=>\Seat_ADC:bSAR_SEQ:cnt_tc\);
+\Seat_ADC:bSAR_SEQ:EOCSts\:cy_psoc3_status
+	GENERIC MAP(cy_force_order=>'1',
+		cy_md_select=>"00000001")
+	PORT MAP(reset=>zero,
+		clock=>\Seat_ADC:bSAR_SEQ:clk_fin\,
+		status=>(zero, zero, zero, zero,
+			zero, zero, zero, Net_256));
+\Seat_ADC:AMuxHw_1_CYAMUXSIDE_A\:cy_psoc3_amux_v1_0
+	GENERIC MAP(cy_registers=>"",
+		muxin_width=>32,
+		hw_control=>'1',
+		one_active=>'1',
+		init_mux_sel=>"00000000000000000000000000000000",
+		api_type=>2,
+		connect_mode=>1)
+	PORT MAP(muxin=>(Net_329, Net_326, Net_324, Net_321,
+			Net_319, Net_316, Net_314, Net_311,
+			Net_309, Net_306, Net_304, Net_301,
+			Net_299, Net_296, Net_294, Net_291,
+			Net_289, Net_286, Net_284, Net_281,
+			Net_279, Net_276, Net_274, Net_271,
+			Net_269, Net_266, Net_264, Net_261,
+			Net_259, Net_187, Net_190, Net_182),
+		hw_ctrl_en=>(\Seat_ADC:AMuxHw_1_Decoder_one_hot_31\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_30\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_29\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_28\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_27\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_26\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_25\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_24\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_23\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_22\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_21\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_20\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_19\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_18\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_17\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_16\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_15\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_14\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_13\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_12\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_11\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_10\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_9\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_8\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_7\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_6\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_5\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_4\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_3\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_2\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_1\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_0\),
+		vout=>\Seat_ADC:V_diff0\);
+\Seat_ADC:AMuxHw_1_CYAMUXSIDE_B\:cy_psoc3_amux_v1_0
+	GENERIC MAP(cy_registers=>"",
+		muxin_width=>32,
+		hw_control=>'1',
+		one_active=>'1',
+		init_mux_sel=>"00000000000000000000000000000000",
+		api_type=>2,
+		connect_mode=>1)
+	PORT MAP(muxin=>(Net_330, Net_327, Net_325, Net_322,
+			Net_320, Net_317, Net_315, Net_312,
+			Net_310, Net_307, Net_305, Net_302,
+			Net_300, Net_297, Net_295, Net_292,
+			Net_290, Net_287, Net_285, Net_282,
+			Net_280, Net_277, Net_275, Net_272,
+			Net_270, Net_267, Net_265, Net_262,
+			Net_260, Net_180, Net_189, Net_178),
+		hw_ctrl_en=>(\Seat_ADC:AMuxHw_1_Decoder_one_hot_31\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_30\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_29\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_28\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_27\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_26\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_25\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_24\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_23\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_22\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_21\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_20\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_19\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_18\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_17\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_16\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_15\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_14\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_13\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_12\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_11\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_10\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_9\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_8\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_7\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_6\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_5\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_4\,
+			\Seat_ADC:AMuxHw_1_Decoder_one_hot_3\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_2\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_1\, \Seat_ADC:AMuxHw_1_Decoder_one_hot_0\),
+		vout=>\Seat_ADC:V_diff1\);
+\Seat_ADC:IntClock\:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"032d4e88-2478-4728-96e9-9200faa8eb4a/9725d809-97e7-404e-b621-dfdbe78d0ca9",
+		source_clock_id=>"",
+		divisor=>0,
+		period=>"625006250.062501",
+		is_direct=>'0',
+		is_digital=>'1')
+	PORT MAP(clock_out=>\Seat_ADC:clock\,
+		dig_domain_out=>open);
+\Seat_ADC:TempBuf\:cy_dma_v1_0
+	GENERIC MAP(drq_type=>"00",
+		num_tds=>0)
+	PORT MAP(drq=>\Seat_ADC:Net_3830\,
+		trq=>zero,
+		nrq=>\Seat_ADC:Net_3698\);
+\Seat_ADC:FinalBuf\:cy_dma_v1_0
+	GENERIC MAP(drq_type=>"00",
+		num_tds=>0)
+	PORT MAP(drq=>\Seat_ADC:Net_3698\,
+		trq=>zero,
+		nrq=>\Seat_ADC:nrq\);
+\Seat_ADC:BusClock\:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"032d4e88-2478-4728-96e9-9200faa8eb4a/3d23b625-9a71-4c05-baf4-2f904356009b",
+		source_clock_id=>"75C2148C-3656-4d8a-846D-0CAE99AB6FF7",
+		divisor=>0,
+		period=>"0",
+		is_direct=>'1',
+		is_digital=>'1')
+	PORT MAP(clock_out=>\Seat_ADC:Net_3710\,
+		dig_domain_out=>open);
+\Seat_ADC:IRQ\:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10",
+		is_nmi=>'0')
+	PORT MAP(int_signal=>Net_256);
+\Seat_ADC:Sync:genblk1[0]:INST\:cy_psoc3_sync
+	PORT MAP(clock=>\Seat_ADC:Net_3710\,
+		sc_in=>\Seat_ADC:nrq\,
+		sc_out=>\Seat_ADC:Net_3935\);
+\Seat_ADC:MODULE_1:g1:a0:gx:u0:gne(0):c3:u1\:cy_buf
+	PORT MAP(x=>\Seat_ADC:MODULE_1:g1:a0:gx:u0:lt_2\,
+		y=>\Seat_ADC:MODULE_1:g1:a0:gx:u0:lti_0\);
+\Seat_ADC:MODULE_1:g1:a0:gx:u0:gne(0):c3:u2\:cy_buf
+	PORT MAP(x=>\Seat_ADC:MODULE_1:g1:a0:gx:u0:gt_2\,
+		y=>\Seat_ADC:MODULE_1:g1:a0:gx:u0:gti_0\);
+sAn:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"071d8ed8-4974-45ad-916b-2379ae6df023",
+		drive_mode=>"000",
+		ibuf_enabled=>"0",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"A",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"00000000",
+		sio_hyst=>"1",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1,
+		ovt_needed=>"0",
+		ovt_slew_control=>"00",
+		ovt_hyst_trim=>"0",
+		input_buffer_sel=>"00")
+	PORT MAP(oe=>(one),
+		y=>(zero),
+		fb=>(tmpFB_0__sAn_net_0),
+		analog=>Net_178,
+		io=>(tmpIO_0__sAn_net_0),
+		siovref=>(tmpSIOVREF__sAn_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>one,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>one,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__sAn_net_0);
+sAp:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"77715107-f8d5-47e5-a629-0fb83101ac6b",
+		drive_mode=>"000",
+		ibuf_enabled=>"0",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"A",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"00000000",
+		sio_hyst=>"1",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1,
+		ovt_needed=>"0",
+		ovt_slew_control=>"00",
+		ovt_hyst_trim=>"0",
+		input_buffer_sel=>"00")
+	PORT MAP(oe=>(one),
+		y=>(zero),
+		fb=>(tmpFB_0__sAp_net_0),
+		analog=>Net_182,
+		io=>(tmpIO_0__sAp_net_0),
+		siovref=>(tmpSIOVREF__sAp_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>one,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>one,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__sAp_net_0);
+sBp:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"ff13edf1-ab5d-430e-bc24-448016d38e57",
+		drive_mode=>"000",
+		ibuf_enabled=>"0",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"A",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"00000000",
+		sio_hyst=>"1",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1,
+		ovt_needed=>"0",
+		ovt_slew_control=>"00",
+		ovt_hyst_trim=>"0",
+		input_buffer_sel=>"00")
+	PORT MAP(oe=>(one),
+		y=>(zero),
+		fb=>(tmpFB_0__sBp_net_0),
+		analog=>Net_190,
+		io=>(tmpIO_0__sBp_net_0),
+		siovref=>(tmpSIOVREF__sBp_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>one,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>one,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__sBp_net_0);
+sBn:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"85bacf93-295b-47eb-9af1-e59cb0dca1fc",
+		drive_mode=>"000",
+		ibuf_enabled=>"0",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"A",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"00000000",
+		sio_hyst=>"1",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1,
+		ovt_needed=>"0",
+		ovt_slew_control=>"00",
+		ovt_hyst_trim=>"0",
+		input_buffer_sel=>"00")
+	PORT MAP(oe=>(one),
+		y=>(zero),
+		fb=>(tmpFB_0__sBn_net_0),
+		analog=>Net_189,
+		io=>(tmpIO_0__sBn_net_0),
+		siovref=>(tmpSIOVREF__sBn_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>one,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>one,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__sBn_net_0);
+sCp:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"93c95144-f6b5-43b6-8ecc-4cd2f9e79f17",
+		drive_mode=>"000",
+		ibuf_enabled=>"0",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"A",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"00000000",
+		sio_hyst=>"1",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1,
+		ovt_needed=>"0",
+		ovt_slew_control=>"00",
+		ovt_hyst_trim=>"0",
+		input_buffer_sel=>"00")
+	PORT MAP(oe=>(one),
+		y=>(zero),
+		fb=>(tmpFB_0__sCp_net_0),
+		analog=>Net_187,
+		io=>(tmpIO_0__sCp_net_0),
+		siovref=>(tmpSIOVREF__sCp_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>one,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>one,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__sCp_net_0);
+sCn:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"4ae84196-b90c-4320-a087-7f35b04826f5",
+		drive_mode=>"000",
+		ibuf_enabled=>"0",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"A",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"00000000",
+		sio_hyst=>"1",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1,
+		ovt_needed=>"0",
+		ovt_slew_control=>"00",
+		ovt_hyst_trim=>"0",
+		input_buffer_sel=>"00")
+	PORT MAP(oe=>(one),
+		y=>(zero),
+		fb=>(tmpFB_0__sCn_net_0),
+		analog=>Net_180,
+		io=>(tmpIO_0__sCn_net_0),
+		siovref=>(tmpSIOVREF__sCn_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>one,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>one,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__sCn_net_0);
+\USBUART:dp_int\:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10",
+		is_nmi=>'0')
+	PORT MAP(int_signal=>\USBUART:Net_1010\);
+\USBUART:Dm\:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"beca5e2d-f70f-4900-a4db-7eca1ed3126e/8b77a6c4-10a0-4390-971c-672353e2a49c",
+		drive_mode=>"000",
+		ibuf_enabled=>"0",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"NONCONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"A",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"00000000",
+		sio_hyst=>"1",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
+		slew_rate=>"0",
+		spanning=>'1',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1,
+		ovt_needed=>"0",
+		ovt_slew_control=>"00",
+		ovt_hyst_trim=>"0",
+		input_buffer_sel=>"00")
+	PORT MAP(oe=>(one),
+		y=>(zero),
+		fb=>(\USBUART:tmpFB_0__Dm_net_0\),
+		analog=>\USBUART:Net_597\,
+		io=>(\USBUART:tmpIO_0__Dm_net_0\),
+		siovref=>(\USBUART:tmpSIOVREF__Dm_net_0\),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>one,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>one,
+		out_reset=>zero,
+		interrupt=>\USBUART:tmpINTERRUPT_0__Dm_net_0\);
+\USBUART:Dp\:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"beca5e2d-f70f-4900-a4db-7eca1ed3126e/618a72fc-5ddd-4df5-958f-a3d55102db42",
+		drive_mode=>"000",
+		ibuf_enabled=>"0",
+		init_dr_st=>"1",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"10",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"I",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"00000000",
+		sio_hyst=>"1",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"00",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1,
+		ovt_needed=>"0",
+		ovt_slew_control=>"00",
+		ovt_hyst_trim=>"0",
+		input_buffer_sel=>"00")
+	PORT MAP(oe=>(one),
+		y=>(zero),
+		fb=>(\USBUART:tmpFB_0__Dp_net_0\),
+		analog=>\USBUART:Net_1000\,
+		io=>(\USBUART:tmpIO_0__Dp_net_0\),
+		siovref=>(\USBUART:tmpSIOVREF__Dp_net_0\),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>one,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>one,
+		out_reset=>zero,
+		interrupt=>\USBUART:Net_1010\);
+\USBUART:USB\:cy_psoc3_usb_v1_0
+	GENERIC MAP(cy_registers=>"")
+	PORT MAP(dp=>\USBUART:Net_1000\,
+		dm=>\USBUART:Net_597\,
+		sof_int=>Net_120,
+		arb_int=>\USBUART:Net_1889\,
+		usb_int=>\USBUART:Net_1876\,
+		ept_int=>(\USBUART:ep_int_8\, \USBUART:ep_int_7\, \USBUART:ep_int_6\, \USBUART:ep_int_5\,
+			\USBUART:ep_int_4\, \USBUART:ep_int_3\, \USBUART:ep_int_2\, \USBUART:ep_int_1\,
+			\USBUART:ep_int_0\),
+		ord_int=>\USBUART:Net_95\,
+		dma_req=>(\USBUART:dma_request_7\, \USBUART:dma_request_6\, \USBUART:dma_request_5\, \USBUART:dma_request_4\,
+			\USBUART:dma_request_3\, \USBUART:dma_request_2\, \USBUART:dma_request_1\, \USBUART:dma_request_0\),
+		dma_termin=>\USBUART:dma_terminate\);
+\USBUART:ep_3\:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10",
+		is_nmi=>'0')
+	PORT MAP(int_signal=>\USBUART:ep_int_3\);
+\USBUART:ep_2\:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10",
+		is_nmi=>'0')
+	PORT MAP(int_signal=>\USBUART:ep_int_2\);
+\USBUART:ep_1\:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10",
+		is_nmi=>'0')
+	PORT MAP(int_signal=>\USBUART:ep_int_1\);
+\USBUART:ep_0\:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10",
+		is_nmi=>'0')
+	PORT MAP(int_signal=>\USBUART:ep_int_0\);
+\USBUART:bus_reset\:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10",
+		is_nmi=>'0')
+	PORT MAP(int_signal=>\USBUART:Net_1876\);
+\USBUART:arb_int\:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10",
+		is_nmi=>'0')
+	PORT MAP(int_signal=>\USBUART:Net_1889\);
+\USBUART:sof_int\:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10",
+		is_nmi=>'0')
+	PORT MAP(int_signal=>Net_120);
+LED:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"e851a3b9-efb8-48be-bbb8-b303b216c393",
+		drive_mode=>"110",
+		ibuf_enabled=>"1",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"O",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"00000000",
+		sio_hyst=>"1",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1,
+		ovt_needed=>"0",
+		ovt_slew_control=>"00",
+		ovt_hyst_trim=>"0",
+		input_buffer_sel=>"00")
+	PORT MAP(oe=>(one),
+		y=>(zero),
+		fb=>(tmpFB_0__LED_net_0),
+		analog=>(open),
+		io=>(tmpIO_0__LED_net_0),
+		siovref=>(tmpSIOVREF__LED_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>one,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>one,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__LED_net_0);
+\Sample_Timer:TimerHW\:cy_psoc3_timer_v1_0
+	GENERIC MAP(cy_registers=>"")
+	PORT MAP(clock=>Net_202,
+		kill=>zero,
+		enable=>one,
+		capture=>zero,
+		timer_reset=>zero,
+		tc=>\Sample_Timer:Net_51\,
+		compare=>\Sample_Timer:Net_261\,
+		interrupt=>Net_196);
+Clock_3:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"97ea16c5-0381-42e2-a6ab-b8333ee384e3",
+		source_clock_id=>"CEF43CFB-0213-49b9-B980-2FFAB81C5B47",
+		divisor=>0,
+		period=>"1000000000000",
+		is_direct=>'0',
+		is_digital=>'1')
+	PORT MAP(clock_out=>Net_202,
+		dig_domain_out=>open);
+Sample_Interrupt:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10",
+		is_nmi=>'0')
+	PORT MAP(int_signal=>Net_196);
+SDA_1:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"22863ebe-a37b-476f-b252-6e49a8c00b12",
+		drive_mode=>"100",
+		ibuf_enabled=>"1",
+		init_dr_st=>"1",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"B",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"00000000",
+		sio_hyst=>"1",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"00",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1,
+		ovt_needed=>"0",
+		ovt_slew_control=>"00",
+		ovt_hyst_trim=>"0",
+		input_buffer_sel=>"00")
+	PORT MAP(oe=>(one),
+		y=>(zero),
+		fb=>(tmpFB_0__SDA_1_net_0),
+		analog=>(open),
+		io=>Net_225,
+		siovref=>(tmpSIOVREF__SDA_1_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>one,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>one,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__SDA_1_net_0);
+SCL_1:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"02f2cf2c-2c7a-49df-9246-7a3435c21be3",
+		drive_mode=>"100",
+		ibuf_enabled=>"1",
+		init_dr_st=>"1",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"B",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"00000000",
+		sio_hyst=>"1",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"00",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1,
+		ovt_needed=>"0",
+		ovt_slew_control=>"00",
+		ovt_hyst_trim=>"0",
+		input_buffer_sel=>"00")
+	PORT MAP(oe=>(one),
+		y=>(zero),
+		fb=>(tmpFB_0__SCL_1_net_0),
+		analog=>(open),
+		io=>Net_226,
+		siovref=>(tmpSIOVREF__SCL_1_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>one,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>one,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__SCL_1_net_0);
+\I2C:I2C_IRQ\:cy_isr_v1_0
+	GENERIC MAP(int_type=>"00",
+		is_nmi=>'0')
+	PORT MAP(int_signal=>\I2C:Net_697\);
+\I2C:I2C_FF\:cy_psoc3_i2c_v1_0
+	GENERIC MAP(cy_registers=>"",
+		use_wakeup=>'0')
+	PORT MAP(clock=>\I2C:bus_clk\,
+		scl_in=>\I2C:Net_1109_0\,
+		sda_in=>\I2C:Net_1109_1\,
+		scl_out=>\I2C:Net_643_0\,
+		sda_out=>\I2C:sda_x_wire\,
+		interrupt=>\I2C:Net_697\);
+\I2C:BusClock\:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"6f2d57bd-b6d0-4115-93da-ded3485bf4ed/5ece924d-20ba-480e-9102-bc082dcdd926",
+		source_clock_id=>"75C2148C-3656-4d8a-846D-0CAE99AB6FF7",
+		divisor=>0,
+		period=>"0",
+		is_direct=>'1',
+		is_digital=>'1')
+	PORT MAP(clock_out=>\I2C:bus_clk\,
+		dig_domain_out=>open);
+\I2C:Bufoe_scl\:cy_bufoe
+	PORT MAP(x=>\I2C:Net_643_0\,
+		oe=>one,
+		y=>Net_226,
+		yfb=>\I2C:Net_1109_0\);
+\I2C:Bufoe_sda\:cy_bufoe
+	PORT MAP(x=>\I2C:sda_x_wire\,
+		oe=>one,
+		y=>Net_225,
+		yfb=>\I2C:Net_1109_1\);
+isr_1:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10",
+		is_nmi=>'0')
+	PORT MAP(int_signal=>Net_388);
+BNO_Interupt:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"c59b282e-e1f3-4337-a9c1-a81927dad1c1",
+		drive_mode=>"001",
+		ibuf_enabled=>"1",
+		init_dr_st=>"0",
+		input_sync=>"0",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"I",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"00000000",
+		sio_hyst=>"1",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"00",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1,
+		ovt_needed=>"0",
+		ovt_slew_control=>"00",
+		ovt_hyst_trim=>"0",
+		input_buffer_sel=>"00")
+	PORT MAP(oe=>(one),
+		y=>(zero),
+		fb=>Net_388,
+		analog=>(open),
+		io=>(tmpIO_0__BNO_Interupt_net_0),
+		siovref=>(tmpSIOVREF__BNO_Interupt_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>one,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>one,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__BNO_Interupt_net_0);
+\Seat_ADC:bSAR_SEQ:nrq_edge_detect_reg\:cy_dff
+	PORT MAP(d=>\Seat_ADC:bSAR_SEQ:nrq_edge_detect\,
+		clk=>\Seat_ADC:bSAR_SEQ:clk_fin\,
+		q=>Net_256);
+\Seat_ADC:bSAR_SEQ:bus_clk_nrq_reg\:cy_dff
+	PORT MAP(d=>\Seat_ADC:bSAR_SEQ:bus_clk_nrq_reg\\D\,
+		clk=>\Seat_ADC:Net_3710\,
+		q=>\Seat_ADC:bSAR_SEQ:bus_clk_nrq_reg\);
+\Seat_ADC:bSAR_SEQ:nrq_reg\:cy_dff
+	PORT MAP(d=>\Seat_ADC:bSAR_SEQ:bus_clk_nrq_reg\,
+		clk=>\Seat_ADC:bSAR_SEQ:clk_fin\,
+		q=>\Seat_ADC:bSAR_SEQ:nrq_reg\);
+\Seat_ADC:bSAR_SEQ:state_0\:cy_dff
+	PORT MAP(d=>\Seat_ADC:bSAR_SEQ:state_0\\D\,
+		clk=>\Seat_ADC:bSAR_SEQ:clk_fin\,
+		q=>\Seat_ADC:soc_out\);
+\Seat_ADC:bSAR_SEQ:soc_reg\:cy_dff
+	PORT MAP(d=>zero,
+		clk=>\Seat_ADC:bSAR_SEQ:clk_fin\,
+		q=>\Seat_ADC:bSAR_SEQ:soc_reg\);
+\Seat_ADC:bSAR_SEQ:soc_edge_detect_reg\:cy_dff
+	PORT MAP(d=>zero,
+		clk=>\Seat_ADC:bSAR_SEQ:clk_fin\,
+		q=>\Seat_ADC:bSAR_SEQ:soc_edge_detect_reg\);
+\Seat_ADC:bSAR_SEQ:state_2\:cy_dff
+	PORT MAP(d=>zero,
+		clk=>\Seat_ADC:bSAR_SEQ:clk_fin\,
+		q=>\Seat_ADC:bSAR_SEQ:state_2\);
+\Seat_ADC:bSAR_SEQ:state_1\:cy_dff
+	PORT MAP(d=>\Seat_ADC:bSAR_SEQ:state_1\\D\,
+		clk=>\Seat_ADC:bSAR_SEQ:clk_fin\,
+		q=>\Seat_ADC:bSAR_SEQ:state_1\);
+\Seat_ADC:AMuxHw_1_Decoder_old_id_4\:cy_dff
+	PORT MAP(d=>\Seat_ADC:ch_addr_4\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_old_id_4\);
+\Seat_ADC:AMuxHw_1_Decoder_old_id_3\:cy_dff
+	PORT MAP(d=>\Seat_ADC:ch_addr_3\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_old_id_3\);
+\Seat_ADC:AMuxHw_1_Decoder_old_id_2\:cy_dff
+	PORT MAP(d=>\Seat_ADC:ch_addr_2\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_old_id_2\);
+\Seat_ADC:AMuxHw_1_Decoder_old_id_1\:cy_dff
+	PORT MAP(d=>\Seat_ADC:ch_addr_1\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_old_id_1\);
+\Seat_ADC:AMuxHw_1_Decoder_old_id_0\:cy_dff
+	PORT MAP(d=>\Seat_ADC:ch_addr_0\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_old_id_0\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_0\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_0\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_0\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_1\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_1\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_1\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_2\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_2\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_2\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_3\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_3\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_3\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_4\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_4\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_4\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_5\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_5\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_5\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_6\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_6\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_6\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_7\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_7\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_7\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_8\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_8\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_8\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_9\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_9\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_9\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_10\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_10\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_10\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_11\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_11\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_11\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_12\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_12\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_12\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_13\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_13\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_13\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_14\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_14\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_14\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_15\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_15\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_15\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_16\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_16\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_16\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_17\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_17\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_17\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_18\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_18\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_18\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_19\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_19\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_19\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_20\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_20\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_20\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_21\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_21\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_21\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_22\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_22\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_22\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_23\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_23\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_23\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_24\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_24\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_24\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_25\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_25\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_25\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_26\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_26\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_26\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_27\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_27\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_27\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_28\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_28\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_28\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_29\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_29\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_29\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_30\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_30\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_30\);
+\Seat_ADC:AMuxHw_1_Decoder_one_hot_31\:cy_dff
+	PORT MAP(d=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_31\\D\,
+		clk=>\Seat_ADC:clock\,
+		q=>\Seat_ADC:AMuxHw_1_Decoder_one_hot_31\);
+
+END R_T_L;

@@ -1,0 +1,3755 @@
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Seat_ADC_SAR.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.Seat_ADC_SAR_CalcGain,"ax",%progbits
+  20              		.align	2
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	Seat_ADC_SAR_CalcGain, %function
+  24              	Seat_ADC_SAR_CalcGain:
+  25              	.LFB12:
+  26              		.file 1 "Generated_Source\\PSoC5\\Seat_ADC_SAR.c"
+   1:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * File Name: Seat_ADC_SAR.c
+   3:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Version 3.10
+   4:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+   5:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Description:
+   6:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  This file provides the source code to the API for the Successive
+   7:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  approximation ADC Component.
+   8:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+   9:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Note:
+  10:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+  11:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  15:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+  18:Generated_Source\PSoC5/Seat_ADC_SAR.c **** #include "CyLib.h"
+  19:Generated_Source\PSoC5/Seat_ADC_SAR.c **** #include "Seat_ADC_SAR.h"
+  20:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+  21:Generated_Source\PSoC5/Seat_ADC_SAR.c **** #if(Seat_ADC_SAR_DEFAULT_INTERNAL_CLK)
+  22:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #include "Seat_ADC_SAR_theACLK.h"
+  23:Generated_Source\PSoC5/Seat_ADC_SAR.c **** #endif /* End Seat_ADC_SAR_DEFAULT_INTERNAL_CLK */
+  24:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+  25:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+  26:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /***************************************
+  27:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Forward function references
+  28:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ***************************************/
+  29:Generated_Source\PSoC5/Seat_ADC_SAR.c **** static void Seat_ADC_SAR_CalcGain(uint8 resolution);
+  30:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+  31:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 2
+
+
+  32:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /***************************************
+  33:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Global data allocation
+  34:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ***************************************/
+  35:Generated_Source\PSoC5/Seat_ADC_SAR.c **** uint8 Seat_ADC_SAR_initVar = 0u;
+  36:Generated_Source\PSoC5/Seat_ADC_SAR.c **** volatile int16 Seat_ADC_SAR_offset;
+  37:Generated_Source\PSoC5/Seat_ADC_SAR.c **** volatile int16 Seat_ADC_SAR_countsPerVolt;     /* Obsolete Gain compensation */
+  38:Generated_Source\PSoC5/Seat_ADC_SAR.c **** volatile int32 Seat_ADC_SAR_countsPer10Volt;   /* Gain compensation */
+  39:Generated_Source\PSoC5/Seat_ADC_SAR.c **** volatile int16 Seat_ADC_SAR_shift;
+  40:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+  41:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+  42:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+  43:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_Start
+  44:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+  45:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+  46:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+  47:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  This is the preferred method to begin component operation.
+  48:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_Start() sets the initVar variable, calls the
+  49:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_Init() function, and then calls the
+  50:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_Enable() function.
+  51:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+  52:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+  53:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+  54:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+  55:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+  56:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+  57:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+  58:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Global variables:
+  59:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  The Seat_ADC_SAR_initVar variable is used to indicate when/if initial
+  60:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  configuration of this component has happened. The variable is initialized to
+  61:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  zero and set to 1 the first time ADC_Start() is called. This allows for
+  62:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  component Re-Start without re-initialization in all subsequent calls to the
+  63:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_Start() routine.
+  64:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  If re-initialization of the component is required the variable should be set
+  65:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  to zero before call of Seat_ADC_SAR_Start() routine, or the user may call
+  66:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_Init() and Seat_ADC_SAR_Enable() as done in the
+  67:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_Start() routine.
+  68:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+  69:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Side Effect:
+  70:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  If the initVar variable is already set, this function only calls the
+  71:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_Enable() function.
+  72:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+  73:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+  74:Generated_Source\PSoC5/Seat_ADC_SAR.c **** void Seat_ADC_SAR_Start(void)
+  75:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+  76:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+  77:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* If not Initialized then initialize all required hardware and software */
+  78:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     if(Seat_ADC_SAR_initVar == 0u)
+  79:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {
+  80:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_Init();
+  81:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_initVar = 1u;
+  82:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+  83:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_Enable();
+  84:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+  85:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+  86:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+  87:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+  88:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_Init
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 3
+
+
+  89:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+  90:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+  91:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+  92:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Initialize component's parameters to the parameters set by user in the
+  93:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  customizer of the component placed onto schematic. Usually called in
+  94:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_Start().
+  95:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+  96:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+  97:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+  98:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+  99:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 100:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+ 101:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 102:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Global variables:
+ 103:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  The Seat_ADC_SAR_offset variable is initialized to 0.
+ 104:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 105:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 106:Generated_Source\PSoC5/Seat_ADC_SAR.c **** void Seat_ADC_SAR_Init(void)
+ 107:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 108:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 109:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* This is only valid if there is an internal clock */
+ 110:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #if(Seat_ADC_SAR_DEFAULT_INTERNAL_CLK)
+ 111:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_theACLK_SetMode(CYCLK_DUTY);
+ 112:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* End Seat_ADC_SAR_DEFAULT_INTERNAL_CLK */
+ 113:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 114:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #if(Seat_ADC_SAR_IRQ_REMOVE == 0u)
+ 115:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         /* Start and set interrupt vector */
+ 116:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         CyIntSetPriority(Seat_ADC_SAR_INTC_NUMBER, Seat_ADC_SAR_INTC_PRIOR_NUMBER);
+ 117:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         (void)CyIntSetVector(Seat_ADC_SAR_INTC_NUMBER, &Seat_ADC_SAR_ISR);
+ 118:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif   /* End Seat_ADC_SAR_IRQ_REMOVE */
+ 119:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 120:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Enable IRQ mode*/
+ 121:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_SAR_CSR1_REG |= Seat_ADC_SAR_SAR_IRQ_MASK_EN | Seat_ADC_SAR_SAR_IRQ_MODE_EDGE;
+ 122:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 123:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /*Set SAR ADC resolution ADC */
+ 124:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_SetResolution(Seat_ADC_SAR_DEFAULT_RESOLUTION);
+ 125:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_offset = 0;
+ 126:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 127:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 128:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 129:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 130:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_Enable
+ 131:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 132:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 133:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 134:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Enables the reference, clock and power for SAR ADC.
+ 135:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 136:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 137:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+ 138:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 139:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 140:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+ 141:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 142:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 143:Generated_Source\PSoC5/Seat_ADC_SAR.c **** void Seat_ADC_SAR_Enable(void)
+ 144:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 145:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uint8 tmpReg;
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 4
+
+
+ 146:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uint8 enableInterrupts;
+ 147:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     enableInterrupts = CyEnterCriticalSection();
+ 148:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 149:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Enable the SAR ADC block in Active Power Mode */
+ 150:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_PWRMGR_SAR_REG |= Seat_ADC_SAR_ACT_PWR_SAR_EN;
+ 151:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 152:Generated_Source\PSoC5/Seat_ADC_SAR.c ****      /* Enable the SAR ADC in Standby Power Mode*/
+ 153:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_STBY_PWRMGR_SAR_REG |= Seat_ADC_SAR_STBY_PWR_SAR_EN;
+ 154:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 155:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* This is only valid if there is an internal clock */
+ 156:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #if(Seat_ADC_SAR_DEFAULT_INTERNAL_CLK)
+ 157:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_PWRMGR_CLK_REG |= Seat_ADC_SAR_ACT_PWR_CLK_EN;
+ 158:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_STBY_PWRMGR_CLK_REG |= Seat_ADC_SAR_STBY_PWR_CLK_EN;
+ 159:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* End Seat_ADC_SAR_DEFAULT_INTERNAL_CLK */
+ 160:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 161:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Enable VCM buffer and Enable Int Ref Amp */
+ 162:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     tmpReg = Seat_ADC_SAR_SAR_CSR3_REG;
+ 163:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     tmpReg |= Seat_ADC_SAR_SAR_EN_BUF_VCM_EN;
+ 164:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* PD_BUF_VREF is OFF in External reference or Vdda reference mode */
+ 165:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #if((Seat_ADC_SAR_DEFAULT_REFERENCE == Seat_ADC_SAR__EXT_REF) || \
+ 166:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VNEG_VDDA_DIFF))
+ 167:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         tmpReg &= (uint8)~Seat_ADC_SAR_SAR_EN_BUF_VREF_EN;
+ 168:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #else /* In INTREF or INTREF Bypassed this buffer is ON */
+ 169:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         tmpReg |= Seat_ADC_SAR_SAR_EN_BUF_VREF_EN;
+ 170:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* Seat_ADC_SAR_DEFAULT_REFERENCE == Seat_ADC_SAR__EXT_REF */
+ 171:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_SAR_CSR3_REG = tmpReg;
+ 172:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 173:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Set reference for ADC */
+ 174:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #if(Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VNEG_VDDA_DIFF)
+ 175:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #if(Seat_ADC_SAR_DEFAULT_REFERENCE == Seat_ADC_SAR__EXT_REF)
+ 176:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             Seat_ADC_SAR_SAR_CSR6_REG = Seat_ADC_SAR_INT_BYPASS_EXT_VREF; /* S2 */
+ 177:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #else /* Internal Vdda reference or obsolete bypass mode */
+ 178:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             Seat_ADC_SAR_SAR_CSR6_REG = Seat_ADC_SAR_VDDA_VREF;           /* S7 */
+ 179:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #endif /* Seat_ADC_SAR_DEFAULT_REFERENCE == Seat_ADC_SAR__EXT_REF */
+ 180:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #else  /* Reference goes through internal buffer */
+ 181:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #if(Seat_ADC_SAR_DEFAULT_REFERENCE == Seat_ADC_SAR__INT_REF_NOT_BYPASSED)
+ 182:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             Seat_ADC_SAR_SAR_CSR6_REG = Seat_ADC_SAR_INT_VREF;            /* S3 + S4 */
+ 183:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #else /* INTREF Bypassed of External */
+ 184:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             Seat_ADC_SAR_SAR_CSR6_REG = Seat_ADC_SAR_INT_BYPASS_EXT_VREF; /* S2 */
+ 185:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #endif /* Seat_ADC_SAR_DEFAULT_REFERENCE == Seat_ADC_SAR__INT_REF_NOT_BYPASSED */
+ 186:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* VNEG_VDDA_DIFF */
+ 187:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 188:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Low non-overlap delay for sampling clock signals (for 1MSPS) */
+ 189:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #if(Seat_ADC_SAR_HIGH_POWER_PULSE == 0u) /* MinPulseWidth <= 50 ns */
+ 190:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_SAR_CSR5_REG &= (uint8)~Seat_ADC_SAR_SAR_DLY_INC;
+ 191:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #else /* Set High non-overlap delay for sampling clock signals (for <500KSPS)*/
+ 192:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_SAR_CSR5_REG |= Seat_ADC_SAR_SAR_DLY_INC;
+ 193:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* Seat_ADC_SAR_HIGH_POWER_PULSE == 0u */
+ 194:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 195:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Increase comparator latch enable delay by 20%, 
+ 196:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  Increase comparator bias current by 30% without impacting delaysDelay 
+ 197:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  Default for 1MSPS) 
+ 198:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     */
+ 199:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #if(Seat_ADC_SAR_HIGH_POWER_PULSE == 0u)    /* MinPulseWidth <= 50 ns */
+ 200:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_SAR_CSR5_REG |= Seat_ADC_SAR_SAR_SEL_CSEL_DFT_CHAR;
+ 201:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #else /* for <500ksps */
+ 202:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_SAR_CSR5_REG &= (uint8)~Seat_ADC_SAR_SAR_SEL_CSEL_DFT_CHAR;
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 5
+
+
+ 203:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* Seat_ADC_SAR_HIGH_POWER_PULSE == 0u */
+ 204:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 205:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Set default power and other configurations for control register 0 in multiple lines */
+ 206:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_SAR_CSR0_REG = (uint8)((uint8)Seat_ADC_SAR_DEFAULT_POWER << Seat_ADC_SAR_SAR_POWER
+ 207:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* SAR_HIZ_CLEAR:   Should not be used for LP */
+ 208:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #if ((CY_PSOC5LP) || (Seat_ADC_SAR_DEFAULT_REFERENCE != Seat_ADC_SAR__EXT_REF))
+ 209:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         | Seat_ADC_SAR_SAR_HIZ_CLEAR
+ 210:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* SAR_HIZ_CLEAR */
+ 211:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /*Set Convertion mode */
+ 212:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #if(Seat_ADC_SAR_DEFAULT_CONV_MODE != Seat_ADC_SAR__FREE_RUNNING)      /* If triggered mode */
+ 213:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         | Seat_ADC_SAR_SAR_MX_SOF_UDB           /* source: UDB */
+ 214:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         | Seat_ADC_SAR_SAR_SOF_MODE_EDGE        /* Set edge-sensitive sof source */
+ 215:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* Seat_ADC_SAR_DEFAULT_CONV_MODE */
+ 216:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     ; /* end of multiple line initialization */
+ 217:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 218:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_SAR_TR0_REG = Seat_ADC_SAR_SAR_CAP_TRIM_2;
+ 219:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 220:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Enable clock for SAR ADC*/
+ 221:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_SAR_CLK_REG |= Seat_ADC_SAR_SAR_MX_CLK_EN;
+ 222:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 223:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     CyDelayUs(10u); /* The block is ready to use 10 us after the enable signal is set high. */
+ 224:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 225:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #if(Seat_ADC_SAR_IRQ_REMOVE == 0u)
+ 226:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         /* Clear a pending interrupt */
+ 227:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         CyIntClearPending(Seat_ADC_SAR_INTC_NUMBER);
+ 228:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif   /* End Seat_ADC_SAR_IRQ_REMOVE */
+ 229:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 230:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     CyExitCriticalSection(enableInterrupts);
+ 231:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 232:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 233:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 234:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 235:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_Stop
+ 236:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 237:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 238:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 239:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Stops ADC conversions and puts the ADC into its lowest power mode.
+ 240:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 241:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 242:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+ 243:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 244:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 245:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+ 246:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 247:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 248:Generated_Source\PSoC5/Seat_ADC_SAR.c **** void Seat_ADC_SAR_Stop(void)
+ 249:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 250:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uint8 enableInterrupts;
+ 251:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     enableInterrupts = CyEnterCriticalSection();
+ 252:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 253:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Stop all conversions */
+ 254:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_SAR_CSR0_REG &= (uint8)~Seat_ADC_SAR_SAR_SOF_START_CONV;
+ 255:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Disable the SAR ADC block in Active Power Mode */
+ 256:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_PWRMGR_SAR_REG &= (uint8)~Seat_ADC_SAR_ACT_PWR_SAR_EN;
+ 257:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Disable the SAR ADC in Standby Power Mode */
+ 258:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_STBY_PWRMGR_SAR_REG &= (uint8)~Seat_ADC_SAR_STBY_PWR_SAR_EN;
+ 259:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 6
+
+
+ 260:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* This is only valid if there is an internal clock */
+ 261:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #if(Seat_ADC_SAR_DEFAULT_INTERNAL_CLK)
+ 262:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_PWRMGR_CLK_REG &= (uint8)~Seat_ADC_SAR_ACT_PWR_CLK_EN;
+ 263:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_STBY_PWRMGR_CLK_REG &= (uint8)~Seat_ADC_SAR_STBY_PWR_CLK_EN;
+ 264:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* End Seat_ADC_SAR_DEFAULT_INTERNAL_CLK */
+ 265:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 266:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     CyExitCriticalSection(enableInterrupts);
+ 267:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 268:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 269:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 270:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 271:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 272:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_SetPower
+ 273:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 274:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 275:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 276:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Sets the operational power of the ADC. You should use the higher power
+ 277:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  settings with faster clock speeds.
+ 278:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 279:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 280:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  power:  Power setting for ADC
+ 281:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  0 ->    Normal
+ 282:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  1 ->    Medium power
+ 283:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  2 ->    1.25 power
+ 284:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  3 ->    Minimum power.
+ 285:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 286:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 287:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+ 288:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 289:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 290:Generated_Source\PSoC5/Seat_ADC_SAR.c **** void Seat_ADC_SAR_SetPower(uint8 power)
+ 291:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 292:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uint8 tmpReg;
+ 293:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 294:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* mask off invalid power settings */
+ 295:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     power &= Seat_ADC_SAR_SAR_API_POWER_MASK;
+ 296:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 297:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Set Power parameter  */
+ 298:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     tmpReg = Seat_ADC_SAR_SAR_CSR0_REG & (uint8)~Seat_ADC_SAR_SAR_POWER_MASK;
+ 299:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     tmpReg |= (uint8)(power << Seat_ADC_SAR_SAR_POWER_SHIFT);
+ 300:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_SAR_CSR0_REG = tmpReg;
+ 301:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 302:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 303:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 304:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 305:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_SetResolution
+ 306:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 307:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 308:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 309:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Sets the Relution of the SAR.
+ 310:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 311:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 312:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  resolution:
+ 313:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  12 ->    RES12
+ 314:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  10 ->    RES10
+ 315:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  8  ->    RES8
+ 316:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 7
+
+
+ 317:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 318:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+ 319:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 320:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Side Effects:
+ 321:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  The ADC resolution cannot be changed during a conversion cycle. The
+ 322:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  recommended best practice is to stop conversions with
+ 323:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  ADC_StopConvert(), change the resolution, then restart the
+ 324:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  conversions with ADC_StartConvert().
+ 325:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  If you decide not to stop conversions before calling this API, you
+ 326:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  should use ADC_IsEndConversion() to wait until conversion is complete
+ 327:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  before changing the resolution.
+ 328:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  If you call ADC_SetResolution() during a conversion, the resolution will
+ 329:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  not be changed until the current conversion is complete. Data will not be
+ 330:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  available in the new resolution for another 6 + "New Resolution(in bits)"
+ 331:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  clock cycles.
+ 332:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  You may need add a delay of this number of clock cycles after
+ 333:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  ADC_SetResolution() is called before data is valid again.
+ 334:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Affects ADC_CountsTo_Volts(), ADC_CountsTo_mVolts(), and
+ 335:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  ADC_CountsTo_uVolts() by calculating the correct conversion between ADC
+ 336:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  counts and the applied input voltage. Calculation depends on resolution,
+ 337:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  input range, and voltage reference.
+ 338:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 339:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 340:Generated_Source\PSoC5/Seat_ADC_SAR.c **** void Seat_ADC_SAR_SetResolution(uint8 resolution)
+ 341:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 342:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uint8 tmpReg;
+ 343:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 344:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Set SAR ADC resolution and sample width: 18 conversion cycles at 12bits + 1 gap */
+ 345:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     switch (resolution)
+ 346:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {
+ 347:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         case (uint8)Seat_ADC_SAR__BITS_12:
+ 348:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             tmpReg = Seat_ADC_SAR_SAR_RESOLUTION_12BIT | Seat_ADC_SAR_SAR_SAMPLE_WIDTH;
+ 349:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             break;
+ 350:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         case (uint8)Seat_ADC_SAR__BITS_10:
+ 351:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             tmpReg = Seat_ADC_SAR_SAR_RESOLUTION_10BIT | Seat_ADC_SAR_SAR_SAMPLE_WIDTH;
+ 352:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             break;
+ 353:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         case (uint8)Seat_ADC_SAR__BITS_8:
+ 354:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             tmpReg = Seat_ADC_SAR_SAR_RESOLUTION_8BIT | Seat_ADC_SAR_SAR_SAMPLE_WIDTH;
+ 355:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             break;
+ 356:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         default:
+ 357:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             tmpReg = Seat_ADC_SAR_SAR_RESOLUTION_12BIT | Seat_ADC_SAR_SAR_SAMPLE_WIDTH;
+ 358:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             /* Halt CPU in debug mode if resolution is out of valid range */
+ 359:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             CYASSERT(0u != 0u);
+ 360:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             break;
+ 361:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 362:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_SAR_CSR2_REG = tmpReg;
+ 363:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 364:Generated_Source\PSoC5/Seat_ADC_SAR.c ****      /* Calculate gain for convert counts to volts */
+ 365:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_CalcGain(resolution);
+ 366:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 367:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 368:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 369:Generated_Source\PSoC5/Seat_ADC_SAR.c **** #if(Seat_ADC_SAR_DEFAULT_CONV_MODE != Seat_ADC_SAR__HARDWARE_TRIGGER)
+ 370:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 371:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 372:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /*******************************************************************************
+ 373:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     * Function Name: Seat_ADC_SAR_StartConvert
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 8
+
+
+ 374:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     ********************************************************************************
+ 375:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *
+ 376:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     * Summary:
+ 377:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  Forces the ADC to initiate a conversion. In free-running mode, the ADC runs
+ 378:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  continuously. In software trigger mode, the function also acts as a software
+ 379:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  version of the SOC and every conversion must be triggered by
+ 380:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  Seat_ADC_SAR_StartConvert(). This function is not available when the
+ 381:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  Hardware Trigger sample mode is selected.
+ 382:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *
+ 383:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     * Parameters:
+ 384:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  None.
+ 385:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *
+ 386:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     * Return:
+ 387:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  None.
+ 388:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *
+ 389:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     * Theory:
+ 390:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  Forces the ADC to initiate a conversion. In Free Running mode, the ADC will
+ 391:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  run continuously. In a software trigger mode the function also acts as a
+ 392:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  software version of the SOC. Here every conversion has to be triggered by
+ 393:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  the routine. This writes into the SOC bit in SAR_CTRL reg.
+ 394:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *
+ 395:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     * Side Effects:
+ 396:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  In a software trigger mode the function switches source for SOF from the
+ 397:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  external pin to the internal SOF generation. Application should not call
+ 398:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  StartConvert if external source used for SOF.
+ 399:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *
+ 400:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *******************************************************************************/
+ 401:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     void Seat_ADC_SAR_StartConvert(void)
+ 402:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {
+ 403:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #if(Seat_ADC_SAR_DEFAULT_CONV_MODE != Seat_ADC_SAR__FREE_RUNNING)  /* If software triggered
+ 404:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             Seat_ADC_SAR_SAR_CSR0_REG &= (uint8)~Seat_ADC_SAR_SAR_MX_SOF_UDB;   /* source: SOF bit 
+ 405:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #endif /* End Seat_ADC_SAR_DEFAULT_CONV_MODE */
+ 406:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 407:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         /* Start the conversion */
+ 408:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_SAR_CSR0_REG |= Seat_ADC_SAR_SAR_SOF_START_CONV;
+ 409:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 410:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 411:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 412:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /*******************************************************************************
+ 413:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     * Function Name: Seat_ADC_SAR_StopConvert
+ 414:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     ********************************************************************************
+ 415:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *
+ 416:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     * Summary:
+ 417:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  Forces the ADC to stop conversions. If a conversion is currently executing,
+ 418:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  that conversion will complete, but no further conversions will occur. This
+ 419:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  function is not available when the Hardware Trigger sample mode is selected.
+ 420:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *
+ 421:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     * Parameters:
+ 422:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  None.
+ 423:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *
+ 424:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     * Return:
+ 425:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  None.
+ 426:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *
+ 427:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     * Theory:
+ 428:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  Stops ADC conversion in Free Running mode.
+ 429:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *
+ 430:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     * Side Effects:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 9
+
+
+ 431:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  In Software Trigger sample mode, this function sets a software version of the
+ 432:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  SOC to low level and switches the SOC source to hardware SOC input.
+ 433:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *
+ 434:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *******************************************************************************/
+ 435:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     void Seat_ADC_SAR_StopConvert(void)
+ 436:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {
+ 437:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         /* Stop all conversions */
+ 438:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_SAR_CSR0_REG &= (uint8)~Seat_ADC_SAR_SAR_SOF_START_CONV;
+ 439:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 440:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #if(Seat_ADC_SAR_DEFAULT_CONV_MODE != Seat_ADC_SAR__FREE_RUNNING)  /* If software triggered
+ 441:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             /* Return source to UDB for hardware SOF signal */
+ 442:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             Seat_ADC_SAR_SAR_CSR0_REG |= Seat_ADC_SAR_SAR_MX_SOF_UDB;    /* source: UDB */
+ 443:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #endif /* End Seat_ADC_SAR_DEFAULT_CONV_MODE */
+ 444:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 445:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 446:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 447:Generated_Source\PSoC5/Seat_ADC_SAR.c **** #endif /* End Seat_ADC_SAR_DEFAULT_CONV_MODE != Seat_ADC_SAR__HARDWARE_TRIGGER */
+ 448:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 449:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 450:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 451:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_IsEndConversion
+ 452:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 453:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 454:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 455:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Immediately returns the status of the conversion or does not return
+ 456:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  (blocking) until the conversion completes, depending on the retMode
+ 457:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  parameter.
+ 458:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 459:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 460:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  retMode:  Check conversion return mode.
+ 461:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *   Seat_ADC_SAR_RETURN_STATUS: Immediately returns the status. If the
+ 462:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *     value returned is zero, the conversion is not complete, and this function
+ 463:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *     should be retried until a nonzero result is returned.
+ 464:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *   Seat_ADC_SAR_WAIT_FOR_RESULT: Does not return a result until the ADC
+ 465:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *     conversion is complete.
+ 466:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 467:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 468:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  (uint8)  0 =>  The ADC is still calculating the last result.
+ 469:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *           1 =>  The last conversion is complete.
+ 470:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 471:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Side Effects:
+ 472:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  This function reads the end of conversion status, which is cleared on read.
+ 473:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 474:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 475:Generated_Source\PSoC5/Seat_ADC_SAR.c **** uint8 Seat_ADC_SAR_IsEndConversion(uint8 retMode)
+ 476:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 477:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uint8 status;
+ 478:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 479:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     do
+ 480:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {
+ 481:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         status = Seat_ADC_SAR_SAR_CSR1_REG & Seat_ADC_SAR_SAR_EOF_1;
+ 482:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     } while ((status != Seat_ADC_SAR_SAR_EOF_1) && (retMode == Seat_ADC_SAR_WAIT_FOR_RESULT));
+ 483:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* If convertion complete, wait until EOF bit released */
+ 484:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     if(status == Seat_ADC_SAR_SAR_EOF_1)
+ 485:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {
+ 486:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         /* wait one ADC clock to let the EOC status bit release */
+ 487:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         CyDelayUs(1u);
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 10
+
+
+ 488:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         /* Do the unconditional read operation of the CSR1 register to make sure the EOC bit has be
+ 489:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         CY_GET_REG8(Seat_ADC_SAR_SAR_CSR1_PTR);
+ 490:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 491:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 492:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     return(status);
+ 493:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 494:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 495:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 496:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 497:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_GetResult8
+ 498:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 499:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 500:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 501:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Returns the result of an 8-bit conversion. If the resolution is set greater
+ 502:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  than 8 bits, the function returns the LSB of the result.
+ 503:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_IsEndConversion() should be called to verify that the data
+ 504:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *   sample is ready.
+ 505:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 506:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 507:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+ 508:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 509:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 510:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  The LSB of the last ADC conversion.
+ 511:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 512:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Global Variables:
+ 513:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_shift - used to convert the ADC counts to the 2s
+ 514:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  compliment form.
+ 515:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 516:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Side Effects:
+ 517:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Converts the ADC counts to the 2s complement form.
+ 518:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 519:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 520:Generated_Source\PSoC5/Seat_ADC_SAR.c **** int8 Seat_ADC_SAR_GetResult8( void )
+ 521:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 522:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     return( (int8)Seat_ADC_SAR_SAR_WRK0_REG - (int8)Seat_ADC_SAR_shift);
+ 523:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 524:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 525:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 526:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 527:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_GetResult16
+ 528:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 529:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 530:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 531:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Returns a 16-bit result for a conversion with a result that has a resolution
+ 532:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  of 8 to 12 bits.
+ 533:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_IsEndConversion() should be called to verify that the data
+ 534:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *   sample is ready
+ 535:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 536:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 537:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+ 538:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 539:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 540:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  The 16-bit result of the last ADC conversion
+ 541:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 542:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Global Variables:
+ 543:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_shift - used to convert the ADC counts to the 2s
+ 544:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  compliment form.
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 11
+
+
+ 545:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 546:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Side Effects:
+ 547:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Converts the ADC counts to the 2s complement form.
+ 548:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 549:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 550:Generated_Source\PSoC5/Seat_ADC_SAR.c **** int16 Seat_ADC_SAR_GetResult16( void )
+ 551:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 552:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uint16 res;
+ 553:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 554:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     res = CY_GET_REG16(Seat_ADC_SAR_SAR_WRK_PTR);
+ 555:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 556:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     return( (int16)res - Seat_ADC_SAR_shift );
+ 557:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 558:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 559:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 560:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 561:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_SetOffset
+ 562:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 563:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 564:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 565:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Sets the ADC offset, which is used by Seat_ADC_SAR_CountsTo_Volts(),
+ 566:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_CountsTo_mVolts(), and Seat_ADC_SAR_CountsTo_uVolts()
+ 567:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  to subtract the offset from the given reading before calculating the voltage
+ 568:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  conversion.
+ 569:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 570:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 571:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  int16: This value is measured when the inputs are shorted or connected to
+ 572:Generated_Source\PSoC5/Seat_ADC_SAR.c ****    the same input voltage.
+ 573:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 574:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 575:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+ 576:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 577:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Global Variables:
+ 578:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  The Seat_ADC_SAR_offset variable modified. This variable is used for
+ 579:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  offset calibration purpose.
+ 580:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Affects the Seat_ADC_SAR_CountsTo_Volts,
+ 581:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_CountsTo_mVolts, Seat_ADC_SAR_CountsTo_uVolts functions
+ 582:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  by subtracting the given offset.
+ 583:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 584:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 585:Generated_Source\PSoC5/Seat_ADC_SAR.c **** void Seat_ADC_SAR_SetOffset(int16 offset)
+ 586:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 587:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_offset = offset;
+ 588:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 589:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 590:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 591:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 592:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_CalcGain
+ 593:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 594:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 595:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 596:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  This function calculates the ADC gain in counts per 10 volt.
+ 597:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 598:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 599:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  uint8: resolution
+ 600:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 601:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 12
+
+
+ 602:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+ 603:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 604:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Global Variables:
+ 605:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_shift variable initialized. This variable is used to
+ 606:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  convert the ADC counts to the 2s compliment form.
+ 607:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_countsPer10Volt variable initialized. This variable is used
+ 608:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  for gain calibration purpose.
+ 609:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 610:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 611:Generated_Source\PSoC5/Seat_ADC_SAR.c **** static void Seat_ADC_SAR_CalcGain( uint8 resolution )
+ 612:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+  27              		.loc 1 612 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+ 613:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     int32 counts;
+ 614:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #if(!((Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSS_TO_VREF) || \
+ 615:Generated_Source\PSoC5/Seat_ADC_SAR.c ****          (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSSA_TO_VDDA) || \
+ 616:Generated_Source\PSoC5/Seat_ADC_SAR.c ****          (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSSA_TO_VDAC)) )
+ 617:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         uint16 diff_zero;
+ 618:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* End Seat_ADC_SAR_DEFAULT_RANGE */
+ 619:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 620:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     switch (resolution)
+  36              		.loc 1 620 0
+  37 0002 0A28     		cmp	r0, #10
+  38 0004 13D0     		beq	.L7
+  39 0006 0C28     		cmp	r0, #12
+  40 0008 02D0     		beq	.L4
+  41 000a 0828     		cmp	r0, #8
+  42 000c 09D1     		bne	.L8
+  43 000e 04E0     		b	.L5
+  44              	.L4:
+ 621:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {
+ 622:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         case (uint8)Seat_ADC_SAR__BITS_12:
+ 623:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             counts = (int32)Seat_ADC_SAR_SAR_WRK_MAX_12BIT;
+ 624:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #if(!((Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSS_TO_VREF) || \
+ 625:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                  (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSSA_TO_VDDA) || \
+ 626:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                  (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSSA_TO_VDAC)) )
+ 627:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                 diff_zero = Seat_ADC_SAR_SAR_DIFF_SHIFT;
+  45              		.loc 1 627 0
+  46 0010 4FF40062 		mov	r2, #2048
+ 623:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #if(!((Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSS_TO_VREF) || \
+  47              		.loc 1 623 0
+  48 0014 4FF48051 		mov	r1, #4096
+  49 0018 0DE0     		b	.L3
+  50              	.L5:
+  51              	.LVL1:
+ 628:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #endif /* End Seat_ADC_SAR_DEFAULT_RANGE */
+ 629:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             break;
+ 630:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         case (uint8)Seat_ADC_SAR__BITS_10:
+ 631:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             counts = (int32)Seat_ADC_SAR_SAR_WRK_MAX_10BIT;
+ 632:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #if(!((Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSS_TO_VREF) || \
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 13
+
+
+ 633:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                  (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSSA_TO_VDDA) || \
+ 634:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                  (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSSA_TO_VDAC)) )
+ 635:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                 diff_zero = Seat_ADC_SAR_SAR_DIFF_SHIFT >> 2u;
+ 636:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #endif /* End Seat_ADC_SAR_DEFAULT_RANGE */
+ 637:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             break;
+ 638:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         case (uint8)Seat_ADC_SAR__BITS_8:
+ 639:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             counts = (int32)Seat_ADC_SAR_SAR_WRK_MAX_8BIT;
+ 640:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #if(!((Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSS_TO_VREF) || \
+ 641:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                  (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSSA_TO_VDDA) || \
+ 642:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                  (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSSA_TO_VDAC)) )
+ 643:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                 diff_zero = Seat_ADC_SAR_SAR_DIFF_SHIFT >> 4u;
+  52              		.loc 1 643 0
+  53 001a 8022     		movs	r2, #128
+ 639:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #if(!((Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSS_TO_VREF) || \
+  54              		.loc 1 639 0
+  55 001c 4FF48071 		mov	r1, #256
+ 644:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #endif /* End Seat_ADC_SAR_DEFAULT_RANGE */
+ 645:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             break;
+  56              		.loc 1 645 0
+  57 0020 09E0     		b	.L3
+  58              	.LVL2:
+  59              	.L8:
+ 646:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         default: /* Halt CPU in debug mode if resolution is out of valid range */
+ 647:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             counts = 0;
+ 648:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #if(!((Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSS_TO_VREF) || \
+ 649:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                  (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSSA_TO_VDDA) || \
+ 650:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                  (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSSA_TO_VDAC)) )
+ 651:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                 diff_zero = 0u;
+ 652:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #endif /* End Seat_ADC_SAR_DEFAULT_RANGE */
+ 653:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             CYASSERT(0u != 0u);
+  60              		.loc 1 653 0
+  61 0022 0020     		movs	r0, #0
+  62              	.LVL3:
+  63 0024 FFF7FEFF 		bl	CyHalt
+  64              	.LVL4:
+ 651:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #endif /* End Seat_ADC_SAR_DEFAULT_RANGE */
+  65              		.loc 1 651 0
+  66 0028 0022     		movs	r2, #0
+ 647:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #if(!((Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSS_TO_VREF) || \
+  67              		.loc 1 647 0
+  68 002a 1146     		mov	r1, r2
+  69 002c 03E0     		b	.L3
+  70              	.LVL5:
+  71              	.L7:
+ 635:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #endif /* End Seat_ADC_SAR_DEFAULT_RANGE */
+  72              		.loc 1 635 0
+  73 002e 4FF40072 		mov	r2, #512
+ 631:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             #if(!((Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSS_TO_VREF) || \
+  74              		.loc 1 631 0
+  75 0032 4FF48061 		mov	r1, #1024
+  76              	.LVL6:
+  77              	.L3:
+ 654:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             break;
+ 655:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 656:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_countsPerVolt = 0; /* Clear obsolete variable */
+  78              		.loc 1 656 0
+  79 0036 0020     		movs	r0, #0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 14
+
+
+  80 0038 084B     		ldr	r3, .L10
+  81 003a 1880     		strh	r0, [r3]	@ movhi
+ 657:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Calculate gain in counts per 10 volts with rounding */
+ 658:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_countsPer10Volt = (((counts * Seat_ADC_SAR_10MV_COUNTS) +
+  82              		.loc 1 658 0
+  83 003c 42F21073 		movw	r3, #10000
+  84 0040 03FB01F3 		mul	r3, r3, r1
+ 659:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                         Seat_ADC_SAR_DEFAULT_REF_VOLTAGE_MV) / (Seat_ADC_SAR_DEFAULT_REF_VOLTAGE_MV
+  85              		.loc 1 659 0
+  86 0044 13F58063 		adds	r3, r3, #1024
+  87 0048 01D5     		bpl	.L6
+  88 004a 03F2FF73 		addw	r3, r3, #2047
+  89              	.L6:
+  90 004e DB12     		asrs	r3, r3, #11
+ 658:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                         Seat_ADC_SAR_DEFAULT_REF_VOLTAGE_MV) / (Seat_ADC_SAR_DEFAULT_REF_VOLTAGE_MV
+  91              		.loc 1 658 0
+  92 0050 0349     		ldr	r1, .L10+4
+  93              	.LVL7:
+  94 0052 0B60     		str	r3, [r1]
+ 660:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 661:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #if( (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSS_TO_VREF) || \
+ 662:Generated_Source\PSoC5/Seat_ADC_SAR.c ****          (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSSA_TO_VDDA) || \
+ 663:Generated_Source\PSoC5/Seat_ADC_SAR.c ****          (Seat_ADC_SAR_DEFAULT_RANGE == Seat_ADC_SAR__VSSA_TO_VDAC) )
+ 664:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_shift = 0;
+ 665:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #else
+ 666:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_shift = diff_zero;
+  95              		.loc 1 666 0
+  96 0054 12B2     		sxth	r2, r2
+  97 0056 034B     		ldr	r3, .L10+8
+  98 0058 1A80     		strh	r2, [r3]	@ movhi
+  99 005a 08BD     		pop	{r3, pc}
+ 100              	.L11:
+ 101              		.align	2
+ 102              	.L10:
+ 103 005c 00000000 		.word	Seat_ADC_SAR_countsPerVolt
+ 104 0060 00000000 		.word	Seat_ADC_SAR_countsPer10Volt
+ 105 0064 00000000 		.word	Seat_ADC_SAR_shift
+ 106              		.cfi_endproc
+ 107              	.LFE12:
+ 108              		.size	Seat_ADC_SAR_CalcGain, .-Seat_ADC_SAR_CalcGain
+ 109              		.section	.text.Seat_ADC_SAR_Enable,"ax",%progbits
+ 110              		.align	2
+ 111              		.global	Seat_ADC_SAR_Enable
+ 112              		.thumb
+ 113              		.thumb_func
+ 114              		.type	Seat_ADC_SAR_Enable, %function
+ 115              	Seat_ADC_SAR_Enable:
+ 116              	.LFB2:
+ 144:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uint8 tmpReg;
+ 117              		.loc 1 144 0
+ 118              		.cfi_startproc
+ 119              		@ args = 0, pretend = 0, frame = 0
+ 120              		@ frame_needed = 0, uses_anonymous_args = 0
+ 121 0000 10B5     		push	{r4, lr}
+ 122              		.cfi_def_cfa_offset 8
+ 123              		.cfi_offset 4, -8
+ 124              		.cfi_offset 14, -4
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 15
+
+
+ 147:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 125              		.loc 1 147 0
+ 126 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 127              	.LVL8:
+ 128 0006 0446     		mov	r4, r0
+ 129              	.LVL9:
+ 150:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 130              		.loc 1 150 0
+ 131 0008 184A     		ldr	r2, .L14
+ 132 000a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 133 000c 43F00103 		orr	r3, r3, #1
+ 134 0010 1370     		strb	r3, [r2]
+ 153:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 135              		.loc 1 153 0
+ 136 0012 1032     		adds	r2, r2, #16
+ 137 0014 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 138 0016 43F00103 		orr	r3, r3, #1
+ 139 001a 1370     		strb	r3, [r2]
+ 162:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     tmpReg |= Seat_ADC_SAR_SAR_EN_BUF_VCM_EN;
+ 140              		.loc 1 162 0
+ 141 001c 02F5AA52 		add	r2, r2, #5440
+ 142 0020 0832     		adds	r2, r2, #8
+ 143 0022 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 144              	.LVL10:
+ 169:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* Seat_ADC_SAR_DEFAULT_REFERENCE == Seat_ADC_SAR__EXT_REF */
+ 145              		.loc 1 169 0
+ 146 0024 43F00303 		orr	r3, r3, #3
+ 147              	.LVL11:
+ 171:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 148              		.loc 1 171 0
+ 149 0028 1370     		strb	r3, [r2]
+ 182:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #else /* INTREF Bypassed of External */
+ 150              		.loc 1 182 0
+ 151 002a 1822     		movs	r2, #24
+ 152 002c 104B     		ldr	r3, .L14+4
+ 153              	.LVL12:
+ 154 002e 1A70     		strb	r2, [r3]
+ 155              	.LVL13:
+ 192:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* Seat_ADC_SAR_HIGH_POWER_PULSE == 0u */
+ 156              		.loc 1 192 0
+ 157 0030 013B     		subs	r3, r3, #1
+ 158 0032 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 159 0034 42F04002 		orr	r2, r2, #64
+ 160 0038 1A70     		strb	r2, [r3]
+ 202:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* Seat_ADC_SAR_HIGH_POWER_PULSE == 0u */
+ 161              		.loc 1 202 0
+ 162 003a 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 163 003c 02F0FC02 		and	r2, r2, #252
+ 164 0040 1A70     		strb	r2, [r3]
+ 206:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* SAR_HIZ_CLEAR:   Should not be used for LP */
+ 165              		.loc 1 206 0
+ 166 0042 CE22     		movs	r2, #206
+ 167 0044 053B     		subs	r3, r3, #5
+ 168 0046 1A70     		strb	r2, [r3]
+ 218:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 169              		.loc 1 218 0
+ 170 0048 0222     		movs	r2, #2
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 16
+
+
+ 171 004a A3F59753 		sub	r3, r3, #4832
+ 172 004e 0C3B     		subs	r3, r3, #12
+ 173 0050 1A70     		strb	r2, [r3]
+ 221:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 174              		.loc 1 221 0
+ 175 0052 084A     		ldr	r2, .L14+8
+ 176 0054 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 177 0056 43F00803 		orr	r3, r3, #8
+ 178 005a 1370     		strb	r3, [r2]
+ 223:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 179              		.loc 1 223 0
+ 180 005c 0A20     		movs	r0, #10
+ 181 005e FFF7FEFF 		bl	CyDelayUs
+ 182              	.LVL14:
+ 230:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 183              		.loc 1 230 0
+ 184 0062 2046     		mov	r0, r4
+ 185 0064 FFF7FEFF 		bl	CyExitCriticalSection
+ 186              	.LVL15:
+ 187 0068 10BD     		pop	{r4, pc}
+ 188              	.LVL16:
+ 189              	.L15:
+ 190 006a 00BF     		.align	2
+ 191              	.L14:
+ 192 006c AB430040 		.word	1073759147
+ 193 0070 06590040 		.word	1073764614
+ 194 0074 275B0040 		.word	1073765159
+ 195              		.cfi_endproc
+ 196              	.LFE2:
+ 197              		.size	Seat_ADC_SAR_Enable, .-Seat_ADC_SAR_Enable
+ 198              		.section	.text.Seat_ADC_SAR_Stop,"ax",%progbits
+ 199              		.align	2
+ 200              		.global	Seat_ADC_SAR_Stop
+ 201              		.thumb
+ 202              		.thumb_func
+ 203              		.type	Seat_ADC_SAR_Stop, %function
+ 204              	Seat_ADC_SAR_Stop:
+ 205              	.LFB3:
+ 249:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uint8 enableInterrupts;
+ 206              		.loc 1 249 0
+ 207              		.cfi_startproc
+ 208              		@ args = 0, pretend = 0, frame = 0
+ 209              		@ frame_needed = 0, uses_anonymous_args = 0
+ 210 0000 08B5     		push	{r3, lr}
+ 211              		.cfi_def_cfa_offset 8
+ 212              		.cfi_offset 3, -8
+ 213              		.cfi_offset 14, -4
+ 251:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 214              		.loc 1 251 0
+ 215 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 216              	.LVL17:
+ 254:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Disable the SAR ADC block in Active Power Mode */
+ 217              		.loc 1 254 0
+ 218 0006 0A4A     		ldr	r2, .L18
+ 219 0008 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 220 000a 03F0FE03 		and	r3, r3, #254
+ 221 000e 1370     		strb	r3, [r2]
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 17
+
+
+ 256:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Disable the SAR ADC in Standby Power Mode */
+ 222              		.loc 1 256 0
+ 223 0010 A2F5AA52 		sub	r2, r2, #5440
+ 224 0014 153A     		subs	r2, r2, #21
+ 225 0016 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 226 0018 03F0FE03 		and	r3, r3, #254
+ 227 001c 1370     		strb	r3, [r2]
+ 258:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 228              		.loc 1 258 0
+ 229 001e 1032     		adds	r2, r2, #16
+ 230 0020 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 231 0022 03F0FE03 		and	r3, r3, #254
+ 232 0026 1370     		strb	r3, [r2]
+ 266:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 233              		.loc 1 266 0
+ 234 0028 FFF7FEFF 		bl	CyExitCriticalSection
+ 235              	.LVL18:
+ 236 002c 08BD     		pop	{r3, pc}
+ 237              	.L19:
+ 238 002e 00BF     		.align	2
+ 239              	.L18:
+ 240 0030 00590040 		.word	1073764608
+ 241              		.cfi_endproc
+ 242              	.LFE3:
+ 243              		.size	Seat_ADC_SAR_Stop, .-Seat_ADC_SAR_Stop
+ 244              		.section	.text.Seat_ADC_SAR_SetPower,"ax",%progbits
+ 245              		.align	2
+ 246              		.global	Seat_ADC_SAR_SetPower
+ 247              		.thumb
+ 248              		.thumb_func
+ 249              		.type	Seat_ADC_SAR_SetPower, %function
+ 250              	Seat_ADC_SAR_SetPower:
+ 251              	.LFB4:
+ 291:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uint8 tmpReg;
+ 252              		.loc 1 291 0
+ 253              		.cfi_startproc
+ 254              		@ args = 0, pretend = 0, frame = 0
+ 255              		@ frame_needed = 0, uses_anonymous_args = 0
+ 256              		@ link register save eliminated.
+ 257              	.LVL19:
+ 298:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     tmpReg |= (uint8)(power << Seat_ADC_SAR_SAR_POWER_SHIFT);
+ 258              		.loc 1 298 0
+ 259 0000 044A     		ldr	r2, .L21
+ 260 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 261 0004 03F03F03 		and	r3, r3, #63
+ 262              	.LVL20:
+ 299:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_SAR_CSR0_REG = tmpReg;
+ 263              		.loc 1 299 0
+ 264 0008 43EA8010 		orr	r0, r3, r0, lsl #6
+ 265              	.LVL21:
+ 266 000c C0B2     		uxtb	r0, r0
+ 267              	.LVL22:
+ 300:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 268              		.loc 1 300 0
+ 269 000e 1070     		strb	r0, [r2]
+ 270 0010 7047     		bx	lr
+ 271              	.L22:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 18
+
+
+ 272 0012 00BF     		.align	2
+ 273              	.L21:
+ 274 0014 00590040 		.word	1073764608
+ 275              		.cfi_endproc
+ 276              	.LFE4:
+ 277              		.size	Seat_ADC_SAR_SetPower, .-Seat_ADC_SAR_SetPower
+ 278              		.section	.text.Seat_ADC_SAR_SetResolution,"ax",%progbits
+ 279              		.align	2
+ 280              		.global	Seat_ADC_SAR_SetResolution
+ 281              		.thumb
+ 282              		.thumb_func
+ 283              		.type	Seat_ADC_SAR_SetResolution, %function
+ 284              	Seat_ADC_SAR_SetResolution:
+ 285              	.LFB5:
+ 341:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uint8 tmpReg;
+ 286              		.loc 1 341 0
+ 287              		.cfi_startproc
+ 288              		@ args = 0, pretend = 0, frame = 0
+ 289              		@ frame_needed = 0, uses_anonymous_args = 0
+ 290              	.LVL23:
+ 291 0000 10B5     		push	{r4, lr}
+ 292              		.cfi_def_cfa_offset 8
+ 293              		.cfi_offset 4, -8
+ 294              		.cfi_offset 14, -4
+ 295 0002 0446     		mov	r4, r0
+ 345:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {
+ 296              		.loc 1 345 0
+ 297 0004 0A28     		cmp	r0, #10
+ 298 0006 0DD0     		beq	.L28
+ 299 0008 0C28     		cmp	r0, #12
+ 300 000a 02D0     		beq	.L26
+ 301 000c 0828     		cmp	r0, #8
+ 302 000e 04D1     		bne	.L29
+ 303 0010 01E0     		b	.L27
+ 304              	.L26:
+ 348:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             break;
+ 305              		.loc 1 348 0
+ 306 0012 C222     		movs	r2, #194
+ 307 0014 07E0     		b	.L25
+ 308              	.L27:
+ 309              	.LVL24:
+ 354:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             break;
+ 310              		.loc 1 354 0
+ 311 0016 4222     		movs	r2, #66
+ 355:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         default:
+ 312              		.loc 1 355 0
+ 313 0018 05E0     		b	.L25
+ 314              	.LVL25:
+ 315              	.L29:
+ 359:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             break;
+ 316              		.loc 1 359 0
+ 317 001a 0020     		movs	r0, #0
+ 318              	.LVL26:
+ 319 001c FFF7FEFF 		bl	CyHalt
+ 320              	.LVL27:
+ 357:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             /* Halt CPU in debug mode if resolution is out of valid range */
+ 321              		.loc 1 357 0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 19
+
+
+ 322 0020 C222     		movs	r2, #194
+ 323 0022 00E0     		b	.L25
+ 324              	.LVL28:
+ 325              	.L28:
+ 351:Generated_Source\PSoC5/Seat_ADC_SAR.c ****             break;
+ 326              		.loc 1 351 0
+ 327 0024 8222     		movs	r2, #130
+ 328              	.LVL29:
+ 329              	.L25:
+ 362:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 330              		.loc 1 362 0
+ 331 0026 034B     		ldr	r3, .L31
+ 332 0028 1A70     		strb	r2, [r3]
+ 365:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 333              		.loc 1 365 0
+ 334 002a 2046     		mov	r0, r4
+ 335 002c FFF7FEFF 		bl	Seat_ADC_SAR_CalcGain
+ 336              	.LVL30:
+ 337 0030 10BD     		pop	{r4, pc}
+ 338              	.L32:
+ 339 0032 00BF     		.align	2
+ 340              	.L31:
+ 341 0034 02590040 		.word	1073764610
+ 342              		.cfi_endproc
+ 343              	.LFE5:
+ 344              		.size	Seat_ADC_SAR_SetResolution, .-Seat_ADC_SAR_SetResolution
+ 345              		.section	.text.Seat_ADC_SAR_Init,"ax",%progbits
+ 346              		.align	2
+ 347              		.global	Seat_ADC_SAR_Init
+ 348              		.thumb
+ 349              		.thumb_func
+ 350              		.type	Seat_ADC_SAR_Init, %function
+ 351              	Seat_ADC_SAR_Init:
+ 352              	.LFB1:
+ 107:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 353              		.loc 1 107 0
+ 354              		.cfi_startproc
+ 355              		@ args = 0, pretend = 0, frame = 0
+ 356              		@ frame_needed = 0, uses_anonymous_args = 0
+ 357 0000 08B5     		push	{r3, lr}
+ 358              		.cfi_def_cfa_offset 8
+ 359              		.cfi_offset 3, -8
+ 360              		.cfi_offset 14, -4
+ 121:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 361              		.loc 1 121 0
+ 362 0002 064A     		ldr	r2, .L35
+ 363 0004 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 364 0006 43F00603 		orr	r3, r3, #6
+ 365 000a 1370     		strb	r3, [r2]
+ 124:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_offset = 0;
+ 366              		.loc 1 124 0
+ 367 000c 0C20     		movs	r0, #12
+ 368 000e FFF7FEFF 		bl	Seat_ADC_SAR_SetResolution
+ 369              	.LVL31:
+ 125:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 370              		.loc 1 125 0
+ 371 0012 0022     		movs	r2, #0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 20
+
+
+ 372 0014 024B     		ldr	r3, .L35+4
+ 373 0016 1A80     		strh	r2, [r3]	@ movhi
+ 374 0018 08BD     		pop	{r3, pc}
+ 375              	.L36:
+ 376 001a 00BF     		.align	2
+ 377              	.L35:
+ 378 001c 01590040 		.word	1073764609
+ 379 0020 00000000 		.word	Seat_ADC_SAR_offset
+ 380              		.cfi_endproc
+ 381              	.LFE1:
+ 382              		.size	Seat_ADC_SAR_Init, .-Seat_ADC_SAR_Init
+ 383              		.section	.text.Seat_ADC_SAR_Start,"ax",%progbits
+ 384              		.align	2
+ 385              		.global	Seat_ADC_SAR_Start
+ 386              		.thumb
+ 387              		.thumb_func
+ 388              		.type	Seat_ADC_SAR_Start, %function
+ 389              	Seat_ADC_SAR_Start:
+ 390              	.LFB0:
+  75:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 391              		.loc 1 75 0
+ 392              		.cfi_startproc
+ 393              		@ args = 0, pretend = 0, frame = 0
+ 394              		@ frame_needed = 0, uses_anonymous_args = 0
+ 395 0000 08B5     		push	{r3, lr}
+ 396              		.cfi_def_cfa_offset 8
+ 397              		.cfi_offset 3, -8
+ 398              		.cfi_offset 14, -4
+  78:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {
+ 399              		.loc 1 78 0
+ 400 0002 054B     		ldr	r3, .L40
+ 401 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 402 0006 23B9     		cbnz	r3, .L38
+  80:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         Seat_ADC_SAR_initVar = 1u;
+ 403              		.loc 1 80 0
+ 404 0008 FFF7FEFF 		bl	Seat_ADC_SAR_Init
+ 405              	.LVL32:
+  81:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 406              		.loc 1 81 0
+ 407 000c 0122     		movs	r2, #1
+ 408 000e 024B     		ldr	r3, .L40
+ 409 0010 1A70     		strb	r2, [r3]
+ 410              	.L38:
+  83:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 411              		.loc 1 83 0
+ 412 0012 FFF7FEFF 		bl	Seat_ADC_SAR_Enable
+ 413              	.LVL33:
+ 414 0016 08BD     		pop	{r3, pc}
+ 415              	.L41:
+ 416              		.align	2
+ 417              	.L40:
+ 418 0018 00000000 		.word	.LANCHOR0
+ 419              		.cfi_endproc
+ 420              	.LFE0:
+ 421              		.size	Seat_ADC_SAR_Start, .-Seat_ADC_SAR_Start
+ 422              		.section	.text.Seat_ADC_SAR_StartConvert,"ax",%progbits
+ 423              		.align	2
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 21
+
+
+ 424              		.global	Seat_ADC_SAR_StartConvert
+ 425              		.thumb
+ 426              		.thumb_func
+ 427              		.type	Seat_ADC_SAR_StartConvert, %function
+ 428              	Seat_ADC_SAR_StartConvert:
+ 429              	.LFB6:
+ 402:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #if(Seat_ADC_SAR_DEFAULT_CONV_MODE != Seat_ADC_SAR__FREE_RUNNING)  /* If software triggered
+ 430              		.loc 1 402 0
+ 431              		.cfi_startproc
+ 432              		@ args = 0, pretend = 0, frame = 0
+ 433              		@ frame_needed = 0, uses_anonymous_args = 0
+ 434              		@ link register save eliminated.
+ 404:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #endif /* End Seat_ADC_SAR_DEFAULT_CONV_MODE */
+ 435              		.loc 1 404 0
+ 436 0000 044B     		ldr	r3, .L43
+ 437 0002 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 438 0004 02F0FB02 		and	r2, r2, #251
+ 439 0008 1A70     		strb	r2, [r3]
+ 408:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 440              		.loc 1 408 0
+ 441 000a 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 442 000c 42F00102 		orr	r2, r2, #1
+ 443 0010 1A70     		strb	r2, [r3]
+ 444 0012 7047     		bx	lr
+ 445              	.L44:
+ 446              		.align	2
+ 447              	.L43:
+ 448 0014 00590040 		.word	1073764608
+ 449              		.cfi_endproc
+ 450              	.LFE6:
+ 451              		.size	Seat_ADC_SAR_StartConvert, .-Seat_ADC_SAR_StartConvert
+ 452              		.section	.text.Seat_ADC_SAR_StopConvert,"ax",%progbits
+ 453              		.align	2
+ 454              		.global	Seat_ADC_SAR_StopConvert
+ 455              		.thumb
+ 456              		.thumb_func
+ 457              		.type	Seat_ADC_SAR_StopConvert, %function
+ 458              	Seat_ADC_SAR_StopConvert:
+ 459              	.LFB7:
+ 436:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         /* Stop all conversions */
+ 460              		.loc 1 436 0
+ 461              		.cfi_startproc
+ 462              		@ args = 0, pretend = 0, frame = 0
+ 463              		@ frame_needed = 0, uses_anonymous_args = 0
+ 464              		@ link register save eliminated.
+ 438:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 465              		.loc 1 438 0
+ 466 0000 044B     		ldr	r3, .L46
+ 467 0002 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 468 0004 02F0FE02 		and	r2, r2, #254
+ 469 0008 1A70     		strb	r2, [r3]
+ 442:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         #endif /* End Seat_ADC_SAR_DEFAULT_CONV_MODE */
+ 470              		.loc 1 442 0
+ 471 000a 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 472 000c 42F00402 		orr	r2, r2, #4
+ 473 0010 1A70     		strb	r2, [r3]
+ 474 0012 7047     		bx	lr
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 22
+
+
+ 475              	.L47:
+ 476              		.align	2
+ 477              	.L46:
+ 478 0014 00590040 		.word	1073764608
+ 479              		.cfi_endproc
+ 480              	.LFE7:
+ 481              		.size	Seat_ADC_SAR_StopConvert, .-Seat_ADC_SAR_StopConvert
+ 482              		.section	.text.Seat_ADC_SAR_IsEndConversion,"ax",%progbits
+ 483              		.align	2
+ 484              		.global	Seat_ADC_SAR_IsEndConversion
+ 485              		.thumb
+ 486              		.thumb_func
+ 487              		.type	Seat_ADC_SAR_IsEndConversion, %function
+ 488              	Seat_ADC_SAR_IsEndConversion:
+ 489              	.LFB8:
+ 476:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uint8 status;
+ 490              		.loc 1 476 0
+ 491              		.cfi_startproc
+ 492              		@ args = 0, pretend = 0, frame = 0
+ 493              		@ frame_needed = 0, uses_anonymous_args = 0
+ 494              	.LVL34:
+ 495 0000 10B5     		push	{r4, lr}
+ 496              		.cfi_def_cfa_offset 8
+ 497              		.cfi_offset 4, -8
+ 498              		.cfi_offset 14, -4
+ 499              	.L50:
+ 481:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     } while ((status != Seat_ADC_SAR_SAR_EOF_1) && (retMode == Seat_ADC_SAR_WAIT_FOR_RESULT));
+ 500              		.loc 1 481 0 discriminator 2
+ 501 0002 074B     		ldr	r3, .L53
+ 502 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 503              	.LVL35:
+ 482:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* If convertion complete, wait until EOF bit released */
+ 504              		.loc 1 482 0 discriminator 2
+ 505 0006 13F00104 		ands	r4, r3, #1
+ 506 000a 01D1     		bne	.L49
+ 482:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* If convertion complete, wait until EOF bit released */
+ 507              		.loc 1 482 0 is_stmt 0 discriminator 1
+ 508 000c 0028     		cmp	r0, #0
+ 509 000e F8D0     		beq	.L50
+ 510              	.L49:
+ 484:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {
+ 511              		.loc 1 484 0 is_stmt 1
+ 512 0010 24B1     		cbz	r4, .L51
+ 487:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         /* Do the unconditional read operation of the CSR1 register to make sure the EOC bit has be
+ 513              		.loc 1 487 0
+ 514 0012 0120     		movs	r0, #1
+ 515              	.LVL36:
+ 516 0014 FFF7FEFF 		bl	CyDelayUs
+ 517              	.LVL37:
+ 489:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 518              		.loc 1 489 0
+ 519 0018 014B     		ldr	r3, .L53
+ 520 001a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 521              	.L51:
+ 493:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 522              		.loc 1 493 0
+ 523 001c 2046     		mov	r0, r4
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 23
+
+
+ 524 001e 10BD     		pop	{r4, pc}
+ 525              	.L54:
+ 526              		.align	2
+ 527              	.L53:
+ 528 0020 01590040 		.word	1073764609
+ 529              		.cfi_endproc
+ 530              	.LFE8:
+ 531              		.size	Seat_ADC_SAR_IsEndConversion, .-Seat_ADC_SAR_IsEndConversion
+ 532              		.section	.text.Seat_ADC_SAR_GetResult8,"ax",%progbits
+ 533              		.align	2
+ 534              		.global	Seat_ADC_SAR_GetResult8
+ 535              		.thumb
+ 536              		.thumb_func
+ 537              		.type	Seat_ADC_SAR_GetResult8, %function
+ 538              	Seat_ADC_SAR_GetResult8:
+ 539              	.LFB9:
+ 521:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     return( (int8)Seat_ADC_SAR_SAR_WRK0_REG - (int8)Seat_ADC_SAR_shift);
+ 540              		.loc 1 521 0
+ 541              		.cfi_startproc
+ 542              		@ args = 0, pretend = 0, frame = 0
+ 543              		@ frame_needed = 0, uses_anonymous_args = 0
+ 544              		@ link register save eliminated.
+ 522:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 545              		.loc 1 522 0
+ 546 0000 034B     		ldr	r3, .L56
+ 547 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 548 0004 034A     		ldr	r2, .L56+4
+ 549 0006 1088     		ldrh	r0, [r2]
+ 550 0008 00B2     		sxth	r0, r0
+ 551 000a 181A     		subs	r0, r3, r0
+ 523:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 552              		.loc 1 523 0
+ 553 000c 40B2     		sxtb	r0, r0
+ 554 000e 7047     		bx	lr
+ 555              	.L57:
+ 556              		.align	2
+ 557              	.L56:
+ 558 0010 A05B0040 		.word	1073765280
+ 559 0014 00000000 		.word	Seat_ADC_SAR_shift
+ 560              		.cfi_endproc
+ 561              	.LFE9:
+ 562              		.size	Seat_ADC_SAR_GetResult8, .-Seat_ADC_SAR_GetResult8
+ 563              		.section	.text.Seat_ADC_SAR_GetResult16,"ax",%progbits
+ 564              		.align	2
+ 565              		.global	Seat_ADC_SAR_GetResult16
+ 566              		.thumb
+ 567              		.thumb_func
+ 568              		.type	Seat_ADC_SAR_GetResult16, %function
+ 569              	Seat_ADC_SAR_GetResult16:
+ 570              	.LFB10:
+ 551:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uint16 res;
+ 571              		.loc 1 551 0
+ 572              		.cfi_startproc
+ 573              		@ args = 0, pretend = 0, frame = 0
+ 574              		@ frame_needed = 0, uses_anonymous_args = 0
+ 575              		@ link register save eliminated.
+ 554:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 24
+
+
+ 576              		.loc 1 554 0
+ 577 0000 034B     		ldr	r3, .L59
+ 578 0002 1888     		ldrh	r0, [r3]
+ 579 0004 80B2     		uxth	r0, r0
+ 580              	.LVL38:
+ 556:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 581              		.loc 1 556 0
+ 582 0006 034B     		ldr	r3, .L59+4
+ 583 0008 1B88     		ldrh	r3, [r3]
+ 584 000a C01A     		subs	r0, r0, r3
+ 585              	.LVL39:
+ 557:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 586              		.loc 1 557 0
+ 587 000c 00B2     		sxth	r0, r0
+ 588 000e 7047     		bx	lr
+ 589              	.L60:
+ 590              		.align	2
+ 591              	.L59:
+ 592 0010 A05B0040 		.word	1073765280
+ 593 0014 00000000 		.word	Seat_ADC_SAR_shift
+ 594              		.cfi_endproc
+ 595              	.LFE10:
+ 596              		.size	Seat_ADC_SAR_GetResult16, .-Seat_ADC_SAR_GetResult16
+ 597              		.section	.text.Seat_ADC_SAR_SetOffset,"ax",%progbits
+ 598              		.align	2
+ 599              		.global	Seat_ADC_SAR_SetOffset
+ 600              		.thumb
+ 601              		.thumb_func
+ 602              		.type	Seat_ADC_SAR_SetOffset, %function
+ 603              	Seat_ADC_SAR_SetOffset:
+ 604              	.LFB11:
+ 586:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_offset = offset;
+ 605              		.loc 1 586 0
+ 606              		.cfi_startproc
+ 607              		@ args = 0, pretend = 0, frame = 0
+ 608              		@ frame_needed = 0, uses_anonymous_args = 0
+ 609              		@ link register save eliminated.
+ 610              	.LVL40:
+ 587:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 611              		.loc 1 587 0
+ 612 0000 014B     		ldr	r3, .L62
+ 613 0002 1880     		strh	r0, [r3]	@ movhi
+ 614 0004 7047     		bx	lr
+ 615              	.L63:
+ 616 0006 00BF     		.align	2
+ 617              	.L62:
+ 618 0008 00000000 		.word	Seat_ADC_SAR_offset
+ 619              		.cfi_endproc
+ 620              	.LFE11:
+ 621              		.size	Seat_ADC_SAR_SetOffset, .-Seat_ADC_SAR_SetOffset
+ 622              		.section	.text.Seat_ADC_SAR_SetGain,"ax",%progbits
+ 623              		.align	2
+ 624              		.global	Seat_ADC_SAR_SetGain
+ 625              		.thumb
+ 626              		.thumb_func
+ 627              		.type	Seat_ADC_SAR_SetGain, %function
+ 628              	Seat_ADC_SAR_SetGain:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 25
+
+
+ 629              	.LFB13:
+ 667:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     #endif /* End Seat_ADC_SAR_DEFAULT_RANGE */
+ 668:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 669:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 670:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 671:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 672:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_SetGain
+ 673:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 674:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 675:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 676:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Sets the ADC gain in counts per volt for the voltage conversion functions
+ 677:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  that follow. This value is set by default by the reference and input range
+ 678:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  settings. It should only be used to further calibrate the ADC with a known
+ 679:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  input or if the ADC is using an external reference.
+ 680:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 681:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 682:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  int16 adcGain counts per volt
+ 683:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 684:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 685:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+ 686:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 687:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Global Variables:
+ 688:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_countsPer10Volt variable modified. This variable is used
+ 689:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  for gain calibration purpose.
+ 690:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 691:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 692:Generated_Source\PSoC5/Seat_ADC_SAR.c **** void Seat_ADC_SAR_SetGain(int16 adcGain)
+ 693:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 630              		.loc 1 693 0
+ 631              		.cfi_startproc
+ 632              		@ args = 0, pretend = 0, frame = 0
+ 633              		@ frame_needed = 0, uses_anonymous_args = 0
+ 634              		@ link register save eliminated.
+ 635              	.LVL41:
+ 694:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_countsPer10Volt = (int32)adcGain * 10;
+ 636              		.loc 1 694 0
+ 637 0000 00EB8000 		add	r0, r0, r0, lsl #2
+ 638              	.LVL42:
+ 639 0004 4300     		lsls	r3, r0, #1
+ 640 0006 014A     		ldr	r2, .L65
+ 641 0008 1360     		str	r3, [r2]
+ 642 000a 7047     		bx	lr
+ 643              	.L66:
+ 644              		.align	2
+ 645              	.L65:
+ 646 000c 00000000 		.word	Seat_ADC_SAR_countsPer10Volt
+ 647              		.cfi_endproc
+ 648              	.LFE13:
+ 649              		.size	Seat_ADC_SAR_SetGain, .-Seat_ADC_SAR_SetGain
+ 650              		.section	.text.Seat_ADC_SAR_SetScaledGain,"ax",%progbits
+ 651              		.align	2
+ 652              		.global	Seat_ADC_SAR_SetScaledGain
+ 653              		.thumb
+ 654              		.thumb_func
+ 655              		.type	Seat_ADC_SAR_SetScaledGain, %function
+ 656              	Seat_ADC_SAR_SetScaledGain:
+ 657              	.LFB14:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 26
+
+
+ 695:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 696:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 697:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 698:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 699:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_SetScaledGain
+ 700:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 701:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 702:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 703:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Sets the ADC gain in counts per 10 volt for the voltage conversion functions
+ 704:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  that follow. This value is set by default by the reference and input range
+ 705:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  settings. It should only be used to further calibrate the ADC with a known
+ 706:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  input or if the ADC is using an external reference.
+ 707:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 708:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 709:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  int32 adcGain  counts per 10 volt
+ 710:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 711:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 712:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  None.
+ 713:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 714:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Global Variables:
+ 715:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_countsPer10Volt variable modified. This variable is used
+ 716:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  for gain calibration purpose.
+ 717:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 718:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 719:Generated_Source\PSoC5/Seat_ADC_SAR.c **** void Seat_ADC_SAR_SetScaledGain(int32 adcGain)
+ 720:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 658              		.loc 1 720 0
+ 659              		.cfi_startproc
+ 660              		@ args = 0, pretend = 0, frame = 0
+ 661              		@ frame_needed = 0, uses_anonymous_args = 0
+ 662              		@ link register save eliminated.
+ 663              	.LVL43:
+ 721:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     Seat_ADC_SAR_countsPer10Volt = adcGain;
+ 664              		.loc 1 721 0
+ 665 0000 014B     		ldr	r3, .L68
+ 666 0002 1860     		str	r0, [r3]
+ 667 0004 7047     		bx	lr
+ 668              	.L69:
+ 669 0006 00BF     		.align	2
+ 670              	.L68:
+ 671 0008 00000000 		.word	Seat_ADC_SAR_countsPer10Volt
+ 672              		.cfi_endproc
+ 673              	.LFE14:
+ 674              		.size	Seat_ADC_SAR_SetScaledGain, .-Seat_ADC_SAR_SetScaledGain
+ 675              		.section	.text.Seat_ADC_SAR_CountsTo_mVolts,"ax",%progbits
+ 676              		.align	2
+ 677              		.global	Seat_ADC_SAR_CountsTo_mVolts
+ 678              		.thumb
+ 679              		.thumb_func
+ 680              		.type	Seat_ADC_SAR_CountsTo_mVolts, %function
+ 681              	Seat_ADC_SAR_CountsTo_mVolts:
+ 682              	.LFB15:
+ 722:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 723:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 724:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 725:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 726:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_CountsTo_mVolts
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 27
+
+
+ 727:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 728:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 729:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 730:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Converts the ADC output to millivolts as a 16-bit integer.
+ 731:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 732:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 733:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  int16 adcCounts:  Result from the ADC conversion
+ 734:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 735:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 736:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  int16 Result in mVolts
+ 737:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 738:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Global Variables:
+ 739:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_offset variable used.
+ 740:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_countsPer10Volt variable used.
+ 741:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 742:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 743:Generated_Source\PSoC5/Seat_ADC_SAR.c **** int16 Seat_ADC_SAR_CountsTo_mVolts(int16 adcCounts)
+ 744:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 683              		.loc 1 744 0
+ 684              		.cfi_startproc
+ 685              		@ args = 0, pretend = 0, frame = 0
+ 686              		@ frame_needed = 0, uses_anonymous_args = 0
+ 687              		@ link register save eliminated.
+ 688              	.LVL44:
+ 689 0000 10B4     		push	{r4}
+ 690              		.cfi_def_cfa_offset 4
+ 691              		.cfi_offset 4, -4
+ 745:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     int16 mVolts;
+ 746:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     int32 countsPer10Volt;
+ 747:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 748:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     if(Seat_ADC_SAR_countsPerVolt != 0)
+ 692              		.loc 1 748 0
+ 693 0002 124B     		ldr	r3, .L76
+ 694 0004 1B88     		ldrh	r3, [r3]
+ 695 0006 1BB2     		sxth	r3, r3
+ 696 0008 33B1     		cbz	r3, .L71
+ 749:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {   /* Support obsolete method */
+ 750:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         countsPer10Volt = (int32)Seat_ADC_SAR_countsPerVolt * 10;
+ 697              		.loc 1 750 0
+ 698 000a 104B     		ldr	r3, .L76
+ 699 000c 1B88     		ldrh	r3, [r3]
+ 700 000e 1BB2     		sxth	r3, r3
+ 701 0010 03EB8303 		add	r3, r3, r3, lsl #2
+ 702 0014 5C00     		lsls	r4, r3, #1
+ 703              	.LVL45:
+ 704 0016 01E0     		b	.L72
+ 705              	.LVL46:
+ 706              	.L71:
+ 751:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 752:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     else
+ 753:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {
+ 754:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         countsPer10Volt = Seat_ADC_SAR_countsPer10Volt;
+ 707              		.loc 1 754 0
+ 708 0018 0D4B     		ldr	r3, .L76+4
+ 709 001a 1C68     		ldr	r4, [r3]
+ 710              	.LVL47:
+ 711              	.L72:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 28
+
+
+ 755:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 756:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 757:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Subtract ADC offset */
+ 758:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     adcCounts -= Seat_ADC_SAR_offset;
+ 712              		.loc 1 758 0
+ 713 001c 0D4B     		ldr	r3, .L76+8
+ 714 001e 1988     		ldrh	r1, [r3]
+ 715 0020 411A     		subs	r1, r0, r1
+ 716 0022 09B2     		sxth	r1, r1
+ 717              	.LVL48:
+ 759:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Convert to millivolts with rounding */
+ 760:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     mVolts = (int16)( (( (int32)adcCounts * Seat_ADC_SAR_10MV_COUNTS ) + ( (adcCounts > 0) ?
+ 718              		.loc 1 760 0
+ 719 0024 42F21073 		movw	r3, #10000
+ 720 0028 03FB01F2 		mul	r2, r3, r1
+ 761:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                        (countsPer10Volt / 2) : (-(countsPer10Volt / 2)) )) / countsPer10Volt);
+ 721              		.loc 1 761 0
+ 722 002c 0029     		cmp	r1, #0
+ 723 002e 03DD     		ble	.L73
+ 724              		.loc 1 761 0 is_stmt 0 discriminator 1
+ 725 0030 04EBD470 		add	r0, r4, r4, lsr #31
+ 726 0034 4010     		asrs	r0, r0, #1
+ 727 0036 03E0     		b	.L74
+ 728              	.L73:
+ 729              		.loc 1 761 0 discriminator 2
+ 730 0038 04EBD470 		add	r0, r4, r4, lsr #31
+ 731 003c 4010     		asrs	r0, r0, #1
+ 732 003e 4042     		negs	r0, r0
+ 733              	.L74:
+ 760:Generated_Source\PSoC5/Seat_ADC_SAR.c ****                        (countsPer10Volt / 2) : (-(countsPer10Volt / 2)) )) / countsPer10Volt);
+ 734              		.loc 1 760 0 is_stmt 1
+ 735 0040 8318     		adds	r3, r0, r2
+ 736              		.loc 1 761 0
+ 737 0042 93FBF4F0 		sdiv	r0, r3, r4
+ 738              	.LVL49:
+ 762:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 763:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     return( mVolts );
+ 764:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 739              		.loc 1 764 0
+ 740 0046 00B2     		sxth	r0, r0
+ 741 0048 10BC     		pop	{r4}
+ 742              		.cfi_restore 4
+ 743              		.cfi_def_cfa_offset 0
+ 744              	.LVL50:
+ 745 004a 7047     		bx	lr
+ 746              	.L77:
+ 747              		.align	2
+ 748              	.L76:
+ 749 004c 00000000 		.word	Seat_ADC_SAR_countsPerVolt
+ 750 0050 00000000 		.word	Seat_ADC_SAR_countsPer10Volt
+ 751 0054 00000000 		.word	Seat_ADC_SAR_offset
+ 752              		.cfi_endproc
+ 753              	.LFE15:
+ 754              		.size	Seat_ADC_SAR_CountsTo_mVolts, .-Seat_ADC_SAR_CountsTo_mVolts
+ 755              		.global	__aeabi_ldivmod
+ 756              		.section	.text.Seat_ADC_SAR_CountsTo_uVolts,"ax",%progbits
+ 757              		.align	2
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 29
+
+
+ 758              		.global	Seat_ADC_SAR_CountsTo_uVolts
+ 759              		.thumb
+ 760              		.thumb_func
+ 761              		.type	Seat_ADC_SAR_CountsTo_uVolts, %function
+ 762              	Seat_ADC_SAR_CountsTo_uVolts:
+ 763              	.LFB16:
+ 765:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 766:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 767:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 768:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_CountsTo_uVolts
+ 769:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 770:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 771:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 772:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Converts the ADC output to microvolts as a 32-bit integer.
+ 773:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 774:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 775:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  int16 adcCounts: Result from the ADC conversion
+ 776:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 777:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 778:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  int32 Result in micro Volts
+ 779:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 780:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Global Variables:
+ 781:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_offset variable used.
+ 782:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_countsPer10Volt used to convert ADC counts to uVolts.
+ 783:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 784:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 785:Generated_Source\PSoC5/Seat_ADC_SAR.c **** int32 Seat_ADC_SAR_CountsTo_uVolts(int16 adcCounts)
+ 786:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 764              		.loc 1 786 0
+ 765              		.cfi_startproc
+ 766              		@ args = 0, pretend = 0, frame = 0
+ 767              		@ frame_needed = 0, uses_anonymous_args = 0
+ 768              	.LVL51:
+ 769 0000 38B5     		push	{r3, r4, r5, lr}
+ 770              		.cfi_def_cfa_offset 16
+ 771              		.cfi_offset 3, -16
+ 772              		.cfi_offset 4, -12
+ 773              		.cfi_offset 5, -8
+ 774              		.cfi_offset 14, -4
+ 787:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 788:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     int64 uVolts;
+ 789:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     int32 countsPer10Volt;
+ 790:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 791:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     if(Seat_ADC_SAR_countsPerVolt != 0)
+ 775              		.loc 1 791 0
+ 776 0002 0D4B     		ldr	r3, .L82
+ 777 0004 1B88     		ldrh	r3, [r3]
+ 778 0006 1BB2     		sxth	r3, r3
+ 779 0008 33B1     		cbz	r3, .L79
+ 792:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {   /* Support obsolete method */
+ 793:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         countsPer10Volt = (int32)Seat_ADC_SAR_countsPerVolt * 10;
+ 780              		.loc 1 793 0
+ 781 000a 0B4B     		ldr	r3, .L82
+ 782 000c 1B88     		ldrh	r3, [r3]
+ 783 000e 1BB2     		sxth	r3, r3
+ 784 0010 03EB8303 		add	r3, r3, r3, lsl #2
+ 785 0014 5A00     		lsls	r2, r3, #1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 30
+
+
+ 786              	.LVL52:
+ 787 0016 01E0     		b	.L80
+ 788              	.LVL53:
+ 789              	.L79:
+ 794:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 795:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     else
+ 796:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {
+ 797:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         countsPer10Volt = Seat_ADC_SAR_countsPer10Volt;
+ 790              		.loc 1 797 0
+ 791 0018 084B     		ldr	r3, .L82+4
+ 792 001a 1A68     		ldr	r2, [r3]
+ 793              	.LVL54:
+ 794              	.L80:
+ 798:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 799:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 800:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Subtract ADC offset */
+ 801:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     adcCounts -= Seat_ADC_SAR_offset;
+ 795              		.loc 1 801 0
+ 796 001c 084B     		ldr	r3, .L82+8
+ 797 001e 1C88     		ldrh	r4, [r3]
+ 798 0020 041B     		subs	r4, r0, r4
+ 799              	.LVL55:
+ 802:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* To convert adcCounts to microVolts it is required to be multiplied
+ 803:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     *  on 10 million and later divide on gain in counts per 10V.
+ 804:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     */
+ 805:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     uVolts = (( (int64)adcCounts * Seat_ADC_SAR_10UV_COUNTS ) / countsPer10Volt);
+ 800              		.loc 1 805 0
+ 801 0022 24B2     		sxth	r4, r4
+ 802 0024 E517     		asrs	r5, r4, #31
+ 803 0026 074B     		ldr	r3, .L82+12
+ 804 0028 A4FB0301 		umull	r0, r1, r4, r3
+ 805 002c 03FB0511 		mla	r1, r3, r5, r1
+ 806 0030 D317     		asrs	r3, r2, #31
+ 807 0032 FFF7FEFF 		bl	__aeabi_ldivmod
+ 808              	.LVL56:
+ 806:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 807:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     return((int32) uVolts );
+ 808:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 809              		.loc 1 808 0
+ 810 0036 38BD     		pop	{r3, r4, r5, pc}
+ 811              	.LVL57:
+ 812              	.L83:
+ 813              		.align	2
+ 814              	.L82:
+ 815 0038 00000000 		.word	Seat_ADC_SAR_countsPerVolt
+ 816 003c 00000000 		.word	Seat_ADC_SAR_countsPer10Volt
+ 817 0040 00000000 		.word	Seat_ADC_SAR_offset
+ 818 0044 80969800 		.word	10000000
+ 819              		.cfi_endproc
+ 820              	.LFE16:
+ 821              		.size	Seat_ADC_SAR_CountsTo_uVolts, .-Seat_ADC_SAR_CountsTo_uVolts
+ 822              		.global	__aeabi_i2f
+ 823              		.global	__aeabi_fmul
+ 824              		.global	__aeabi_fdiv
+ 825              		.section	.text.Seat_ADC_SAR_CountsTo_Volts,"ax",%progbits
+ 826              		.align	2
+ 827              		.global	Seat_ADC_SAR_CountsTo_Volts
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 31
+
+
+ 828              		.thumb
+ 829              		.thumb_func
+ 830              		.type	Seat_ADC_SAR_CountsTo_Volts, %function
+ 831              	Seat_ADC_SAR_CountsTo_Volts:
+ 832              	.LFB17:
+ 809:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 810:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 811:Generated_Source\PSoC5/Seat_ADC_SAR.c **** /*******************************************************************************
+ 812:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Function Name: Seat_ADC_SAR_CountsTo_Volts
+ 813:Generated_Source\PSoC5/Seat_ADC_SAR.c **** ********************************************************************************
+ 814:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 815:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Summary:
+ 816:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Converts the ADC output to volts as a floating-point number.
+ 817:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 818:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Parameters:
+ 819:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  int16 adcCounts: Result from the ADC conversion
+ 820:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 821:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Return:
+ 822:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  float Result in Volts
+ 823:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 824:Generated_Source\PSoC5/Seat_ADC_SAR.c **** * Global Variables:
+ 825:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_offset variable used.
+ 826:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *  Seat_ADC_SAR_countsPer10Volt used to convert ADC counts to Volts.
+ 827:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *
+ 828:Generated_Source\PSoC5/Seat_ADC_SAR.c **** *******************************************************************************/
+ 829:Generated_Source\PSoC5/Seat_ADC_SAR.c **** float32 Seat_ADC_SAR_CountsTo_Volts(int16 adcCounts)
+ 830:Generated_Source\PSoC5/Seat_ADC_SAR.c **** {
+ 833              		.loc 1 830 0
+ 834              		.cfi_startproc
+ 835              		@ args = 0, pretend = 0, frame = 0
+ 836              		@ frame_needed = 0, uses_anonymous_args = 0
+ 837              	.LVL58:
+ 838 0000 38B5     		push	{r3, r4, r5, lr}
+ 839              		.cfi_def_cfa_offset 16
+ 840              		.cfi_offset 3, -16
+ 841              		.cfi_offset 4, -12
+ 842              		.cfi_offset 5, -8
+ 843              		.cfi_offset 14, -4
+ 831:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     float32 volts;
+ 832:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     int32 countsPer10Volt;
+ 833:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 834:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     if(Seat_ADC_SAR_countsPerVolt != 0)
+ 844              		.loc 1 834 0
+ 845 0002 0F4B     		ldr	r3, .L88
+ 846 0004 1B88     		ldrh	r3, [r3]
+ 847 0006 1BB2     		sxth	r3, r3
+ 848 0008 33B1     		cbz	r3, .L85
+ 835:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {   /* Support obsolete method */
+ 836:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         countsPer10Volt = (int32)Seat_ADC_SAR_countsPerVolt * 10;
+ 849              		.loc 1 836 0
+ 850 000a 0D4B     		ldr	r3, .L88
+ 851 000c 1B88     		ldrh	r3, [r3]
+ 852 000e 1BB2     		sxth	r3, r3
+ 853 0010 03EB8303 		add	r3, r3, r3, lsl #2
+ 854 0014 5C00     		lsls	r4, r3, #1
+ 855              	.LVL59:
+ 856 0016 01E0     		b	.L86
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 32
+
+
+ 857              	.LVL60:
+ 858              	.L85:
+ 837:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 838:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     else
+ 839:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     {
+ 840:Generated_Source\PSoC5/Seat_ADC_SAR.c ****         countsPer10Volt = Seat_ADC_SAR_countsPer10Volt;
+ 859              		.loc 1 840 0
+ 860 0018 0A4B     		ldr	r3, .L88+4
+ 861 001a 1C68     		ldr	r4, [r3]
+ 862              	.LVL61:
+ 863              	.L86:
+ 841:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     }
+ 842:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 843:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     /* Subtract ADC offset */
+ 844:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     adcCounts -= Seat_ADC_SAR_offset;
+ 864              		.loc 1 844 0
+ 865 001c 0A4B     		ldr	r3, .L88+8
+ 866 001e 1B88     		ldrh	r3, [r3]
+ 867 0020 C01A     		subs	r0, r0, r3
+ 868              	.LVL62:
+ 845:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 846:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     volts = ((float32)adcCounts * Seat_ADC_SAR_10V_COUNTS) / (float32)countsPer10Volt;
+ 869              		.loc 1 846 0
+ 870 0022 00B2     		sxth	r0, r0
+ 871 0024 FFF7FEFF 		bl	__aeabi_i2f
+ 872              	.LVL63:
+ 873 0028 0849     		ldr	r1, .L88+12
+ 874 002a FFF7FEFF 		bl	__aeabi_fmul
+ 875              	.LVL64:
+ 876 002e 0546     		mov	r5, r0
+ 877 0030 2046     		mov	r0, r4
+ 878 0032 FFF7FEFF 		bl	__aeabi_i2f
+ 879              	.LVL65:
+ 880 0036 0146     		mov	r1, r0
+ 881 0038 2846     		mov	r0, r5
+ 882 003a FFF7FEFF 		bl	__aeabi_fdiv
+ 883              	.LVL66:
+ 847:Generated_Source\PSoC5/Seat_ADC_SAR.c **** 
+ 848:Generated_Source\PSoC5/Seat_ADC_SAR.c ****     return( volts );
+ 849:Generated_Source\PSoC5/Seat_ADC_SAR.c **** }
+ 884              		.loc 1 849 0
+ 885 003e 38BD     		pop	{r3, r4, r5, pc}
+ 886              	.LVL67:
+ 887              	.L89:
+ 888              		.align	2
+ 889              	.L88:
+ 890 0040 00000000 		.word	Seat_ADC_SAR_countsPerVolt
+ 891 0044 00000000 		.word	Seat_ADC_SAR_countsPer10Volt
+ 892 0048 00000000 		.word	Seat_ADC_SAR_offset
+ 893 004c 00002041 		.word	1092616192
+ 894              		.cfi_endproc
+ 895              	.LFE17:
+ 896              		.size	Seat_ADC_SAR_CountsTo_Volts, .-Seat_ADC_SAR_CountsTo_Volts
+ 897              		.comm	Seat_ADC_SAR_shift,2,2
+ 898              		.comm	Seat_ADC_SAR_countsPer10Volt,4,4
+ 899              		.comm	Seat_ADC_SAR_countsPerVolt,2,2
+ 900              		.comm	Seat_ADC_SAR_offset,2,2
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 33
+
+
+ 901              		.global	Seat_ADC_SAR_initVar
+ 902              		.bss
+ 903              		.set	.LANCHOR0,. + 0
+ 904              		.type	Seat_ADC_SAR_initVar, %object
+ 905              		.size	Seat_ADC_SAR_initVar, 1
+ 906              	Seat_ADC_SAR_initVar:
+ 907 0000 00       		.space	1
+ 908              		.text
+ 909              	.Letext0:
+ 910              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 911              		.file 3 "Generated_Source\\PSoC5\\CyLib.h"
+ 912              		.section	.debug_info,"",%progbits
+ 913              	.Ldebug_info0:
+ 914 0000 50050000 		.4byte	0x550
+ 915 0004 0400     		.2byte	0x4
+ 916 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 917 000a 04       		.byte	0x4
+ 918 000b 01       		.uleb128 0x1
+ 919 000c 03030000 		.4byte	.LASF62
+ 920 0010 0C       		.byte	0xc
+ 921 0011 68040000 		.4byte	.LASF63
+ 922 0015 B2030000 		.4byte	.LASF64
+ 923 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 924 001d 00000000 		.4byte	0
+ 925 0021 00000000 		.4byte	.Ldebug_line0
+ 926 0025 02       		.uleb128 0x2
+ 927 0026 04       		.byte	0x4
+ 928 0027 05       		.byte	0x5
+ 929 0028 696E7400 		.ascii	"int\000"
+ 930 002c 03       		.uleb128 0x3
+ 931 002d 04       		.byte	0x4
+ 932 002e 07       		.byte	0x7
+ 933 002f 32010000 		.4byte	.LASF0
+ 934 0033 03       		.uleb128 0x3
+ 935 0034 08       		.byte	0x8
+ 936 0035 05       		.byte	0x5
+ 937 0036 8F000000 		.4byte	.LASF1
+ 938 003a 03       		.uleb128 0x3
+ 939 003b 08       		.byte	0x8
+ 940 003c 04       		.byte	0x4
+ 941 003d 1F020000 		.4byte	.LASF2
+ 942 0041 03       		.uleb128 0x3
+ 943 0042 01       		.byte	0x1
+ 944 0043 06       		.byte	0x6
+ 945 0044 9D000000 		.4byte	.LASF3
+ 946 0048 03       		.uleb128 0x3
+ 947 0049 01       		.byte	0x1
+ 948 004a 08       		.byte	0x8
+ 949 004b C6020000 		.4byte	.LASF4
+ 950 004f 03       		.uleb128 0x3
+ 951 0050 02       		.byte	0x2
+ 952 0051 05       		.byte	0x5
+ 953 0052 F9020000 		.4byte	.LASF5
+ 954 0056 03       		.uleb128 0x3
+ 955 0057 02       		.byte	0x2
+ 956 0058 07       		.byte	0x7
+ 957 0059 75010000 		.4byte	.LASF6
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 34
+
+
+ 958 005d 03       		.uleb128 0x3
+ 959 005e 04       		.byte	0x4
+ 960 005f 05       		.byte	0x5
+ 961 0060 AF000000 		.4byte	.LASF7
+ 962 0064 03       		.uleb128 0x3
+ 963 0065 04       		.byte	0x4
+ 964 0066 07       		.byte	0x7
+ 965 0067 46010000 		.4byte	.LASF8
+ 966 006b 03       		.uleb128 0x3
+ 967 006c 08       		.byte	0x8
+ 968 006d 07       		.byte	0x7
+ 969 006e 46000000 		.4byte	.LASF9
+ 970 0072 03       		.uleb128 0x3
+ 971 0073 04       		.byte	0x4
+ 972 0074 07       		.byte	0x7
+ 973 0075 16020000 		.4byte	.LASF10
+ 974 0079 03       		.uleb128 0x3
+ 975 007a 01       		.byte	0x1
+ 976 007b 08       		.byte	0x8
+ 977 007c 08040000 		.4byte	.LASF11
+ 978 0080 04       		.uleb128 0x4
+ 979 0081 D7000000 		.4byte	.LASF12
+ 980 0085 02       		.byte	0x2
+ 981 0086 E401     		.2byte	0x1e4
+ 982 0088 48000000 		.4byte	0x48
+ 983 008c 04       		.uleb128 0x4
+ 984 008d 00000000 		.4byte	.LASF13
+ 985 0091 02       		.byte	0x2
+ 986 0092 E501     		.2byte	0x1e5
+ 987 0094 56000000 		.4byte	0x56
+ 988 0098 04       		.uleb128 0x4
+ 989 0099 B7010000 		.4byte	.LASF14
+ 990 009d 02       		.byte	0x2
+ 991 009e E701     		.2byte	0x1e7
+ 992 00a0 41000000 		.4byte	0x41
+ 993 00a4 04       		.uleb128 0x4
+ 994 00a5 A1040000 		.4byte	.LASF15
+ 995 00a9 02       		.byte	0x2
+ 996 00aa E801     		.2byte	0x1e8
+ 997 00ac 4F000000 		.4byte	0x4f
+ 998 00b0 04       		.uleb128 0x4
+ 999 00b1 A9000000 		.4byte	.LASF16
+ 1000 00b5 02       		.byte	0x2
+ 1001 00b6 E901     		.2byte	0x1e9
+ 1002 00b8 5D000000 		.4byte	0x5d
+ 1003 00bc 04       		.uleb128 0x4
+ 1004 00bd 0E020000 		.4byte	.LASF17
+ 1005 00c1 02       		.byte	0x2
+ 1006 00c2 EA01     		.2byte	0x1ea
+ 1007 00c4 C8000000 		.4byte	0xc8
+ 1008 00c8 03       		.uleb128 0x3
+ 1009 00c9 04       		.byte	0x4
+ 1010 00ca 04       		.byte	0x4
+ 1011 00cb 95020000 		.4byte	.LASF18
+ 1012 00cf 03       		.uleb128 0x3
+ 1013 00d0 08       		.byte	0x8
+ 1014 00d1 04       		.byte	0x4
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 35
+
+
+ 1015 00d2 FF000000 		.4byte	.LASF19
+ 1016 00d6 04       		.uleb128 0x4
+ 1017 00d7 72020000 		.4byte	.LASF20
+ 1018 00db 02       		.byte	0x2
+ 1019 00dc EF01     		.2byte	0x1ef
+ 1020 00de 33000000 		.4byte	0x33
+ 1021 00e2 04       		.uleb128 0x4
+ 1022 00e3 BA020000 		.4byte	.LASF21
+ 1023 00e7 02       		.byte	0x2
+ 1024 00e8 8E02     		.2byte	0x28e
+ 1025 00ea EE000000 		.4byte	0xee
+ 1026 00ee 05       		.uleb128 0x5
+ 1027 00ef 80000000 		.4byte	0x80
+ 1028 00f3 04       		.uleb128 0x4
+ 1029 00f4 D1000000 		.4byte	.LASF22
+ 1030 00f8 02       		.byte	0x2
+ 1031 00f9 8F02     		.2byte	0x28f
+ 1032 00fb FF000000 		.4byte	0xff
+ 1033 00ff 05       		.uleb128 0x5
+ 1034 0100 8C000000 		.4byte	0x8c
+ 1035 0104 06       		.uleb128 0x6
+ 1036 0105 91030000 		.4byte	.LASF65
+ 1037 0109 01       		.byte	0x1
+ 1038 010a 6302     		.2byte	0x263
+ 1039 010c 00000000 		.4byte	.LFB12
+ 1040 0110 68000000 		.4byte	.LFE12-.LFB12
+ 1041 0114 01       		.uleb128 0x1
+ 1042 0115 9C       		.byte	0x9c
+ 1043 0116 5A010000 		.4byte	0x15a
+ 1044 011a 07       		.uleb128 0x7
+ 1045 011b A7030000 		.4byte	.LASF30
+ 1046 011f 01       		.byte	0x1
+ 1047 0120 6302     		.2byte	0x263
+ 1048 0122 80000000 		.4byte	0x80
+ 1049 0126 00000000 		.4byte	.LLST0
+ 1050 012a 08       		.uleb128 0x8
+ 1051 012b 25000000 		.4byte	.LASF23
+ 1052 012f 01       		.byte	0x1
+ 1053 0130 6502     		.2byte	0x265
+ 1054 0132 B0000000 		.4byte	0xb0
+ 1055 0136 3A000000 		.4byte	.LLST1
+ 1056 013a 08       		.uleb128 0x8
+ 1057 013b EF020000 		.4byte	.LASF24
+ 1058 013f 01       		.byte	0x1
+ 1059 0140 6902     		.2byte	0x269
+ 1060 0142 8C000000 		.4byte	0x8c
+ 1061 0146 67000000 		.4byte	.LLST2
+ 1062 014a 09       		.uleb128 0x9
+ 1063 014b 28000000 		.4byte	.LVL4
+ 1064 014f 27050000 		.4byte	0x527
+ 1065 0153 0A       		.uleb128 0xa
+ 1066 0154 01       		.uleb128 0x1
+ 1067 0155 50       		.byte	0x50
+ 1068 0156 01       		.uleb128 0x1
+ 1069 0157 30       		.byte	0x30
+ 1070 0158 00       		.byte	0
+ 1071 0159 00       		.byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 36
+
+
+ 1072 015a 0B       		.uleb128 0xb
+ 1073 015b 06010000 		.4byte	.LASF27
+ 1074 015f 01       		.byte	0x1
+ 1075 0160 8F       		.byte	0x8f
+ 1076 0161 00000000 		.4byte	.LFB2
+ 1077 0165 78000000 		.4byte	.LFE2-.LFB2
+ 1078 0169 01       		.uleb128 0x1
+ 1079 016a 9C       		.byte	0x9c
+ 1080 016b BA010000 		.4byte	0x1ba
+ 1081 016f 0C       		.uleb128 0xc
+ 1082 0170 A7040000 		.4byte	.LASF25
+ 1083 0174 01       		.byte	0x1
+ 1084 0175 91       		.byte	0x91
+ 1085 0176 80000000 		.4byte	0x80
+ 1086 017a 93000000 		.4byte	.LLST3
+ 1087 017e 0C       		.uleb128 0xc
+ 1088 017f 50040000 		.4byte	.LASF26
+ 1089 0183 01       		.byte	0x1
+ 1090 0184 92       		.byte	0x92
+ 1091 0185 80000000 		.4byte	0x80
+ 1092 0189 C4000000 		.4byte	.LLST4
+ 1093 018d 0D       		.uleb128 0xd
+ 1094 018e 06000000 		.4byte	.LVL8
+ 1095 0192 32050000 		.4byte	0x532
+ 1096 0196 0E       		.uleb128 0xe
+ 1097 0197 62000000 		.4byte	.LVL14
+ 1098 019b 3D050000 		.4byte	0x53d
+ 1099 019f A9010000 		.4byte	0x1a9
+ 1100 01a3 0A       		.uleb128 0xa
+ 1101 01a4 01       		.uleb128 0x1
+ 1102 01a5 50       		.byte	0x50
+ 1103 01a6 01       		.uleb128 0x1
+ 1104 01a7 3A       		.byte	0x3a
+ 1105 01a8 00       		.byte	0
+ 1106 01a9 09       		.uleb128 0x9
+ 1107 01aa 68000000 		.4byte	.LVL15
+ 1108 01ae 48050000 		.4byte	0x548
+ 1109 01b2 0A       		.uleb128 0xa
+ 1110 01b3 01       		.uleb128 0x1
+ 1111 01b4 50       		.byte	0x50
+ 1112 01b5 02       		.uleb128 0x2
+ 1113 01b6 74       		.byte	0x74
+ 1114 01b7 00       		.sleb128 0
+ 1115 01b8 00       		.byte	0
+ 1116 01b9 00       		.byte	0
+ 1117 01ba 0B       		.uleb128 0xb
+ 1118 01bb AE040000 		.4byte	.LASF28
+ 1119 01bf 01       		.byte	0x1
+ 1120 01c0 F8       		.byte	0xf8
+ 1121 01c1 00000000 		.4byte	.LFB3
+ 1122 01c5 34000000 		.4byte	.LFE3-.LFB3
+ 1123 01c9 01       		.uleb128 0x1
+ 1124 01ca 9C       		.byte	0x9c
+ 1125 01cb F1010000 		.4byte	0x1f1
+ 1126 01cf 0C       		.uleb128 0xc
+ 1127 01d0 50040000 		.4byte	.LASF26
+ 1128 01d4 01       		.byte	0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 37
+
+
+ 1129 01d5 FA       		.byte	0xfa
+ 1130 01d6 80000000 		.4byte	0x80
+ 1131 01da D7000000 		.4byte	.LLST5
+ 1132 01de 0D       		.uleb128 0xd
+ 1133 01df 06000000 		.4byte	.LVL17
+ 1134 01e3 32050000 		.4byte	0x532
+ 1135 01e7 0D       		.uleb128 0xd
+ 1136 01e8 2C000000 		.4byte	.LVL18
+ 1137 01ec 48050000 		.4byte	0x548
+ 1138 01f0 00       		.byte	0
+ 1139 01f1 0F       		.uleb128 0xf
+ 1140 01f2 5C020000 		.4byte	.LASF29
+ 1141 01f6 01       		.byte	0x1
+ 1142 01f7 2201     		.2byte	0x122
+ 1143 01f9 00000000 		.4byte	.LFB4
+ 1144 01fd 18000000 		.4byte	.LFE4-.LFB4
+ 1145 0201 01       		.uleb128 0x1
+ 1146 0202 9C       		.byte	0x9c
+ 1147 0203 28020000 		.4byte	0x228
+ 1148 0207 07       		.uleb128 0x7
+ 1149 0208 B4020000 		.4byte	.LASF31
+ 1150 020c 01       		.byte	0x1
+ 1151 020d 2201     		.2byte	0x122
+ 1152 020f 80000000 		.4byte	0x80
+ 1153 0213 EA000000 		.4byte	.LLST6
+ 1154 0217 08       		.uleb128 0x8
+ 1155 0218 A7040000 		.4byte	.LASF25
+ 1156 021c 01       		.byte	0x1
+ 1157 021d 2401     		.2byte	0x124
+ 1158 021f 80000000 		.4byte	0x80
+ 1159 0223 1C010000 		.4byte	.LLST7
+ 1160 0227 00       		.byte	0
+ 1161 0228 0F       		.uleb128 0xf
+ 1162 0229 E0010000 		.4byte	.LASF32
+ 1163 022d 01       		.byte	0x1
+ 1164 022e 5401     		.2byte	0x154
+ 1165 0230 00000000 		.4byte	.LFB5
+ 1166 0234 38000000 		.4byte	.LFE5-.LFB5
+ 1167 0238 01       		.uleb128 0x1
+ 1168 0239 9C       		.byte	0x9c
+ 1169 023a 82020000 		.4byte	0x282
+ 1170 023e 07       		.uleb128 0x7
+ 1171 023f A7030000 		.4byte	.LASF30
+ 1172 0243 01       		.byte	0x1
+ 1173 0244 5401     		.2byte	0x154
+ 1174 0246 80000000 		.4byte	0x80
+ 1175 024a 3A010000 		.4byte	.LLST8
+ 1176 024e 08       		.uleb128 0x8
+ 1177 024f A7040000 		.4byte	.LASF25
+ 1178 0253 01       		.byte	0x1
+ 1179 0254 5601     		.2byte	0x156
+ 1180 0256 80000000 		.4byte	0x80
+ 1181 025a 74010000 		.4byte	.LLST9
+ 1182 025e 0E       		.uleb128 0xe
+ 1183 025f 20000000 		.4byte	.LVL27
+ 1184 0263 27050000 		.4byte	0x527
+ 1185 0267 71020000 		.4byte	0x271
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 38
+
+
+ 1186 026b 0A       		.uleb128 0xa
+ 1187 026c 01       		.uleb128 0x1
+ 1188 026d 50       		.byte	0x50
+ 1189 026e 01       		.uleb128 0x1
+ 1190 026f 30       		.byte	0x30
+ 1191 0270 00       		.byte	0
+ 1192 0271 09       		.uleb128 0x9
+ 1193 0272 30000000 		.4byte	.LVL30
+ 1194 0276 04010000 		.4byte	0x104
+ 1195 027a 0A       		.uleb128 0xa
+ 1196 027b 01       		.uleb128 0x1
+ 1197 027c 50       		.byte	0x50
+ 1198 027d 02       		.uleb128 0x2
+ 1199 027e 74       		.byte	0x74
+ 1200 027f 00       		.sleb128 0
+ 1201 0280 00       		.byte	0
+ 1202 0281 00       		.byte	0
+ 1203 0282 0B       		.uleb128 0xb
+ 1204 0283 A5010000 		.4byte	.LASF33
+ 1205 0287 01       		.byte	0x1
+ 1206 0288 6A       		.byte	0x6a
+ 1207 0289 00000000 		.4byte	.LFB1
+ 1208 028d 24000000 		.4byte	.LFE1-.LFB1
+ 1209 0291 01       		.uleb128 0x1
+ 1210 0292 9C       		.byte	0x9c
+ 1211 0293 A7020000 		.4byte	0x2a7
+ 1212 0297 09       		.uleb128 0x9
+ 1213 0298 12000000 		.4byte	.LVL31
+ 1214 029c 28020000 		.4byte	0x228
+ 1215 02a0 0A       		.uleb128 0xa
+ 1216 02a1 01       		.uleb128 0x1
+ 1217 02a2 50       		.byte	0x50
+ 1218 02a3 01       		.uleb128 0x1
+ 1219 02a4 3C       		.byte	0x3c
+ 1220 02a5 00       		.byte	0
+ 1221 02a6 00       		.byte	0
+ 1222 02a7 0B       		.uleb128 0xb
+ 1223 02a8 FB010000 		.4byte	.LASF34
+ 1224 02ac 01       		.byte	0x1
+ 1225 02ad 4A       		.byte	0x4a
+ 1226 02ae 00000000 		.4byte	.LFB0
+ 1227 02b2 1C000000 		.4byte	.LFE0-.LFB0
+ 1228 02b6 01       		.uleb128 0x1
+ 1229 02b7 9C       		.byte	0x9c
+ 1230 02b8 CF020000 		.4byte	0x2cf
+ 1231 02bc 0D       		.uleb128 0xd
+ 1232 02bd 0C000000 		.4byte	.LVL32
+ 1233 02c1 82020000 		.4byte	0x282
+ 1234 02c5 0D       		.uleb128 0xd
+ 1235 02c6 16000000 		.4byte	.LVL33
+ 1236 02ca 5A010000 		.4byte	0x15a
+ 1237 02ce 00       		.byte	0
+ 1238 02cf 10       		.uleb128 0x10
+ 1239 02d0 2C000000 		.4byte	.LASF35
+ 1240 02d4 01       		.byte	0x1
+ 1241 02d5 9101     		.2byte	0x191
+ 1242 02d7 00000000 		.4byte	.LFB6
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 39
+
+
+ 1243 02db 18000000 		.4byte	.LFE6-.LFB6
+ 1244 02df 01       		.uleb128 0x1
+ 1245 02e0 9C       		.byte	0x9c
+ 1246 02e1 10       		.uleb128 0x10
+ 1247 02e2 9B020000 		.4byte	.LASF36
+ 1248 02e6 01       		.byte	0x1
+ 1249 02e7 B301     		.2byte	0x1b3
+ 1250 02e9 00000000 		.4byte	.LFB7
+ 1251 02ed 18000000 		.4byte	.LFE7-.LFB7
+ 1252 02f1 01       		.uleb128 0x1
+ 1253 02f2 9C       		.byte	0x9c
+ 1254 02f3 11       		.uleb128 0x11
+ 1255 02f4 0D040000 		.4byte	.LASF39
+ 1256 02f8 01       		.byte	0x1
+ 1257 02f9 DB01     		.2byte	0x1db
+ 1258 02fb 80000000 		.4byte	0x80
+ 1259 02ff 00000000 		.4byte	.LFB8
+ 1260 0303 24000000 		.4byte	.LFE8-.LFB8
+ 1261 0307 01       		.uleb128 0x1
+ 1262 0308 9C       		.byte	0x9c
+ 1263 0309 3D030000 		.4byte	0x33d
+ 1264 030d 07       		.uleb128 0x7
+ 1265 030e 2A010000 		.4byte	.LASF37
+ 1266 0312 01       		.byte	0x1
+ 1267 0313 DB01     		.2byte	0x1db
+ 1268 0315 80000000 		.4byte	0x80
+ 1269 0319 A1010000 		.4byte	.LLST10
+ 1270 031d 08       		.uleb128 0x8
+ 1271 031e 61040000 		.4byte	.LASF38
+ 1272 0322 01       		.byte	0x1
+ 1273 0323 DD01     		.2byte	0x1dd
+ 1274 0325 80000000 		.4byte	0x80
+ 1275 0329 C2010000 		.4byte	.LLST11
+ 1276 032d 09       		.uleb128 0x9
+ 1277 032e 18000000 		.4byte	.LVL37
+ 1278 0332 3D050000 		.4byte	0x53d
+ 1279 0336 0A       		.uleb128 0xa
+ 1280 0337 01       		.uleb128 0x1
+ 1281 0338 50       		.byte	0x50
+ 1282 0339 01       		.uleb128 0x1
+ 1283 033a 31       		.byte	0x31
+ 1284 033b 00       		.byte	0
+ 1285 033c 00       		.byte	0
+ 1286 033d 12       		.uleb128 0x12
+ 1287 033e DD000000 		.4byte	.LASF66
+ 1288 0342 01       		.byte	0x1
+ 1289 0343 0802     		.2byte	0x208
+ 1290 0345 98000000 		.4byte	0x98
+ 1291 0349 00000000 		.4byte	.LFB9
+ 1292 034d 18000000 		.4byte	.LFE9-.LFB9
+ 1293 0351 01       		.uleb128 0x1
+ 1294 0352 9C       		.byte	0x9c
+ 1295 0353 11       		.uleb128 0x11
+ 1296 0354 B8000000 		.4byte	.LASF40
+ 1297 0358 01       		.byte	0x1
+ 1298 0359 2602     		.2byte	0x226
+ 1299 035b A4000000 		.4byte	0xa4
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 40
+
+
+ 1300 035f 00000000 		.4byte	.LFB10
+ 1301 0363 18000000 		.4byte	.LFE10-.LFB10
+ 1302 0367 01       		.uleb128 0x1
+ 1303 0368 9C       		.byte	0x9c
+ 1304 0369 7E030000 		.4byte	0x37e
+ 1305 036d 13       		.uleb128 0x13
+ 1306 036e 72657300 		.ascii	"res\000"
+ 1307 0372 01       		.byte	0x1
+ 1308 0373 2802     		.2byte	0x228
+ 1309 0375 8C000000 		.4byte	0x8c
+ 1310 0379 D9010000 		.4byte	.LLST12
+ 1311 037d 00       		.byte	0
+ 1312 037e 0F       		.uleb128 0xf
+ 1313 037f 5D000000 		.4byte	.LASF41
+ 1314 0383 01       		.byte	0x1
+ 1315 0384 4902     		.2byte	0x249
+ 1316 0386 00000000 		.4byte	.LFB11
+ 1317 038a 0C000000 		.4byte	.LFE11-.LFB11
+ 1318 038e 01       		.uleb128 0x1
+ 1319 038f 9C       		.byte	0x9c
+ 1320 0390 A3030000 		.4byte	0x3a3
+ 1321 0394 14       		.uleb128 0x14
+ 1322 0395 2A040000 		.4byte	.LASF42
+ 1323 0399 01       		.byte	0x1
+ 1324 039a 4902     		.2byte	0x249
+ 1325 039c A4000000 		.4byte	0xa4
+ 1326 03a0 01       		.uleb128 0x1
+ 1327 03a1 50       		.byte	0x50
+ 1328 03a2 00       		.byte	0
+ 1329 03a3 0F       		.uleb128 0xf
+ 1330 03a4 3B040000 		.4byte	.LASF43
+ 1331 03a8 01       		.byte	0x1
+ 1332 03a9 B402     		.2byte	0x2b4
+ 1333 03ab 00000000 		.4byte	.LFB13
+ 1334 03af 10000000 		.4byte	.LFE13-.LFB13
+ 1335 03b3 01       		.uleb128 0x1
+ 1336 03b4 9C       		.byte	0x9c
+ 1337 03b5 CA030000 		.4byte	0x3ca
+ 1338 03b9 07       		.uleb128 0x7
+ 1339 03ba 07000000 		.4byte	.LASF44
+ 1340 03be 01       		.byte	0x1
+ 1341 03bf B402     		.2byte	0x2b4
+ 1342 03c1 A4000000 		.4byte	0xa4
+ 1343 03c5 EC010000 		.4byte	.LLST13
+ 1344 03c9 00       		.byte	0
+ 1345 03ca 0F       		.uleb128 0xf
+ 1346 03cb D4020000 		.4byte	.LASF45
+ 1347 03cf 01       		.byte	0x1
+ 1348 03d0 CF02     		.2byte	0x2cf
+ 1349 03d2 00000000 		.4byte	.LFB14
+ 1350 03d6 0C000000 		.4byte	.LFE14-.LFB14
+ 1351 03da 01       		.uleb128 0x1
+ 1352 03db 9C       		.byte	0x9c
+ 1353 03dc EF030000 		.4byte	0x3ef
+ 1354 03e0 14       		.uleb128 0x14
+ 1355 03e1 07000000 		.4byte	.LASF44
+ 1356 03e5 01       		.byte	0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 41
+
+
+ 1357 03e6 CF02     		.2byte	0x2cf
+ 1358 03e8 B0000000 		.4byte	0xb0
+ 1359 03ec 01       		.uleb128 0x1
+ 1360 03ed 50       		.byte	0x50
+ 1361 03ee 00       		.byte	0
+ 1362 03ef 11       		.uleb128 0x11
+ 1363 03f0 78020000 		.4byte	.LASF46
+ 1364 03f4 01       		.byte	0x1
+ 1365 03f5 E702     		.2byte	0x2e7
+ 1366 03f7 A4000000 		.4byte	0xa4
+ 1367 03fb 00000000 		.4byte	.LFB15
+ 1368 03ff 58000000 		.4byte	.LFE15-.LFB15
+ 1369 0403 01       		.uleb128 0x1
+ 1370 0404 9C       		.byte	0x9c
+ 1371 0405 38040000 		.4byte	0x438
+ 1372 0409 07       		.uleb128 0x7
+ 1373 040a 31040000 		.4byte	.LASF47
+ 1374 040e 01       		.byte	0x1
+ 1375 040f E702     		.2byte	0x2e7
+ 1376 0411 A4000000 		.4byte	0xa4
+ 1377 0415 0D020000 		.4byte	.LLST14
+ 1378 0419 15       		.uleb128 0x15
+ 1379 041a BC010000 		.4byte	.LASF48
+ 1380 041e 01       		.byte	0x1
+ 1381 041f E902     		.2byte	0x2e9
+ 1382 0421 A4000000 		.4byte	0xa4
+ 1383 0425 01       		.uleb128 0x1
+ 1384 0426 50       		.byte	0x50
+ 1385 0427 08       		.uleb128 0x8
+ 1386 0428 1A010000 		.4byte	.LASF49
+ 1387 042c 01       		.byte	0x1
+ 1388 042d EA02     		.2byte	0x2ea
+ 1389 042f B0000000 		.4byte	0xb0
+ 1390 0433 2B020000 		.4byte	.LLST15
+ 1391 0437 00       		.byte	0
+ 1392 0438 16       		.uleb128 0x16
+ 1393 0439 C3010000 		.4byte	.LASF50
+ 1394 043d 01       		.byte	0x1
+ 1395 043e 1103     		.2byte	0x311
+ 1396 0440 B0000000 		.4byte	0xb0
+ 1397 0444 00000000 		.4byte	.LFB16
+ 1398 0448 48000000 		.4byte	.LFE16-.LFB16
+ 1399 044c 01       		.uleb128 0x1
+ 1400 044d 9C       		.byte	0x9c
+ 1401 044e 7F040000 		.4byte	0x47f
+ 1402 0452 07       		.uleb128 0x7
+ 1403 0453 31040000 		.4byte	.LASF47
+ 1404 0457 01       		.byte	0x1
+ 1405 0458 1103     		.2byte	0x311
+ 1406 045a A4000000 		.4byte	0xa4
+ 1407 045e 49020000 		.4byte	.LLST16
+ 1408 0462 17       		.uleb128 0x17
+ 1409 0463 3F010000 		.4byte	.LASF67
+ 1410 0467 01       		.byte	0x1
+ 1411 0468 1403     		.2byte	0x314
+ 1412 046a D6000000 		.4byte	0xd6
+ 1413 046e 08       		.uleb128 0x8
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 42
+
+
+ 1414 046f 1A010000 		.4byte	.LASF49
+ 1415 0473 01       		.byte	0x1
+ 1416 0474 1503     		.2byte	0x315
+ 1417 0476 B0000000 		.4byte	0xb0
+ 1418 047a 67020000 		.4byte	.LLST17
+ 1419 047e 00       		.byte	0
+ 1420 047f 16       		.uleb128 0x16
+ 1421 0480 2B020000 		.4byte	.LASF51
+ 1422 0484 01       		.byte	0x1
+ 1423 0485 3D03     		.2byte	0x33d
+ 1424 0487 BC000000 		.4byte	0xbc
+ 1425 048b 00000000 		.4byte	.LFB17
+ 1426 048f 50000000 		.4byte	.LFE17-.LFB17
+ 1427 0493 01       		.uleb128 0x1
+ 1428 0494 9C       		.byte	0x9c
+ 1429 0495 C8040000 		.4byte	0x4c8
+ 1430 0499 07       		.uleb128 0x7
+ 1431 049a 31040000 		.4byte	.LASF47
+ 1432 049e 01       		.byte	0x1
+ 1433 049f 3D03     		.2byte	0x33d
+ 1434 04a1 A4000000 		.4byte	0xa4
+ 1435 04a5 85020000 		.4byte	.LLST18
+ 1436 04a9 15       		.uleb128 0x15
+ 1437 04aa 58010000 		.4byte	.LASF52
+ 1438 04ae 01       		.byte	0x1
+ 1439 04af 3F03     		.2byte	0x33f
+ 1440 04b1 BC000000 		.4byte	0xbc
+ 1441 04b5 01       		.uleb128 0x1
+ 1442 04b6 50       		.byte	0x50
+ 1443 04b7 08       		.uleb128 0x8
+ 1444 04b8 1A010000 		.4byte	.LASF49
+ 1445 04bc 01       		.byte	0x1
+ 1446 04bd 4003     		.2byte	0x340
+ 1447 04bf B0000000 		.4byte	0xb0
+ 1448 04c3 A3020000 		.4byte	.LLST19
+ 1449 04c7 00       		.byte	0
+ 1450 04c8 18       		.uleb128 0x18
+ 1451 04c9 47020000 		.4byte	.LASF53
+ 1452 04cd 01       		.byte	0x1
+ 1453 04ce 23       		.byte	0x23
+ 1454 04cf 80000000 		.4byte	0x80
+ 1455 04d3 05       		.uleb128 0x5
+ 1456 04d4 03       		.byte	0x3
+ 1457 04d5 00000000 		.4byte	Seat_ADC_SAR_initVar
+ 1458 04d9 18       		.uleb128 0x18
+ 1459 04da F4030000 		.4byte	.LASF54
+ 1460 04de 01       		.byte	0x1
+ 1461 04df 24       		.byte	0x24
+ 1462 04e0 EA040000 		.4byte	0x4ea
+ 1463 04e4 05       		.uleb128 0x5
+ 1464 04e5 03       		.byte	0x3
+ 1465 04e6 00000000 		.4byte	Seat_ADC_SAR_offset
+ 1466 04ea 05       		.uleb128 0x5
+ 1467 04eb A4000000 		.4byte	0xa4
+ 1468 04ef 18       		.uleb128 0x18
+ 1469 04f0 74000000 		.4byte	.LASF55
+ 1470 04f4 01       		.byte	0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 43
+
+
+ 1471 04f5 25       		.byte	0x25
+ 1472 04f6 EA040000 		.4byte	0x4ea
+ 1473 04fa 05       		.uleb128 0x5
+ 1474 04fb 03       		.byte	0x3
+ 1475 04fc 00000000 		.4byte	Seat_ADC_SAR_countsPerVolt
+ 1476 0500 18       		.uleb128 0x18
+ 1477 0501 88010000 		.4byte	.LASF56
+ 1478 0505 01       		.byte	0x1
+ 1479 0506 26       		.byte	0x26
+ 1480 0507 11050000 		.4byte	0x511
+ 1481 050b 05       		.uleb128 0x5
+ 1482 050c 03       		.byte	0x3
+ 1483 050d 00000000 		.4byte	Seat_ADC_SAR_countsPer10Volt
+ 1484 0511 05       		.uleb128 0x5
+ 1485 0512 B0000000 		.4byte	0xb0
+ 1486 0516 18       		.uleb128 0x18
+ 1487 0517 8E040000 		.4byte	.LASF57
+ 1488 051b 01       		.byte	0x1
+ 1489 051c 27       		.byte	0x27
+ 1490 051d EA040000 		.4byte	0x4ea
+ 1491 0521 05       		.uleb128 0x5
+ 1492 0522 03       		.byte	0x3
+ 1493 0523 00000000 		.4byte	Seat_ADC_SAR_shift
+ 1494 0527 19       		.uleb128 0x19
+ 1495 0528 BF020000 		.4byte	.LASF58
+ 1496 052c BF020000 		.4byte	.LASF58
+ 1497 0530 03       		.byte	0x3
+ 1498 0531 7F       		.byte	0x7f
+ 1499 0532 19       		.uleb128 0x19
+ 1500 0533 5E010000 		.4byte	.LASF59
+ 1501 0537 5E010000 		.4byte	.LASF59
+ 1502 053b 03       		.byte	0x3
+ 1503 053c 7D       		.byte	0x7d
+ 1504 053d 19       		.uleb128 0x19
+ 1505 053e F5000000 		.4byte	.LASF60
+ 1506 0542 F5000000 		.4byte	.LASF60
+ 1507 0546 03       		.byte	0x3
+ 1508 0547 77       		.byte	0x77
+ 1509 0548 19       		.uleb128 0x19
+ 1510 0549 0F000000 		.4byte	.LASF61
+ 1511 054d 0F000000 		.4byte	.LASF61
+ 1512 0551 03       		.byte	0x3
+ 1513 0552 7E       		.byte	0x7e
+ 1514 0553 00       		.byte	0
+ 1515              		.section	.debug_abbrev,"",%progbits
+ 1516              	.Ldebug_abbrev0:
+ 1517 0000 01       		.uleb128 0x1
+ 1518 0001 11       		.uleb128 0x11
+ 1519 0002 01       		.byte	0x1
+ 1520 0003 25       		.uleb128 0x25
+ 1521 0004 0E       		.uleb128 0xe
+ 1522 0005 13       		.uleb128 0x13
+ 1523 0006 0B       		.uleb128 0xb
+ 1524 0007 03       		.uleb128 0x3
+ 1525 0008 0E       		.uleb128 0xe
+ 1526 0009 1B       		.uleb128 0x1b
+ 1527 000a 0E       		.uleb128 0xe
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 44
+
+
+ 1528 000b 55       		.uleb128 0x55
+ 1529 000c 17       		.uleb128 0x17
+ 1530 000d 11       		.uleb128 0x11
+ 1531 000e 01       		.uleb128 0x1
+ 1532 000f 10       		.uleb128 0x10
+ 1533 0010 17       		.uleb128 0x17
+ 1534 0011 00       		.byte	0
+ 1535 0012 00       		.byte	0
+ 1536 0013 02       		.uleb128 0x2
+ 1537 0014 24       		.uleb128 0x24
+ 1538 0015 00       		.byte	0
+ 1539 0016 0B       		.uleb128 0xb
+ 1540 0017 0B       		.uleb128 0xb
+ 1541 0018 3E       		.uleb128 0x3e
+ 1542 0019 0B       		.uleb128 0xb
+ 1543 001a 03       		.uleb128 0x3
+ 1544 001b 08       		.uleb128 0x8
+ 1545 001c 00       		.byte	0
+ 1546 001d 00       		.byte	0
+ 1547 001e 03       		.uleb128 0x3
+ 1548 001f 24       		.uleb128 0x24
+ 1549 0020 00       		.byte	0
+ 1550 0021 0B       		.uleb128 0xb
+ 1551 0022 0B       		.uleb128 0xb
+ 1552 0023 3E       		.uleb128 0x3e
+ 1553 0024 0B       		.uleb128 0xb
+ 1554 0025 03       		.uleb128 0x3
+ 1555 0026 0E       		.uleb128 0xe
+ 1556 0027 00       		.byte	0
+ 1557 0028 00       		.byte	0
+ 1558 0029 04       		.uleb128 0x4
+ 1559 002a 16       		.uleb128 0x16
+ 1560 002b 00       		.byte	0
+ 1561 002c 03       		.uleb128 0x3
+ 1562 002d 0E       		.uleb128 0xe
+ 1563 002e 3A       		.uleb128 0x3a
+ 1564 002f 0B       		.uleb128 0xb
+ 1565 0030 3B       		.uleb128 0x3b
+ 1566 0031 05       		.uleb128 0x5
+ 1567 0032 49       		.uleb128 0x49
+ 1568 0033 13       		.uleb128 0x13
+ 1569 0034 00       		.byte	0
+ 1570 0035 00       		.byte	0
+ 1571 0036 05       		.uleb128 0x5
+ 1572 0037 35       		.uleb128 0x35
+ 1573 0038 00       		.byte	0
+ 1574 0039 49       		.uleb128 0x49
+ 1575 003a 13       		.uleb128 0x13
+ 1576 003b 00       		.byte	0
+ 1577 003c 00       		.byte	0
+ 1578 003d 06       		.uleb128 0x6
+ 1579 003e 2E       		.uleb128 0x2e
+ 1580 003f 01       		.byte	0x1
+ 1581 0040 03       		.uleb128 0x3
+ 1582 0041 0E       		.uleb128 0xe
+ 1583 0042 3A       		.uleb128 0x3a
+ 1584 0043 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 45
+
+
+ 1585 0044 3B       		.uleb128 0x3b
+ 1586 0045 05       		.uleb128 0x5
+ 1587 0046 27       		.uleb128 0x27
+ 1588 0047 19       		.uleb128 0x19
+ 1589 0048 11       		.uleb128 0x11
+ 1590 0049 01       		.uleb128 0x1
+ 1591 004a 12       		.uleb128 0x12
+ 1592 004b 06       		.uleb128 0x6
+ 1593 004c 40       		.uleb128 0x40
+ 1594 004d 18       		.uleb128 0x18
+ 1595 004e 9742     		.uleb128 0x2117
+ 1596 0050 19       		.uleb128 0x19
+ 1597 0051 01       		.uleb128 0x1
+ 1598 0052 13       		.uleb128 0x13
+ 1599 0053 00       		.byte	0
+ 1600 0054 00       		.byte	0
+ 1601 0055 07       		.uleb128 0x7
+ 1602 0056 05       		.uleb128 0x5
+ 1603 0057 00       		.byte	0
+ 1604 0058 03       		.uleb128 0x3
+ 1605 0059 0E       		.uleb128 0xe
+ 1606 005a 3A       		.uleb128 0x3a
+ 1607 005b 0B       		.uleb128 0xb
+ 1608 005c 3B       		.uleb128 0x3b
+ 1609 005d 05       		.uleb128 0x5
+ 1610 005e 49       		.uleb128 0x49
+ 1611 005f 13       		.uleb128 0x13
+ 1612 0060 02       		.uleb128 0x2
+ 1613 0061 17       		.uleb128 0x17
+ 1614 0062 00       		.byte	0
+ 1615 0063 00       		.byte	0
+ 1616 0064 08       		.uleb128 0x8
+ 1617 0065 34       		.uleb128 0x34
+ 1618 0066 00       		.byte	0
+ 1619 0067 03       		.uleb128 0x3
+ 1620 0068 0E       		.uleb128 0xe
+ 1621 0069 3A       		.uleb128 0x3a
+ 1622 006a 0B       		.uleb128 0xb
+ 1623 006b 3B       		.uleb128 0x3b
+ 1624 006c 05       		.uleb128 0x5
+ 1625 006d 49       		.uleb128 0x49
+ 1626 006e 13       		.uleb128 0x13
+ 1627 006f 02       		.uleb128 0x2
+ 1628 0070 17       		.uleb128 0x17
+ 1629 0071 00       		.byte	0
+ 1630 0072 00       		.byte	0
+ 1631 0073 09       		.uleb128 0x9
+ 1632 0074 898201   		.uleb128 0x4109
+ 1633 0077 01       		.byte	0x1
+ 1634 0078 11       		.uleb128 0x11
+ 1635 0079 01       		.uleb128 0x1
+ 1636 007a 31       		.uleb128 0x31
+ 1637 007b 13       		.uleb128 0x13
+ 1638 007c 00       		.byte	0
+ 1639 007d 00       		.byte	0
+ 1640 007e 0A       		.uleb128 0xa
+ 1641 007f 8A8201   		.uleb128 0x410a
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 46
+
+
+ 1642 0082 00       		.byte	0
+ 1643 0083 02       		.uleb128 0x2
+ 1644 0084 18       		.uleb128 0x18
+ 1645 0085 9142     		.uleb128 0x2111
+ 1646 0087 18       		.uleb128 0x18
+ 1647 0088 00       		.byte	0
+ 1648 0089 00       		.byte	0
+ 1649 008a 0B       		.uleb128 0xb
+ 1650 008b 2E       		.uleb128 0x2e
+ 1651 008c 01       		.byte	0x1
+ 1652 008d 3F       		.uleb128 0x3f
+ 1653 008e 19       		.uleb128 0x19
+ 1654 008f 03       		.uleb128 0x3
+ 1655 0090 0E       		.uleb128 0xe
+ 1656 0091 3A       		.uleb128 0x3a
+ 1657 0092 0B       		.uleb128 0xb
+ 1658 0093 3B       		.uleb128 0x3b
+ 1659 0094 0B       		.uleb128 0xb
+ 1660 0095 27       		.uleb128 0x27
+ 1661 0096 19       		.uleb128 0x19
+ 1662 0097 11       		.uleb128 0x11
+ 1663 0098 01       		.uleb128 0x1
+ 1664 0099 12       		.uleb128 0x12
+ 1665 009a 06       		.uleb128 0x6
+ 1666 009b 40       		.uleb128 0x40
+ 1667 009c 18       		.uleb128 0x18
+ 1668 009d 9742     		.uleb128 0x2117
+ 1669 009f 19       		.uleb128 0x19
+ 1670 00a0 01       		.uleb128 0x1
+ 1671 00a1 13       		.uleb128 0x13
+ 1672 00a2 00       		.byte	0
+ 1673 00a3 00       		.byte	0
+ 1674 00a4 0C       		.uleb128 0xc
+ 1675 00a5 34       		.uleb128 0x34
+ 1676 00a6 00       		.byte	0
+ 1677 00a7 03       		.uleb128 0x3
+ 1678 00a8 0E       		.uleb128 0xe
+ 1679 00a9 3A       		.uleb128 0x3a
+ 1680 00aa 0B       		.uleb128 0xb
+ 1681 00ab 3B       		.uleb128 0x3b
+ 1682 00ac 0B       		.uleb128 0xb
+ 1683 00ad 49       		.uleb128 0x49
+ 1684 00ae 13       		.uleb128 0x13
+ 1685 00af 02       		.uleb128 0x2
+ 1686 00b0 17       		.uleb128 0x17
+ 1687 00b1 00       		.byte	0
+ 1688 00b2 00       		.byte	0
+ 1689 00b3 0D       		.uleb128 0xd
+ 1690 00b4 898201   		.uleb128 0x4109
+ 1691 00b7 00       		.byte	0
+ 1692 00b8 11       		.uleb128 0x11
+ 1693 00b9 01       		.uleb128 0x1
+ 1694 00ba 31       		.uleb128 0x31
+ 1695 00bb 13       		.uleb128 0x13
+ 1696 00bc 00       		.byte	0
+ 1697 00bd 00       		.byte	0
+ 1698 00be 0E       		.uleb128 0xe
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 47
+
+
+ 1699 00bf 898201   		.uleb128 0x4109
+ 1700 00c2 01       		.byte	0x1
+ 1701 00c3 11       		.uleb128 0x11
+ 1702 00c4 01       		.uleb128 0x1
+ 1703 00c5 31       		.uleb128 0x31
+ 1704 00c6 13       		.uleb128 0x13
+ 1705 00c7 01       		.uleb128 0x1
+ 1706 00c8 13       		.uleb128 0x13
+ 1707 00c9 00       		.byte	0
+ 1708 00ca 00       		.byte	0
+ 1709 00cb 0F       		.uleb128 0xf
+ 1710 00cc 2E       		.uleb128 0x2e
+ 1711 00cd 01       		.byte	0x1
+ 1712 00ce 3F       		.uleb128 0x3f
+ 1713 00cf 19       		.uleb128 0x19
+ 1714 00d0 03       		.uleb128 0x3
+ 1715 00d1 0E       		.uleb128 0xe
+ 1716 00d2 3A       		.uleb128 0x3a
+ 1717 00d3 0B       		.uleb128 0xb
+ 1718 00d4 3B       		.uleb128 0x3b
+ 1719 00d5 05       		.uleb128 0x5
+ 1720 00d6 27       		.uleb128 0x27
+ 1721 00d7 19       		.uleb128 0x19
+ 1722 00d8 11       		.uleb128 0x11
+ 1723 00d9 01       		.uleb128 0x1
+ 1724 00da 12       		.uleb128 0x12
+ 1725 00db 06       		.uleb128 0x6
+ 1726 00dc 40       		.uleb128 0x40
+ 1727 00dd 18       		.uleb128 0x18
+ 1728 00de 9742     		.uleb128 0x2117
+ 1729 00e0 19       		.uleb128 0x19
+ 1730 00e1 01       		.uleb128 0x1
+ 1731 00e2 13       		.uleb128 0x13
+ 1732 00e3 00       		.byte	0
+ 1733 00e4 00       		.byte	0
+ 1734 00e5 10       		.uleb128 0x10
+ 1735 00e6 2E       		.uleb128 0x2e
+ 1736 00e7 00       		.byte	0
+ 1737 00e8 3F       		.uleb128 0x3f
+ 1738 00e9 19       		.uleb128 0x19
+ 1739 00ea 03       		.uleb128 0x3
+ 1740 00eb 0E       		.uleb128 0xe
+ 1741 00ec 3A       		.uleb128 0x3a
+ 1742 00ed 0B       		.uleb128 0xb
+ 1743 00ee 3B       		.uleb128 0x3b
+ 1744 00ef 05       		.uleb128 0x5
+ 1745 00f0 27       		.uleb128 0x27
+ 1746 00f1 19       		.uleb128 0x19
+ 1747 00f2 11       		.uleb128 0x11
+ 1748 00f3 01       		.uleb128 0x1
+ 1749 00f4 12       		.uleb128 0x12
+ 1750 00f5 06       		.uleb128 0x6
+ 1751 00f6 40       		.uleb128 0x40
+ 1752 00f7 18       		.uleb128 0x18
+ 1753 00f8 9742     		.uleb128 0x2117
+ 1754 00fa 19       		.uleb128 0x19
+ 1755 00fb 00       		.byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 48
+
+
+ 1756 00fc 00       		.byte	0
+ 1757 00fd 11       		.uleb128 0x11
+ 1758 00fe 2E       		.uleb128 0x2e
+ 1759 00ff 01       		.byte	0x1
+ 1760 0100 3F       		.uleb128 0x3f
+ 1761 0101 19       		.uleb128 0x19
+ 1762 0102 03       		.uleb128 0x3
+ 1763 0103 0E       		.uleb128 0xe
+ 1764 0104 3A       		.uleb128 0x3a
+ 1765 0105 0B       		.uleb128 0xb
+ 1766 0106 3B       		.uleb128 0x3b
+ 1767 0107 05       		.uleb128 0x5
+ 1768 0108 27       		.uleb128 0x27
+ 1769 0109 19       		.uleb128 0x19
+ 1770 010a 49       		.uleb128 0x49
+ 1771 010b 13       		.uleb128 0x13
+ 1772 010c 11       		.uleb128 0x11
+ 1773 010d 01       		.uleb128 0x1
+ 1774 010e 12       		.uleb128 0x12
+ 1775 010f 06       		.uleb128 0x6
+ 1776 0110 40       		.uleb128 0x40
+ 1777 0111 18       		.uleb128 0x18
+ 1778 0112 9742     		.uleb128 0x2117
+ 1779 0114 19       		.uleb128 0x19
+ 1780 0115 01       		.uleb128 0x1
+ 1781 0116 13       		.uleb128 0x13
+ 1782 0117 00       		.byte	0
+ 1783 0118 00       		.byte	0
+ 1784 0119 12       		.uleb128 0x12
+ 1785 011a 2E       		.uleb128 0x2e
+ 1786 011b 00       		.byte	0
+ 1787 011c 3F       		.uleb128 0x3f
+ 1788 011d 19       		.uleb128 0x19
+ 1789 011e 03       		.uleb128 0x3
+ 1790 011f 0E       		.uleb128 0xe
+ 1791 0120 3A       		.uleb128 0x3a
+ 1792 0121 0B       		.uleb128 0xb
+ 1793 0122 3B       		.uleb128 0x3b
+ 1794 0123 05       		.uleb128 0x5
+ 1795 0124 27       		.uleb128 0x27
+ 1796 0125 19       		.uleb128 0x19
+ 1797 0126 49       		.uleb128 0x49
+ 1798 0127 13       		.uleb128 0x13
+ 1799 0128 11       		.uleb128 0x11
+ 1800 0129 01       		.uleb128 0x1
+ 1801 012a 12       		.uleb128 0x12
+ 1802 012b 06       		.uleb128 0x6
+ 1803 012c 40       		.uleb128 0x40
+ 1804 012d 18       		.uleb128 0x18
+ 1805 012e 9742     		.uleb128 0x2117
+ 1806 0130 19       		.uleb128 0x19
+ 1807 0131 00       		.byte	0
+ 1808 0132 00       		.byte	0
+ 1809 0133 13       		.uleb128 0x13
+ 1810 0134 34       		.uleb128 0x34
+ 1811 0135 00       		.byte	0
+ 1812 0136 03       		.uleb128 0x3
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 49
+
+
+ 1813 0137 08       		.uleb128 0x8
+ 1814 0138 3A       		.uleb128 0x3a
+ 1815 0139 0B       		.uleb128 0xb
+ 1816 013a 3B       		.uleb128 0x3b
+ 1817 013b 05       		.uleb128 0x5
+ 1818 013c 49       		.uleb128 0x49
+ 1819 013d 13       		.uleb128 0x13
+ 1820 013e 02       		.uleb128 0x2
+ 1821 013f 17       		.uleb128 0x17
+ 1822 0140 00       		.byte	0
+ 1823 0141 00       		.byte	0
+ 1824 0142 14       		.uleb128 0x14
+ 1825 0143 05       		.uleb128 0x5
+ 1826 0144 00       		.byte	0
+ 1827 0145 03       		.uleb128 0x3
+ 1828 0146 0E       		.uleb128 0xe
+ 1829 0147 3A       		.uleb128 0x3a
+ 1830 0148 0B       		.uleb128 0xb
+ 1831 0149 3B       		.uleb128 0x3b
+ 1832 014a 05       		.uleb128 0x5
+ 1833 014b 49       		.uleb128 0x49
+ 1834 014c 13       		.uleb128 0x13
+ 1835 014d 02       		.uleb128 0x2
+ 1836 014e 18       		.uleb128 0x18
+ 1837 014f 00       		.byte	0
+ 1838 0150 00       		.byte	0
+ 1839 0151 15       		.uleb128 0x15
+ 1840 0152 34       		.uleb128 0x34
+ 1841 0153 00       		.byte	0
+ 1842 0154 03       		.uleb128 0x3
+ 1843 0155 0E       		.uleb128 0xe
+ 1844 0156 3A       		.uleb128 0x3a
+ 1845 0157 0B       		.uleb128 0xb
+ 1846 0158 3B       		.uleb128 0x3b
+ 1847 0159 05       		.uleb128 0x5
+ 1848 015a 49       		.uleb128 0x49
+ 1849 015b 13       		.uleb128 0x13
+ 1850 015c 02       		.uleb128 0x2
+ 1851 015d 18       		.uleb128 0x18
+ 1852 015e 00       		.byte	0
+ 1853 015f 00       		.byte	0
+ 1854 0160 16       		.uleb128 0x16
+ 1855 0161 2E       		.uleb128 0x2e
+ 1856 0162 01       		.byte	0x1
+ 1857 0163 3F       		.uleb128 0x3f
+ 1858 0164 19       		.uleb128 0x19
+ 1859 0165 03       		.uleb128 0x3
+ 1860 0166 0E       		.uleb128 0xe
+ 1861 0167 3A       		.uleb128 0x3a
+ 1862 0168 0B       		.uleb128 0xb
+ 1863 0169 3B       		.uleb128 0x3b
+ 1864 016a 05       		.uleb128 0x5
+ 1865 016b 27       		.uleb128 0x27
+ 1866 016c 19       		.uleb128 0x19
+ 1867 016d 49       		.uleb128 0x49
+ 1868 016e 13       		.uleb128 0x13
+ 1869 016f 11       		.uleb128 0x11
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 50
+
+
+ 1870 0170 01       		.uleb128 0x1
+ 1871 0171 12       		.uleb128 0x12
+ 1872 0172 06       		.uleb128 0x6
+ 1873 0173 40       		.uleb128 0x40
+ 1874 0174 18       		.uleb128 0x18
+ 1875 0175 9642     		.uleb128 0x2116
+ 1876 0177 19       		.uleb128 0x19
+ 1877 0178 01       		.uleb128 0x1
+ 1878 0179 13       		.uleb128 0x13
+ 1879 017a 00       		.byte	0
+ 1880 017b 00       		.byte	0
+ 1881 017c 17       		.uleb128 0x17
+ 1882 017d 34       		.uleb128 0x34
+ 1883 017e 00       		.byte	0
+ 1884 017f 03       		.uleb128 0x3
+ 1885 0180 0E       		.uleb128 0xe
+ 1886 0181 3A       		.uleb128 0x3a
+ 1887 0182 0B       		.uleb128 0xb
+ 1888 0183 3B       		.uleb128 0x3b
+ 1889 0184 05       		.uleb128 0x5
+ 1890 0185 49       		.uleb128 0x49
+ 1891 0186 13       		.uleb128 0x13
+ 1892 0187 00       		.byte	0
+ 1893 0188 00       		.byte	0
+ 1894 0189 18       		.uleb128 0x18
+ 1895 018a 34       		.uleb128 0x34
+ 1896 018b 00       		.byte	0
+ 1897 018c 03       		.uleb128 0x3
+ 1898 018d 0E       		.uleb128 0xe
+ 1899 018e 3A       		.uleb128 0x3a
+ 1900 018f 0B       		.uleb128 0xb
+ 1901 0190 3B       		.uleb128 0x3b
+ 1902 0191 0B       		.uleb128 0xb
+ 1903 0192 49       		.uleb128 0x49
+ 1904 0193 13       		.uleb128 0x13
+ 1905 0194 3F       		.uleb128 0x3f
+ 1906 0195 19       		.uleb128 0x19
+ 1907 0196 02       		.uleb128 0x2
+ 1908 0197 18       		.uleb128 0x18
+ 1909 0198 00       		.byte	0
+ 1910 0199 00       		.byte	0
+ 1911 019a 19       		.uleb128 0x19
+ 1912 019b 2E       		.uleb128 0x2e
+ 1913 019c 00       		.byte	0
+ 1914 019d 3F       		.uleb128 0x3f
+ 1915 019e 19       		.uleb128 0x19
+ 1916 019f 3C       		.uleb128 0x3c
+ 1917 01a0 19       		.uleb128 0x19
+ 1918 01a1 6E       		.uleb128 0x6e
+ 1919 01a2 0E       		.uleb128 0xe
+ 1920 01a3 03       		.uleb128 0x3
+ 1921 01a4 0E       		.uleb128 0xe
+ 1922 01a5 3A       		.uleb128 0x3a
+ 1923 01a6 0B       		.uleb128 0xb
+ 1924 01a7 3B       		.uleb128 0x3b
+ 1925 01a8 0B       		.uleb128 0xb
+ 1926 01a9 00       		.byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 51
+
+
+ 1927 01aa 00       		.byte	0
+ 1928 01ab 00       		.byte	0
+ 1929              		.section	.debug_loc,"",%progbits
+ 1930              	.Ldebug_loc0:
+ 1931              	.LLST0:
+ 1932 0000 00000000 		.4byte	.LVL0
+ 1933 0004 24000000 		.4byte	.LVL3
+ 1934 0008 0100     		.2byte	0x1
+ 1935 000a 50       		.byte	0x50
+ 1936 000b 24000000 		.4byte	.LVL3
+ 1937 000f 2E000000 		.4byte	.LVL5
+ 1938 0013 0400     		.2byte	0x4
+ 1939 0015 F3       		.byte	0xf3
+ 1940 0016 01       		.uleb128 0x1
+ 1941 0017 50       		.byte	0x50
+ 1942 0018 9F       		.byte	0x9f
+ 1943 0019 2E000000 		.4byte	.LVL5
+ 1944 001d 36000000 		.4byte	.LVL6
+ 1945 0021 0100     		.2byte	0x1
+ 1946 0023 50       		.byte	0x50
+ 1947 0024 36000000 		.4byte	.LVL6
+ 1948 0028 68000000 		.4byte	.LFE12
+ 1949 002c 0400     		.2byte	0x4
+ 1950 002e F3       		.byte	0xf3
+ 1951 002f 01       		.uleb128 0x1
+ 1952 0030 50       		.byte	0x50
+ 1953 0031 9F       		.byte	0x9f
+ 1954 0032 00000000 		.4byte	0
+ 1955 0036 00000000 		.4byte	0
+ 1956              	.LLST1:
+ 1957 003a 1A000000 		.4byte	.LVL1
+ 1958 003e 22000000 		.4byte	.LVL2
+ 1959 0042 0400     		.2byte	0x4
+ 1960 0044 0A       		.byte	0xa
+ 1961 0045 0001     		.2byte	0x100
+ 1962 0047 9F       		.byte	0x9f
+ 1963 0048 22000000 		.4byte	.LVL2
+ 1964 004c 2E000000 		.4byte	.LVL5
+ 1965 0050 0200     		.2byte	0x2
+ 1966 0052 30       		.byte	0x30
+ 1967 0053 9F       		.byte	0x9f
+ 1968 0054 36000000 		.4byte	.LVL6
+ 1969 0058 52000000 		.4byte	.LVL7
+ 1970 005c 0100     		.2byte	0x1
+ 1971 005e 51       		.byte	0x51
+ 1972 005f 00000000 		.4byte	0
+ 1973 0063 00000000 		.4byte	0
+ 1974              	.LLST2:
+ 1975 0067 1A000000 		.4byte	.LVL1
+ 1976 006b 22000000 		.4byte	.LVL2
+ 1977 006f 0300     		.2byte	0x3
+ 1978 0071 08       		.byte	0x8
+ 1979 0072 80       		.byte	0x80
+ 1980 0073 9F       		.byte	0x9f
+ 1981 0074 22000000 		.4byte	.LVL2
+ 1982 0078 2E000000 		.4byte	.LVL5
+ 1983 007c 0200     		.2byte	0x2
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 52
+
+
+ 1984 007e 30       		.byte	0x30
+ 1985 007f 9F       		.byte	0x9f
+ 1986 0080 36000000 		.4byte	.LVL6
+ 1987 0084 68000000 		.4byte	.LFE12
+ 1988 0088 0100     		.2byte	0x1
+ 1989 008a 52       		.byte	0x52
+ 1990 008b 00000000 		.4byte	0
+ 1991 008f 00000000 		.4byte	0
+ 1992              	.LLST3:
+ 1993 0093 24000000 		.4byte	.LVL10
+ 1994 0097 28000000 		.4byte	.LVL11
+ 1995 009b 0500     		.2byte	0x5
+ 1996 009d 73       		.byte	0x73
+ 1997 009e 00       		.sleb128 0
+ 1998 009f 32       		.byte	0x32
+ 1999 00a0 21       		.byte	0x21
+ 2000 00a1 9F       		.byte	0x9f
+ 2001 00a2 28000000 		.4byte	.LVL11
+ 2002 00a6 2E000000 		.4byte	.LVL12
+ 2003 00aa 0100     		.2byte	0x1
+ 2004 00ac 53       		.byte	0x53
+ 2005 00ad 2E000000 		.4byte	.LVL12
+ 2006 00b1 30000000 		.4byte	.LVL13
+ 2007 00b5 0500     		.2byte	0x5
+ 2008 00b7 0C       		.byte	0xc
+ 2009 00b8 03590040 		.4byte	0x40005903
+ 2010 00bc 00000000 		.4byte	0
+ 2011 00c0 00000000 		.4byte	0
+ 2012              	.LLST4:
+ 2013 00c4 08000000 		.4byte	.LVL9
+ 2014 00c8 6A000000 		.4byte	.LVL16
+ 2015 00cc 0100     		.2byte	0x1
+ 2016 00ce 54       		.byte	0x54
+ 2017 00cf 00000000 		.4byte	0
+ 2018 00d3 00000000 		.4byte	0
+ 2019              	.LLST5:
+ 2020 00d7 06000000 		.4byte	.LVL17
+ 2021 00db 2B000000 		.4byte	.LVL18-1
+ 2022 00df 0100     		.2byte	0x1
+ 2023 00e1 50       		.byte	0x50
+ 2024 00e2 00000000 		.4byte	0
+ 2025 00e6 00000000 		.4byte	0
+ 2026              	.LLST6:
+ 2027 00ea 00000000 		.4byte	.LVL19
+ 2028 00ee 00000000 		.4byte	.LVL19
+ 2029 00f2 0100     		.2byte	0x1
+ 2030 00f4 50       		.byte	0x50
+ 2031 00f5 00000000 		.4byte	.LVL19
+ 2032 00f9 0C000000 		.4byte	.LVL21
+ 2033 00fd 0500     		.2byte	0x5
+ 2034 00ff 70       		.byte	0x70
+ 2035 0100 00       		.sleb128 0
+ 2036 0101 33       		.byte	0x33
+ 2037 0102 1A       		.byte	0x1a
+ 2038 0103 9F       		.byte	0x9f
+ 2039 0104 0C000000 		.4byte	.LVL21
+ 2040 0108 18000000 		.4byte	.LFE4
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 53
+
+
+ 2041 010c 0600     		.2byte	0x6
+ 2042 010e F3       		.byte	0xf3
+ 2043 010f 01       		.uleb128 0x1
+ 2044 0110 50       		.byte	0x50
+ 2045 0111 33       		.byte	0x33
+ 2046 0112 1A       		.byte	0x1a
+ 2047 0113 9F       		.byte	0x9f
+ 2048 0114 00000000 		.4byte	0
+ 2049 0118 00000000 		.4byte	0
+ 2050              	.LLST7:
+ 2051 011c 08000000 		.4byte	.LVL20
+ 2052 0120 0E000000 		.4byte	.LVL22
+ 2053 0124 0100     		.2byte	0x1
+ 2054 0126 53       		.byte	0x53
+ 2055 0127 0E000000 		.4byte	.LVL22
+ 2056 012b 18000000 		.4byte	.LFE4
+ 2057 012f 0100     		.2byte	0x1
+ 2058 0131 50       		.byte	0x50
+ 2059 0132 00000000 		.4byte	0
+ 2060 0136 00000000 		.4byte	0
+ 2061              	.LLST8:
+ 2062 013a 00000000 		.4byte	.LVL23
+ 2063 013e 1C000000 		.4byte	.LVL26
+ 2064 0142 0100     		.2byte	0x1
+ 2065 0144 50       		.byte	0x50
+ 2066 0145 1C000000 		.4byte	.LVL26
+ 2067 0149 24000000 		.4byte	.LVL28
+ 2068 014d 0400     		.2byte	0x4
+ 2069 014f F3       		.byte	0xf3
+ 2070 0150 01       		.uleb128 0x1
+ 2071 0151 50       		.byte	0x50
+ 2072 0152 9F       		.byte	0x9f
+ 2073 0153 24000000 		.4byte	.LVL28
+ 2074 0157 26000000 		.4byte	.LVL29
+ 2075 015b 0100     		.2byte	0x1
+ 2076 015d 50       		.byte	0x50
+ 2077 015e 26000000 		.4byte	.LVL29
+ 2078 0162 38000000 		.4byte	.LFE5
+ 2079 0166 0400     		.2byte	0x4
+ 2080 0168 F3       		.byte	0xf3
+ 2081 0169 01       		.uleb128 0x1
+ 2082 016a 50       		.byte	0x50
+ 2083 016b 9F       		.byte	0x9f
+ 2084 016c 00000000 		.4byte	0
+ 2085 0170 00000000 		.4byte	0
+ 2086              	.LLST9:
+ 2087 0174 16000000 		.4byte	.LVL24
+ 2088 0178 1A000000 		.4byte	.LVL25
+ 2089 017c 0300     		.2byte	0x3
+ 2090 017e 08       		.byte	0x8
+ 2091 017f 42       		.byte	0x42
+ 2092 0180 9F       		.byte	0x9f
+ 2093 0181 1A000000 		.4byte	.LVL25
+ 2094 0185 24000000 		.4byte	.LVL28
+ 2095 0189 0300     		.2byte	0x3
+ 2096 018b 09       		.byte	0x9
+ 2097 018c C2       		.byte	0xc2
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 54
+
+
+ 2098 018d 9F       		.byte	0x9f
+ 2099 018e 26000000 		.4byte	.LVL29
+ 2100 0192 2F000000 		.4byte	.LVL30-1
+ 2101 0196 0100     		.2byte	0x1
+ 2102 0198 52       		.byte	0x52
+ 2103 0199 00000000 		.4byte	0
+ 2104 019d 00000000 		.4byte	0
+ 2105              	.LLST10:
+ 2106 01a1 00000000 		.4byte	.LVL34
+ 2107 01a5 14000000 		.4byte	.LVL36
+ 2108 01a9 0100     		.2byte	0x1
+ 2109 01ab 50       		.byte	0x50
+ 2110 01ac 14000000 		.4byte	.LVL36
+ 2111 01b0 24000000 		.4byte	.LFE8
+ 2112 01b4 0400     		.2byte	0x4
+ 2113 01b6 F3       		.byte	0xf3
+ 2114 01b7 01       		.uleb128 0x1
+ 2115 01b8 50       		.byte	0x50
+ 2116 01b9 9F       		.byte	0x9f
+ 2117 01ba 00000000 		.4byte	0
+ 2118 01be 00000000 		.4byte	0
+ 2119              	.LLST11:
+ 2120 01c2 06000000 		.4byte	.LVL35
+ 2121 01c6 17000000 		.4byte	.LVL37-1
+ 2122 01ca 0500     		.2byte	0x5
+ 2123 01cc 73       		.byte	0x73
+ 2124 01cd 00       		.sleb128 0
+ 2125 01ce 31       		.byte	0x31
+ 2126 01cf 1A       		.byte	0x1a
+ 2127 01d0 9F       		.byte	0x9f
+ 2128 01d1 00000000 		.4byte	0
+ 2129 01d5 00000000 		.4byte	0
+ 2130              	.LLST12:
+ 2131 01d9 06000000 		.4byte	.LVL38
+ 2132 01dd 0C000000 		.4byte	.LVL39
+ 2133 01e1 0100     		.2byte	0x1
+ 2134 01e3 50       		.byte	0x50
+ 2135 01e4 00000000 		.4byte	0
+ 2136 01e8 00000000 		.4byte	0
+ 2137              	.LLST13:
+ 2138 01ec 00000000 		.4byte	.LVL41
+ 2139 01f0 04000000 		.4byte	.LVL42
+ 2140 01f4 0100     		.2byte	0x1
+ 2141 01f6 50       		.byte	0x50
+ 2142 01f7 04000000 		.4byte	.LVL42
+ 2143 01fb 10000000 		.4byte	.LFE13
+ 2144 01ff 0400     		.2byte	0x4
+ 2145 0201 F3       		.byte	0xf3
+ 2146 0202 01       		.uleb128 0x1
+ 2147 0203 50       		.byte	0x50
+ 2148 0204 9F       		.byte	0x9f
+ 2149 0205 00000000 		.4byte	0
+ 2150 0209 00000000 		.4byte	0
+ 2151              	.LLST14:
+ 2152 020d 00000000 		.4byte	.LVL44
+ 2153 0211 24000000 		.4byte	.LVL48
+ 2154 0215 0100     		.2byte	0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 55
+
+
+ 2155 0217 50       		.byte	0x50
+ 2156 0218 24000000 		.4byte	.LVL48
+ 2157 021c 58000000 		.4byte	.LFE15
+ 2158 0220 0100     		.2byte	0x1
+ 2159 0222 51       		.byte	0x51
+ 2160 0223 00000000 		.4byte	0
+ 2161 0227 00000000 		.4byte	0
+ 2162              	.LLST15:
+ 2163 022b 16000000 		.4byte	.LVL45
+ 2164 022f 18000000 		.4byte	.LVL46
+ 2165 0233 0100     		.2byte	0x1
+ 2166 0235 54       		.byte	0x54
+ 2167 0236 1C000000 		.4byte	.LVL47
+ 2168 023a 4A000000 		.4byte	.LVL50
+ 2169 023e 0100     		.2byte	0x1
+ 2170 0240 54       		.byte	0x54
+ 2171 0241 00000000 		.4byte	0
+ 2172 0245 00000000 		.4byte	0
+ 2173              	.LLST16:
+ 2174 0249 00000000 		.4byte	.LVL51
+ 2175 024d 22000000 		.4byte	.LVL55
+ 2176 0251 0100     		.2byte	0x1
+ 2177 0253 50       		.byte	0x50
+ 2178 0254 22000000 		.4byte	.LVL55
+ 2179 0258 38000000 		.4byte	.LVL57
+ 2180 025c 0100     		.2byte	0x1
+ 2181 025e 54       		.byte	0x54
+ 2182 025f 00000000 		.4byte	0
+ 2183 0263 00000000 		.4byte	0
+ 2184              	.LLST17:
+ 2185 0267 16000000 		.4byte	.LVL52
+ 2186 026b 18000000 		.4byte	.LVL53
+ 2187 026f 0100     		.2byte	0x1
+ 2188 0271 52       		.byte	0x52
+ 2189 0272 1C000000 		.4byte	.LVL54
+ 2190 0276 35000000 		.4byte	.LVL56-1
+ 2191 027a 0100     		.2byte	0x1
+ 2192 027c 52       		.byte	0x52
+ 2193 027d 00000000 		.4byte	0
+ 2194 0281 00000000 		.4byte	0
+ 2195              	.LLST18:
+ 2196 0285 00000000 		.4byte	.LVL58
+ 2197 0289 22000000 		.4byte	.LVL62
+ 2198 028d 0100     		.2byte	0x1
+ 2199 028f 50       		.byte	0x50
+ 2200 0290 22000000 		.4byte	.LVL62
+ 2201 0294 27000000 		.4byte	.LVL63-1
+ 2202 0298 0100     		.2byte	0x1
+ 2203 029a 50       		.byte	0x50
+ 2204 029b 00000000 		.4byte	0
+ 2205 029f 00000000 		.4byte	0
+ 2206              	.LLST19:
+ 2207 02a3 16000000 		.4byte	.LVL59
+ 2208 02a7 18000000 		.4byte	.LVL60
+ 2209 02ab 0100     		.2byte	0x1
+ 2210 02ad 54       		.byte	0x54
+ 2211 02ae 1C000000 		.4byte	.LVL61
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 56
+
+
+ 2212 02b2 40000000 		.4byte	.LVL67
+ 2213 02b6 0100     		.2byte	0x1
+ 2214 02b8 54       		.byte	0x54
+ 2215 02b9 00000000 		.4byte	0
+ 2216 02bd 00000000 		.4byte	0
+ 2217              		.section	.debug_aranges,"",%progbits
+ 2218 0000 A4000000 		.4byte	0xa4
+ 2219 0004 0200     		.2byte	0x2
+ 2220 0006 00000000 		.4byte	.Ldebug_info0
+ 2221 000a 04       		.byte	0x4
+ 2222 000b 00       		.byte	0
+ 2223 000c 0000     		.2byte	0
+ 2224 000e 0000     		.2byte	0
+ 2225 0010 00000000 		.4byte	.LFB12
+ 2226 0014 68000000 		.4byte	.LFE12-.LFB12
+ 2227 0018 00000000 		.4byte	.LFB2
+ 2228 001c 78000000 		.4byte	.LFE2-.LFB2
+ 2229 0020 00000000 		.4byte	.LFB3
+ 2230 0024 34000000 		.4byte	.LFE3-.LFB3
+ 2231 0028 00000000 		.4byte	.LFB4
+ 2232 002c 18000000 		.4byte	.LFE4-.LFB4
+ 2233 0030 00000000 		.4byte	.LFB5
+ 2234 0034 38000000 		.4byte	.LFE5-.LFB5
+ 2235 0038 00000000 		.4byte	.LFB1
+ 2236 003c 24000000 		.4byte	.LFE1-.LFB1
+ 2237 0040 00000000 		.4byte	.LFB0
+ 2238 0044 1C000000 		.4byte	.LFE0-.LFB0
+ 2239 0048 00000000 		.4byte	.LFB6
+ 2240 004c 18000000 		.4byte	.LFE6-.LFB6
+ 2241 0050 00000000 		.4byte	.LFB7
+ 2242 0054 18000000 		.4byte	.LFE7-.LFB7
+ 2243 0058 00000000 		.4byte	.LFB8
+ 2244 005c 24000000 		.4byte	.LFE8-.LFB8
+ 2245 0060 00000000 		.4byte	.LFB9
+ 2246 0064 18000000 		.4byte	.LFE9-.LFB9
+ 2247 0068 00000000 		.4byte	.LFB10
+ 2248 006c 18000000 		.4byte	.LFE10-.LFB10
+ 2249 0070 00000000 		.4byte	.LFB11
+ 2250 0074 0C000000 		.4byte	.LFE11-.LFB11
+ 2251 0078 00000000 		.4byte	.LFB13
+ 2252 007c 10000000 		.4byte	.LFE13-.LFB13
+ 2253 0080 00000000 		.4byte	.LFB14
+ 2254 0084 0C000000 		.4byte	.LFE14-.LFB14
+ 2255 0088 00000000 		.4byte	.LFB15
+ 2256 008c 58000000 		.4byte	.LFE15-.LFB15
+ 2257 0090 00000000 		.4byte	.LFB16
+ 2258 0094 48000000 		.4byte	.LFE16-.LFB16
+ 2259 0098 00000000 		.4byte	.LFB17
+ 2260 009c 50000000 		.4byte	.LFE17-.LFB17
+ 2261 00a0 00000000 		.4byte	0
+ 2262 00a4 00000000 		.4byte	0
+ 2263              		.section	.debug_ranges,"",%progbits
+ 2264              	.Ldebug_ranges0:
+ 2265 0000 00000000 		.4byte	.LFB12
+ 2266 0004 68000000 		.4byte	.LFE12
+ 2267 0008 00000000 		.4byte	.LFB2
+ 2268 000c 78000000 		.4byte	.LFE2
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 57
+
+
+ 2269 0010 00000000 		.4byte	.LFB3
+ 2270 0014 34000000 		.4byte	.LFE3
+ 2271 0018 00000000 		.4byte	.LFB4
+ 2272 001c 18000000 		.4byte	.LFE4
+ 2273 0020 00000000 		.4byte	.LFB5
+ 2274 0024 38000000 		.4byte	.LFE5
+ 2275 0028 00000000 		.4byte	.LFB1
+ 2276 002c 24000000 		.4byte	.LFE1
+ 2277 0030 00000000 		.4byte	.LFB0
+ 2278 0034 1C000000 		.4byte	.LFE0
+ 2279 0038 00000000 		.4byte	.LFB6
+ 2280 003c 18000000 		.4byte	.LFE6
+ 2281 0040 00000000 		.4byte	.LFB7
+ 2282 0044 18000000 		.4byte	.LFE7
+ 2283 0048 00000000 		.4byte	.LFB8
+ 2284 004c 24000000 		.4byte	.LFE8
+ 2285 0050 00000000 		.4byte	.LFB9
+ 2286 0054 18000000 		.4byte	.LFE9
+ 2287 0058 00000000 		.4byte	.LFB10
+ 2288 005c 18000000 		.4byte	.LFE10
+ 2289 0060 00000000 		.4byte	.LFB11
+ 2290 0064 0C000000 		.4byte	.LFE11
+ 2291 0068 00000000 		.4byte	.LFB13
+ 2292 006c 10000000 		.4byte	.LFE13
+ 2293 0070 00000000 		.4byte	.LFB14
+ 2294 0074 0C000000 		.4byte	.LFE14
+ 2295 0078 00000000 		.4byte	.LFB15
+ 2296 007c 58000000 		.4byte	.LFE15
+ 2297 0080 00000000 		.4byte	.LFB16
+ 2298 0084 48000000 		.4byte	.LFE16
+ 2299 0088 00000000 		.4byte	.LFB17
+ 2300 008c 50000000 		.4byte	.LFE17
+ 2301 0090 00000000 		.4byte	0
+ 2302 0094 00000000 		.4byte	0
+ 2303              		.section	.debug_line,"",%progbits
+ 2304              	.Ldebug_line0:
+ 2305 0000 08020000 		.section	.debug_str,"MS",%progbits,1
+ 2305      02005400 
+ 2305      00000201 
+ 2305      FB0E0D00 
+ 2305      01010101 
+ 2306              	.LASF13:
+ 2307 0000 75696E74 		.ascii	"uint16\000"
+ 2307      313600
+ 2308              	.LASF44:
+ 2309 0007 61646347 		.ascii	"adcGain\000"
+ 2309      61696E00 
+ 2310              	.LASF61:
+ 2311 000f 43794578 		.ascii	"CyExitCriticalSection\000"
+ 2311      69744372 
+ 2311      69746963 
+ 2311      616C5365 
+ 2311      6374696F 
+ 2312              	.LASF23:
+ 2313 0025 636F756E 		.ascii	"counts\000"
+ 2313      747300
+ 2314              	.LASF35:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 58
+
+
+ 2315 002c 53656174 		.ascii	"Seat_ADC_SAR_StartConvert\000"
+ 2315      5F414443 
+ 2315      5F534152 
+ 2315      5F537461 
+ 2315      7274436F 
+ 2316              	.LASF9:
+ 2317 0046 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2317      206C6F6E 
+ 2317      6720756E 
+ 2317      7369676E 
+ 2317      65642069 
+ 2318              	.LASF41:
+ 2319 005d 53656174 		.ascii	"Seat_ADC_SAR_SetOffset\000"
+ 2319      5F414443 
+ 2319      5F534152 
+ 2319      5F536574 
+ 2319      4F666673 
+ 2320              	.LASF55:
+ 2321 0074 53656174 		.ascii	"Seat_ADC_SAR_countsPerVolt\000"
+ 2321      5F414443 
+ 2321      5F534152 
+ 2321      5F636F75 
+ 2321      6E747350 
+ 2322              	.LASF1:
+ 2323 008f 6C6F6E67 		.ascii	"long long int\000"
+ 2323      206C6F6E 
+ 2323      6720696E 
+ 2323      7400
+ 2324              	.LASF3:
+ 2325 009d 7369676E 		.ascii	"signed char\000"
+ 2325      65642063 
+ 2325      68617200 
+ 2326              	.LASF16:
+ 2327 00a9 696E7433 		.ascii	"int32\000"
+ 2327      3200
+ 2328              	.LASF7:
+ 2329 00af 6C6F6E67 		.ascii	"long int\000"
+ 2329      20696E74 
+ 2329      00
+ 2330              	.LASF40:
+ 2331 00b8 53656174 		.ascii	"Seat_ADC_SAR_GetResult16\000"
+ 2331      5F414443 
+ 2331      5F534152 
+ 2331      5F476574 
+ 2331      52657375 
+ 2332              	.LASF22:
+ 2333 00d1 72656731 		.ascii	"reg16\000"
+ 2333      3600
+ 2334              	.LASF12:
+ 2335 00d7 75696E74 		.ascii	"uint8\000"
+ 2335      3800
+ 2336              	.LASF66:
+ 2337 00dd 53656174 		.ascii	"Seat_ADC_SAR_GetResult8\000"
+ 2337      5F414443 
+ 2337      5F534152 
+ 2337      5F476574 
+ 2337      52657375 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 59
+
+
+ 2338              	.LASF60:
+ 2339 00f5 43794465 		.ascii	"CyDelayUs\000"
+ 2339      6C617955 
+ 2339      7300
+ 2340              	.LASF19:
+ 2341 00ff 646F7562 		.ascii	"double\000"
+ 2341      6C6500
+ 2342              	.LASF27:
+ 2343 0106 53656174 		.ascii	"Seat_ADC_SAR_Enable\000"
+ 2343      5F414443 
+ 2343      5F534152 
+ 2343      5F456E61 
+ 2343      626C6500 
+ 2344              	.LASF49:
+ 2345 011a 636F756E 		.ascii	"countsPer10Volt\000"
+ 2345      74735065 
+ 2345      72313056 
+ 2345      6F6C7400 
+ 2346              	.LASF37:
+ 2347 012a 7265744D 		.ascii	"retMode\000"
+ 2347      6F646500 
+ 2348              	.LASF0:
+ 2349 0132 756E7369 		.ascii	"unsigned int\000"
+ 2349      676E6564 
+ 2349      20696E74 
+ 2349      00
+ 2350              	.LASF67:
+ 2351 013f 75566F6C 		.ascii	"uVolts\000"
+ 2351      747300
+ 2352              	.LASF8:
+ 2353 0146 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2353      20756E73 
+ 2353      69676E65 
+ 2353      6420696E 
+ 2353      7400
+ 2354              	.LASF52:
+ 2355 0158 766F6C74 		.ascii	"volts\000"
+ 2355      7300
+ 2356              	.LASF59:
+ 2357 015e 4379456E 		.ascii	"CyEnterCriticalSection\000"
+ 2357      74657243 
+ 2357      72697469 
+ 2357      63616C53 
+ 2357      65637469 
+ 2358              	.LASF6:
+ 2359 0175 73686F72 		.ascii	"short unsigned int\000"
+ 2359      7420756E 
+ 2359      7369676E 
+ 2359      65642069 
+ 2359      6E7400
+ 2360              	.LASF56:
+ 2361 0188 53656174 		.ascii	"Seat_ADC_SAR_countsPer10Volt\000"
+ 2361      5F414443 
+ 2361      5F534152 
+ 2361      5F636F75 
+ 2361      6E747350 
+ 2362              	.LASF33:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 60
+
+
+ 2363 01a5 53656174 		.ascii	"Seat_ADC_SAR_Init\000"
+ 2363      5F414443 
+ 2363      5F534152 
+ 2363      5F496E69 
+ 2363      7400
+ 2364              	.LASF14:
+ 2365 01b7 696E7438 		.ascii	"int8\000"
+ 2365      00
+ 2366              	.LASF48:
+ 2367 01bc 6D566F6C 		.ascii	"mVolts\000"
+ 2367      747300
+ 2368              	.LASF50:
+ 2369 01c3 53656174 		.ascii	"Seat_ADC_SAR_CountsTo_uVolts\000"
+ 2369      5F414443 
+ 2369      5F534152 
+ 2369      5F436F75 
+ 2369      6E747354 
+ 2370              	.LASF32:
+ 2371 01e0 53656174 		.ascii	"Seat_ADC_SAR_SetResolution\000"
+ 2371      5F414443 
+ 2371      5F534152 
+ 2371      5F536574 
+ 2371      5265736F 
+ 2372              	.LASF34:
+ 2373 01fb 53656174 		.ascii	"Seat_ADC_SAR_Start\000"
+ 2373      5F414443 
+ 2373      5F534152 
+ 2373      5F537461 
+ 2373      727400
+ 2374              	.LASF17:
+ 2375 020e 666C6F61 		.ascii	"float32\000"
+ 2375      74333200 
+ 2376              	.LASF10:
+ 2377 0216 73697A65 		.ascii	"sizetype\000"
+ 2377      74797065 
+ 2377      00
+ 2378              	.LASF2:
+ 2379 021f 6C6F6E67 		.ascii	"long double\000"
+ 2379      20646F75 
+ 2379      626C6500 
+ 2380              	.LASF51:
+ 2381 022b 53656174 		.ascii	"Seat_ADC_SAR_CountsTo_Volts\000"
+ 2381      5F414443 
+ 2381      5F534152 
+ 2381      5F436F75 
+ 2381      6E747354 
+ 2382              	.LASF53:
+ 2383 0247 53656174 		.ascii	"Seat_ADC_SAR_initVar\000"
+ 2383      5F414443 
+ 2383      5F534152 
+ 2383      5F696E69 
+ 2383      74566172 
+ 2384              	.LASF29:
+ 2385 025c 53656174 		.ascii	"Seat_ADC_SAR_SetPower\000"
+ 2385      5F414443 
+ 2385      5F534152 
+ 2385      5F536574 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 61
+
+
+ 2385      506F7765 
+ 2386              	.LASF20:
+ 2387 0272 696E7436 		.ascii	"int64\000"
+ 2387      3400
+ 2388              	.LASF46:
+ 2389 0278 53656174 		.ascii	"Seat_ADC_SAR_CountsTo_mVolts\000"
+ 2389      5F414443 
+ 2389      5F534152 
+ 2389      5F436F75 
+ 2389      6E747354 
+ 2390              	.LASF18:
+ 2391 0295 666C6F61 		.ascii	"float\000"
+ 2391      7400
+ 2392              	.LASF36:
+ 2393 029b 53656174 		.ascii	"Seat_ADC_SAR_StopConvert\000"
+ 2393      5F414443 
+ 2393      5F534152 
+ 2393      5F53746F 
+ 2393      70436F6E 
+ 2394              	.LASF31:
+ 2395 02b4 706F7765 		.ascii	"power\000"
+ 2395      7200
+ 2396              	.LASF21:
+ 2397 02ba 72656738 		.ascii	"reg8\000"
+ 2397      00
+ 2398              	.LASF58:
+ 2399 02bf 43794861 		.ascii	"CyHalt\000"
+ 2399      6C7400
+ 2400              	.LASF4:
+ 2401 02c6 756E7369 		.ascii	"unsigned char\000"
+ 2401      676E6564 
+ 2401      20636861 
+ 2401      7200
+ 2402              	.LASF45:
+ 2403 02d4 53656174 		.ascii	"Seat_ADC_SAR_SetScaledGain\000"
+ 2403      5F414443 
+ 2403      5F534152 
+ 2403      5F536574 
+ 2403      5363616C 
+ 2404              	.LASF24:
+ 2405 02ef 64696666 		.ascii	"diff_zero\000"
+ 2405      5F7A6572 
+ 2405      6F00
+ 2406              	.LASF5:
+ 2407 02f9 73686F72 		.ascii	"short int\000"
+ 2407      7420696E 
+ 2407      7400
+ 2408              	.LASF62:
+ 2409 0303 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2409      43313120 
+ 2409      352E342E 
+ 2409      31203230 
+ 2409      31363036 
+ 2410 0336 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2410      20726576 
+ 2410      6973696F 
+ 2410      6E203233 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 62
+
+
+ 2410      37373135 
+ 2411 0369 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2411      66756E63 
+ 2411      74696F6E 
+ 2411      2D736563 
+ 2411      74696F6E 
+ 2412              	.LASF65:
+ 2413 0391 53656174 		.ascii	"Seat_ADC_SAR_CalcGain\000"
+ 2413      5F414443 
+ 2413      5F534152 
+ 2413      5F43616C 
+ 2413      63476169 
+ 2414              	.LASF30:
+ 2415 03a7 7265736F 		.ascii	"resolution\000"
+ 2415      6C757469 
+ 2415      6F6E00
+ 2416              	.LASF64:
+ 2417 03b2 433A5C55 		.ascii	"C:\\Users\\jebush2\\Desktop\\PSoC 3-19-2019\\Smart "
+ 2417      73657273 
+ 2417      5C6A6562 
+ 2417      75736832 
+ 2417      5C446573 
+ 2418 03e0 42696B65 		.ascii	"Bike PSoC\\IMU.cydsn\000"
+ 2418      2050536F 
+ 2418      435C494D 
+ 2418      552E6379 
+ 2418      64736E00 
+ 2419              	.LASF54:
+ 2420 03f4 53656174 		.ascii	"Seat_ADC_SAR_offset\000"
+ 2420      5F414443 
+ 2420      5F534152 
+ 2420      5F6F6666 
+ 2420      73657400 
+ 2421              	.LASF11:
+ 2422 0408 63686172 		.ascii	"char\000"
+ 2422      00
+ 2423              	.LASF39:
+ 2424 040d 53656174 		.ascii	"Seat_ADC_SAR_IsEndConversion\000"
+ 2424      5F414443 
+ 2424      5F534152 
+ 2424      5F497345 
+ 2424      6E64436F 
+ 2425              	.LASF42:
+ 2426 042a 6F666673 		.ascii	"offset\000"
+ 2426      657400
+ 2427              	.LASF47:
+ 2428 0431 61646343 		.ascii	"adcCounts\000"
+ 2428      6F756E74 
+ 2428      7300
+ 2429              	.LASF43:
+ 2430 043b 53656174 		.ascii	"Seat_ADC_SAR_SetGain\000"
+ 2430      5F414443 
+ 2430      5F534152 
+ 2430      5F536574 
+ 2430      4761696E 
+ 2431              	.LASF26:
+ 2432 0450 656E6162 		.ascii	"enableInterrupts\000"
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cco5H1Fy.s 			page 63
+
+
+ 2432      6C65496E 
+ 2432      74657272 
+ 2432      75707473 
+ 2432      00
+ 2433              	.LASF38:
+ 2434 0461 73746174 		.ascii	"status\000"
+ 2434      757300
+ 2435              	.LASF63:
+ 2436 0468 47656E65 		.ascii	"Generated_Source\\PSoC5\\Seat_ADC_SAR.c\000"
+ 2436      72617465 
+ 2436      645F536F 
+ 2436      75726365 
+ 2436      5C50536F 
+ 2437              	.LASF57:
+ 2438 048e 53656174 		.ascii	"Seat_ADC_SAR_shift\000"
+ 2438      5F414443 
+ 2438      5F534152 
+ 2438      5F736869 
+ 2438      667400
+ 2439              	.LASF15:
+ 2440 04a1 696E7431 		.ascii	"int16\000"
+ 2440      3600
+ 2441              	.LASF25:
+ 2442 04a7 746D7052 		.ascii	"tmpReg\000"
+ 2442      656700
+ 2443              	.LASF28:
+ 2444 04ae 53656174 		.ascii	"Seat_ADC_SAR_Stop\000"
+ 2444      5F414443 
+ 2444      5F534152 
+ 2444      5F53746F 
+ 2444      7000
+ 2445              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
