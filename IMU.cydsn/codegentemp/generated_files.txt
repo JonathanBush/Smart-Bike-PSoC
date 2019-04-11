@@ -87,6 +87,18 @@
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\I2C_SLAVE.c" value="SOURCE_C;CortexM3;;;;I2C" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\I2C_MASTER.c" value="SOURCE_C;CortexM3;;;;I2C" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\I2C_PVT.h" value="HEADER;;;;;I2C" />
+  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\timer_clock.c" value="SOURCE_C;CortexM3;;;;timer_clock" />
+  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\timer_clock.h" value="HEADER;;;;;timer_clock" />
+  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\EncTimer.c" value="SOURCE_C;CortexM3;;;;EncTimer" />
+  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\EncTimer.h" value="HEADER;;;;;EncTimer" />
+  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\EncTimer_PM.c" value="SOURCE_C;CortexM3;;;;EncTimer" />
+  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\Pin_1_aliases.h" value="HEADER;;;;;Pin_1" />
+  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\Pin_1.c" value="SOURCE_C;CortexM3;;;;Pin_1" />
+  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\Pin_1.h" value="HEADER;;;;;Pin_1" />
+  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\Enc_Int_High.c" value="SOURCE_C;CortexM3;;;;Enc_Int_High" />
+  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\Enc_Int_High.h" value="HEADER;;;;;Enc_Int_High" />
+  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\Enc_Int_Low.c" value="SOURCE_C;CortexM3;;;;Enc_Int_Low" />
+  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\Enc_Int_Low.h" value="HEADER;;;;;Enc_Int_Low" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\isr_1.c" value="SOURCE_C;CortexM3;;;;isr_1" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\isr_1.h" value="HEADER;;;;;isr_1" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\codegentemp\BNO_Interupt_aliases.h" value="HEADER;;;;;BNO_Interupt" />

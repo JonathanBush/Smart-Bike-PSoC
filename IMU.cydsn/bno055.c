@@ -44,7 +44,7 @@ int bno_init(uint8 mode) {
     bno_write(BNO055_PAGE_ID_ADDR, 0);
     CyDelay(100);
     
-    bno_write(BNO055_SYS_TRIGGER_ADDR, 0x00);
+    bno_write(BNO055_SYS_TRIGGER_ADDR, 0x00);   // 0x80 = use external crystal / 0x00 = use internal crystal
     CyDelay(200);
     
     bno_write(BNO055_OPR_MODE_ADDR, mode);

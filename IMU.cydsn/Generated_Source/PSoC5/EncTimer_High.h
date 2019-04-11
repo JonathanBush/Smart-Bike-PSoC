@@ -41,11 +41,11 @@ extern uint8 EncTimer_High_initVar;
 #define EncTimer_High_UsingHWCaptureCounter      0u
 #define EncTimer_High_SoftwareCaptureMode        0u
 #define EncTimer_High_SoftwareTriggerMode        0u
-#define EncTimer_High_UsingHWEnable              0u
-#define EncTimer_High_EnableTriggerMode          1u
+#define EncTimer_High_UsingHWEnable              1u
+#define EncTimer_High_EnableTriggerMode          0u
 #define EncTimer_High_InterruptOnCaptureCount    1u
 #define EncTimer_High_RunModeUsed                0u
-#define EncTimer_High_ControlRegRemoved          0u
+#define EncTimer_High_ControlRegRemoved          1u
 
 #if defined(EncTimer_High_TimerUDB_sCTRLReg_SyncCtl_ctrlreg__CONTROL_REG)
     #define EncTimer_High_UDB_CONTROL_REG_REMOVED            (0u)
@@ -170,7 +170,7 @@ void EncTimer_High_Wakeup(void)        ;
 
 #define EncTimer_High_INIT_PERIOD             65535u
 #define EncTimer_High_INIT_CAPTURE_MODE       ((uint8)((uint8)2u << EncTimer_High_CTRL_CAP_MODE_SHIFT))
-#define EncTimer_High_INIT_TRIGGER_MODE       ((uint8)((uint8)1u << EncTimer_High_CTRL_TRIG_MODE_SHIFT))
+#define EncTimer_High_INIT_TRIGGER_MODE       ((uint8)((uint8)0u << EncTimer_High_CTRL_TRIG_MODE_SHIFT))
 #if (EncTimer_High_UsingFixedFunction)
     #define EncTimer_High_INIT_INTERRUPT_MODE (((uint8)((uint8)0u << EncTimer_High_STATUS_TC_INT_MASK_SHIFT)) | \
                                                   ((uint8)((uint8)1 << EncTimer_High_STATUS_CAPTURE_INT_MASK_SHIFT)))

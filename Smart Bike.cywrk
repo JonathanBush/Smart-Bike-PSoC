@@ -10,11 +10,9 @@
 <v>.\Controller.cydsn\Controller.cyprj</v>
 <v>.\Sensors.cydsn\Sensors.cyprj</v>
 <v>.\Balance.cydsn\Balance.cyprj</v>
-<v>.\USBFS_UART01.cydsn\USBFS_UART01.cyprj</v>
 <v>.\CMG.cydsn\CMG.cyprj</v>
 <v>.\Seat.cydsn\Seat.cyprj</v>
 <v>.\IMU.cydsn\IMU.cyprj</v>
-<v>.\CE216625_I2C_Master_S6E1C01.cydsn\CE216625_I2C_Master_S6E1C01.cyprj</v>
 </projects>
 <workspace_id v="8520f7f7-a5ec-47a8-b4de-c8763145e0cf" />
 <WriteAppVersionLastSavedWith v="4.2.0.641" />

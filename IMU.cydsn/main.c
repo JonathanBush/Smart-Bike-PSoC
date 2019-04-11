@@ -45,12 +45,16 @@ CY_ISR(sample_isr) {
     take_sample = 1;
 }
 
+uint16 high_ctr = 1;
+uint16 low_ctr = 1;
+
 CY_ISR(enc_high_isr) {
-    
+    high_ctr = 65535 - EncTimer_ReadCounter();
+    EncTimer_WriteCounter(65535);
 }
 
 CY_ISR(enc_low_isr) {
-    
+    low_ctr = 65535 - EncTimer_ReadCounter();
 }
 
 int main(void)
@@ -69,6 +73,9 @@ int main(void)
     Sample_Interrupt_StartEx(sample_isr);
     Sample_Timer_Start();
     
+    Enc_Int_High_StartEx(enc_high_isr);
+    Enc_Int_Low_StartEx(enc_low_isr);
+    
     char output[80];
     
     I2C_Enable();
@@ -78,6 +85,9 @@ int main(void)
     bno_init(OPERATION_MODE_IMUPLUS);
     
     euler_angles orientation;
+    //PWM_1_Start();
+    EncTimer_Start();
+    
     for(;;)
     {
         
@@ -85,7 +95,7 @@ int main(void)
         uint8 opr_mode = bno_read(BNO055_OPR_MODE_ADDR);
         
         
-        sprintf(output, "h: %6.3f, r: %6.3f, p: %6.3f, mode: %u\r", orientation.yaw, orientation.roll, orientation.pitch, opr_mode);
+        sprintf(output, "h: %6.3f, r: %6.3f, p: %6.3f, enc: %6.3f       \r", orientation.yaw, orientation.roll, orientation.pitch, 360.0 * low_ctr / high_ctr);
         
         USBUART_PutString(output);
         LED_Write(!LED_Read());
