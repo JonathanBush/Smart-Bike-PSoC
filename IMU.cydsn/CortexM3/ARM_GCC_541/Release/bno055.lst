@@ -1,0 +1,3519 @@
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"bno055.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.bno_write,"ax",%progbits
+  20              		.align	1
+  21              		.global	bno_write
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	bno_write, %function
+  25              	bno_write:
+  26              	.LFB64:
+  27              		.file 1 "bno055.c"
+   1:bno055.c      **** /* ========================================
+   2:bno055.c      ****  *
+   3:bno055.c      ****  * Copyright YOUR COMPANY, THE YEAR
+   4:bno055.c      ****  * All Rights Reserved
+   5:bno055.c      ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:bno055.c      ****  *
+   7:bno055.c      ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:bno055.c      ****  * WHICH IS THE PROPERTY OF your company.
+   9:bno055.c      ****  *
+  10:bno055.c      ****  * ========================================
+  11:bno055.c      **** */
+  12:bno055.c      **** 
+  13:bno055.c      **** #include "project.h"
+  14:bno055.c      **** #include "bno055.h"
+  15:bno055.c      **** 
+  16:bno055.c      **** #define DEVICE_ADDRESS 0x28
+  17:bno055.c      **** #define BNO055_ID (0xA0)
+  18:bno055.c      **** 
+  19:bno055.c      **** //volatile euler_angles orientation = {.roll = 0, .pitch = 0, .yaw = 0};
+  20:bno055.c      **** 
+  21:bno055.c      **** int bno_init() {
+  22:bno055.c      ****     
+  23:bno055.c      ****     uint8_t id = bno_read(BNO055_CHIP_ID_ADDR);
+  24:bno055.c      ****     if (id != BNO055_ID) {
+  25:bno055.c      ****         CyDelay(1000); // hold on for boot
+  26:bno055.c      ****         id = bno_read(BNO055_CHIP_ID_ADDR);
+  27:bno055.c      ****         if (id != BNO055_ID) {
+  28:bno055.c      ****             return 0; // still not? ok bail
+  29:bno055.c      ****         }
+  30:bno055.c      ****     }
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 2
+
+
+  31:bno055.c      ****     
+  32:bno055.c      ****     bno_write(BNO055_OPR_MODE_ADDR, OPERATION_MODE_CONFIG);
+  33:bno055.c      ****     CyDelay(60);
+  34:bno055.c      ****     bno_write(BNO055_SYS_TRIGGER_ADDR, 0x20);   // reset
+  35:bno055.c      ****     while (bno_read(BNO055_CHIP_ID_ADDR) != BNO055_ID) {
+  36:bno055.c      ****         CyDelay(10);
+  37:bno055.c      ****     }
+  38:bno055.c      ****     CyDelay(60);
+  39:bno055.c      ****     
+  40:bno055.c      ****     bno_write(BNO055_PWR_MODE_ADDR, POWER_MODE_NORMAL);
+  41:bno055.c      ****     CyDelay(10);
+  42:bno055.c      ****     
+  43:bno055.c      ****     bno_write(BNO055_PAGE_ID_ADDR, 0);
+  44:bno055.c      ****     CyDelay(10);
+  45:bno055.c      ****     
+  46:bno055.c      ****     bno_write(BNO055_SYS_TRIGGER_ADDR, 0x00);
+  47:bno055.c      ****     CyDelay(20);
+  48:bno055.c      ****     
+  49:bno055.c      ****     bno_write(BNO055_OPR_MODE_ADDR, OPERATION_MODE_GYRONLY);
+  50:bno055.c      ****     CyDelay(60);
+  51:bno055.c      ****     
+  52:bno055.c      ****     return 1;
+  53:bno055.c      ****     
+  54:bno055.c      **** }
+  55:bno055.c      **** 
+  56:bno055.c      **** /* writes a single byte register */
+  57:bno055.c      **** void bno_write(uint8 reg, uint8 data) {
+  28              		.loc 1 57 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 70B5     		push	{r4, r5, r6, lr}
+  34              		.cfi_def_cfa_offset 16
+  35              		.cfi_offset 4, -16
+  36              		.cfi_offset 5, -12
+  37              		.cfi_offset 6, -8
+  38              		.cfi_offset 14, -4
+  39              		.loc 1 57 0
+  40 0002 0646     		mov	r6, r0
+  41 0004 0D46     		mov	r5, r1
+  58:bno055.c      ****     uint8 status = I2C_MasterSendStart(DEVICE_ADDRESS, I2C_WRITE_XFER_MODE);
+  42              		.loc 1 58 0
+  43 0006 2820     		movs	r0, #40
+  44              	.LVL1:
+  45 0008 0021     		movs	r1, #0
+  46              	.LVL2:
+  47 000a FFF7FEFF 		bl	I2C_MasterSendStart
+  48              	.LVL3:
+  59:bno055.c      ****     if (status == I2C_MSTR_NO_ERROR) {
+  49              		.loc 1 59 0
+  50 000e 0446     		mov	r4, r0
+  51 0010 40B9     		cbnz	r0, .L2
+  60:bno055.c      ****         I2C_MasterWriteByte(reg);
+  52              		.loc 1 60 0
+  53 0012 3046     		mov	r0, r6
+  54              	.LVL4:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 3
+
+
+  55 0014 FFF7FEFF 		bl	I2C_MasterWriteByte
+  56              	.LVL5:
+  61:bno055.c      ****         LED_Write(0);
+  57              		.loc 1 61 0
+  58 0018 2046     		mov	r0, r4
+  59 001a FFF7FEFF 		bl	LED_Write
+  60              	.LVL6:
+  62:bno055.c      ****         I2C_MasterWriteByte(data);
+  61              		.loc 1 62 0
+  62 001e 2846     		mov	r0, r5
+  63 0020 FFF7FEFF 		bl	I2C_MasterWriteByte
+  64              	.LVL7:
+  65              	.L2:
+  63:bno055.c      ****     }
+  64:bno055.c      ****     
+  65:bno055.c      ****     I2C_MasterSendStop();
+  66:bno055.c      ****     
+  67:bno055.c      **** }
+  66              		.loc 1 67 0
+  67 0024 BDE87040 		pop	{r4, r5, r6, lr}
+  68              		.cfi_restore 14
+  69              		.cfi_restore 6
+  70              		.cfi_restore 5
+  71              		.cfi_restore 4
+  72              		.cfi_def_cfa_offset 0
+  65:bno055.c      ****     
+  73              		.loc 1 65 0
+  74 0028 FFF7FEBF 		b	I2C_MasterSendStop
+  75              	.LVL8:
+  76              		.cfi_endproc
+  77              	.LFE64:
+  78              		.size	bno_write, .-bno_write
+  79              		.section	.text.bno_read,"ax",%progbits
+  80              		.align	1
+  81              		.global	bno_read
+  82              		.thumb
+  83              		.thumb_func
+  84              		.type	bno_read, %function
+  85              	bno_read:
+  86              	.LFB65:
+  68:bno055.c      **** 
+  69:bno055.c      **** /* reads a single byte register */
+  70:bno055.c      **** uint8 bno_read(uint8 reg) {
+  87              		.loc 1 70 0
+  88              		.cfi_startproc
+  89              		@ args = 0, pretend = 0, frame = 0
+  90              		@ frame_needed = 0, uses_anonymous_args = 0
+  91              	.LVL9:
+  92 0000 10B5     		push	{r4, lr}
+  93              		.cfi_def_cfa_offset 8
+  94              		.cfi_offset 4, -8
+  95              		.cfi_offset 14, -4
+  96              		.loc 1 70 0
+  97 0002 0446     		mov	r4, r0
+  71:bno055.c      ****     I2C_MasterSendStart(DEVICE_ADDRESS, I2C_WRITE_XFER_MODE);
+  98              		.loc 1 71 0
+  99 0004 0021     		movs	r1, #0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 4
+
+
+ 100 0006 2820     		movs	r0, #40
+ 101              	.LVL10:
+ 102 0008 FFF7FEFF 		bl	I2C_MasterSendStart
+ 103              	.LVL11:
+  72:bno055.c      ****     I2C_MasterWriteByte(reg);
+ 104              		.loc 1 72 0
+ 105 000c 2046     		mov	r0, r4
+ 106 000e FFF7FEFF 		bl	I2C_MasterWriteByte
+ 107              	.LVL12:
+  73:bno055.c      ****     I2C_MasterSendRestart(DEVICE_ADDRESS, I2C_READ_XFER_MODE);
+ 108              		.loc 1 73 0
+ 109 0012 0121     		movs	r1, #1
+ 110 0014 2820     		movs	r0, #40
+ 111 0016 FFF7FEFF 		bl	I2C_MasterSendRestart
+ 112              	.LVL13:
+  74:bno055.c      ****     uint8 data = I2C_MasterReadByte(I2C_NAK_DATA);
+ 113              		.loc 1 74 0
+ 114 001a 0020     		movs	r0, #0
+ 115 001c FFF7FEFF 		bl	I2C_MasterReadByte
+ 116              	.LVL14:
+ 117 0020 0446     		mov	r4, r0
+ 118              	.LVL15:
+  75:bno055.c      ****     I2C_MasterSendStop();
+ 119              		.loc 1 75 0
+ 120 0022 FFF7FEFF 		bl	I2C_MasterSendStop
+ 121              	.LVL16:
+  76:bno055.c      ****     return data;
+  77:bno055.c      **** }
+ 122              		.loc 1 77 0
+ 123 0026 2046     		mov	r0, r4
+ 124 0028 10BD     		pop	{r4, pc}
+ 125              		.cfi_endproc
+ 126              	.LFE65:
+ 127              		.size	bno_read, .-bno_read
+ 128              		.section	.text.bno_init,"ax",%progbits
+ 129              		.align	1
+ 130              		.global	bno_init
+ 131              		.thumb
+ 132              		.thumb_func
+ 133              		.type	bno_init, %function
+ 134              	bno_init:
+ 135              	.LFB63:
+  21:bno055.c      ****     
+ 136              		.loc 1 21 0
+ 137              		.cfi_startproc
+ 138              		@ args = 0, pretend = 0, frame = 0
+ 139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 140 0000 08B5     		push	{r3, lr}
+ 141              		.cfi_def_cfa_offset 8
+ 142              		.cfi_offset 3, -8
+ 143              		.cfi_offset 14, -4
+  23:bno055.c      ****     if (id != BNO055_ID) {
+ 144              		.loc 1 23 0
+ 145 0002 0020     		movs	r0, #0
+ 146 0004 FFF7FEFF 		bl	bno_read
+ 147              	.LVL17:
+  24:bno055.c      ****         CyDelay(1000); // hold on for boot
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 5
+
+
+ 148              		.loc 1 24 0
+ 149 0008 A028     		cmp	r0, #160
+ 150 000a 0BD1     		bne	.L6
+ 151              	.L9:
+  32:bno055.c      ****     CyDelay(60);
+ 152              		.loc 1 32 0
+ 153 000c 0021     		movs	r1, #0
+ 154 000e 3D20     		movs	r0, #61
+ 155              	.LVL18:
+ 156 0010 FFF7FEFF 		bl	bno_write
+ 157              	.LVL19:
+  33:bno055.c      ****     bno_write(BNO055_SYS_TRIGGER_ADDR, 0x20);   // reset
+ 158              		.loc 1 33 0
+ 159 0014 3C20     		movs	r0, #60
+ 160 0016 FFF7FEFF 		bl	CyDelay
+ 161              	.LVL20:
+  34:bno055.c      ****     while (bno_read(BNO055_CHIP_ID_ADDR) != BNO055_ID) {
+ 162              		.loc 1 34 0
+ 163 001a 2021     		movs	r1, #32
+ 164 001c 3F20     		movs	r0, #63
+ 165 001e FFF7FEFF 		bl	bno_write
+ 166              	.LVL21:
+  35:bno055.c      ****         CyDelay(10);
+ 167              		.loc 1 35 0
+ 168 0022 0AE0     		b	.L7
+ 169              	.LVL22:
+ 170              	.L6:
+  25:bno055.c      ****         id = bno_read(BNO055_CHIP_ID_ADDR);
+ 171              		.loc 1 25 0
+ 172 0024 4FF47A70 		mov	r0, #1000
+ 173              	.LVL23:
+ 174 0028 FFF7FEFF 		bl	CyDelay
+ 175              	.LVL24:
+  26:bno055.c      ****         if (id != BNO055_ID) {
+ 176              		.loc 1 26 0
+ 177 002c 0020     		movs	r0, #0
+ 178 002e FFF7FEFF 		bl	bno_read
+ 179              	.LVL25:
+  27:bno055.c      ****             return 0; // still not? ok bail
+ 180              		.loc 1 27 0
+ 181 0032 A028     		cmp	r0, #160
+ 182 0034 EAD0     		beq	.L9
+  28:bno055.c      ****         }
+ 183              		.loc 1 28 0
+ 184 0036 0020     		movs	r0, #0
+ 185              	.LVL26:
+  54:bno055.c      **** 
+ 186              		.loc 1 54 0
+ 187 0038 08BD     		pop	{r3, pc}
+ 188              	.L7:
+  35:bno055.c      ****         CyDelay(10);
+ 189              		.loc 1 35 0
+ 190 003a 0020     		movs	r0, #0
+ 191 003c FFF7FEFF 		bl	bno_read
+ 192              	.LVL27:
+ 193 0040 A028     		cmp	r0, #160
+ 194 0042 03D0     		beq	.L12
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 6
+
+
+  36:bno055.c      ****     }
+ 195              		.loc 1 36 0
+ 196 0044 0A20     		movs	r0, #10
+ 197 0046 FFF7FEFF 		bl	CyDelay
+ 198              	.LVL28:
+ 199 004a F6E7     		b	.L7
+ 200              	.L12:
+  38:bno055.c      ****     
+ 201              		.loc 1 38 0
+ 202 004c 3C20     		movs	r0, #60
+ 203 004e FFF7FEFF 		bl	CyDelay
+ 204              	.LVL29:
+  40:bno055.c      ****     CyDelay(10);
+ 205              		.loc 1 40 0
+ 206 0052 0021     		movs	r1, #0
+ 207 0054 3E20     		movs	r0, #62
+ 208 0056 FFF7FEFF 		bl	bno_write
+ 209              	.LVL30:
+  41:bno055.c      ****     
+ 210              		.loc 1 41 0
+ 211 005a 0A20     		movs	r0, #10
+ 212 005c FFF7FEFF 		bl	CyDelay
+ 213              	.LVL31:
+  43:bno055.c      ****     CyDelay(10);
+ 214              		.loc 1 43 0
+ 215 0060 0021     		movs	r1, #0
+ 216 0062 0720     		movs	r0, #7
+ 217 0064 FFF7FEFF 		bl	bno_write
+ 218              	.LVL32:
+  44:bno055.c      ****     
+ 219              		.loc 1 44 0
+ 220 0068 0A20     		movs	r0, #10
+ 221 006a FFF7FEFF 		bl	CyDelay
+ 222              	.LVL33:
+  46:bno055.c      ****     CyDelay(20);
+ 223              		.loc 1 46 0
+ 224 006e 0021     		movs	r1, #0
+ 225 0070 3F20     		movs	r0, #63
+ 226 0072 FFF7FEFF 		bl	bno_write
+ 227              	.LVL34:
+  47:bno055.c      ****     
+ 228              		.loc 1 47 0
+ 229 0076 1420     		movs	r0, #20
+ 230 0078 FFF7FEFF 		bl	CyDelay
+ 231              	.LVL35:
+  49:bno055.c      ****     CyDelay(60);
+ 232              		.loc 1 49 0
+ 233 007c 0321     		movs	r1, #3
+ 234 007e 3D20     		movs	r0, #61
+ 235 0080 FFF7FEFF 		bl	bno_write
+ 236              	.LVL36:
+  50:bno055.c      ****     
+ 237              		.loc 1 50 0
+ 238 0084 3C20     		movs	r0, #60
+ 239 0086 FFF7FEFF 		bl	CyDelay
+ 240              	.LVL37:
+  52:bno055.c      ****     
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 7
+
+
+ 241              		.loc 1 52 0
+ 242 008a 0120     		movs	r0, #1
+ 243 008c 08BD     		pop	{r3, pc}
+ 244              		.cfi_endproc
+ 245              	.LFE63:
+ 246              		.size	bno_init, .-bno_init
+ 247              		.section	.text.bno_readbuf,"ax",%progbits
+ 248              		.align	1
+ 249              		.global	bno_readbuf
+ 250              		.thumb
+ 251              		.thumb_func
+ 252              		.type	bno_readbuf, %function
+ 253              	bno_readbuf:
+ 254              	.LFB66:
+  78:bno055.c      **** 
+  79:bno055.c      **** /* read data register into rdData buffer */
+  80:bno055.c      **** void bno_readbuf(uint8 reg, uint8 * rdData, uint8 cnt) {
+ 255              		.loc 1 80 0
+ 256              		.cfi_startproc
+ 257              		@ args = 0, pretend = 0, frame = 0
+ 258              		@ frame_needed = 0, uses_anonymous_args = 0
+ 259              	.LVL38:
+ 260 0000 70B5     		push	{r4, r5, r6, lr}
+ 261              		.cfi_def_cfa_offset 16
+ 262              		.cfi_offset 4, -16
+ 263              		.cfi_offset 5, -12
+ 264              		.cfi_offset 6, -8
+ 265              		.cfi_offset 14, -4
+ 266              		.loc 1 80 0
+ 267 0002 0646     		mov	r6, r0
+ 268 0004 1546     		mov	r5, r2
+ 269 0006 0C46     		mov	r4, r1
+  81:bno055.c      ****     uint8 status = I2C_MasterSendStart(DEVICE_ADDRESS, 0);
+ 270              		.loc 1 81 0
+ 271 0008 2820     		movs	r0, #40
+ 272              	.LVL39:
+ 273 000a 0021     		movs	r1, #0
+ 274              	.LVL40:
+ 275 000c FFF7FEFF 		bl	I2C_MasterSendStart
+ 276              	.LVL41:
+  82:bno055.c      ****     //if (status == I2C_MSTR_NO_ERROR) {
+  83:bno055.c      ****         I2C_MasterWriteByte(reg);
+ 277              		.loc 1 83 0
+ 278 0010 3046     		mov	r0, r6
+ 279 0012 FFF7FEFF 		bl	I2C_MasterWriteByte
+ 280              	.LVL42:
+  84:bno055.c      ****         I2C_MasterReadBuf(DEVICE_ADDRESS, rdData, cnt, I2C_MODE_COMPLETE_XFER);
+ 281              		.loc 1 84 0
+ 282 0016 2A46     		mov	r2, r5
+ 283 0018 2146     		mov	r1, r4
+ 284 001a 0023     		movs	r3, #0
+ 285 001c 2820     		movs	r0, #40
+ 286 001e FFF7FEFF 		bl	I2C_MasterReadBuf
+ 287              	.LVL43:
+  85:bno055.c      ****         I2C_MasterSendStop();
+  86:bno055.c      ****     //}
+  87:bno055.c      **** }
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 8
+
+
+ 288              		.loc 1 87 0
+ 289 0022 BDE87040 		pop	{r4, r5, r6, lr}
+ 290              		.cfi_restore 14
+ 291              		.cfi_restore 6
+ 292              		.cfi_restore 5
+ 293              		.cfi_restore 4
+ 294              		.cfi_def_cfa_offset 0
+ 295              	.LVL44:
+  85:bno055.c      ****         I2C_MasterSendStop();
+ 296              		.loc 1 85 0
+ 297 0026 FFF7FEBF 		b	I2C_MasterSendStop
+ 298              	.LVL45:
+ 299              		.cfi_endproc
+ 300              	.LFE66:
+ 301              		.size	bno_readbuf, .-bno_readbuf
+ 302              		.section	.text.bno_update,"ax",%progbits
+ 303              		.align	1
+ 304              		.global	bno_update
+ 305              		.thumb
+ 306              		.thumb_func
+ 307              		.type	bno_update, %function
+ 308              	bno_update:
+ 309              	.LFB67:
+  88:bno055.c      **** 
+  89:bno055.c      **** void bno_update(euler_angles * orientation) {
+ 310              		.loc 1 89 0
+ 311              		.cfi_startproc
+ 312              		@ args = 0, pretend = 0, frame = 0
+ 313              		@ frame_needed = 0, uses_anonymous_args = 0
+ 314              	.LVL46:
+ 315 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 316              		.cfi_def_cfa_offset 32
+ 317              		.cfi_offset 3, -32
+ 318              		.cfi_offset 4, -28
+ 319              		.cfi_offset 5, -24
+ 320              		.cfi_offset 6, -20
+ 321              		.cfi_offset 7, -16
+ 322              		.cfi_offset 8, -12
+ 323              		.cfi_offset 9, -8
+ 324              		.cfi_offset 14, -4
+ 325              		.loc 1 89 0
+ 326 0004 0446     		mov	r4, r0
+  90:bno055.c      ****     uint8 buffer[6];
+  91:bno055.c      ****     //bno_readbuf(VECTOR_GYROSCOPE, buffer, 6);
+  92:bno055.c      ****     buffer[0] = bno_read(BNO055_EULER_H_LSB_ADDR);
+ 327              		.loc 1 92 0
+ 328 0006 1A20     		movs	r0, #26
+ 329              	.LVL47:
+ 330 0008 FFF7FEFF 		bl	bno_read
+ 331              	.LVL48:
+ 332 000c 0746     		mov	r7, r0
+ 333              	.LVL49:
+  93:bno055.c      ****     buffer[1] = bno_read(BNO055_EULER_H_MSB_ADDR);
+ 334              		.loc 1 93 0
+ 335 000e 1B20     		movs	r0, #27
+ 336 0010 FFF7FEFF 		bl	bno_read
+ 337              	.LVL50:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 9
+
+
+ 338 0014 8146     		mov	r9, r0
+ 339              	.LVL51:
+  94:bno055.c      ****     buffer[2] = bno_read(BNO055_EULER_R_LSB_ADDR);
+ 340              		.loc 1 94 0
+ 341 0016 1C20     		movs	r0, #28
+ 342 0018 FFF7FEFF 		bl	bno_read
+ 343              	.LVL52:
+ 344 001c 0646     		mov	r6, r0
+ 345              	.LVL53:
+  95:bno055.c      ****     buffer[3] = bno_read(BNO055_EULER_R_MSB_ADDR);
+ 346              		.loc 1 95 0
+ 347 001e 1D20     		movs	r0, #29
+ 348 0020 FFF7FEFF 		bl	bno_read
+ 349              	.LVL54:
+ 350 0024 8046     		mov	r8, r0
+ 351              	.LVL55:
+  96:bno055.c      ****     buffer[4] = bno_read(BNO055_EULER_P_LSB_ADDR);
+ 352              		.loc 1 96 0
+ 353 0026 1E20     		movs	r0, #30
+ 354 0028 FFF7FEFF 		bl	bno_read
+ 355              	.LVL56:
+ 356 002c 0546     		mov	r5, r0
+ 357              	.LVL57:
+  97:bno055.c      ****     buffer[5] = bno_read(BNO055_EULER_P_MSB_ADDR);
+ 358              		.loc 1 97 0
+ 359 002e 1F20     		movs	r0, #31
+ 360 0030 FFF7FEFF 		bl	bno_read
+ 361              	.LVL58:
+  98:bno055.c      ****     //buffer[5] = 0;
+  99:bno055.c      ****     orientation->yaw   = (int16)buffer[1] << 8 | (int16)buffer[0];
+ 362              		.loc 1 99 0
+ 363 0034 47EA0927 		orr	r7, r7, r9, lsl #8
+ 364              	.LVL59:
+ 100:bno055.c      ****     orientation->roll  = (int16)buffer[3] << 8 | (int16)buffer[2];
+ 365              		.loc 1 100 0
+ 366 0038 46EA0826 		orr	r6, r6, r8, lsl #8
+ 367              	.LVL60:
+ 101:bno055.c      ****     orientation->pitch = (int16)buffer[5] << 8 | (int16)buffer[4];   
+ 368              		.loc 1 101 0
+ 369 003c 45EA0020 		orr	r0, r5, r0, lsl #8
+ 370              	.LVL61:
+  99:bno055.c      ****     orientation->roll  = (int16)buffer[3] << 8 | (int16)buffer[2];
+ 371              		.loc 1 99 0
+ 372 0040 A780     		strh	r7, [r4, #4]	@ movhi
+ 100:bno055.c      ****     orientation->roll  = (int16)buffer[3] << 8 | (int16)buffer[2];
+ 373              		.loc 1 100 0
+ 374 0042 2680     		strh	r6, [r4]	@ movhi
+ 375              		.loc 1 101 0
+ 376 0044 6080     		strh	r0, [r4, #2]	@ movhi
+ 377 0046 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 378              		.cfi_endproc
+ 379              	.LFE67:
+ 380              		.size	bno_update, .-bno_update
+ 381              		.text
+ 382              	.Letext0:
+ 383              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 384              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 10
+
+
+ 385              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 386              		.file 5 "bno055.h"
+ 387              		.file 6 "Generated_Source\\PSoC5/I2C.h"
+ 388              		.file 7 "Generated_Source\\PSoC5/LED.h"
+ 389              		.file 8 "Generated_Source\\PSoC5/CyLib.h"
+ 390              		.file 9 "Generated_Source\\PSoC5/core_cm3.h"
+ 391              		.section	.debug_info,"",%progbits
+ 392              	.Ldebug_info0:
+ 393 0000 A9080000 		.4byte	0x8a9
+ 394 0004 0400     		.2byte	0x4
+ 395 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 396 000a 04       		.byte	0x4
+ 397 000b 01       		.uleb128 0x1
+ 398 000c D40C0000 		.4byte	.LASF163
+ 399 0010 0C       		.byte	0xc
+ 400 0011 F5070000 		.4byte	.LASF164
+ 401 0015 1F0B0000 		.4byte	.LASF165
+ 402 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 403 001d 00000000 		.4byte	0
+ 404 0021 00000000 		.4byte	.Ldebug_line0
+ 405 0025 02       		.uleb128 0x2
+ 406 0026 01       		.byte	0x1
+ 407 0027 06       		.byte	0x6
+ 408 0028 450E0000 		.4byte	.LASF0
+ 409 002c 03       		.uleb128 0x3
+ 410 002d E80A0000 		.4byte	.LASF4
+ 411 0031 02       		.byte	0x2
+ 412 0032 1D       		.byte	0x1d
+ 413 0033 37000000 		.4byte	0x37
+ 414 0037 02       		.uleb128 0x2
+ 415 0038 01       		.byte	0x1
+ 416 0039 08       		.byte	0x8
+ 417 003a 6E0C0000 		.4byte	.LASF1
+ 418 003e 02       		.uleb128 0x2
+ 419 003f 02       		.byte	0x2
+ 420 0040 05       		.byte	0x5
+ 421 0041 A9090000 		.4byte	.LASF2
+ 422 0045 02       		.uleb128 0x2
+ 423 0046 02       		.byte	0x2
+ 424 0047 07       		.byte	0x7
+ 425 0048 6E0E0000 		.4byte	.LASF3
+ 426 004c 03       		.uleb128 0x3
+ 427 004d 54010000 		.4byte	.LASF5
+ 428 0051 02       		.byte	0x2
+ 429 0052 3F       		.byte	0x3f
+ 430 0053 57000000 		.4byte	0x57
+ 431 0057 02       		.uleb128 0x2
+ 432 0058 04       		.byte	0x4
+ 433 0059 05       		.byte	0x5
+ 434 005a B3090000 		.4byte	.LASF6
+ 435 005e 02       		.uleb128 0x2
+ 436 005f 04       		.byte	0x4
+ 437 0060 07       		.byte	0x7
+ 438 0061 B80B0000 		.4byte	.LASF7
+ 439 0065 02       		.uleb128 0x2
+ 440 0066 08       		.byte	0x8
+ 441 0067 05       		.byte	0x5
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 11
+
+
+ 442 0068 34070000 		.4byte	.LASF8
+ 443 006c 02       		.uleb128 0x2
+ 444 006d 08       		.byte	0x8
+ 445 006e 07       		.byte	0x7
+ 446 006f AA030000 		.4byte	.LASF9
+ 447 0073 04       		.uleb128 0x4
+ 448 0074 04       		.byte	0x4
+ 449 0075 05       		.byte	0x5
+ 450 0076 696E7400 		.ascii	"int\000"
+ 451 007a 02       		.uleb128 0x2
+ 452 007b 04       		.byte	0x4
+ 453 007c 07       		.byte	0x7
+ 454 007d 2F010000 		.4byte	.LASF10
+ 455 0081 03       		.uleb128 0x3
+ 456 0082 C6060000 		.4byte	.LASF11
+ 457 0086 03       		.byte	0x3
+ 458 0087 18       		.byte	0x18
+ 459 0088 2C000000 		.4byte	0x2c
+ 460 008c 03       		.uleb128 0x3
+ 461 008d FA0B0000 		.4byte	.LASF12
+ 462 0091 03       		.byte	0x3
+ 463 0092 2C       		.byte	0x2c
+ 464 0093 4C000000 		.4byte	0x4c
+ 465 0097 05       		.uleb128 0x5
+ 466 0098 AE0E0000 		.4byte	.LASF13
+ 467 009c 04       		.byte	0x4
+ 468 009d E401     		.2byte	0x1e4
+ 469 009f 37000000 		.4byte	0x37
+ 470 00a3 05       		.uleb128 0x5
+ 471 00a4 5E010000 		.4byte	.LASF14
+ 472 00a8 04       		.byte	0x4
+ 473 00a9 E801     		.2byte	0x1e8
+ 474 00ab 3E000000 		.4byte	0x3e
+ 475 00af 02       		.uleb128 0x2
+ 476 00b0 04       		.byte	0x4
+ 477 00b1 04       		.byte	0x4
+ 478 00b2 A4030000 		.4byte	.LASF15
+ 479 00b6 02       		.uleb128 0x2
+ 480 00b7 08       		.byte	0x8
+ 481 00b8 04       		.byte	0x4
+ 482 00b9 B40E0000 		.4byte	.LASF16
+ 483 00bd 02       		.uleb128 0x2
+ 484 00be 01       		.byte	0x1
+ 485 00bf 08       		.byte	0x8
+ 486 00c0 00060000 		.4byte	.LASF17
+ 487 00c4 02       		.uleb128 0x2
+ 488 00c5 08       		.byte	0x8
+ 489 00c6 04       		.byte	0x4
+ 490 00c7 9B080000 		.4byte	.LASF18
+ 491 00cb 02       		.uleb128 0x2
+ 492 00cc 04       		.byte	0x4
+ 493 00cd 07       		.byte	0x7
+ 494 00ce 990B0000 		.4byte	.LASF19
+ 495 00d2 06       		.uleb128 0x6
+ 496 00d3 01       		.byte	0x1
+ 497 00d4 37000000 		.4byte	0x37
+ 498 00d8 05       		.byte	0x5
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 12
+
+
+ 499 00d9 10       		.byte	0x10
+ 500 00da 61030000 		.4byte	0x361
+ 501 00de 07       		.uleb128 0x7
+ 502 00df 6C0A0000 		.4byte	.LASF20
+ 503 00e3 07       		.byte	0x7
+ 504 00e4 07       		.uleb128 0x7
+ 505 00e5 09090000 		.4byte	.LASF21
+ 506 00e9 00       		.byte	0
+ 507 00ea 07       		.uleb128 0x7
+ 508 00eb E4040000 		.4byte	.LASF22
+ 509 00ef 01       		.byte	0x1
+ 510 00f0 07       		.uleb128 0x7
+ 511 00f1 0B0A0000 		.4byte	.LASF23
+ 512 00f5 02       		.byte	0x2
+ 513 00f6 07       		.uleb128 0x7
+ 514 00f7 20080000 		.4byte	.LASF24
+ 515 00fb 03       		.byte	0x3
+ 516 00fc 07       		.uleb128 0x7
+ 517 00fd BC090000 		.4byte	.LASF25
+ 518 0101 04       		.byte	0x4
+ 519 0102 07       		.uleb128 0x7
+ 520 0103 15010000 		.4byte	.LASF26
+ 521 0107 05       		.byte	0x5
+ 522 0108 07       		.uleb128 0x7
+ 523 0109 AB060000 		.4byte	.LASF27
+ 524 010d 06       		.byte	0x6
+ 525 010e 07       		.uleb128 0x7
+ 526 010f D3020000 		.4byte	.LASF28
+ 527 0113 08       		.byte	0x8
+ 528 0114 07       		.uleb128 0x7
+ 529 0115 D8070000 		.4byte	.LASF29
+ 530 0119 09       		.byte	0x9
+ 531 011a 07       		.uleb128 0x7
+ 532 011b E3050000 		.4byte	.LASF30
+ 533 011f 0A       		.byte	0xa
+ 534 0120 07       		.uleb128 0x7
+ 535 0121 CE0D0000 		.4byte	.LASF31
+ 536 0125 0B       		.byte	0xb
+ 537 0126 07       		.uleb128 0x7
+ 538 0127 B4080000 		.4byte	.LASF32
+ 539 012b 0C       		.byte	0xc
+ 540 012c 07       		.uleb128 0x7
+ 541 012d 1F000000 		.4byte	.LASF33
+ 542 0131 0D       		.byte	0xd
+ 543 0132 07       		.uleb128 0x7
+ 544 0133 1D060000 		.4byte	.LASF34
+ 545 0137 0E       		.byte	0xe
+ 546 0138 07       		.uleb128 0x7
+ 547 0139 CA0B0000 		.4byte	.LASF35
+ 548 013d 0F       		.byte	0xf
+ 549 013e 07       		.uleb128 0x7
+ 550 013f D1080000 		.4byte	.LASF36
+ 551 0143 10       		.byte	0x10
+ 552 0144 07       		.uleb128 0x7
+ 553 0145 6A000000 		.4byte	.LASF37
+ 554 0149 11       		.byte	0x11
+ 555 014a 07       		.uleb128 0x7
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 13
+
+
+ 556 014b 620D0000 		.4byte	.LASF38
+ 557 014f 12       		.byte	0x12
+ 558 0150 07       		.uleb128 0x7
+ 559 0151 C1030000 		.4byte	.LASF39
+ 560 0155 13       		.byte	0x13
+ 561 0156 07       		.uleb128 0x7
+ 562 0157 5F070000 		.4byte	.LASF40
+ 563 015b 14       		.byte	0x14
+ 564 015c 07       		.uleb128 0x7
+ 565 015d 9A0D0000 		.4byte	.LASF41
+ 566 0161 15       		.byte	0x15
+ 567 0162 07       		.uleb128 0x7
+ 568 0163 9D0A0000 		.4byte	.LASF42
+ 569 0167 16       		.byte	0x16
+ 570 0168 07       		.uleb128 0x7
+ 571 0169 87010000 		.4byte	.LASF43
+ 572 016d 17       		.byte	0x17
+ 573 016e 07       		.uleb128 0x7
+ 574 016f BB0E0000 		.4byte	.LASF44
+ 575 0173 18       		.byte	0x18
+ 576 0174 07       		.uleb128 0x7
+ 577 0175 B1040000 		.4byte	.LASF45
+ 578 0179 19       		.byte	0x19
+ 579 017a 07       		.uleb128 0x7
+ 580 017b EC060000 		.4byte	.LASF46
+ 581 017f 1A       		.byte	0x1a
+ 582 0180 07       		.uleb128 0x7
+ 583 0181 A40C0000 		.4byte	.LASF47
+ 584 0185 1B       		.byte	0x1b
+ 585 0186 07       		.uleb128 0x7
+ 586 0187 BC0C0000 		.4byte	.LASF48
+ 587 018b 1C       		.byte	0x1c
+ 588 018c 07       		.uleb128 0x7
+ 589 018d FB010000 		.4byte	.LASF49
+ 590 0191 1D       		.byte	0x1d
+ 591 0192 07       		.uleb128 0x7
+ 592 0193 6E040000 		.4byte	.LASF50
+ 593 0197 1E       		.byte	0x1e
+ 594 0198 07       		.uleb128 0x7
+ 595 0199 91090000 		.4byte	.LASF51
+ 596 019d 1F       		.byte	0x1f
+ 597 019e 07       		.uleb128 0x7
+ 598 019f 150F0000 		.4byte	.LASF52
+ 599 01a3 20       		.byte	0x20
+ 600 01a4 07       		.uleb128 0x7
+ 601 01a5 1C050000 		.4byte	.LASF53
+ 602 01a9 21       		.byte	0x21
+ 603 01aa 07       		.uleb128 0x7
+ 604 01ab 6E030000 		.4byte	.LASF54
+ 605 01af 22       		.byte	0x22
+ 606 01b0 07       		.uleb128 0x7
+ 607 01b1 FE070000 		.4byte	.LASF55
+ 608 01b5 23       		.byte	0x23
+ 609 01b6 07       		.uleb128 0x7
+ 610 01b7 68060000 		.4byte	.LASF56
+ 611 01bb 24       		.byte	0x24
+ 612 01bc 07       		.uleb128 0x7
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 14
+
+
+ 613 01bd 020C0000 		.4byte	.LASF57
+ 614 01c1 25       		.byte	0x25
+ 615 01c2 07       		.uleb128 0x7
+ 616 01c3 610B0000 		.4byte	.LASF58
+ 617 01c7 26       		.byte	0x26
+ 618 01c8 07       		.uleb128 0x7
+ 619 01c9 85000000 		.4byte	.LASF59
+ 620 01cd 27       		.byte	0x27
+ 621 01ce 07       		.uleb128 0x7
+ 622 01cf 4A040000 		.4byte	.LASF60
+ 623 01d3 28       		.byte	0x28
+ 624 01d4 07       		.uleb128 0x7
+ 625 01d5 64090000 		.4byte	.LASF61
+ 626 01d9 29       		.byte	0x29
+ 627 01da 07       		.uleb128 0x7
+ 628 01db 7B070000 		.4byte	.LASF62
+ 629 01df 2A       		.byte	0x2a
+ 630 01e0 07       		.uleb128 0x7
+ 631 01e1 0A0E0000 		.4byte	.LASF63
+ 632 01e5 2B       		.byte	0x2b
+ 633 01e6 07       		.uleb128 0x7
+ 634 01e7 F20A0000 		.4byte	.LASF64
+ 635 01eb 2C       		.byte	0x2c
+ 636 01ec 07       		.uleb128 0x7
+ 637 01ed D7010000 		.4byte	.LASF65
+ 638 01f1 2D       		.byte	0x2d
+ 639 01f2 07       		.uleb128 0x7
+ 640 01f3 EB0D0000 		.4byte	.LASF66
+ 641 01f7 2E       		.byte	0x2e
+ 642 01f8 07       		.uleb128 0x7
+ 643 01f9 0E040000 		.4byte	.LASF67
+ 644 01fd 2F       		.byte	0x2f
+ 645 01fe 07       		.uleb128 0x7
+ 646 01ff A3010000 		.4byte	.LASF68
+ 647 0203 30       		.byte	0x30
+ 648 0204 07       		.uleb128 0x7
+ 649 0205 EF030000 		.4byte	.LASF69
+ 650 0209 31       		.byte	0x31
+ 651 020a 07       		.uleb128 0x7
+ 652 020b FD040000 		.4byte	.LASF70
+ 653 020f 32       		.byte	0x32
+ 654 0210 07       		.uleb128 0x7
+ 655 0211 4D0A0000 		.4byte	.LASF71
+ 656 0215 33       		.byte	0x33
+ 657 0216 07       		.uleb128 0x7
+ 658 0217 E3090000 		.4byte	.LASF72
+ 659 021b 34       		.byte	0x34
+ 660 021c 07       		.uleb128 0x7
+ 661 021d CD040000 		.4byte	.LASF73
+ 662 0221 35       		.byte	0x35
+ 663 0222 07       		.uleb128 0x7
+ 664 0223 7F080000 		.4byte	.LASF74
+ 665 0227 36       		.byte	0x36
+ 666 0228 07       		.uleb128 0x7
+ 667 0229 980E0000 		.4byte	.LASF75
+ 668 022d 37       		.byte	0x37
+ 669 022e 07       		.uleb128 0x7
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 15
+
+
+ 670 022f 3C000000 		.4byte	.LASF76
+ 671 0233 38       		.byte	0x38
+ 672 0234 07       		.uleb128 0x7
+ 673 0235 55000000 		.4byte	.LASF77
+ 674 0239 39       		.byte	0x39
+ 675 023a 07       		.uleb128 0x7
+ 676 023b D6000000 		.4byte	.LASF78
+ 677 023f 3A       		.byte	0x3a
+ 678 0240 07       		.uleb128 0x7
+ 679 0241 E50B0000 		.4byte	.LASF79
+ 680 0245 3B       		.byte	0x3b
+ 681 0246 07       		.uleb128 0x7
+ 682 0247 FA020000 		.4byte	.LASF80
+ 683 024b 3C       		.byte	0x3c
+ 684 024c 07       		.uleb128 0x7
+ 685 024d C2010000 		.4byte	.LASF81
+ 686 0251 3D       		.byte	0x3d
+ 687 0252 07       		.uleb128 0x7
+ 688 0253 8A020000 		.4byte	.LASF82
+ 689 0257 3E       		.byte	0x3e
+ 690 0258 07       		.uleb128 0x7
+ 691 0259 220A0000 		.4byte	.LASF83
+ 692 025d 3F       		.byte	0x3f
+ 693 025e 07       		.uleb128 0x7
+ 694 025f B60D0000 		.4byte	.LASF84
+ 695 0263 40       		.byte	0x40
+ 696 0264 07       		.uleb128 0x7
+ 697 0265 04070000 		.4byte	.LASF85
+ 698 0269 41       		.byte	0x41
+ 699 026a 07       		.uleb128 0x7
+ 700 026b 240C0000 		.4byte	.LASF86
+ 701 026f 42       		.byte	0x42
+ 702 0270 07       		.uleb128 0x7
+ 703 0271 510E0000 		.4byte	.LASF87
+ 704 0275 43       		.byte	0x43
+ 705 0276 07       		.uleb128 0x7
+ 706 0277 B6020000 		.4byte	.LASF88
+ 707 027b 44       		.byte	0x44
+ 708 027c 07       		.uleb128 0x7
+ 709 027d 34020000 		.4byte	.LASF89
+ 710 0281 45       		.byte	0x45
+ 711 0282 07       		.uleb128 0x7
+ 712 0283 C6050000 		.4byte	.LASF90
+ 713 0287 46       		.byte	0x46
+ 714 0288 07       		.uleb128 0x7
+ 715 0289 3E050000 		.4byte	.LASF91
+ 716 028d 47       		.byte	0x47
+ 717 028e 07       		.uleb128 0x7
+ 718 028f CB0A0000 		.4byte	.LASF92
+ 719 0293 48       		.byte	0x48
+ 720 0294 07       		.uleb128 0x7
+ 721 0295 38080000 		.4byte	.LASF93
+ 722 0299 49       		.byte	0x49
+ 723 029a 07       		.uleb128 0x7
+ 724 029b E20E0000 		.4byte	.LASF94
+ 725 029f 4A       		.byte	0x4a
+ 726 02a0 07       		.uleb128 0x7
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 16
+
+
+ 727 02a1 3E0C0000 		.4byte	.LASF95
+ 728 02a5 4B       		.byte	0x4b
+ 729 02a6 07       		.uleb128 0x7
+ 730 02a7 25030000 		.4byte	.LASF96
+ 731 02ab 4C       		.byte	0x4c
+ 732 02ac 07       		.uleb128 0x7
+ 733 02ad F1000000 		.4byte	.LASF97
+ 734 02b1 4D       		.byte	0x4d
+ 735 02b2 07       		.uleb128 0x7
+ 736 02b3 38060000 		.4byte	.LASF98
+ 737 02b7 4E       		.byte	0x4e
+ 738 02b8 07       		.uleb128 0x7
+ 739 02b9 2D040000 		.4byte	.LASF99
+ 740 02bd 4F       		.byte	0x4f
+ 741 02be 07       		.uleb128 0x7
+ 742 02bf EC080000 		.4byte	.LASF100
+ 743 02c3 50       		.byte	0x50
+ 744 02c4 07       		.uleb128 0x7
+ 745 02c5 42070000 		.4byte	.LASF101
+ 746 02c9 51       		.byte	0x51
+ 747 02ca 07       		.uleb128 0x7
+ 748 02cb 7D0D0000 		.4byte	.LASF102
+ 749 02cf 52       		.byte	0x52
+ 750 02d0 07       		.uleb128 0x7
+ 751 02d1 800A0000 		.4byte	.LASF103
+ 752 02d5 53       		.byte	0x53
+ 753 02d6 07       		.uleb128 0x7
+ 754 02d7 6A010000 		.4byte	.LASF104
+ 755 02db 54       		.byte	0x54
+ 756 02dc 07       		.uleb128 0x7
+ 757 02dd 4C090000 		.4byte	.LASF105
+ 758 02e1 55       		.byte	0x55
+ 759 02e2 07       		.uleb128 0x7
+ 760 02e3 BE000000 		.4byte	.LASF106
+ 761 02e7 56       		.byte	0x56
+ 762 02e8 07       		.uleb128 0x7
+ 763 02e9 1D090000 		.4byte	.LASF107
+ 764 02ed 57       		.byte	0x57
+ 765 02ee 07       		.uleb128 0x7
+ 766 02ef 3C010000 		.4byte	.LASF108
+ 767 02f3 58       		.byte	0x58
+ 768 02f4 07       		.uleb128 0x7
+ 769 02f5 370F0000 		.4byte	.LASF109
+ 770 02f9 59       		.byte	0x59
+ 771 02fa 07       		.uleb128 0x7
+ 772 02fb 05060000 		.4byte	.LASF110
+ 773 02ff 5A       		.byte	0x5a
+ 774 0300 07       		.uleb128 0x7
+ 775 0301 55080000 		.4byte	.LASF111
+ 776 0305 5B       		.byte	0x5b
+ 777 0306 07       		.uleb128 0x7
+ 778 0307 FF0E0000 		.4byte	.LASF112
+ 779 030b 5C       		.byte	0x5c
+ 780 030c 07       		.uleb128 0x7
+ 781 030d A20B0000 		.4byte	.LASF113
+ 782 0311 5D       		.byte	0x5d
+ 783 0312 07       		.uleb128 0x7
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 17
+
+
+ 784 0313 42030000 		.4byte	.LASF114
+ 785 0317 5E       		.byte	0x5e
+ 786 0318 07       		.uleb128 0x7
+ 787 0319 74020000 		.4byte	.LASF115
+ 788 031d 5F       		.byte	0x5f
+ 789 031e 07       		.uleb128 0x7
+ 790 031f B6070000 		.4byte	.LASF116
+ 791 0323 60       		.byte	0x60
+ 792 0324 07       		.uleb128 0x7
+ 793 0325 F4090000 		.4byte	.LASF117
+ 794 0329 61       		.byte	0x61
+ 795 032a 07       		.uleb128 0x7
+ 796 032b 9F020000 		.4byte	.LASF118
+ 797 032f 62       		.byte	0x62
+ 798 0330 07       		.uleb128 0x7
+ 799 0331 810E0000 		.4byte	.LASF119
+ 800 0335 63       		.byte	0x63
+ 801 0336 07       		.uleb128 0x7
+ 802 0337 86040000 		.4byte	.LASF120
+ 803 033b 64       		.byte	0x64
+ 804 033c 07       		.uleb128 0x7
+ 805 033d 5D020000 		.4byte	.LASF121
+ 806 0341 65       		.byte	0x65
+ 807 0342 07       		.uleb128 0x7
+ 808 0343 9F070000 		.4byte	.LASF122
+ 809 0347 66       		.byte	0x66
+ 810 0348 07       		.uleb128 0x7
+ 811 0349 B0050000 		.4byte	.LASF123
+ 812 034d 67       		.byte	0x67
+ 813 034e 07       		.uleb128 0x7
+ 814 034f 830B0000 		.4byte	.LASF124
+ 815 0353 68       		.byte	0x68
+ 816 0354 07       		.uleb128 0x7
+ 817 0355 7C0C0000 		.4byte	.LASF125
+ 818 0359 69       		.byte	0x69
+ 819 035a 07       		.uleb128 0x7
+ 820 035b 90030000 		.4byte	.LASF126
+ 821 035f 6A       		.byte	0x6a
+ 822 0360 00       		.byte	0
+ 823 0361 06       		.uleb128 0x6
+ 824 0362 01       		.byte	0x1
+ 825 0363 37000000 		.4byte	0x37
+ 826 0367 05       		.byte	0x5
+ 827 0368 A6       		.byte	0xa6
+ 828 0369 80030000 		.4byte	0x380
+ 829 036d 07       		.uleb128 0x7
+ 830 036e B90A0000 		.4byte	.LASF127
+ 831 0372 00       		.byte	0
+ 832 0373 07       		.uleb128 0x7
+ 833 0374 20070000 		.4byte	.LASF128
+ 834 0378 01       		.byte	0x1
+ 835 0379 07       		.uleb128 0x7
+ 836 037a DC030000 		.4byte	.LASF129
+ 837 037e 02       		.byte	0x2
+ 838 037f 00       		.byte	0
+ 839 0380 06       		.uleb128 0x6
+ 840 0381 01       		.byte	0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 18
+
+
+ 841 0382 37000000 		.4byte	0x37
+ 842 0386 05       		.byte	0x5
+ 843 0387 AD       		.byte	0xad
+ 844 0388 DB030000 		.4byte	0x3db
+ 845 038c 07       		.uleb128 0x7
+ 846 038d 9A050000 		.4byte	.LASF130
+ 847 0391 00       		.byte	0
+ 848 0392 07       		.uleb128 0x7
+ 849 0393 2E0E0000 		.4byte	.LASF131
+ 850 0397 01       		.byte	0x1
+ 851 0398 07       		.uleb128 0x7
+ 852 0399 00000000 		.4byte	.LASF132
+ 853 039d 02       		.byte	0x2
+ 854 039e 07       		.uleb128 0x7
+ 855 039f 5B050000 		.4byte	.LASF133
+ 856 03a3 03       		.byte	0x3
+ 857 03a4 07       		.uleb128 0x7
+ 858 03a5 58030000 		.4byte	.LASF134
+ 859 03a9 04       		.byte	0x4
+ 860 03aa 07       		.uleb128 0x7
+ 861 03ab A7000000 		.4byte	.LASF135
+ 862 03af 05       		.byte	0x5
+ 863 03b0 07       		.uleb128 0x7
+ 864 03b1 1D020000 		.4byte	.LASF136
+ 865 03b5 06       		.byte	0x6
+ 866 03b6 07       		.uleb128 0x7
+ 867 03b7 3A0A0000 		.4byte	.LASF137
+ 868 03bb 07       		.byte	0x7
+ 869 03bc 07       		.uleb128 0x7
+ 870 03bd D5060000 		.4byte	.LASF138
+ 871 03c1 08       		.byte	0x8
+ 872 03c2 07       		.uleb128 0x7
+ 873 03c3 35090000 		.4byte	.LASF139
+ 874 03c7 09       		.byte	0x9
+ 875 03c8 07       		.uleb128 0x7
+ 876 03c9 5B0C0000 		.4byte	.LASF140
+ 877 03cd 0A       		.byte	0xa
+ 878 03ce 07       		.uleb128 0x7
+ 879 03cf 8A060000 		.4byte	.LASF141
+ 880 03d3 0B       		.byte	0xb
+ 881 03d4 07       		.uleb128 0x7
+ 882 03d5 900C0000 		.4byte	.LASF142
+ 883 03d9 0C       		.byte	0xc
+ 884 03da 00       		.byte	0
+ 885 03db 08       		.uleb128 0x8
+ 886 03dc 06       		.byte	0x6
+ 887 03dd 05       		.byte	0x5
+ 888 03de E8       		.byte	0xe8
+ 889 03df 08040000 		.4byte	0x408
+ 890 03e3 09       		.uleb128 0x9
+ 891 03e4 C1060000 		.4byte	.LASF143
+ 892 03e8 05       		.byte	0x5
+ 893 03e9 E9       		.byte	0xe9
+ 894 03ea A3000000 		.4byte	0xa3
+ 895 03ee 00       		.byte	0
+ 896 03ef 09       		.uleb128 0x9
+ 897 03f0 64010000 		.4byte	.LASF144
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 19
+
+
+ 898 03f4 05       		.byte	0x5
+ 899 03f5 EA       		.byte	0xea
+ 900 03f6 A3000000 		.4byte	0xa3
+ 901 03fa 02       		.byte	0x2
+ 902 03fb 0A       		.uleb128 0xa
+ 903 03fc 79617700 		.ascii	"yaw\000"
+ 904 0400 05       		.byte	0x5
+ 905 0401 EB       		.byte	0xeb
+ 906 0402 A3000000 		.4byte	0xa3
+ 907 0406 04       		.byte	0x4
+ 908 0407 00       		.byte	0
+ 909 0408 03       		.uleb128 0x3
+ 910 0409 A7080000 		.4byte	.LASF145
+ 911 040d 05       		.byte	0x5
+ 912 040e EC       		.byte	0xec
+ 913 040f DB030000 		.4byte	0x3db
+ 914 0413 0B       		.uleb128 0xb
+ 915 0414 F0020000 		.4byte	.LASF148
+ 916 0418 01       		.byte	0x1
+ 917 0419 39       		.byte	0x39
+ 918 041a 00000000 		.4byte	.LFB64
+ 919 041e 2C000000 		.4byte	.LFE64-.LFB64
+ 920 0422 01       		.uleb128 0x1
+ 921 0423 9C       		.byte	0x9c
+ 922 0424 B4040000 		.4byte	0x4b4
+ 923 0428 0C       		.uleb128 0xc
+ 924 0429 72656700 		.ascii	"reg\000"
+ 925 042d 01       		.byte	0x1
+ 926 042e 39       		.byte	0x39
+ 927 042f 97000000 		.4byte	0x97
+ 928 0433 00000000 		.4byte	.LLST0
+ 929 0437 0D       		.uleb128 0xd
+ 930 0438 A6060000 		.4byte	.LASF146
+ 931 043c 01       		.byte	0x1
+ 932 043d 39       		.byte	0x39
+ 933 043e 97000000 		.4byte	0x97
+ 934 0442 21000000 		.4byte	.LLST1
+ 935 0446 0E       		.uleb128 0xe
+ 936 0447 CE060000 		.4byte	.LASF147
+ 937 044b 01       		.byte	0x1
+ 938 044c 3A       		.byte	0x3a
+ 939 044d 97000000 		.4byte	0x97
+ 940 0451 42000000 		.4byte	.LLST2
+ 941 0455 0F       		.uleb128 0xf
+ 942 0456 0E000000 		.4byte	.LVL3
+ 943 045a 54080000 		.4byte	0x854
+ 944 045e 6E040000 		.4byte	0x46e
+ 945 0462 10       		.uleb128 0x10
+ 946 0463 01       		.uleb128 0x1
+ 947 0464 50       		.byte	0x50
+ 948 0465 02       		.uleb128 0x2
+ 949 0466 08       		.byte	0x8
+ 950 0467 28       		.byte	0x28
+ 951 0468 10       		.uleb128 0x10
+ 952 0469 01       		.uleb128 0x1
+ 953 046a 51       		.byte	0x51
+ 954 046b 01       		.uleb128 0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 20
+
+
+ 955 046c 30       		.byte	0x30
+ 956 046d 00       		.byte	0
+ 957 046e 0F       		.uleb128 0xf
+ 958 046f 18000000 		.4byte	.LVL5
+ 959 0473 5F080000 		.4byte	0x85f
+ 960 0477 82040000 		.4byte	0x482
+ 961 047b 10       		.uleb128 0x10
+ 962 047c 01       		.uleb128 0x1
+ 963 047d 50       		.byte	0x50
+ 964 047e 02       		.uleb128 0x2
+ 965 047f 76       		.byte	0x76
+ 966 0480 00       		.sleb128 0
+ 967 0481 00       		.byte	0
+ 968 0482 0F       		.uleb128 0xf
+ 969 0483 1E000000 		.4byte	.LVL6
+ 970 0487 6A080000 		.4byte	0x86a
+ 971 048b 96040000 		.4byte	0x496
+ 972 048f 10       		.uleb128 0x10
+ 973 0490 01       		.uleb128 0x1
+ 974 0491 50       		.byte	0x50
+ 975 0492 02       		.uleb128 0x2
+ 976 0493 74       		.byte	0x74
+ 977 0494 00       		.sleb128 0
+ 978 0495 00       		.byte	0
+ 979 0496 0F       		.uleb128 0xf
+ 980 0497 24000000 		.4byte	.LVL7
+ 981 049b 5F080000 		.4byte	0x85f
+ 982 049f AA040000 		.4byte	0x4aa
+ 983 04a3 10       		.uleb128 0x10
+ 984 04a4 01       		.uleb128 0x1
+ 985 04a5 50       		.byte	0x50
+ 986 04a6 02       		.uleb128 0x2
+ 987 04a7 75       		.byte	0x75
+ 988 04a8 00       		.sleb128 0
+ 989 04a9 00       		.byte	0
+ 990 04aa 11       		.uleb128 0x11
+ 991 04ab 2C000000 		.4byte	.LVL8
+ 992 04af 75080000 		.4byte	0x875
+ 993 04b3 00       		.byte	0
+ 994 04b4 12       		.uleb128 0x12
+ 995 04b5 160B0000 		.4byte	.LASF166
+ 996 04b9 01       		.byte	0x1
+ 997 04ba 46       		.byte	0x46
+ 998 04bb 97000000 		.4byte	0x97
+ 999 04bf 00000000 		.4byte	.LFB65
+ 1000 04c3 2A000000 		.4byte	.LFE65-.LFB65
+ 1001 04c7 01       		.uleb128 0x1
+ 1002 04c8 9C       		.byte	0x9c
+ 1003 04c9 4C050000 		.4byte	0x54c
+ 1004 04cd 0C       		.uleb128 0xc
+ 1005 04ce 72656700 		.ascii	"reg\000"
+ 1006 04d2 01       		.byte	0x1
+ 1007 04d3 46       		.byte	0x46
+ 1008 04d4 97000000 		.4byte	0x97
+ 1009 04d8 55000000 		.4byte	.LLST3
+ 1010 04dc 13       		.uleb128 0x13
+ 1011 04dd A6060000 		.4byte	.LASF146
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 21
+
+
+ 1012 04e1 01       		.byte	0x1
+ 1013 04e2 4A       		.byte	0x4a
+ 1014 04e3 97000000 		.4byte	0x97
+ 1015 04e7 01       		.uleb128 0x1
+ 1016 04e8 54       		.byte	0x54
+ 1017 04e9 0F       		.uleb128 0xf
+ 1018 04ea 0C000000 		.4byte	.LVL11
+ 1019 04ee 54080000 		.4byte	0x854
+ 1020 04f2 02050000 		.4byte	0x502
+ 1021 04f6 10       		.uleb128 0x10
+ 1022 04f7 01       		.uleb128 0x1
+ 1023 04f8 50       		.byte	0x50
+ 1024 04f9 02       		.uleb128 0x2
+ 1025 04fa 08       		.byte	0x8
+ 1026 04fb 28       		.byte	0x28
+ 1027 04fc 10       		.uleb128 0x10
+ 1028 04fd 01       		.uleb128 0x1
+ 1029 04fe 51       		.byte	0x51
+ 1030 04ff 01       		.uleb128 0x1
+ 1031 0500 30       		.byte	0x30
+ 1032 0501 00       		.byte	0
+ 1033 0502 0F       		.uleb128 0xf
+ 1034 0503 12000000 		.4byte	.LVL12
+ 1035 0507 5F080000 		.4byte	0x85f
+ 1036 050b 16050000 		.4byte	0x516
+ 1037 050f 10       		.uleb128 0x10
+ 1038 0510 01       		.uleb128 0x1
+ 1039 0511 50       		.byte	0x50
+ 1040 0512 02       		.uleb128 0x2
+ 1041 0513 74       		.byte	0x74
+ 1042 0514 00       		.sleb128 0
+ 1043 0515 00       		.byte	0
+ 1044 0516 0F       		.uleb128 0xf
+ 1045 0517 1A000000 		.4byte	.LVL13
+ 1046 051b 80080000 		.4byte	0x880
+ 1047 051f 2F050000 		.4byte	0x52f
+ 1048 0523 10       		.uleb128 0x10
+ 1049 0524 01       		.uleb128 0x1
+ 1050 0525 50       		.byte	0x50
+ 1051 0526 02       		.uleb128 0x2
+ 1052 0527 08       		.byte	0x8
+ 1053 0528 28       		.byte	0x28
+ 1054 0529 10       		.uleb128 0x10
+ 1055 052a 01       		.uleb128 0x1
+ 1056 052b 51       		.byte	0x51
+ 1057 052c 01       		.uleb128 0x1
+ 1058 052d 31       		.byte	0x31
+ 1059 052e 00       		.byte	0
+ 1060 052f 0F       		.uleb128 0xf
+ 1061 0530 20000000 		.4byte	.LVL14
+ 1062 0534 8B080000 		.4byte	0x88b
+ 1063 0538 42050000 		.4byte	0x542
+ 1064 053c 10       		.uleb128 0x10
+ 1065 053d 01       		.uleb128 0x1
+ 1066 053e 50       		.byte	0x50
+ 1067 053f 01       		.uleb128 0x1
+ 1068 0540 30       		.byte	0x30
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 22
+
+
+ 1069 0541 00       		.byte	0
+ 1070 0542 14       		.uleb128 0x14
+ 1071 0543 26000000 		.4byte	.LVL16
+ 1072 0547 75080000 		.4byte	0x875
+ 1073 054b 00       		.byte	0
+ 1074 054c 15       		.uleb128 0x15
+ 1075 054d 88090000 		.4byte	.LASF149
+ 1076 0551 01       		.byte	0x1
+ 1077 0552 15       		.byte	0x15
+ 1078 0553 73000000 		.4byte	0x73
+ 1079 0557 00000000 		.4byte	.LFB63
+ 1080 055b 8E000000 		.4byte	.LFE63-.LFB63
+ 1081 055f 01       		.uleb128 0x1
+ 1082 0560 9C       		.byte	0x9c
+ 1083 0561 DC060000 		.4byte	0x6dc
+ 1084 0565 16       		.uleb128 0x16
+ 1085 0566 696400   		.ascii	"id\000"
+ 1086 0569 01       		.byte	0x1
+ 1087 056a 17       		.byte	0x17
+ 1088 056b 81000000 		.4byte	0x81
+ 1089 056f 76000000 		.4byte	.LLST4
+ 1090 0573 0F       		.uleb128 0xf
+ 1091 0574 08000000 		.4byte	.LVL17
+ 1092 0578 B4040000 		.4byte	0x4b4
+ 1093 057c 86050000 		.4byte	0x586
+ 1094 0580 10       		.uleb128 0x10
+ 1095 0581 01       		.uleb128 0x1
+ 1096 0582 50       		.byte	0x50
+ 1097 0583 01       		.uleb128 0x1
+ 1098 0584 30       		.byte	0x30
+ 1099 0585 00       		.byte	0
+ 1100 0586 0F       		.uleb128 0xf
+ 1101 0587 14000000 		.4byte	.LVL19
+ 1102 058b 13040000 		.4byte	0x413
+ 1103 058f 9F050000 		.4byte	0x59f
+ 1104 0593 10       		.uleb128 0x10
+ 1105 0594 01       		.uleb128 0x1
+ 1106 0595 50       		.byte	0x50
+ 1107 0596 02       		.uleb128 0x2
+ 1108 0597 08       		.byte	0x8
+ 1109 0598 3D       		.byte	0x3d
+ 1110 0599 10       		.uleb128 0x10
+ 1111 059a 01       		.uleb128 0x1
+ 1112 059b 51       		.byte	0x51
+ 1113 059c 01       		.uleb128 0x1
+ 1114 059d 30       		.byte	0x30
+ 1115 059e 00       		.byte	0
+ 1116 059f 0F       		.uleb128 0xf
+ 1117 05a0 1A000000 		.4byte	.LVL20
+ 1118 05a4 96080000 		.4byte	0x896
+ 1119 05a8 B3050000 		.4byte	0x5b3
+ 1120 05ac 10       		.uleb128 0x10
+ 1121 05ad 01       		.uleb128 0x1
+ 1122 05ae 50       		.byte	0x50
+ 1123 05af 02       		.uleb128 0x2
+ 1124 05b0 08       		.byte	0x8
+ 1125 05b1 3C       		.byte	0x3c
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 23
+
+
+ 1126 05b2 00       		.byte	0
+ 1127 05b3 0F       		.uleb128 0xf
+ 1128 05b4 22000000 		.4byte	.LVL21
+ 1129 05b8 13040000 		.4byte	0x413
+ 1130 05bc CD050000 		.4byte	0x5cd
+ 1131 05c0 10       		.uleb128 0x10
+ 1132 05c1 01       		.uleb128 0x1
+ 1133 05c2 50       		.byte	0x50
+ 1134 05c3 02       		.uleb128 0x2
+ 1135 05c4 08       		.byte	0x8
+ 1136 05c5 3F       		.byte	0x3f
+ 1137 05c6 10       		.uleb128 0x10
+ 1138 05c7 01       		.uleb128 0x1
+ 1139 05c8 51       		.byte	0x51
+ 1140 05c9 02       		.uleb128 0x2
+ 1141 05ca 08       		.byte	0x8
+ 1142 05cb 20       		.byte	0x20
+ 1143 05cc 00       		.byte	0
+ 1144 05cd 0F       		.uleb128 0xf
+ 1145 05ce 2C000000 		.4byte	.LVL24
+ 1146 05d2 96080000 		.4byte	0x896
+ 1147 05d6 E2050000 		.4byte	0x5e2
+ 1148 05da 10       		.uleb128 0x10
+ 1149 05db 01       		.uleb128 0x1
+ 1150 05dc 50       		.byte	0x50
+ 1151 05dd 03       		.uleb128 0x3
+ 1152 05de 0A       		.byte	0xa
+ 1153 05df E803     		.2byte	0x3e8
+ 1154 05e1 00       		.byte	0
+ 1155 05e2 0F       		.uleb128 0xf
+ 1156 05e3 32000000 		.4byte	.LVL25
+ 1157 05e7 B4040000 		.4byte	0x4b4
+ 1158 05eb F5050000 		.4byte	0x5f5
+ 1159 05ef 10       		.uleb128 0x10
+ 1160 05f0 01       		.uleb128 0x1
+ 1161 05f1 50       		.byte	0x50
+ 1162 05f2 01       		.uleb128 0x1
+ 1163 05f3 30       		.byte	0x30
+ 1164 05f4 00       		.byte	0
+ 1165 05f5 0F       		.uleb128 0xf
+ 1166 05f6 40000000 		.4byte	.LVL27
+ 1167 05fa B4040000 		.4byte	0x4b4
+ 1168 05fe 08060000 		.4byte	0x608
+ 1169 0602 10       		.uleb128 0x10
+ 1170 0603 01       		.uleb128 0x1
+ 1171 0604 50       		.byte	0x50
+ 1172 0605 01       		.uleb128 0x1
+ 1173 0606 30       		.byte	0x30
+ 1174 0607 00       		.byte	0
+ 1175 0608 0F       		.uleb128 0xf
+ 1176 0609 4A000000 		.4byte	.LVL28
+ 1177 060d 96080000 		.4byte	0x896
+ 1178 0611 1B060000 		.4byte	0x61b
+ 1179 0615 10       		.uleb128 0x10
+ 1180 0616 01       		.uleb128 0x1
+ 1181 0617 50       		.byte	0x50
+ 1182 0618 01       		.uleb128 0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 24
+
+
+ 1183 0619 3A       		.byte	0x3a
+ 1184 061a 00       		.byte	0
+ 1185 061b 0F       		.uleb128 0xf
+ 1186 061c 52000000 		.4byte	.LVL29
+ 1187 0620 96080000 		.4byte	0x896
+ 1188 0624 2F060000 		.4byte	0x62f
+ 1189 0628 10       		.uleb128 0x10
+ 1190 0629 01       		.uleb128 0x1
+ 1191 062a 50       		.byte	0x50
+ 1192 062b 02       		.uleb128 0x2
+ 1193 062c 08       		.byte	0x8
+ 1194 062d 3C       		.byte	0x3c
+ 1195 062e 00       		.byte	0
+ 1196 062f 0F       		.uleb128 0xf
+ 1197 0630 5A000000 		.4byte	.LVL30
+ 1198 0634 13040000 		.4byte	0x413
+ 1199 0638 48060000 		.4byte	0x648
+ 1200 063c 10       		.uleb128 0x10
+ 1201 063d 01       		.uleb128 0x1
+ 1202 063e 50       		.byte	0x50
+ 1203 063f 02       		.uleb128 0x2
+ 1204 0640 08       		.byte	0x8
+ 1205 0641 3E       		.byte	0x3e
+ 1206 0642 10       		.uleb128 0x10
+ 1207 0643 01       		.uleb128 0x1
+ 1208 0644 51       		.byte	0x51
+ 1209 0645 01       		.uleb128 0x1
+ 1210 0646 30       		.byte	0x30
+ 1211 0647 00       		.byte	0
+ 1212 0648 0F       		.uleb128 0xf
+ 1213 0649 60000000 		.4byte	.LVL31
+ 1214 064d 96080000 		.4byte	0x896
+ 1215 0651 5B060000 		.4byte	0x65b
+ 1216 0655 10       		.uleb128 0x10
+ 1217 0656 01       		.uleb128 0x1
+ 1218 0657 50       		.byte	0x50
+ 1219 0658 01       		.uleb128 0x1
+ 1220 0659 3A       		.byte	0x3a
+ 1221 065a 00       		.byte	0
+ 1222 065b 0F       		.uleb128 0xf
+ 1223 065c 68000000 		.4byte	.LVL32
+ 1224 0660 13040000 		.4byte	0x413
+ 1225 0664 73060000 		.4byte	0x673
+ 1226 0668 10       		.uleb128 0x10
+ 1227 0669 01       		.uleb128 0x1
+ 1228 066a 50       		.byte	0x50
+ 1229 066b 01       		.uleb128 0x1
+ 1230 066c 37       		.byte	0x37
+ 1231 066d 10       		.uleb128 0x10
+ 1232 066e 01       		.uleb128 0x1
+ 1233 066f 51       		.byte	0x51
+ 1234 0670 01       		.uleb128 0x1
+ 1235 0671 30       		.byte	0x30
+ 1236 0672 00       		.byte	0
+ 1237 0673 0F       		.uleb128 0xf
+ 1238 0674 6E000000 		.4byte	.LVL33
+ 1239 0678 96080000 		.4byte	0x896
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 25
+
+
+ 1240 067c 86060000 		.4byte	0x686
+ 1241 0680 10       		.uleb128 0x10
+ 1242 0681 01       		.uleb128 0x1
+ 1243 0682 50       		.byte	0x50
+ 1244 0683 01       		.uleb128 0x1
+ 1245 0684 3A       		.byte	0x3a
+ 1246 0685 00       		.byte	0
+ 1247 0686 0F       		.uleb128 0xf
+ 1248 0687 76000000 		.4byte	.LVL34
+ 1249 068b 13040000 		.4byte	0x413
+ 1250 068f 9F060000 		.4byte	0x69f
+ 1251 0693 10       		.uleb128 0x10
+ 1252 0694 01       		.uleb128 0x1
+ 1253 0695 50       		.byte	0x50
+ 1254 0696 02       		.uleb128 0x2
+ 1255 0697 08       		.byte	0x8
+ 1256 0698 3F       		.byte	0x3f
+ 1257 0699 10       		.uleb128 0x10
+ 1258 069a 01       		.uleb128 0x1
+ 1259 069b 51       		.byte	0x51
+ 1260 069c 01       		.uleb128 0x1
+ 1261 069d 30       		.byte	0x30
+ 1262 069e 00       		.byte	0
+ 1263 069f 0F       		.uleb128 0xf
+ 1264 06a0 7C000000 		.4byte	.LVL35
+ 1265 06a4 96080000 		.4byte	0x896
+ 1266 06a8 B2060000 		.4byte	0x6b2
+ 1267 06ac 10       		.uleb128 0x10
+ 1268 06ad 01       		.uleb128 0x1
+ 1269 06ae 50       		.byte	0x50
+ 1270 06af 01       		.uleb128 0x1
+ 1271 06b0 44       		.byte	0x44
+ 1272 06b1 00       		.byte	0
+ 1273 06b2 0F       		.uleb128 0xf
+ 1274 06b3 84000000 		.4byte	.LVL36
+ 1275 06b7 13040000 		.4byte	0x413
+ 1276 06bb CB060000 		.4byte	0x6cb
+ 1277 06bf 10       		.uleb128 0x10
+ 1278 06c0 01       		.uleb128 0x1
+ 1279 06c1 50       		.byte	0x50
+ 1280 06c2 02       		.uleb128 0x2
+ 1281 06c3 08       		.byte	0x8
+ 1282 06c4 3D       		.byte	0x3d
+ 1283 06c5 10       		.uleb128 0x10
+ 1284 06c6 01       		.uleb128 0x1
+ 1285 06c7 51       		.byte	0x51
+ 1286 06c8 01       		.uleb128 0x1
+ 1287 06c9 33       		.byte	0x33
+ 1288 06ca 00       		.byte	0
+ 1289 06cb 17       		.uleb128 0x17
+ 1290 06cc 8A000000 		.4byte	.LVL37
+ 1291 06d0 96080000 		.4byte	0x896
+ 1292 06d4 10       		.uleb128 0x10
+ 1293 06d5 01       		.uleb128 0x1
+ 1294 06d6 50       		.byte	0x50
+ 1295 06d7 02       		.uleb128 0x2
+ 1296 06d8 08       		.byte	0x8
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 26
+
+
+ 1297 06d9 3C       		.byte	0x3c
+ 1298 06da 00       		.byte	0
+ 1299 06db 00       		.byte	0
+ 1300 06dc 0B       		.uleb128 0xb
+ 1301 06dd CC070000 		.4byte	.LASF150
+ 1302 06e1 01       		.byte	0x1
+ 1303 06e2 50       		.byte	0x50
+ 1304 06e3 00000000 		.4byte	.LFB66
+ 1305 06e7 2A000000 		.4byte	.LFE66-.LFB66
+ 1306 06eb 01       		.uleb128 0x1
+ 1307 06ec 9C       		.byte	0x9c
+ 1308 06ed 85070000 		.4byte	0x785
+ 1309 06f1 0C       		.uleb128 0xc
+ 1310 06f2 72656700 		.ascii	"reg\000"
+ 1311 06f6 01       		.byte	0x1
+ 1312 06f7 50       		.byte	0x50
+ 1313 06f8 97000000 		.4byte	0x97
+ 1314 06fc 9F000000 		.4byte	.LLST5
+ 1315 0700 0D       		.uleb128 0xd
+ 1316 0701 EA000000 		.4byte	.LASF151
+ 1317 0705 01       		.byte	0x1
+ 1318 0706 50       		.byte	0x50
+ 1319 0707 85070000 		.4byte	0x785
+ 1320 070b C0000000 		.4byte	.LLST6
+ 1321 070f 0C       		.uleb128 0xc
+ 1322 0710 636E7400 		.ascii	"cnt\000"
+ 1323 0714 01       		.byte	0x1
+ 1324 0715 50       		.byte	0x50
+ 1325 0716 97000000 		.4byte	0x97
+ 1326 071a EC000000 		.4byte	.LLST7
+ 1327 071e 18       		.uleb128 0x18
+ 1328 071f CE060000 		.4byte	.LASF147
+ 1329 0723 01       		.byte	0x1
+ 1330 0724 51       		.byte	0x51
+ 1331 0725 97000000 		.4byte	0x97
+ 1332 0729 0F       		.uleb128 0xf
+ 1333 072a 10000000 		.4byte	.LVL41
+ 1334 072e 54080000 		.4byte	0x854
+ 1335 0732 42070000 		.4byte	0x742
+ 1336 0736 10       		.uleb128 0x10
+ 1337 0737 01       		.uleb128 0x1
+ 1338 0738 50       		.byte	0x50
+ 1339 0739 02       		.uleb128 0x2
+ 1340 073a 08       		.byte	0x8
+ 1341 073b 28       		.byte	0x28
+ 1342 073c 10       		.uleb128 0x10
+ 1343 073d 01       		.uleb128 0x1
+ 1344 073e 51       		.byte	0x51
+ 1345 073f 01       		.uleb128 0x1
+ 1346 0740 30       		.byte	0x30
+ 1347 0741 00       		.byte	0
+ 1348 0742 0F       		.uleb128 0xf
+ 1349 0743 16000000 		.4byte	.LVL42
+ 1350 0747 5F080000 		.4byte	0x85f
+ 1351 074b 56070000 		.4byte	0x756
+ 1352 074f 10       		.uleb128 0x10
+ 1353 0750 01       		.uleb128 0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 27
+
+
+ 1354 0751 50       		.byte	0x50
+ 1355 0752 02       		.uleb128 0x2
+ 1356 0753 76       		.byte	0x76
+ 1357 0754 00       		.sleb128 0
+ 1358 0755 00       		.byte	0
+ 1359 0756 0F       		.uleb128 0xf
+ 1360 0757 22000000 		.4byte	.LVL43
+ 1361 075b A1080000 		.4byte	0x8a1
+ 1362 075f 7B070000 		.4byte	0x77b
+ 1363 0763 10       		.uleb128 0x10
+ 1364 0764 01       		.uleb128 0x1
+ 1365 0765 50       		.byte	0x50
+ 1366 0766 02       		.uleb128 0x2
+ 1367 0767 08       		.byte	0x8
+ 1368 0768 28       		.byte	0x28
+ 1369 0769 10       		.uleb128 0x10
+ 1370 076a 01       		.uleb128 0x1
+ 1371 076b 51       		.byte	0x51
+ 1372 076c 02       		.uleb128 0x2
+ 1373 076d 74       		.byte	0x74
+ 1374 076e 00       		.sleb128 0
+ 1375 076f 10       		.uleb128 0x10
+ 1376 0770 01       		.uleb128 0x1
+ 1377 0771 52       		.byte	0x52
+ 1378 0772 02       		.uleb128 0x2
+ 1379 0773 75       		.byte	0x75
+ 1380 0774 00       		.sleb128 0
+ 1381 0775 10       		.uleb128 0x10
+ 1382 0776 01       		.uleb128 0x1
+ 1383 0777 53       		.byte	0x53
+ 1384 0778 01       		.uleb128 0x1
+ 1385 0779 30       		.byte	0x30
+ 1386 077a 00       		.byte	0
+ 1387 077b 11       		.uleb128 0x11
+ 1388 077c 2A000000 		.4byte	.LVL45
+ 1389 0780 75080000 		.4byte	0x875
+ 1390 0784 00       		.byte	0
+ 1391 0785 19       		.uleb128 0x19
+ 1392 0786 04       		.byte	0x4
+ 1393 0787 97000000 		.4byte	0x97
+ 1394 078b 0B       		.uleb128 0xb
+ 1395 078c D70E0000 		.4byte	.LASF152
+ 1396 0790 01       		.byte	0x1
+ 1397 0791 59       		.byte	0x59
+ 1398 0792 00000000 		.4byte	.LFB67
+ 1399 0796 4A000000 		.4byte	.LFE67-.LFB67
+ 1400 079a 01       		.uleb128 0x1
+ 1401 079b 9C       		.byte	0x9c
+ 1402 079c 2D080000 		.4byte	0x82d
+ 1403 07a0 0D       		.uleb128 0xd
+ 1404 07a1 51020000 		.4byte	.LASF153
+ 1405 07a5 01       		.byte	0x1
+ 1406 07a6 59       		.byte	0x59
+ 1407 07a7 2D080000 		.4byte	0x82d
+ 1408 07ab 0D010000 		.4byte	.LLST8
+ 1409 07af 0E       		.uleb128 0xe
+ 1410 07b0 0E010000 		.4byte	.LASF154
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 28
+
+
+ 1411 07b4 01       		.byte	0x1
+ 1412 07b5 5A       		.byte	0x5a
+ 1413 07b6 33080000 		.4byte	0x833
+ 1414 07ba 2B010000 		.4byte	.LLST9
+ 1415 07be 0F       		.uleb128 0xf
+ 1416 07bf 0C000000 		.4byte	.LVL48
+ 1417 07c3 B4040000 		.4byte	0x4b4
+ 1418 07c7 D1070000 		.4byte	0x7d1
+ 1419 07cb 10       		.uleb128 0x10
+ 1420 07cc 01       		.uleb128 0x1
+ 1421 07cd 50       		.byte	0x50
+ 1422 07ce 01       		.uleb128 0x1
+ 1423 07cf 4A       		.byte	0x4a
+ 1424 07d0 00       		.byte	0
+ 1425 07d1 0F       		.uleb128 0xf
+ 1426 07d2 14000000 		.4byte	.LVL50
+ 1427 07d6 B4040000 		.4byte	0x4b4
+ 1428 07da E4070000 		.4byte	0x7e4
+ 1429 07de 10       		.uleb128 0x10
+ 1430 07df 01       		.uleb128 0x1
+ 1431 07e0 50       		.byte	0x50
+ 1432 07e1 01       		.uleb128 0x1
+ 1433 07e2 4B       		.byte	0x4b
+ 1434 07e3 00       		.byte	0
+ 1435 07e4 0F       		.uleb128 0xf
+ 1436 07e5 1C000000 		.4byte	.LVL52
+ 1437 07e9 B4040000 		.4byte	0x4b4
+ 1438 07ed F7070000 		.4byte	0x7f7
+ 1439 07f1 10       		.uleb128 0x10
+ 1440 07f2 01       		.uleb128 0x1
+ 1441 07f3 50       		.byte	0x50
+ 1442 07f4 01       		.uleb128 0x1
+ 1443 07f5 4C       		.byte	0x4c
+ 1444 07f6 00       		.byte	0
+ 1445 07f7 0F       		.uleb128 0xf
+ 1446 07f8 24000000 		.4byte	.LVL54
+ 1447 07fc B4040000 		.4byte	0x4b4
+ 1448 0800 0A080000 		.4byte	0x80a
+ 1449 0804 10       		.uleb128 0x10
+ 1450 0805 01       		.uleb128 0x1
+ 1451 0806 50       		.byte	0x50
+ 1452 0807 01       		.uleb128 0x1
+ 1453 0808 4D       		.byte	0x4d
+ 1454 0809 00       		.byte	0
+ 1455 080a 0F       		.uleb128 0xf
+ 1456 080b 2C000000 		.4byte	.LVL56
+ 1457 080f B4040000 		.4byte	0x4b4
+ 1458 0813 1D080000 		.4byte	0x81d
+ 1459 0817 10       		.uleb128 0x10
+ 1460 0818 01       		.uleb128 0x1
+ 1461 0819 50       		.byte	0x50
+ 1462 081a 01       		.uleb128 0x1
+ 1463 081b 4E       		.byte	0x4e
+ 1464 081c 00       		.byte	0
+ 1465 081d 17       		.uleb128 0x17
+ 1466 081e 34000000 		.4byte	.LVL58
+ 1467 0822 B4040000 		.4byte	0x4b4
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 29
+
+
+ 1468 0826 10       		.uleb128 0x10
+ 1469 0827 01       		.uleb128 0x1
+ 1470 0828 50       		.byte	0x50
+ 1471 0829 01       		.uleb128 0x1
+ 1472 082a 4F       		.byte	0x4f
+ 1473 082b 00       		.byte	0
+ 1474 082c 00       		.byte	0
+ 1475 082d 19       		.uleb128 0x19
+ 1476 082e 04       		.byte	0x4
+ 1477 082f 08040000 		.4byte	0x408
+ 1478 0833 1A       		.uleb128 0x1a
+ 1479 0834 97000000 		.4byte	0x97
+ 1480 0838 43080000 		.4byte	0x843
+ 1481 083c 1B       		.uleb128 0x1b
+ 1482 083d CB000000 		.4byte	0xcb
+ 1483 0841 05       		.byte	0x5
+ 1484 0842 00       		.byte	0
+ 1485 0843 1C       		.uleb128 0x1c
+ 1486 0844 D6090000 		.4byte	.LASF167
+ 1487 0848 09       		.byte	0x9
+ 1488 0849 1207     		.2byte	0x712
+ 1489 084b 4F080000 		.4byte	0x84f
+ 1490 084f 1D       		.uleb128 0x1d
+ 1491 0850 8C000000 		.4byte	0x8c
+ 1492 0854 1E       		.uleb128 0x1e
+ 1493 0855 9D040000 		.4byte	.LASF155
+ 1494 0859 9D040000 		.4byte	.LASF155
+ 1495 085d 06       		.byte	0x6
+ 1496 085e B1       		.byte	0xb1
+ 1497 085f 1E       		.uleb128 0x1e
+ 1498 0860 6B080000 		.4byte	.LASF156
+ 1499 0864 6B080000 		.4byte	.LASF156
+ 1500 0868 06       		.byte	0x6
+ 1501 0869 B6       		.byte	0xb6
+ 1502 086a 1E       		.uleb128 0x1e
+ 1503 086b 13020000 		.4byte	.LASF157
+ 1504 086f 13020000 		.4byte	.LASF157
+ 1505 0873 07       		.byte	0x7
+ 1506 0874 26       		.byte	0x26
+ 1507 0875 1E       		.uleb128 0x1e
+ 1508 0876 12030000 		.4byte	.LASF158
+ 1509 087a 12030000 		.4byte	.LASF158
+ 1510 087e 06       		.byte	0x6
+ 1511 087f B5       		.byte	0xb5
+ 1512 0880 1E       		.uleb128 0x1e
+ 1513 0881 72050000 		.4byte	.LASF159
+ 1514 0885 72050000 		.4byte	.LASF159
+ 1515 0889 06       		.byte	0x6
+ 1516 088a B3       		.byte	0xb3
+ 1517 088b 1E       		.uleb128 0x1e
+ 1518 088c 55060000 		.4byte	.LASF160
+ 1519 0890 55060000 		.4byte	.LASF160
+ 1520 0894 06       		.byte	0x6
+ 1521 0895 B7       		.byte	0xb7
+ 1522 0896 1E       		.uleb128 0x1e
+ 1523 0897 17000000 		.4byte	.LASF161
+ 1524 089b 17000000 		.4byte	.LASF161
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 30
+
+
+ 1525 089f 08       		.byte	0x8
+ 1526 08a0 76       		.byte	0x76
+ 1527 08a1 1E       		.uleb128 0x1e
+ 1528 08a2 88050000 		.4byte	.LASF162
+ 1529 08a6 88050000 		.4byte	.LASF162
+ 1530 08aa 06       		.byte	0x6
+ 1531 08ab A9       		.byte	0xa9
+ 1532 08ac 00       		.byte	0
+ 1533              		.section	.debug_abbrev,"",%progbits
+ 1534              	.Ldebug_abbrev0:
+ 1535 0000 01       		.uleb128 0x1
+ 1536 0001 11       		.uleb128 0x11
+ 1537 0002 01       		.byte	0x1
+ 1538 0003 25       		.uleb128 0x25
+ 1539 0004 0E       		.uleb128 0xe
+ 1540 0005 13       		.uleb128 0x13
+ 1541 0006 0B       		.uleb128 0xb
+ 1542 0007 03       		.uleb128 0x3
+ 1543 0008 0E       		.uleb128 0xe
+ 1544 0009 1B       		.uleb128 0x1b
+ 1545 000a 0E       		.uleb128 0xe
+ 1546 000b 55       		.uleb128 0x55
+ 1547 000c 17       		.uleb128 0x17
+ 1548 000d 11       		.uleb128 0x11
+ 1549 000e 01       		.uleb128 0x1
+ 1550 000f 10       		.uleb128 0x10
+ 1551 0010 17       		.uleb128 0x17
+ 1552 0011 00       		.byte	0
+ 1553 0012 00       		.byte	0
+ 1554 0013 02       		.uleb128 0x2
+ 1555 0014 24       		.uleb128 0x24
+ 1556 0015 00       		.byte	0
+ 1557 0016 0B       		.uleb128 0xb
+ 1558 0017 0B       		.uleb128 0xb
+ 1559 0018 3E       		.uleb128 0x3e
+ 1560 0019 0B       		.uleb128 0xb
+ 1561 001a 03       		.uleb128 0x3
+ 1562 001b 0E       		.uleb128 0xe
+ 1563 001c 00       		.byte	0
+ 1564 001d 00       		.byte	0
+ 1565 001e 03       		.uleb128 0x3
+ 1566 001f 16       		.uleb128 0x16
+ 1567 0020 00       		.byte	0
+ 1568 0021 03       		.uleb128 0x3
+ 1569 0022 0E       		.uleb128 0xe
+ 1570 0023 3A       		.uleb128 0x3a
+ 1571 0024 0B       		.uleb128 0xb
+ 1572 0025 3B       		.uleb128 0x3b
+ 1573 0026 0B       		.uleb128 0xb
+ 1574 0027 49       		.uleb128 0x49
+ 1575 0028 13       		.uleb128 0x13
+ 1576 0029 00       		.byte	0
+ 1577 002a 00       		.byte	0
+ 1578 002b 04       		.uleb128 0x4
+ 1579 002c 24       		.uleb128 0x24
+ 1580 002d 00       		.byte	0
+ 1581 002e 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 31
+
+
+ 1582 002f 0B       		.uleb128 0xb
+ 1583 0030 3E       		.uleb128 0x3e
+ 1584 0031 0B       		.uleb128 0xb
+ 1585 0032 03       		.uleb128 0x3
+ 1586 0033 08       		.uleb128 0x8
+ 1587 0034 00       		.byte	0
+ 1588 0035 00       		.byte	0
+ 1589 0036 05       		.uleb128 0x5
+ 1590 0037 16       		.uleb128 0x16
+ 1591 0038 00       		.byte	0
+ 1592 0039 03       		.uleb128 0x3
+ 1593 003a 0E       		.uleb128 0xe
+ 1594 003b 3A       		.uleb128 0x3a
+ 1595 003c 0B       		.uleb128 0xb
+ 1596 003d 3B       		.uleb128 0x3b
+ 1597 003e 05       		.uleb128 0x5
+ 1598 003f 49       		.uleb128 0x49
+ 1599 0040 13       		.uleb128 0x13
+ 1600 0041 00       		.byte	0
+ 1601 0042 00       		.byte	0
+ 1602 0043 06       		.uleb128 0x6
+ 1603 0044 04       		.uleb128 0x4
+ 1604 0045 01       		.byte	0x1
+ 1605 0046 0B       		.uleb128 0xb
+ 1606 0047 0B       		.uleb128 0xb
+ 1607 0048 49       		.uleb128 0x49
+ 1608 0049 13       		.uleb128 0x13
+ 1609 004a 3A       		.uleb128 0x3a
+ 1610 004b 0B       		.uleb128 0xb
+ 1611 004c 3B       		.uleb128 0x3b
+ 1612 004d 0B       		.uleb128 0xb
+ 1613 004e 01       		.uleb128 0x1
+ 1614 004f 13       		.uleb128 0x13
+ 1615 0050 00       		.byte	0
+ 1616 0051 00       		.byte	0
+ 1617 0052 07       		.uleb128 0x7
+ 1618 0053 28       		.uleb128 0x28
+ 1619 0054 00       		.byte	0
+ 1620 0055 03       		.uleb128 0x3
+ 1621 0056 0E       		.uleb128 0xe
+ 1622 0057 1C       		.uleb128 0x1c
+ 1623 0058 0B       		.uleb128 0xb
+ 1624 0059 00       		.byte	0
+ 1625 005a 00       		.byte	0
+ 1626 005b 08       		.uleb128 0x8
+ 1627 005c 13       		.uleb128 0x13
+ 1628 005d 01       		.byte	0x1
+ 1629 005e 0B       		.uleb128 0xb
+ 1630 005f 0B       		.uleb128 0xb
+ 1631 0060 3A       		.uleb128 0x3a
+ 1632 0061 0B       		.uleb128 0xb
+ 1633 0062 3B       		.uleb128 0x3b
+ 1634 0063 0B       		.uleb128 0xb
+ 1635 0064 01       		.uleb128 0x1
+ 1636 0065 13       		.uleb128 0x13
+ 1637 0066 00       		.byte	0
+ 1638 0067 00       		.byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 32
+
+
+ 1639 0068 09       		.uleb128 0x9
+ 1640 0069 0D       		.uleb128 0xd
+ 1641 006a 00       		.byte	0
+ 1642 006b 03       		.uleb128 0x3
+ 1643 006c 0E       		.uleb128 0xe
+ 1644 006d 3A       		.uleb128 0x3a
+ 1645 006e 0B       		.uleb128 0xb
+ 1646 006f 3B       		.uleb128 0x3b
+ 1647 0070 0B       		.uleb128 0xb
+ 1648 0071 49       		.uleb128 0x49
+ 1649 0072 13       		.uleb128 0x13
+ 1650 0073 38       		.uleb128 0x38
+ 1651 0074 0B       		.uleb128 0xb
+ 1652 0075 00       		.byte	0
+ 1653 0076 00       		.byte	0
+ 1654 0077 0A       		.uleb128 0xa
+ 1655 0078 0D       		.uleb128 0xd
+ 1656 0079 00       		.byte	0
+ 1657 007a 03       		.uleb128 0x3
+ 1658 007b 08       		.uleb128 0x8
+ 1659 007c 3A       		.uleb128 0x3a
+ 1660 007d 0B       		.uleb128 0xb
+ 1661 007e 3B       		.uleb128 0x3b
+ 1662 007f 0B       		.uleb128 0xb
+ 1663 0080 49       		.uleb128 0x49
+ 1664 0081 13       		.uleb128 0x13
+ 1665 0082 38       		.uleb128 0x38
+ 1666 0083 0B       		.uleb128 0xb
+ 1667 0084 00       		.byte	0
+ 1668 0085 00       		.byte	0
+ 1669 0086 0B       		.uleb128 0xb
+ 1670 0087 2E       		.uleb128 0x2e
+ 1671 0088 01       		.byte	0x1
+ 1672 0089 3F       		.uleb128 0x3f
+ 1673 008a 19       		.uleb128 0x19
+ 1674 008b 03       		.uleb128 0x3
+ 1675 008c 0E       		.uleb128 0xe
+ 1676 008d 3A       		.uleb128 0x3a
+ 1677 008e 0B       		.uleb128 0xb
+ 1678 008f 3B       		.uleb128 0x3b
+ 1679 0090 0B       		.uleb128 0xb
+ 1680 0091 27       		.uleb128 0x27
+ 1681 0092 19       		.uleb128 0x19
+ 1682 0093 11       		.uleb128 0x11
+ 1683 0094 01       		.uleb128 0x1
+ 1684 0095 12       		.uleb128 0x12
+ 1685 0096 06       		.uleb128 0x6
+ 1686 0097 40       		.uleb128 0x40
+ 1687 0098 18       		.uleb128 0x18
+ 1688 0099 9742     		.uleb128 0x2117
+ 1689 009b 19       		.uleb128 0x19
+ 1690 009c 01       		.uleb128 0x1
+ 1691 009d 13       		.uleb128 0x13
+ 1692 009e 00       		.byte	0
+ 1693 009f 00       		.byte	0
+ 1694 00a0 0C       		.uleb128 0xc
+ 1695 00a1 05       		.uleb128 0x5
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 33
+
+
+ 1696 00a2 00       		.byte	0
+ 1697 00a3 03       		.uleb128 0x3
+ 1698 00a4 08       		.uleb128 0x8
+ 1699 00a5 3A       		.uleb128 0x3a
+ 1700 00a6 0B       		.uleb128 0xb
+ 1701 00a7 3B       		.uleb128 0x3b
+ 1702 00a8 0B       		.uleb128 0xb
+ 1703 00a9 49       		.uleb128 0x49
+ 1704 00aa 13       		.uleb128 0x13
+ 1705 00ab 02       		.uleb128 0x2
+ 1706 00ac 17       		.uleb128 0x17
+ 1707 00ad 00       		.byte	0
+ 1708 00ae 00       		.byte	0
+ 1709 00af 0D       		.uleb128 0xd
+ 1710 00b0 05       		.uleb128 0x5
+ 1711 00b1 00       		.byte	0
+ 1712 00b2 03       		.uleb128 0x3
+ 1713 00b3 0E       		.uleb128 0xe
+ 1714 00b4 3A       		.uleb128 0x3a
+ 1715 00b5 0B       		.uleb128 0xb
+ 1716 00b6 3B       		.uleb128 0x3b
+ 1717 00b7 0B       		.uleb128 0xb
+ 1718 00b8 49       		.uleb128 0x49
+ 1719 00b9 13       		.uleb128 0x13
+ 1720 00ba 02       		.uleb128 0x2
+ 1721 00bb 17       		.uleb128 0x17
+ 1722 00bc 00       		.byte	0
+ 1723 00bd 00       		.byte	0
+ 1724 00be 0E       		.uleb128 0xe
+ 1725 00bf 34       		.uleb128 0x34
+ 1726 00c0 00       		.byte	0
+ 1727 00c1 03       		.uleb128 0x3
+ 1728 00c2 0E       		.uleb128 0xe
+ 1729 00c3 3A       		.uleb128 0x3a
+ 1730 00c4 0B       		.uleb128 0xb
+ 1731 00c5 3B       		.uleb128 0x3b
+ 1732 00c6 0B       		.uleb128 0xb
+ 1733 00c7 49       		.uleb128 0x49
+ 1734 00c8 13       		.uleb128 0x13
+ 1735 00c9 02       		.uleb128 0x2
+ 1736 00ca 17       		.uleb128 0x17
+ 1737 00cb 00       		.byte	0
+ 1738 00cc 00       		.byte	0
+ 1739 00cd 0F       		.uleb128 0xf
+ 1740 00ce 898201   		.uleb128 0x4109
+ 1741 00d1 01       		.byte	0x1
+ 1742 00d2 11       		.uleb128 0x11
+ 1743 00d3 01       		.uleb128 0x1
+ 1744 00d4 31       		.uleb128 0x31
+ 1745 00d5 13       		.uleb128 0x13
+ 1746 00d6 01       		.uleb128 0x1
+ 1747 00d7 13       		.uleb128 0x13
+ 1748 00d8 00       		.byte	0
+ 1749 00d9 00       		.byte	0
+ 1750 00da 10       		.uleb128 0x10
+ 1751 00db 8A8201   		.uleb128 0x410a
+ 1752 00de 00       		.byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 34
+
+
+ 1753 00df 02       		.uleb128 0x2
+ 1754 00e0 18       		.uleb128 0x18
+ 1755 00e1 9142     		.uleb128 0x2111
+ 1756 00e3 18       		.uleb128 0x18
+ 1757 00e4 00       		.byte	0
+ 1758 00e5 00       		.byte	0
+ 1759 00e6 11       		.uleb128 0x11
+ 1760 00e7 898201   		.uleb128 0x4109
+ 1761 00ea 00       		.byte	0
+ 1762 00eb 11       		.uleb128 0x11
+ 1763 00ec 01       		.uleb128 0x1
+ 1764 00ed 9542     		.uleb128 0x2115
+ 1765 00ef 19       		.uleb128 0x19
+ 1766 00f0 31       		.uleb128 0x31
+ 1767 00f1 13       		.uleb128 0x13
+ 1768 00f2 00       		.byte	0
+ 1769 00f3 00       		.byte	0
+ 1770 00f4 12       		.uleb128 0x12
+ 1771 00f5 2E       		.uleb128 0x2e
+ 1772 00f6 01       		.byte	0x1
+ 1773 00f7 3F       		.uleb128 0x3f
+ 1774 00f8 19       		.uleb128 0x19
+ 1775 00f9 03       		.uleb128 0x3
+ 1776 00fa 0E       		.uleb128 0xe
+ 1777 00fb 3A       		.uleb128 0x3a
+ 1778 00fc 0B       		.uleb128 0xb
+ 1779 00fd 3B       		.uleb128 0x3b
+ 1780 00fe 0B       		.uleb128 0xb
+ 1781 00ff 27       		.uleb128 0x27
+ 1782 0100 19       		.uleb128 0x19
+ 1783 0101 49       		.uleb128 0x49
+ 1784 0102 13       		.uleb128 0x13
+ 1785 0103 11       		.uleb128 0x11
+ 1786 0104 01       		.uleb128 0x1
+ 1787 0105 12       		.uleb128 0x12
+ 1788 0106 06       		.uleb128 0x6
+ 1789 0107 40       		.uleb128 0x40
+ 1790 0108 18       		.uleb128 0x18
+ 1791 0109 9742     		.uleb128 0x2117
+ 1792 010b 19       		.uleb128 0x19
+ 1793 010c 01       		.uleb128 0x1
+ 1794 010d 13       		.uleb128 0x13
+ 1795 010e 00       		.byte	0
+ 1796 010f 00       		.byte	0
+ 1797 0110 13       		.uleb128 0x13
+ 1798 0111 34       		.uleb128 0x34
+ 1799 0112 00       		.byte	0
+ 1800 0113 03       		.uleb128 0x3
+ 1801 0114 0E       		.uleb128 0xe
+ 1802 0115 3A       		.uleb128 0x3a
+ 1803 0116 0B       		.uleb128 0xb
+ 1804 0117 3B       		.uleb128 0x3b
+ 1805 0118 0B       		.uleb128 0xb
+ 1806 0119 49       		.uleb128 0x49
+ 1807 011a 13       		.uleb128 0x13
+ 1808 011b 02       		.uleb128 0x2
+ 1809 011c 18       		.uleb128 0x18
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 35
+
+
+ 1810 011d 00       		.byte	0
+ 1811 011e 00       		.byte	0
+ 1812 011f 14       		.uleb128 0x14
+ 1813 0120 898201   		.uleb128 0x4109
+ 1814 0123 00       		.byte	0
+ 1815 0124 11       		.uleb128 0x11
+ 1816 0125 01       		.uleb128 0x1
+ 1817 0126 31       		.uleb128 0x31
+ 1818 0127 13       		.uleb128 0x13
+ 1819 0128 00       		.byte	0
+ 1820 0129 00       		.byte	0
+ 1821 012a 15       		.uleb128 0x15
+ 1822 012b 2E       		.uleb128 0x2e
+ 1823 012c 01       		.byte	0x1
+ 1824 012d 3F       		.uleb128 0x3f
+ 1825 012e 19       		.uleb128 0x19
+ 1826 012f 03       		.uleb128 0x3
+ 1827 0130 0E       		.uleb128 0xe
+ 1828 0131 3A       		.uleb128 0x3a
+ 1829 0132 0B       		.uleb128 0xb
+ 1830 0133 3B       		.uleb128 0x3b
+ 1831 0134 0B       		.uleb128 0xb
+ 1832 0135 49       		.uleb128 0x49
+ 1833 0136 13       		.uleb128 0x13
+ 1834 0137 11       		.uleb128 0x11
+ 1835 0138 01       		.uleb128 0x1
+ 1836 0139 12       		.uleb128 0x12
+ 1837 013a 06       		.uleb128 0x6
+ 1838 013b 40       		.uleb128 0x40
+ 1839 013c 18       		.uleb128 0x18
+ 1840 013d 9742     		.uleb128 0x2117
+ 1841 013f 19       		.uleb128 0x19
+ 1842 0140 01       		.uleb128 0x1
+ 1843 0141 13       		.uleb128 0x13
+ 1844 0142 00       		.byte	0
+ 1845 0143 00       		.byte	0
+ 1846 0144 16       		.uleb128 0x16
+ 1847 0145 34       		.uleb128 0x34
+ 1848 0146 00       		.byte	0
+ 1849 0147 03       		.uleb128 0x3
+ 1850 0148 08       		.uleb128 0x8
+ 1851 0149 3A       		.uleb128 0x3a
+ 1852 014a 0B       		.uleb128 0xb
+ 1853 014b 3B       		.uleb128 0x3b
+ 1854 014c 0B       		.uleb128 0xb
+ 1855 014d 49       		.uleb128 0x49
+ 1856 014e 13       		.uleb128 0x13
+ 1857 014f 02       		.uleb128 0x2
+ 1858 0150 17       		.uleb128 0x17
+ 1859 0151 00       		.byte	0
+ 1860 0152 00       		.byte	0
+ 1861 0153 17       		.uleb128 0x17
+ 1862 0154 898201   		.uleb128 0x4109
+ 1863 0157 01       		.byte	0x1
+ 1864 0158 11       		.uleb128 0x11
+ 1865 0159 01       		.uleb128 0x1
+ 1866 015a 31       		.uleb128 0x31
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 36
+
+
+ 1867 015b 13       		.uleb128 0x13
+ 1868 015c 00       		.byte	0
+ 1869 015d 00       		.byte	0
+ 1870 015e 18       		.uleb128 0x18
+ 1871 015f 34       		.uleb128 0x34
+ 1872 0160 00       		.byte	0
+ 1873 0161 03       		.uleb128 0x3
+ 1874 0162 0E       		.uleb128 0xe
+ 1875 0163 3A       		.uleb128 0x3a
+ 1876 0164 0B       		.uleb128 0xb
+ 1877 0165 3B       		.uleb128 0x3b
+ 1878 0166 0B       		.uleb128 0xb
+ 1879 0167 49       		.uleb128 0x49
+ 1880 0168 13       		.uleb128 0x13
+ 1881 0169 00       		.byte	0
+ 1882 016a 00       		.byte	0
+ 1883 016b 19       		.uleb128 0x19
+ 1884 016c 0F       		.uleb128 0xf
+ 1885 016d 00       		.byte	0
+ 1886 016e 0B       		.uleb128 0xb
+ 1887 016f 0B       		.uleb128 0xb
+ 1888 0170 49       		.uleb128 0x49
+ 1889 0171 13       		.uleb128 0x13
+ 1890 0172 00       		.byte	0
+ 1891 0173 00       		.byte	0
+ 1892 0174 1A       		.uleb128 0x1a
+ 1893 0175 01       		.uleb128 0x1
+ 1894 0176 01       		.byte	0x1
+ 1895 0177 49       		.uleb128 0x49
+ 1896 0178 13       		.uleb128 0x13
+ 1897 0179 01       		.uleb128 0x1
+ 1898 017a 13       		.uleb128 0x13
+ 1899 017b 00       		.byte	0
+ 1900 017c 00       		.byte	0
+ 1901 017d 1B       		.uleb128 0x1b
+ 1902 017e 21       		.uleb128 0x21
+ 1903 017f 00       		.byte	0
+ 1904 0180 49       		.uleb128 0x49
+ 1905 0181 13       		.uleb128 0x13
+ 1906 0182 2F       		.uleb128 0x2f
+ 1907 0183 0B       		.uleb128 0xb
+ 1908 0184 00       		.byte	0
+ 1909 0185 00       		.byte	0
+ 1910 0186 1C       		.uleb128 0x1c
+ 1911 0187 34       		.uleb128 0x34
+ 1912 0188 00       		.byte	0
+ 1913 0189 03       		.uleb128 0x3
+ 1914 018a 0E       		.uleb128 0xe
+ 1915 018b 3A       		.uleb128 0x3a
+ 1916 018c 0B       		.uleb128 0xb
+ 1917 018d 3B       		.uleb128 0x3b
+ 1918 018e 05       		.uleb128 0x5
+ 1919 018f 49       		.uleb128 0x49
+ 1920 0190 13       		.uleb128 0x13
+ 1921 0191 3F       		.uleb128 0x3f
+ 1922 0192 19       		.uleb128 0x19
+ 1923 0193 3C       		.uleb128 0x3c
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 37
+
+
+ 1924 0194 19       		.uleb128 0x19
+ 1925 0195 00       		.byte	0
+ 1926 0196 00       		.byte	0
+ 1927 0197 1D       		.uleb128 0x1d
+ 1928 0198 35       		.uleb128 0x35
+ 1929 0199 00       		.byte	0
+ 1930 019a 49       		.uleb128 0x49
+ 1931 019b 13       		.uleb128 0x13
+ 1932 019c 00       		.byte	0
+ 1933 019d 00       		.byte	0
+ 1934 019e 1E       		.uleb128 0x1e
+ 1935 019f 2E       		.uleb128 0x2e
+ 1936 01a0 00       		.byte	0
+ 1937 01a1 3F       		.uleb128 0x3f
+ 1938 01a2 19       		.uleb128 0x19
+ 1939 01a3 3C       		.uleb128 0x3c
+ 1940 01a4 19       		.uleb128 0x19
+ 1941 01a5 6E       		.uleb128 0x6e
+ 1942 01a6 0E       		.uleb128 0xe
+ 1943 01a7 03       		.uleb128 0x3
+ 1944 01a8 0E       		.uleb128 0xe
+ 1945 01a9 3A       		.uleb128 0x3a
+ 1946 01aa 0B       		.uleb128 0xb
+ 1947 01ab 3B       		.uleb128 0x3b
+ 1948 01ac 0B       		.uleb128 0xb
+ 1949 01ad 00       		.byte	0
+ 1950 01ae 00       		.byte	0
+ 1951 01af 00       		.byte	0
+ 1952              		.section	.debug_loc,"",%progbits
+ 1953              	.Ldebug_loc0:
+ 1954              	.LLST0:
+ 1955 0000 00000000 		.4byte	.LVL0
+ 1956 0004 08000000 		.4byte	.LVL1
+ 1957 0008 0100     		.2byte	0x1
+ 1958 000a 50       		.byte	0x50
+ 1959 000b 08000000 		.4byte	.LVL1
+ 1960 000f 2C000000 		.4byte	.LFE64
+ 1961 0013 0400     		.2byte	0x4
+ 1962 0015 F3       		.byte	0xf3
+ 1963 0016 01       		.uleb128 0x1
+ 1964 0017 50       		.byte	0x50
+ 1965 0018 9F       		.byte	0x9f
+ 1966 0019 00000000 		.4byte	0
+ 1967 001d 00000000 		.4byte	0
+ 1968              	.LLST1:
+ 1969 0021 00000000 		.4byte	.LVL0
+ 1970 0025 0A000000 		.4byte	.LVL2
+ 1971 0029 0100     		.2byte	0x1
+ 1972 002b 51       		.byte	0x51
+ 1973 002c 0A000000 		.4byte	.LVL2
+ 1974 0030 2C000000 		.4byte	.LFE64
+ 1975 0034 0400     		.2byte	0x4
+ 1976 0036 F3       		.byte	0xf3
+ 1977 0037 01       		.uleb128 0x1
+ 1978 0038 51       		.byte	0x51
+ 1979 0039 9F       		.byte	0x9f
+ 1980 003a 00000000 		.4byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 38
+
+
+ 1981 003e 00000000 		.4byte	0
+ 1982              	.LLST2:
+ 1983 0042 0E000000 		.4byte	.LVL3
+ 1984 0046 14000000 		.4byte	.LVL4
+ 1985 004a 0100     		.2byte	0x1
+ 1986 004c 50       		.byte	0x50
+ 1987 004d 00000000 		.4byte	0
+ 1988 0051 00000000 		.4byte	0
+ 1989              	.LLST3:
+ 1990 0055 00000000 		.4byte	.LVL9
+ 1991 0059 08000000 		.4byte	.LVL10
+ 1992 005d 0100     		.2byte	0x1
+ 1993 005f 50       		.byte	0x50
+ 1994 0060 08000000 		.4byte	.LVL10
+ 1995 0064 2A000000 		.4byte	.LFE65
+ 1996 0068 0400     		.2byte	0x4
+ 1997 006a F3       		.byte	0xf3
+ 1998 006b 01       		.uleb128 0x1
+ 1999 006c 50       		.byte	0x50
+ 2000 006d 9F       		.byte	0x9f
+ 2001 006e 00000000 		.4byte	0
+ 2002 0072 00000000 		.4byte	0
+ 2003              	.LLST4:
+ 2004 0076 08000000 		.4byte	.LVL17
+ 2005 007a 10000000 		.4byte	.LVL18
+ 2006 007e 0100     		.2byte	0x1
+ 2007 0080 50       		.byte	0x50
+ 2008 0081 24000000 		.4byte	.LVL22
+ 2009 0085 28000000 		.4byte	.LVL23
+ 2010 0089 0100     		.2byte	0x1
+ 2011 008b 50       		.byte	0x50
+ 2012 008c 32000000 		.4byte	.LVL25
+ 2013 0090 38000000 		.4byte	.LVL26
+ 2014 0094 0100     		.2byte	0x1
+ 2015 0096 50       		.byte	0x50
+ 2016 0097 00000000 		.4byte	0
+ 2017 009b 00000000 		.4byte	0
+ 2018              	.LLST5:
+ 2019 009f 00000000 		.4byte	.LVL38
+ 2020 00a3 0A000000 		.4byte	.LVL39
+ 2021 00a7 0100     		.2byte	0x1
+ 2022 00a9 50       		.byte	0x50
+ 2023 00aa 0A000000 		.4byte	.LVL39
+ 2024 00ae 2A000000 		.4byte	.LFE66
+ 2025 00b2 0400     		.2byte	0x4
+ 2026 00b4 F3       		.byte	0xf3
+ 2027 00b5 01       		.uleb128 0x1
+ 2028 00b6 50       		.byte	0x50
+ 2029 00b7 9F       		.byte	0x9f
+ 2030 00b8 00000000 		.4byte	0
+ 2031 00bc 00000000 		.4byte	0
+ 2032              	.LLST6:
+ 2033 00c0 00000000 		.4byte	.LVL38
+ 2034 00c4 0C000000 		.4byte	.LVL40
+ 2035 00c8 0100     		.2byte	0x1
+ 2036 00ca 51       		.byte	0x51
+ 2037 00cb 0C000000 		.4byte	.LVL40
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 39
+
+
+ 2038 00cf 26000000 		.4byte	.LVL44
+ 2039 00d3 0100     		.2byte	0x1
+ 2040 00d5 54       		.byte	0x54
+ 2041 00d6 26000000 		.4byte	.LVL44
+ 2042 00da 2A000000 		.4byte	.LFE66
+ 2043 00de 0400     		.2byte	0x4
+ 2044 00e0 F3       		.byte	0xf3
+ 2045 00e1 01       		.uleb128 0x1
+ 2046 00e2 51       		.byte	0x51
+ 2047 00e3 9F       		.byte	0x9f
+ 2048 00e4 00000000 		.4byte	0
+ 2049 00e8 00000000 		.4byte	0
+ 2050              	.LLST7:
+ 2051 00ec 00000000 		.4byte	.LVL38
+ 2052 00f0 0F000000 		.4byte	.LVL41-1
+ 2053 00f4 0100     		.2byte	0x1
+ 2054 00f6 52       		.byte	0x52
+ 2055 00f7 0F000000 		.4byte	.LVL41-1
+ 2056 00fb 2A000000 		.4byte	.LFE66
+ 2057 00ff 0400     		.2byte	0x4
+ 2058 0101 F3       		.byte	0xf3
+ 2059 0102 01       		.uleb128 0x1
+ 2060 0103 52       		.byte	0x52
+ 2061 0104 9F       		.byte	0x9f
+ 2062 0105 00000000 		.4byte	0
+ 2063 0109 00000000 		.4byte	0
+ 2064              	.LLST8:
+ 2065 010d 00000000 		.4byte	.LVL46
+ 2066 0111 08000000 		.4byte	.LVL47
+ 2067 0115 0100     		.2byte	0x1
+ 2068 0117 50       		.byte	0x50
+ 2069 0118 08000000 		.4byte	.LVL47
+ 2070 011c 4A000000 		.4byte	.LFE67
+ 2071 0120 0100     		.2byte	0x1
+ 2072 0122 54       		.byte	0x54
+ 2073 0123 00000000 		.4byte	0
+ 2074 0127 00000000 		.4byte	0
+ 2075              	.LLST9:
+ 2076 012b 0E000000 		.4byte	.LVL49
+ 2077 012f 16000000 		.4byte	.LVL51
+ 2078 0133 0500     		.2byte	0x5
+ 2079 0135 57       		.byte	0x57
+ 2080 0136 93       		.byte	0x93
+ 2081 0137 01       		.uleb128 0x1
+ 2082 0138 93       		.byte	0x93
+ 2083 0139 05       		.uleb128 0x5
+ 2084 013a 16000000 		.4byte	.LVL51
+ 2085 013e 1E000000 		.4byte	.LVL53
+ 2086 0142 0800     		.2byte	0x8
+ 2087 0144 57       		.byte	0x57
+ 2088 0145 93       		.byte	0x93
+ 2089 0146 01       		.uleb128 0x1
+ 2090 0147 59       		.byte	0x59
+ 2091 0148 93       		.byte	0x93
+ 2092 0149 01       		.uleb128 0x1
+ 2093 014a 93       		.byte	0x93
+ 2094 014b 04       		.uleb128 0x4
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 40
+
+
+ 2095 014c 1E000000 		.4byte	.LVL53
+ 2096 0150 26000000 		.4byte	.LVL55
+ 2097 0154 0B00     		.2byte	0xb
+ 2098 0156 57       		.byte	0x57
+ 2099 0157 93       		.byte	0x93
+ 2100 0158 01       		.uleb128 0x1
+ 2101 0159 59       		.byte	0x59
+ 2102 015a 93       		.byte	0x93
+ 2103 015b 01       		.uleb128 0x1
+ 2104 015c 56       		.byte	0x56
+ 2105 015d 93       		.byte	0x93
+ 2106 015e 01       		.uleb128 0x1
+ 2107 015f 93       		.byte	0x93
+ 2108 0160 03       		.uleb128 0x3
+ 2109 0161 26000000 		.4byte	.LVL55
+ 2110 0165 2E000000 		.4byte	.LVL57
+ 2111 0169 0E00     		.2byte	0xe
+ 2112 016b 57       		.byte	0x57
+ 2113 016c 93       		.byte	0x93
+ 2114 016d 01       		.uleb128 0x1
+ 2115 016e 59       		.byte	0x59
+ 2116 016f 93       		.byte	0x93
+ 2117 0170 01       		.uleb128 0x1
+ 2118 0171 56       		.byte	0x56
+ 2119 0172 93       		.byte	0x93
+ 2120 0173 01       		.uleb128 0x1
+ 2121 0174 58       		.byte	0x58
+ 2122 0175 93       		.byte	0x93
+ 2123 0176 01       		.uleb128 0x1
+ 2124 0177 93       		.byte	0x93
+ 2125 0178 02       		.uleb128 0x2
+ 2126 0179 2E000000 		.4byte	.LVL57
+ 2127 017d 34000000 		.4byte	.LVL58
+ 2128 0181 1100     		.2byte	0x11
+ 2129 0183 57       		.byte	0x57
+ 2130 0184 93       		.byte	0x93
+ 2131 0185 01       		.uleb128 0x1
+ 2132 0186 59       		.byte	0x59
+ 2133 0187 93       		.byte	0x93
+ 2134 0188 01       		.uleb128 0x1
+ 2135 0189 56       		.byte	0x56
+ 2136 018a 93       		.byte	0x93
+ 2137 018b 01       		.uleb128 0x1
+ 2138 018c 58       		.byte	0x58
+ 2139 018d 93       		.byte	0x93
+ 2140 018e 01       		.uleb128 0x1
+ 2141 018f 55       		.byte	0x55
+ 2142 0190 93       		.byte	0x93
+ 2143 0191 01       		.uleb128 0x1
+ 2144 0192 93       		.byte	0x93
+ 2145 0193 01       		.uleb128 0x1
+ 2146 0194 34000000 		.4byte	.LVL58
+ 2147 0198 38000000 		.4byte	.LVL59
+ 2148 019c 1200     		.2byte	0x12
+ 2149 019e 57       		.byte	0x57
+ 2150 019f 93       		.byte	0x93
+ 2151 01a0 01       		.uleb128 0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 41
+
+
+ 2152 01a1 59       		.byte	0x59
+ 2153 01a2 93       		.byte	0x93
+ 2154 01a3 01       		.uleb128 0x1
+ 2155 01a4 56       		.byte	0x56
+ 2156 01a5 93       		.byte	0x93
+ 2157 01a6 01       		.uleb128 0x1
+ 2158 01a7 58       		.byte	0x58
+ 2159 01a8 93       		.byte	0x93
+ 2160 01a9 01       		.uleb128 0x1
+ 2161 01aa 55       		.byte	0x55
+ 2162 01ab 93       		.byte	0x93
+ 2163 01ac 01       		.uleb128 0x1
+ 2164 01ad 50       		.byte	0x50
+ 2165 01ae 93       		.byte	0x93
+ 2166 01af 01       		.uleb128 0x1
+ 2167 01b0 38000000 		.4byte	.LVL59
+ 2168 01b4 3C000000 		.4byte	.LVL60
+ 2169 01b8 1100     		.2byte	0x11
+ 2170 01ba 93       		.byte	0x93
+ 2171 01bb 01       		.uleb128 0x1
+ 2172 01bc 59       		.byte	0x59
+ 2173 01bd 93       		.byte	0x93
+ 2174 01be 01       		.uleb128 0x1
+ 2175 01bf 56       		.byte	0x56
+ 2176 01c0 93       		.byte	0x93
+ 2177 01c1 01       		.uleb128 0x1
+ 2178 01c2 58       		.byte	0x58
+ 2179 01c3 93       		.byte	0x93
+ 2180 01c4 01       		.uleb128 0x1
+ 2181 01c5 55       		.byte	0x55
+ 2182 01c6 93       		.byte	0x93
+ 2183 01c7 01       		.uleb128 0x1
+ 2184 01c8 50       		.byte	0x50
+ 2185 01c9 93       		.byte	0x93
+ 2186 01ca 01       		.uleb128 0x1
+ 2187 01cb 3C000000 		.4byte	.LVL60
+ 2188 01cf 40000000 		.4byte	.LVL61
+ 2189 01d3 1000     		.2byte	0x10
+ 2190 01d5 93       		.byte	0x93
+ 2191 01d6 01       		.uleb128 0x1
+ 2192 01d7 59       		.byte	0x59
+ 2193 01d8 93       		.byte	0x93
+ 2194 01d9 01       		.uleb128 0x1
+ 2195 01da 93       		.byte	0x93
+ 2196 01db 01       		.uleb128 0x1
+ 2197 01dc 58       		.byte	0x58
+ 2198 01dd 93       		.byte	0x93
+ 2199 01de 01       		.uleb128 0x1
+ 2200 01df 55       		.byte	0x55
+ 2201 01e0 93       		.byte	0x93
+ 2202 01e1 01       		.uleb128 0x1
+ 2203 01e2 50       		.byte	0x50
+ 2204 01e3 93       		.byte	0x93
+ 2205 01e4 01       		.uleb128 0x1
+ 2206 01e5 40000000 		.4byte	.LVL61
+ 2207 01e9 4A000000 		.4byte	.LFE67
+ 2208 01ed 0F00     		.2byte	0xf
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 42
+
+
+ 2209 01ef 93       		.byte	0x93
+ 2210 01f0 01       		.uleb128 0x1
+ 2211 01f1 59       		.byte	0x59
+ 2212 01f2 93       		.byte	0x93
+ 2213 01f3 01       		.uleb128 0x1
+ 2214 01f4 93       		.byte	0x93
+ 2215 01f5 01       		.uleb128 0x1
+ 2216 01f6 58       		.byte	0x58
+ 2217 01f7 93       		.byte	0x93
+ 2218 01f8 01       		.uleb128 0x1
+ 2219 01f9 55       		.byte	0x55
+ 2220 01fa 93       		.byte	0x93
+ 2221 01fb 01       		.uleb128 0x1
+ 2222 01fc 93       		.byte	0x93
+ 2223 01fd 01       		.uleb128 0x1
+ 2224 01fe 00000000 		.4byte	0
+ 2225 0202 00000000 		.4byte	0
+ 2226              		.section	.debug_aranges,"",%progbits
+ 2227 0000 3C000000 		.4byte	0x3c
+ 2228 0004 0200     		.2byte	0x2
+ 2229 0006 00000000 		.4byte	.Ldebug_info0
+ 2230 000a 04       		.byte	0x4
+ 2231 000b 00       		.byte	0
+ 2232 000c 0000     		.2byte	0
+ 2233 000e 0000     		.2byte	0
+ 2234 0010 00000000 		.4byte	.LFB64
+ 2235 0014 2C000000 		.4byte	.LFE64-.LFB64
+ 2236 0018 00000000 		.4byte	.LFB65
+ 2237 001c 2A000000 		.4byte	.LFE65-.LFB65
+ 2238 0020 00000000 		.4byte	.LFB63
+ 2239 0024 8E000000 		.4byte	.LFE63-.LFB63
+ 2240 0028 00000000 		.4byte	.LFB66
+ 2241 002c 2A000000 		.4byte	.LFE66-.LFB66
+ 2242 0030 00000000 		.4byte	.LFB67
+ 2243 0034 4A000000 		.4byte	.LFE67-.LFB67
+ 2244 0038 00000000 		.4byte	0
+ 2245 003c 00000000 		.4byte	0
+ 2246              		.section	.debug_ranges,"",%progbits
+ 2247              	.Ldebug_ranges0:
+ 2248 0000 00000000 		.4byte	.LFB64
+ 2249 0004 2C000000 		.4byte	.LFE64
+ 2250 0008 00000000 		.4byte	.LFB65
+ 2251 000c 2A000000 		.4byte	.LFE65
+ 2252 0010 00000000 		.4byte	.LFB63
+ 2253 0014 8E000000 		.4byte	.LFE63
+ 2254 0018 00000000 		.4byte	.LFB66
+ 2255 001c 2A000000 		.4byte	.LFE66
+ 2256 0020 00000000 		.4byte	.LFB67
+ 2257 0024 4A000000 		.4byte	.LFE67
+ 2258 0028 00000000 		.4byte	0
+ 2259 002c 00000000 		.4byte	0
+ 2260              		.section	.debug_line,"",%progbits
+ 2261              	.Ldebug_line0:
+ 2262 0000 0A020000 		.section	.debug_str,"MS",%progbits,1
+ 2262      02007701 
+ 2262      00000201 
+ 2262      FB0E0D00 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 43
+
+
+ 2262      01010101 
+ 2263              	.LASF132:
+ 2264 0000 4F504552 		.ascii	"OPERATION_MODE_MAGONLY\000"
+ 2264      4154494F 
+ 2264      4E5F4D4F 
+ 2264      44455F4D 
+ 2264      41474F4E 
+ 2265              	.LASF161:
+ 2266 0017 43794465 		.ascii	"CyDelay\000"
+ 2266      6C617900 
+ 2267              	.LASF33:
+ 2268 001f 424E4F30 		.ascii	"BNO055_ACCEL_DATA_Z_MSB_ADDR\000"
+ 2268      35355F41 
+ 2268      4343454C 
+ 2268      5F444154 
+ 2268      415F5A5F 
+ 2269              	.LASF76:
+ 2270 003c 424E4F30 		.ascii	"BNO055_SYS_CLK_STAT_ADDR\000"
+ 2270      35355F53 
+ 2270      59535F43 
+ 2270      4C4B5F53 
+ 2270      5441545F 
+ 2271              	.LASF77:
+ 2272 0055 424E4F30 		.ascii	"BNO055_SYS_STAT_ADDR\000"
+ 2272      35355F53 
+ 2272      59535F53 
+ 2272      5441545F 
+ 2272      41444452 
+ 2273              	.LASF37:
+ 2274 006a 424E4F30 		.ascii	"BNO055_MAG_DATA_Y_MSB_ADDR\000"
+ 2274      35355F4D 
+ 2274      41475F44 
+ 2274      4154415F 
+ 2274      595F4D53 
+ 2275              	.LASF59:
+ 2276 0085 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_Z_MSB_ADDR\000"
+ 2276      35355F51 
+ 2276      55415445 
+ 2276      524E494F 
+ 2276      4E5F4441 
+ 2277              	.LASF135:
+ 2278 00a7 4F504552 		.ascii	"OPERATION_MODE_ACCGYRO\000"
+ 2278      4154494F 
+ 2278      4E5F4D4F 
+ 2278      44455F41 
+ 2278      43434759 
+ 2279              	.LASF106:
+ 2280 00be 41434345 		.ascii	"ACCEL_OFFSET_X_MSB_ADDR\000"
+ 2280      4C5F4F46 
+ 2280      46534554 
+ 2280      5F585F4D 
+ 2280      53425F41 
+ 2281              	.LASF78:
+ 2282 00d6 424E4F30 		.ascii	"BNO055_SYS_ERR_ADDR\000"
+ 2282      35355F53 
+ 2282      59535F45 
+ 2282      52525F41 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 44
+
+
+ 2282      44445200 
+ 2283              	.LASF151:
+ 2284 00ea 72644461 		.ascii	"rdData\000"
+ 2284      746100
+ 2285              	.LASF97:
+ 2286 00f1 424E4F30 		.ascii	"BNO055_SIC_MATRIX_5_LSB_ADDR\000"
+ 2286      35355F53 
+ 2286      49435F4D 
+ 2286      41545249 
+ 2286      585F355F 
+ 2287              	.LASF154:
+ 2288 010e 62756666 		.ascii	"buffer\000"
+ 2288      657200
+ 2289              	.LASF26:
+ 2290 0115 424E4F30 		.ascii	"BNO055_SW_REV_ID_MSB_ADDR\000"
+ 2290      35355F53 
+ 2290      575F5245 
+ 2290      565F4944 
+ 2290      5F4D5342 
+ 2291              	.LASF10:
+ 2292 012f 756E7369 		.ascii	"unsigned int\000"
+ 2292      676E6564 
+ 2292      20696E74 
+ 2292      00
+ 2293              	.LASF108:
+ 2294 013c 41434345 		.ascii	"ACCEL_OFFSET_Y_MSB_ADDR\000"
+ 2294      4C5F4F46 
+ 2294      46534554 
+ 2294      5F595F4D 
+ 2294      53425F41 
+ 2295              	.LASF5:
+ 2296 0154 5F5F696E 		.ascii	"__int32_t\000"
+ 2296      7433325F 
+ 2296      7400
+ 2297              	.LASF14:
+ 2298 015e 696E7431 		.ascii	"int16\000"
+ 2298      3600
+ 2299              	.LASF144:
+ 2300 0164 70697463 		.ascii	"pitch\000"
+ 2300      6800
+ 2301              	.LASF104:
+ 2302 016a 424E4F30 		.ascii	"BNO055_SIC_MATRIX_8_MSB_ADDR\000"
+ 2302      35355F53 
+ 2302      49435F4D 
+ 2302      41545249 
+ 2302      585F385F 
+ 2303              	.LASF43:
+ 2304 0187 424E4F30 		.ascii	"BNO055_GYRO_DATA_Y_MSB_ADDR\000"
+ 2304      35355F47 
+ 2304      59524F5F 
+ 2304      44415441 
+ 2304      5F595F4D 
+ 2305              	.LASF68:
+ 2306 01a3 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_Y_LSB_ADDR\000"
+ 2306      35355F47 
+ 2306      52415649 
+ 2306      54595F44 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 45
+
+
+ 2306      4154415F 
+ 2307              	.LASF81:
+ 2308 01c2 424E4F30 		.ascii	"BNO055_OPR_MODE_ADDR\000"
+ 2308      35355F4F 
+ 2308      50525F4D 
+ 2308      4F44455F 
+ 2308      41444452 
+ 2309              	.LASF65:
+ 2310 01d7 424E4F30 		.ascii	"BNO055_LINEAR_ACCEL_DATA_Z_MSB_ADDR\000"
+ 2310      35355F4C 
+ 2310      494E4541 
+ 2310      525F4143 
+ 2310      43454C5F 
+ 2311              	.LASF49:
+ 2312 01fb 424E4F30 		.ascii	"BNO055_EULER_R_MSB_ADDR\000"
+ 2312      35355F45 
+ 2312      554C4552 
+ 2312      5F525F4D 
+ 2312      53425F41 
+ 2313              	.LASF157:
+ 2314 0213 4C45445F 		.ascii	"LED_Write\000"
+ 2314      57726974 
+ 2314      6500
+ 2315              	.LASF136:
+ 2316 021d 4F504552 		.ascii	"OPERATION_MODE_MAGGYRO\000"
+ 2316      4154494F 
+ 2316      4E5F4D4F 
+ 2316      44455F4D 
+ 2316      41474759 
+ 2317              	.LASF89:
+ 2318 0234 424E4F30 		.ascii	"BNO055_SIC_MATRIX_1_LSB_ADDR\000"
+ 2318      35355F53 
+ 2318      49435F4D 
+ 2318      41545249 
+ 2318      585F315F 
+ 2319              	.LASF153:
+ 2320 0251 6F726965 		.ascii	"orientation\000"
+ 2320      6E746174 
+ 2320      696F6E00 
+ 2321              	.LASF121:
+ 2322 025d 4759524F 		.ascii	"GYRO_OFFSET_Z_LSB_ADDR\000"
+ 2322      5F4F4646 
+ 2322      5345545F 
+ 2322      5A5F4C53 
+ 2322      425F4144 
+ 2323              	.LASF115:
+ 2324 0274 4D41475F 		.ascii	"MAG_OFFSET_Z_LSB_ADDR\000"
+ 2324      4F464653 
+ 2324      45545F5A 
+ 2324      5F4C5342 
+ 2324      5F414444 
+ 2325              	.LASF82:
+ 2326 028a 424E4F30 		.ascii	"BNO055_PWR_MODE_ADDR\000"
+ 2326      35355F50 
+ 2326      57525F4D 
+ 2326      4F44455F 
+ 2326      41444452 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 46
+
+
+ 2327              	.LASF118:
+ 2328 029f 4759524F 		.ascii	"GYRO_OFFSET_X_MSB_ADDR\000"
+ 2328      5F4F4646 
+ 2328      5345545F 
+ 2328      585F4D53 
+ 2328      425F4144 
+ 2329              	.LASF88:
+ 2330 02b6 424E4F30 		.ascii	"BNO055_SIC_MATRIX_0_MSB_ADDR\000"
+ 2330      35355F53 
+ 2330      49435F4D 
+ 2330      41545249 
+ 2330      585F305F 
+ 2331              	.LASF28:
+ 2332 02d3 424E4F30 		.ascii	"BNO055_ACCEL_DATA_X_LSB_ADDR\000"
+ 2332      35355F41 
+ 2332      4343454C 
+ 2332      5F444154 
+ 2332      415F585F 
+ 2333              	.LASF148:
+ 2334 02f0 626E6F5F 		.ascii	"bno_write\000"
+ 2334      77726974 
+ 2334      6500
+ 2335              	.LASF80:
+ 2336 02fa 424E4F30 		.ascii	"BNO055_DATA_SELECT_ADDR\000"
+ 2336      35355F44 
+ 2336      4154415F 
+ 2336      53454C45 
+ 2336      43545F41 
+ 2337              	.LASF158:
+ 2338 0312 4932435F 		.ascii	"I2C_MasterSendStop\000"
+ 2338      4D617374 
+ 2338      65725365 
+ 2338      6E645374 
+ 2338      6F7000
+ 2339              	.LASF96:
+ 2340 0325 424E4F30 		.ascii	"BNO055_SIC_MATRIX_4_MSB_ADDR\000"
+ 2340      35355F53 
+ 2340      49435F4D 
+ 2340      41545249 
+ 2340      585F345F 
+ 2341              	.LASF114:
+ 2342 0342 4D41475F 		.ascii	"MAG_OFFSET_Y_MSB_ADDR\000"
+ 2342      4F464653 
+ 2342      45545F59 
+ 2342      5F4D5342 
+ 2342      5F414444 
+ 2343              	.LASF134:
+ 2344 0358 4F504552 		.ascii	"OPERATION_MODE_ACCMAG\000"
+ 2344      4154494F 
+ 2344      4E5F4D4F 
+ 2344      44455F41 
+ 2344      43434D41 
+ 2345              	.LASF54:
+ 2346 036e 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_X_LSB_ADDR\000"
+ 2346      35355F51 
+ 2346      55415445 
+ 2346      524E494F 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 47
+
+
+ 2346      4E5F4441 
+ 2347              	.LASF126:
+ 2348 0390 4D41475F 		.ascii	"MAG_RADIUS_MSB_ADDR\000"
+ 2348      52414449 
+ 2348      55535F4D 
+ 2348      53425F41 
+ 2348      44445200 
+ 2349              	.LASF15:
+ 2350 03a4 666C6F61 		.ascii	"float\000"
+ 2350      7400
+ 2351              	.LASF9:
+ 2352 03aa 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2352      206C6F6E 
+ 2352      6720756E 
+ 2352      7369676E 
+ 2352      65642069 
+ 2353              	.LASF39:
+ 2354 03c1 424E4F30 		.ascii	"BNO055_MAG_DATA_Z_MSB_ADDR\000"
+ 2354      35355F4D 
+ 2354      41475F44 
+ 2354      4154415F 
+ 2354      5A5F4D53 
+ 2355              	.LASF129:
+ 2356 03dc 504F5745 		.ascii	"POWER_MODE_SUSPEND\000"
+ 2356      525F4D4F 
+ 2356      44455F53 
+ 2356      55535045 
+ 2356      4E4400
+ 2357              	.LASF69:
+ 2358 03ef 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_Y_MSB_ADDR\000"
+ 2358      35355F47 
+ 2358      52415649 
+ 2358      54595F44 
+ 2358      4154415F 
+ 2359              	.LASF67:
+ 2360 040e 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_X_MSB_ADDR\000"
+ 2360      35355F47 
+ 2360      52415649 
+ 2360      54595F44 
+ 2360      4154415F 
+ 2361              	.LASF99:
+ 2362 042d 424E4F30 		.ascii	"BNO055_SIC_MATRIX_6_LSB_ADDR\000"
+ 2362      35355F53 
+ 2362      49435F4D 
+ 2362      41545249 
+ 2362      585F365F 
+ 2363              	.LASF60:
+ 2364 044a 424E4F30 		.ascii	"BNO055_LINEAR_ACCEL_DATA_X_LSB_ADDR\000"
+ 2364      35355F4C 
+ 2364      494E4541 
+ 2364      525F4143 
+ 2364      43454C5F 
+ 2365              	.LASF50:
+ 2366 046e 424E4F30 		.ascii	"BNO055_EULER_P_LSB_ADDR\000"
+ 2366      35355F45 
+ 2366      554C4552 
+ 2366      5F505F4C 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 48
+
+
+ 2366      53425F41 
+ 2367              	.LASF120:
+ 2368 0486 4759524F 		.ascii	"GYRO_OFFSET_Y_MSB_ADDR\000"
+ 2368      5F4F4646 
+ 2368      5345545F 
+ 2368      595F4D53 
+ 2368      425F4144 
+ 2369              	.LASF155:
+ 2370 049d 4932435F 		.ascii	"I2C_MasterSendStart\000"
+ 2370      4D617374 
+ 2370      65725365 
+ 2370      6E645374 
+ 2370      61727400 
+ 2371              	.LASF45:
+ 2372 04b1 424E4F30 		.ascii	"BNO055_GYRO_DATA_Z_MSB_ADDR\000"
+ 2372      35355F47 
+ 2372      59524F5F 
+ 2372      44415441 
+ 2372      5F5A5F4D 
+ 2373              	.LASF73:
+ 2374 04cd 424E4F30 		.ascii	"BNO055_CALIB_STAT_ADDR\000"
+ 2374      35355F43 
+ 2374      414C4942 
+ 2374      5F535441 
+ 2374      545F4144 
+ 2375              	.LASF22:
+ 2376 04e4 424E4F30 		.ascii	"BNO055_ACCEL_REV_ID_ADDR\000"
+ 2376      35355F41 
+ 2376      4343454C 
+ 2376      5F524556 
+ 2376      5F49445F 
+ 2377              	.LASF70:
+ 2378 04fd 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_Z_LSB_ADDR\000"
+ 2378      35355F47 
+ 2378      52415649 
+ 2378      54595F44 
+ 2378      4154415F 
+ 2379              	.LASF53:
+ 2380 051c 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_W_MSB_ADDR\000"
+ 2380      35355F51 
+ 2380      55415445 
+ 2380      524E494F 
+ 2380      4E5F4441 
+ 2381              	.LASF91:
+ 2382 053e 424E4F30 		.ascii	"BNO055_SIC_MATRIX_2_LSB_ADDR\000"
+ 2382      35355F53 
+ 2382      49435F4D 
+ 2382      41545249 
+ 2382      585F325F 
+ 2383              	.LASF133:
+ 2384 055b 4F504552 		.ascii	"OPERATION_MODE_GYRONLY\000"
+ 2384      4154494F 
+ 2384      4E5F4D4F 
+ 2384      44455F47 
+ 2384      59524F4E 
+ 2385              	.LASF159:
+ 2386 0572 4932435F 		.ascii	"I2C_MasterSendRestart\000"
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 49
+
+
+ 2386      4D617374 
+ 2386      65725365 
+ 2386      6E645265 
+ 2386      73746172 
+ 2387              	.LASF162:
+ 2388 0588 4932435F 		.ascii	"I2C_MasterReadBuf\000"
+ 2388      4D617374 
+ 2388      65725265 
+ 2388      61644275 
+ 2388      6600
+ 2389              	.LASF130:
+ 2390 059a 4F504552 		.ascii	"OPERATION_MODE_CONFIG\000"
+ 2390      4154494F 
+ 2390      4E5F4D4F 
+ 2390      44455F43 
+ 2390      4F4E4649 
+ 2391              	.LASF123:
+ 2392 05b0 41434345 		.ascii	"ACCEL_RADIUS_LSB_ADDR\000"
+ 2392      4C5F5241 
+ 2392      44495553 
+ 2392      5F4C5342 
+ 2392      5F414444 
+ 2393              	.LASF90:
+ 2394 05c6 424E4F30 		.ascii	"BNO055_SIC_MATRIX_1_MSB_ADDR\000"
+ 2394      35355F53 
+ 2394      49435F4D 
+ 2394      41545249 
+ 2394      585F315F 
+ 2395              	.LASF30:
+ 2396 05e3 424E4F30 		.ascii	"BNO055_ACCEL_DATA_Y_LSB_ADDR\000"
+ 2396      35355F41 
+ 2396      4343454C 
+ 2396      5F444154 
+ 2396      415F595F 
+ 2397              	.LASF17:
+ 2398 0600 63686172 		.ascii	"char\000"
+ 2398      00
+ 2399              	.LASF110:
+ 2400 0605 41434345 		.ascii	"ACCEL_OFFSET_Z_MSB_ADDR\000"
+ 2400      4C5F4F46 
+ 2400      46534554 
+ 2400      5F5A5F4D 
+ 2400      53425F41 
+ 2401              	.LASF34:
+ 2402 061d 424E4F30 		.ascii	"BNO055_MAG_DATA_X_LSB_ADDR\000"
+ 2402      35355F4D 
+ 2402      41475F44 
+ 2402      4154415F 
+ 2402      585F4C53 
+ 2403              	.LASF98:
+ 2404 0638 424E4F30 		.ascii	"BNO055_SIC_MATRIX_5_MSB_ADDR\000"
+ 2404      35355F53 
+ 2404      49435F4D 
+ 2404      41545249 
+ 2404      585F355F 
+ 2405              	.LASF160:
+ 2406 0655 4932435F 		.ascii	"I2C_MasterReadByte\000"
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 50
+
+
+ 2406      4D617374 
+ 2406      65725265 
+ 2406      61644279 
+ 2406      746500
+ 2407              	.LASF56:
+ 2408 0668 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_Y_LSB_ADDR\000"
+ 2408      35355F51 
+ 2408      55415445 
+ 2408      524E494F 
+ 2408      4E5F4441 
+ 2409              	.LASF141:
+ 2410 068a 4F504552 		.ascii	"OPERATION_MODE_NDOF_FMC_OFF\000"
+ 2410      4154494F 
+ 2410      4E5F4D4F 
+ 2410      44455F4E 
+ 2410      444F465F 
+ 2411              	.LASF146:
+ 2412 06a6 64617461 		.ascii	"data\000"
+ 2412      00
+ 2413              	.LASF27:
+ 2414 06ab 424E4F30 		.ascii	"BNO055_BL_REV_ID_ADDR\000"
+ 2414      35355F42 
+ 2414      4C5F5245 
+ 2414      565F4944 
+ 2414      5F414444 
+ 2415              	.LASF143:
+ 2416 06c1 726F6C6C 		.ascii	"roll\000"
+ 2416      00
+ 2417              	.LASF11:
+ 2418 06c6 75696E74 		.ascii	"uint8_t\000"
+ 2418      385F7400 
+ 2419              	.LASF147:
+ 2420 06ce 73746174 		.ascii	"status\000"
+ 2420      757300
+ 2421              	.LASF138:
+ 2422 06d5 4F504552 		.ascii	"OPERATION_MODE_IMUPLUS\000"
+ 2422      4154494F 
+ 2422      4E5F4D4F 
+ 2422      44455F49 
+ 2422      4D55504C 
+ 2423              	.LASF46:
+ 2424 06ec 424E4F30 		.ascii	"BNO055_EULER_H_LSB_ADDR\000"
+ 2424      35355F45 
+ 2424      554C4552 
+ 2424      5F485F4C 
+ 2424      53425F41 
+ 2425              	.LASF85:
+ 2426 0704 424E4F30 		.ascii	"BNO055_AXIS_MAP_CONFIG_ADDR\000"
+ 2426      35355F41 
+ 2426      5849535F 
+ 2426      4D41505F 
+ 2426      434F4E46 
+ 2427              	.LASF128:
+ 2428 0720 504F5745 		.ascii	"POWER_MODE_LOWPOWER\000"
+ 2428      525F4D4F 
+ 2428      44455F4C 
+ 2428      4F57504F 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 51
+
+
+ 2428      57455200 
+ 2429              	.LASF8:
+ 2430 0734 6C6F6E67 		.ascii	"long long int\000"
+ 2430      206C6F6E 
+ 2430      6720696E 
+ 2430      7400
+ 2431              	.LASF101:
+ 2432 0742 424E4F30 		.ascii	"BNO055_SIC_MATRIX_7_LSB_ADDR\000"
+ 2432      35355F53 
+ 2432      49435F4D 
+ 2432      41545249 
+ 2432      585F375F 
+ 2433              	.LASF40:
+ 2434 075f 424E4F30 		.ascii	"BNO055_GYRO_DATA_X_LSB_ADDR\000"
+ 2434      35355F47 
+ 2434      59524F5F 
+ 2434      44415441 
+ 2434      5F585F4C 
+ 2435              	.LASF62:
+ 2436 077b 424E4F30 		.ascii	"BNO055_LINEAR_ACCEL_DATA_Y_LSB_ADDR\000"
+ 2436      35355F4C 
+ 2436      494E4541 
+ 2436      525F4143 
+ 2436      43454C5F 
+ 2437              	.LASF122:
+ 2438 079f 4759524F 		.ascii	"GYRO_OFFSET_Z_MSB_ADDR\000"
+ 2438      5F4F4646 
+ 2438      5345545F 
+ 2438      5A5F4D53 
+ 2438      425F4144 
+ 2439              	.LASF116:
+ 2440 07b6 4D41475F 		.ascii	"MAG_OFFSET_Z_MSB_ADDR\000"
+ 2440      4F464653 
+ 2440      45545F5A 
+ 2440      5F4D5342 
+ 2440      5F414444 
+ 2441              	.LASF150:
+ 2442 07cc 626E6F5F 		.ascii	"bno_readbuf\000"
+ 2442      72656164 
+ 2442      62756600 
+ 2443              	.LASF29:
+ 2444 07d8 424E4F30 		.ascii	"BNO055_ACCEL_DATA_X_MSB_ADDR\000"
+ 2444      35355F41 
+ 2444      4343454C 
+ 2444      5F444154 
+ 2444      415F585F 
+ 2445              	.LASF164:
+ 2446 07f5 626E6F30 		.ascii	"bno055.c\000"
+ 2446      35352E63 
+ 2446      00
+ 2447              	.LASF55:
+ 2448 07fe 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_X_MSB_ADDR\000"
+ 2448      35355F51 
+ 2448      55415445 
+ 2448      524E494F 
+ 2448      4E5F4441 
+ 2449              	.LASF24:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 52
+
+
+ 2450 0820 424E4F30 		.ascii	"BNO055_GYRO_REV_ID_ADDR\000"
+ 2450      35355F47 
+ 2450      59524F5F 
+ 2450      5245565F 
+ 2450      49445F41 
+ 2451              	.LASF93:
+ 2452 0838 424E4F30 		.ascii	"BNO055_SIC_MATRIX_3_LSB_ADDR\000"
+ 2452      35355F53 
+ 2452      49435F4D 
+ 2452      41545249 
+ 2452      585F335F 
+ 2453              	.LASF111:
+ 2454 0855 4D41475F 		.ascii	"MAG_OFFSET_X_LSB_ADDR\000"
+ 2454      4F464653 
+ 2454      45545F58 
+ 2454      5F4C5342 
+ 2454      5F414444 
+ 2455              	.LASF156:
+ 2456 086b 4932435F 		.ascii	"I2C_MasterWriteByte\000"
+ 2456      4D617374 
+ 2456      65725772 
+ 2456      69746542 
+ 2456      79746500 
+ 2457              	.LASF74:
+ 2458 087f 424E4F30 		.ascii	"BNO055_SELFTEST_RESULT_ADDR\000"
+ 2458      35355F53 
+ 2458      454C4654 
+ 2458      4553545F 
+ 2458      52455355 
+ 2459              	.LASF18:
+ 2460 089b 6C6F6E67 		.ascii	"long double\000"
+ 2460      20646F75 
+ 2460      626C6500 
+ 2461              	.LASF145:
+ 2462 08a7 65756C65 		.ascii	"euler_angles\000"
+ 2462      725F616E 
+ 2462      676C6573 
+ 2462      00
+ 2463              	.LASF32:
+ 2464 08b4 424E4F30 		.ascii	"BNO055_ACCEL_DATA_Z_LSB_ADDR\000"
+ 2464      35355F41 
+ 2464      4343454C 
+ 2464      5F444154 
+ 2464      415F5A5F 
+ 2465              	.LASF36:
+ 2466 08d1 424E4F30 		.ascii	"BNO055_MAG_DATA_Y_LSB_ADDR\000"
+ 2466      35355F4D 
+ 2466      41475F44 
+ 2466      4154415F 
+ 2466      595F4C53 
+ 2467              	.LASF100:
+ 2468 08ec 424E4F30 		.ascii	"BNO055_SIC_MATRIX_6_MSB_ADDR\000"
+ 2468      35355F53 
+ 2468      49435F4D 
+ 2468      41545249 
+ 2468      585F365F 
+ 2469              	.LASF21:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 53
+
+
+ 2470 0909 424E4F30 		.ascii	"BNO055_CHIP_ID_ADDR\000"
+ 2470      35355F43 
+ 2470      4849505F 
+ 2470      49445F41 
+ 2470      44445200 
+ 2471              	.LASF107:
+ 2472 091d 41434345 		.ascii	"ACCEL_OFFSET_Y_LSB_ADDR\000"
+ 2472      4C5F4F46 
+ 2472      46534554 
+ 2472      5F595F4C 
+ 2472      53425F41 
+ 2473              	.LASF139:
+ 2474 0935 4F504552 		.ascii	"OPERATION_MODE_COMPASS\000"
+ 2474      4154494F 
+ 2474      4E5F4D4F 
+ 2474      44455F43 
+ 2474      4F4D5041 
+ 2475              	.LASF105:
+ 2476 094c 41434345 		.ascii	"ACCEL_OFFSET_X_LSB_ADDR\000"
+ 2476      4C5F4F46 
+ 2476      46534554 
+ 2476      5F585F4C 
+ 2476      53425F41 
+ 2477              	.LASF61:
+ 2478 0964 424E4F30 		.ascii	"BNO055_LINEAR_ACCEL_DATA_X_MSB_ADDR\000"
+ 2478      35355F4C 
+ 2478      494E4541 
+ 2478      525F4143 
+ 2478      43454C5F 
+ 2479              	.LASF149:
+ 2480 0988 626E6F5F 		.ascii	"bno_init\000"
+ 2480      696E6974 
+ 2480      00
+ 2481              	.LASF51:
+ 2482 0991 424E4F30 		.ascii	"BNO055_EULER_P_MSB_ADDR\000"
+ 2482      35355F45 
+ 2482      554C4552 
+ 2482      5F505F4D 
+ 2482      53425F41 
+ 2483              	.LASF2:
+ 2484 09a9 73686F72 		.ascii	"short int\000"
+ 2484      7420696E 
+ 2484      7400
+ 2485              	.LASF6:
+ 2486 09b3 6C6F6E67 		.ascii	"long int\000"
+ 2486      20696E74 
+ 2486      00
+ 2487              	.LASF25:
+ 2488 09bc 424E4F30 		.ascii	"BNO055_SW_REV_ID_LSB_ADDR\000"
+ 2488      35355F53 
+ 2488      575F5245 
+ 2488      565F4944 
+ 2488      5F4C5342 
+ 2489              	.LASF167:
+ 2490 09d6 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2490      52784275 
+ 2490      66666572 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 54
+
+
+ 2490      00
+ 2491              	.LASF72:
+ 2492 09e3 424E4F30 		.ascii	"BNO055_TEMP_ADDR\000"
+ 2492      35355F54 
+ 2492      454D505F 
+ 2492      41444452 
+ 2492      00
+ 2493              	.LASF117:
+ 2494 09f4 4759524F 		.ascii	"GYRO_OFFSET_X_LSB_ADDR\000"
+ 2494      5F4F4646 
+ 2494      5345545F 
+ 2494      585F4C53 
+ 2494      425F4144 
+ 2495              	.LASF23:
+ 2496 0a0b 424E4F30 		.ascii	"BNO055_MAG_REV_ID_ADDR\000"
+ 2496      35355F4D 
+ 2496      41475F52 
+ 2496      45565F49 
+ 2496      445F4144 
+ 2497              	.LASF83:
+ 2498 0a22 424E4F30 		.ascii	"BNO055_SYS_TRIGGER_ADDR\000"
+ 2498      35355F53 
+ 2498      59535F54 
+ 2498      52494747 
+ 2498      45525F41 
+ 2499              	.LASF137:
+ 2500 0a3a 4F504552 		.ascii	"OPERATION_MODE_AMG\000"
+ 2500      4154494F 
+ 2500      4E5F4D4F 
+ 2500      44455F41 
+ 2500      4D4700
+ 2501              	.LASF71:
+ 2502 0a4d 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_Z_MSB_ADDR\000"
+ 2502      35355F47 
+ 2502      52415649 
+ 2502      54595F44 
+ 2502      4154415F 
+ 2503              	.LASF20:
+ 2504 0a6c 424E4F30 		.ascii	"BNO055_PAGE_ID_ADDR\000"
+ 2504      35355F50 
+ 2504      4147455F 
+ 2504      49445F41 
+ 2504      44445200 
+ 2505              	.LASF103:
+ 2506 0a80 424E4F30 		.ascii	"BNO055_SIC_MATRIX_8_LSB_ADDR\000"
+ 2506      35355F53 
+ 2506      49435F4D 
+ 2506      41545249 
+ 2506      585F385F 
+ 2507              	.LASF42:
+ 2508 0a9d 424E4F30 		.ascii	"BNO055_GYRO_DATA_Y_LSB_ADDR\000"
+ 2508      35355F47 
+ 2508      59524F5F 
+ 2508      44415441 
+ 2508      5F595F4C 
+ 2509              	.LASF127:
+ 2510 0ab9 504F5745 		.ascii	"POWER_MODE_NORMAL\000"
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 55
+
+
+ 2510      525F4D4F 
+ 2510      44455F4E 
+ 2510      4F524D41 
+ 2510      4C00
+ 2511              	.LASF92:
+ 2512 0acb 424E4F30 		.ascii	"BNO055_SIC_MATRIX_2_MSB_ADDR\000"
+ 2512      35355F53 
+ 2512      49435F4D 
+ 2512      41545249 
+ 2512      585F325F 
+ 2513              	.LASF4:
+ 2514 0ae8 5F5F7569 		.ascii	"__uint8_t\000"
+ 2514      6E74385F 
+ 2514      7400
+ 2515              	.LASF64:
+ 2516 0af2 424E4F30 		.ascii	"BNO055_LINEAR_ACCEL_DATA_Z_LSB_ADDR\000"
+ 2516      35355F4C 
+ 2516      494E4541 
+ 2516      525F4143 
+ 2516      43454C5F 
+ 2517              	.LASF166:
+ 2518 0b16 626E6F5F 		.ascii	"bno_read\000"
+ 2518      72656164 
+ 2518      00
+ 2519              	.LASF165:
+ 2520 0b1f 433A5C55 		.ascii	"C:\\Users\\jebush2\\Desktop\\PSoC 3-19-2019\\Smart "
+ 2520      73657273 
+ 2520      5C6A6562 
+ 2520      75736832 
+ 2520      5C446573 
+ 2521 0b4d 42696B65 		.ascii	"Bike PSoC\\IMU.cydsn\000"
+ 2521      2050536F 
+ 2521      435C494D 
+ 2521      552E6379 
+ 2521      64736E00 
+ 2522              	.LASF58:
+ 2523 0b61 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_Z_LSB_ADDR\000"
+ 2523      35355F51 
+ 2523      55415445 
+ 2523      524E494F 
+ 2523      4E5F4441 
+ 2524              	.LASF124:
+ 2525 0b83 41434345 		.ascii	"ACCEL_RADIUS_MSB_ADDR\000"
+ 2525      4C5F5241 
+ 2525      44495553 
+ 2525      5F4D5342 
+ 2525      5F414444 
+ 2526              	.LASF19:
+ 2527 0b99 73697A65 		.ascii	"sizetype\000"
+ 2527      74797065 
+ 2527      00
+ 2528              	.LASF113:
+ 2529 0ba2 4D41475F 		.ascii	"MAG_OFFSET_Y_LSB_ADDR\000"
+ 2529      4F464653 
+ 2529      45545F59 
+ 2529      5F4C5342 
+ 2529      5F414444 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 56
+
+
+ 2530              	.LASF7:
+ 2531 0bb8 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2531      20756E73 
+ 2531      69676E65 
+ 2531      6420696E 
+ 2531      7400
+ 2532              	.LASF35:
+ 2533 0bca 424E4F30 		.ascii	"BNO055_MAG_DATA_X_MSB_ADDR\000"
+ 2533      35355F4D 
+ 2533      41475F44 
+ 2533      4154415F 
+ 2533      585F4D53 
+ 2534              	.LASF79:
+ 2535 0be5 424E4F30 		.ascii	"BNO055_UNIT_SEL_ADDR\000"
+ 2535      35355F55 
+ 2535      4E49545F 
+ 2535      53454C5F 
+ 2535      41444452 
+ 2536              	.LASF12:
+ 2537 0bfa 696E7433 		.ascii	"int32_t\000"
+ 2537      325F7400 
+ 2538              	.LASF57:
+ 2539 0c02 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_Y_MSB_ADDR\000"
+ 2539      35355F51 
+ 2539      55415445 
+ 2539      524E494F 
+ 2539      4E5F4441 
+ 2540              	.LASF86:
+ 2541 0c24 424E4F30 		.ascii	"BNO055_AXIS_MAP_SIGN_ADDR\000"
+ 2541      35355F41 
+ 2541      5849535F 
+ 2541      4D41505F 
+ 2541      5349474E 
+ 2542              	.LASF95:
+ 2543 0c3e 424E4F30 		.ascii	"BNO055_SIC_MATRIX_4_LSB_ADDR\000"
+ 2543      35355F53 
+ 2543      49435F4D 
+ 2543      41545249 
+ 2543      585F345F 
+ 2544              	.LASF140:
+ 2545 0c5b 4F504552 		.ascii	"OPERATION_MODE_M4G\000"
+ 2545      4154494F 
+ 2545      4E5F4D4F 
+ 2545      44455F4D 
+ 2545      344700
+ 2546              	.LASF1:
+ 2547 0c6e 756E7369 		.ascii	"unsigned char\000"
+ 2547      676E6564 
+ 2547      20636861 
+ 2547      7200
+ 2548              	.LASF125:
+ 2549 0c7c 4D41475F 		.ascii	"MAG_RADIUS_LSB_ADDR\000"
+ 2549      52414449 
+ 2549      55535F4C 
+ 2549      53425F41 
+ 2549      44445200 
+ 2550              	.LASF142:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 57
+
+
+ 2551 0c90 4F504552 		.ascii	"OPERATION_MODE_NDOF\000"
+ 2551      4154494F 
+ 2551      4E5F4D4F 
+ 2551      44455F4E 
+ 2551      444F4600 
+ 2552              	.LASF47:
+ 2553 0ca4 424E4F30 		.ascii	"BNO055_EULER_H_MSB_ADDR\000"
+ 2553      35355F45 
+ 2553      554C4552 
+ 2553      5F485F4D 
+ 2553      53425F41 
+ 2554              	.LASF48:
+ 2555 0cbc 424E4F30 		.ascii	"BNO055_EULER_R_LSB_ADDR\000"
+ 2555      35355F45 
+ 2555      554C4552 
+ 2555      5F525F4C 
+ 2555      53425F41 
+ 2556              	.LASF163:
+ 2557 0cd4 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2557      43313120 
+ 2557      352E342E 
+ 2557      31203230 
+ 2557      31363036 
+ 2558 0d07 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2558      20726576 
+ 2558      6973696F 
+ 2558      6E203233 
+ 2558      37373135 
+ 2559 0d3a 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 2559      66756E63 
+ 2559      74696F6E 
+ 2559      2D736563 
+ 2559      74696F6E 
+ 2560              	.LASF38:
+ 2561 0d62 424E4F30 		.ascii	"BNO055_MAG_DATA_Z_LSB_ADDR\000"
+ 2561      35355F4D 
+ 2561      41475F44 
+ 2561      4154415F 
+ 2561      5A5F4C53 
+ 2562              	.LASF102:
+ 2563 0d7d 424E4F30 		.ascii	"BNO055_SIC_MATRIX_7_MSB_ADDR\000"
+ 2563      35355F53 
+ 2563      49435F4D 
+ 2563      41545249 
+ 2563      585F375F 
+ 2564              	.LASF41:
+ 2565 0d9a 424E4F30 		.ascii	"BNO055_GYRO_DATA_X_MSB_ADDR\000"
+ 2565      35355F47 
+ 2565      59524F5F 
+ 2565      44415441 
+ 2565      5F585F4D 
+ 2566              	.LASF84:
+ 2567 0db6 424E4F30 		.ascii	"BNO055_TEMP_SOURCE_ADDR\000"
+ 2567      35355F54 
+ 2567      454D505F 
+ 2567      534F5552 
+ 2567      43455F41 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 58
+
+
+ 2568              	.LASF31:
+ 2569 0dce 424E4F30 		.ascii	"BNO055_ACCEL_DATA_Y_MSB_ADDR\000"
+ 2569      35355F41 
+ 2569      4343454C 
+ 2569      5F444154 
+ 2569      415F595F 
+ 2570              	.LASF66:
+ 2571 0deb 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_X_LSB_ADDR\000"
+ 2571      35355F47 
+ 2571      52415649 
+ 2571      54595F44 
+ 2571      4154415F 
+ 2572              	.LASF63:
+ 2573 0e0a 424E4F30 		.ascii	"BNO055_LINEAR_ACCEL_DATA_Y_MSB_ADDR\000"
+ 2573      35355F4C 
+ 2573      494E4541 
+ 2573      525F4143 
+ 2573      43454C5F 
+ 2574              	.LASF131:
+ 2575 0e2e 4F504552 		.ascii	"OPERATION_MODE_ACCONLY\000"
+ 2575      4154494F 
+ 2575      4E5F4D4F 
+ 2575      44455F41 
+ 2575      43434F4E 
+ 2576              	.LASF0:
+ 2577 0e45 7369676E 		.ascii	"signed char\000"
+ 2577      65642063 
+ 2577      68617200 
+ 2578              	.LASF87:
+ 2579 0e51 424E4F30 		.ascii	"BNO055_SIC_MATRIX_0_LSB_ADDR\000"
+ 2579      35355F53 
+ 2579      49435F4D 
+ 2579      41545249 
+ 2579      585F305F 
+ 2580              	.LASF3:
+ 2581 0e6e 73686F72 		.ascii	"short unsigned int\000"
+ 2581      7420756E 
+ 2581      7369676E 
+ 2581      65642069 
+ 2581      6E7400
+ 2582              	.LASF119:
+ 2583 0e81 4759524F 		.ascii	"GYRO_OFFSET_Y_LSB_ADDR\000"
+ 2583      5F4F4646 
+ 2583      5345545F 
+ 2583      595F4C53 
+ 2583      425F4144 
+ 2584              	.LASF75:
+ 2585 0e98 424E4F30 		.ascii	"BNO055_INTR_STAT_ADDR\000"
+ 2585      35355F49 
+ 2585      4E54525F 
+ 2585      53544154 
+ 2585      5F414444 
+ 2586              	.LASF13:
+ 2587 0eae 75696E74 		.ascii	"uint8\000"
+ 2587      3800
+ 2588              	.LASF16:
+ 2589 0eb4 646F7562 		.ascii	"double\000"
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccGO4qI0.s 			page 59
+
+
+ 2589      6C6500
+ 2590              	.LASF44:
+ 2591 0ebb 424E4F30 		.ascii	"BNO055_GYRO_DATA_Z_LSB_ADDR\000"
+ 2591      35355F47 
+ 2591      59524F5F 
+ 2591      44415441 
+ 2591      5F5A5F4C 
+ 2592              	.LASF152:
+ 2593 0ed7 626E6F5F 		.ascii	"bno_update\000"
+ 2593      75706461 
+ 2593      746500
+ 2594              	.LASF94:
+ 2595 0ee2 424E4F30 		.ascii	"BNO055_SIC_MATRIX_3_MSB_ADDR\000"
+ 2595      35355F53 
+ 2595      49435F4D 
+ 2595      41545249 
+ 2595      585F335F 
+ 2596              	.LASF112:
+ 2597 0eff 4D41475F 		.ascii	"MAG_OFFSET_X_MSB_ADDR\000"
+ 2597      4F464653 
+ 2597      45545F58 
+ 2597      5F4D5342 
+ 2597      5F414444 
+ 2598              	.LASF52:
+ 2599 0f15 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_W_LSB_ADDR\000"
+ 2599      35355F51 
+ 2599      55415445 
+ 2599      524E494F 
+ 2599      4E5F4441 
+ 2600              	.LASF109:
+ 2601 0f37 41434345 		.ascii	"ACCEL_OFFSET_Z_LSB_ADDR\000"
+ 2601      4C5F4F46 
+ 2601      46534554 
+ 2601      5F5A5F4C 
+ 2601      53425F41 
+ 2602              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

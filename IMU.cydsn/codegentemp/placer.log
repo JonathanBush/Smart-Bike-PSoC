@@ -6,7 +6,7 @@
 
 #Build Date:         Dec  5 2017 15:35:27
 
-#File Generated:     Apr 9 2019 16:14:45
+#File Generated:     Apr 11 2019 09:15:54
 
 #Purpose:            
 
@@ -116,7 +116,7 @@ Clock: Seat_ADC_IntClock(routed) | Frequency: N/A       | Target:   1.6 MHz
 ======================================================================
                      End of Clock Summary
 ######################################################################
-D2088: Phase 7, elapsed time : 0.5 (sec)
+D2088: Phase 7, elapsed time : 0.6 (sec)
 
 Final Design Statistics
     Number of Combinational MCs 	:	4

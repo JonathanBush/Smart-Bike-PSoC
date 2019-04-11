@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccLyC7Ii.s 			page 1
 
 
    1              		.syntax unified
@@ -10,7 +10,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 1
    7              		.eabi_attribute 24, 1
    8              		.eabi_attribute 25, 1
    9              		.eabi_attribute 26, 1
-  10              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 30, 6
   11              		.eabi_attribute 34, 1
   12              		.eabi_attribute 18, 4
   13              		.thumb
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 1
   28:Generated_Source\PSoC5/Seat_ADC_PM.c **** *
   29:Generated_Source\PSoC5/Seat_ADC_PM.c **** * Summary:
   30:Generated_Source\PSoC5/Seat_ADC_PM.c **** *  Stops the ADC operation and saves the configuration registers and component
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 2
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccLyC7Ii.s 			page 2
 
 
   31:Generated_Source\PSoC5/Seat_ADC_PM.c **** *  enable state. Should be called just prior to entering sleep
@@ -81,30 +81,32 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 1
   28              		.loc 1 47 0
   29              		.cfi_startproc
   30              		@ args = 0, pretend = 0, frame = 0
-  31              		@ frame_needed = 0, uses_anonymous_args = 0
-  32 0000 08B5     		push	{r3, lr}
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
   33              		.cfi_def_cfa_offset 8
-  34              		.cfi_offset 3, -8
+  34              		.cfi_offset 7, -8
   35              		.cfi_offset 14, -4
+  36 0002 00AF     		add	r7, sp, #0
+  37              		.cfi_def_cfa_register 7
   48:Generated_Source\PSoC5/Seat_ADC_PM.c ****     Seat_ADC_SAR_Stop();
-  36              		.loc 1 48 0
-  37 0002 FFF7FEFF 		bl	Seat_ADC_SAR_Stop
-  38              	.LVL0:
+  38              		.loc 1 48 0
+  39 0004 FFF7FEFF 		bl	Seat_ADC_SAR_Stop
   49:Generated_Source\PSoC5/Seat_ADC_PM.c ****     Seat_ADC_SAR_Sleep();
-  39              		.loc 1 49 0
-  40 0006 FFF7FEFF 		bl	Seat_ADC_SAR_Sleep
-  41              	.LVL1:
+  40              		.loc 1 49 0
+  41 0008 FFF7FEFF 		bl	Seat_ADC_SAR_Sleep
   50:Generated_Source\PSoC5/Seat_ADC_PM.c ****     Seat_ADC_Disable();
   42              		.loc 1 50 0
-  43 000a FFF7FEFF 		bl	Seat_ADC_Disable
-  44              	.LVL2:
+  43 000c FFF7FEFF 		bl	Seat_ADC_Disable
   51:Generated_Source\PSoC5/Seat_ADC_PM.c **** 
   52:Generated_Source\PSoC5/Seat_ADC_PM.c ****     #if(Seat_ADC_CLOCK_SOURCE == Seat_ADC_CLOCK_INTERNAL)
   53:Generated_Source\PSoC5/Seat_ADC_PM.c ****         Seat_ADC_IntClock_Stop();
-  45              		.loc 1 53 0
-  46 000e FFF7FEFF 		bl	Seat_ADC_IntClock_Stop
-  47              	.LVL3:
-  48 0012 08BD     		pop	{r3, pc}
+  44              		.loc 1 53 0
+  45 0010 FFF7FEFF 		bl	Seat_ADC_IntClock_Stop
+  54:Generated_Source\PSoC5/Seat_ADC_PM.c ****     #endif   /* Seat_ADC_CLOCK_SOURCE == Seat_ADC_CLOCK_INTERNAL */
+  55:Generated_Source\PSoC5/Seat_ADC_PM.c **** }
+  46              		.loc 1 55 0
+  47 0014 00BF     		nop
+  48 0016 80BD     		pop	{r7, pc}
   49              		.cfi_endproc
   50              	.LFE0:
   51              		.size	Seat_ADC_Sleep, .-Seat_ADC_Sleep
@@ -116,9 +118,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 1
   57              		.type	Seat_ADC_Wakeup, %function
   58              	Seat_ADC_Wakeup:
   59              	.LFB1:
-  54:Generated_Source\PSoC5/Seat_ADC_PM.c ****     #endif   /* Seat_ADC_CLOCK_SOURCE == Seat_ADC_CLOCK_INTERNAL */
-  55:Generated_Source\PSoC5/Seat_ADC_PM.c **** }
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 3
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccLyC7Ii.s 			page 3
 
 
   56:Generated_Source\PSoC5/Seat_ADC_PM.c **** 
@@ -149,67 +149,66 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 1
   60              		.loc 1 80 0
   61              		.cfi_startproc
   62              		@ args = 0, pretend = 0, frame = 0
-  63              		@ frame_needed = 0, uses_anonymous_args = 0
-  64 0000 08B5     		push	{r3, lr}
+  63              		@ frame_needed = 1, uses_anonymous_args = 0
+  64 0000 80B5     		push	{r7, lr}
   65              		.cfi_def_cfa_offset 8
-  66              		.cfi_offset 3, -8
+  66              		.cfi_offset 7, -8
   67              		.cfi_offset 14, -4
+  68 0002 00AF     		add	r7, sp, #0
+  69              		.cfi_def_cfa_register 7
   81:Generated_Source\PSoC5/Seat_ADC_PM.c ****     Seat_ADC_SAR_Wakeup();
-  68              		.loc 1 81 0
-  69 0002 FFF7FEFF 		bl	Seat_ADC_SAR_Wakeup
-  70              	.LVL4:
+  70              		.loc 1 81 0
+  71 0004 FFF7FEFF 		bl	Seat_ADC_SAR_Wakeup
   82:Generated_Source\PSoC5/Seat_ADC_PM.c ****     Seat_ADC_SAR_Enable();
-  71              		.loc 1 82 0
-  72 0006 FFF7FEFF 		bl	Seat_ADC_SAR_Enable
-  73              	.LVL5:
+  72              		.loc 1 82 0
+  73 0008 FFF7FEFF 		bl	Seat_ADC_SAR_Enable
   83:Generated_Source\PSoC5/Seat_ADC_PM.c **** 
   84:Generated_Source\PSoC5/Seat_ADC_PM.c ****     #if(Seat_ADC_CLOCK_SOURCE == Seat_ADC_CLOCK_INTERNAL)
   85:Generated_Source\PSoC5/Seat_ADC_PM.c ****         Seat_ADC_IntClock_Start();
   74              		.loc 1 85 0
-  75 000a FFF7FEFF 		bl	Seat_ADC_IntClock_Start
-  76              	.LVL6:
+  75 000c FFF7FEFF 		bl	Seat_ADC_IntClock_Start
   86:Generated_Source\PSoC5/Seat_ADC_PM.c ****     #endif   /* Seat_ADC_CLOCK_SOURCE == Seat_ADC_CLOCK_INTERNAL */
   87:Generated_Source\PSoC5/Seat_ADC_PM.c **** 
   88:Generated_Source\PSoC5/Seat_ADC_PM.c ****     /* The block is ready to use 10 us after the SAR enable signal is set high. */
   89:Generated_Source\PSoC5/Seat_ADC_PM.c ****     CyDelayUs(10u);
-  77              		.loc 1 89 0
-  78 000e 0A20     		movs	r0, #10
-  79 0010 FFF7FEFF 		bl	CyDelayUs
-  80              	.LVL7:
+  76              		.loc 1 89 0
+  77 0010 0A20     		movs	r0, #10
+  78 0012 FFF7FEFF 		bl	CyDelayUs
   90:Generated_Source\PSoC5/Seat_ADC_PM.c ****     
   91:Generated_Source\PSoC5/Seat_ADC_PM.c ****     Seat_ADC_Enable();
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 4
+  79              		.loc 1 91 0
+  80 0016 FFF7FEFF 		bl	Seat_ADC_Enable
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccLyC7Ii.s 			page 4
 
 
-  81              		.loc 1 91 0
-  82 0014 FFF7FEFF 		bl	Seat_ADC_Enable
-  83              	.LVL8:
   92:Generated_Source\PSoC5/Seat_ADC_PM.c **** 
   93:Generated_Source\PSoC5/Seat_ADC_PM.c ****     #if(Seat_ADC_SAMPLE_MODE == Seat_ADC_SAMPLE_MODE_FREE_RUNNING)
   94:Generated_Source\PSoC5/Seat_ADC_PM.c ****         Seat_ADC_SAR_StartConvert();
   95:Generated_Source\PSoC5/Seat_ADC_PM.c ****     #endif /* (Seat_ADC_SAMPLE_MODE == Seat_ADC_SAMPLE_MODE_FREE_RUNNING) */
   96:Generated_Source\PSoC5/Seat_ADC_PM.c **** 
   97:Generated_Source\PSoC5/Seat_ADC_PM.c ****     (void) CY_GET_REG8(Seat_ADC_STATUS_PTR);
-  84              		.loc 1 97 0
-  85 0018 014B     		ldr	r3, .L5
-  86 001a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
-  87 001c 08BD     		pop	{r3, pc}
-  88              	.L6:
-  89 001e 00BF     		.align	2
-  90              	.L5:
-  91 0020 67640040 		.word	1073767527
-  92              		.cfi_endproc
-  93              	.LFE1:
-  94              		.size	Seat_ADC_Wakeup, .-Seat_ADC_Wakeup
-  95              		.section	.text.Seat_ADC_SaveConfig,"ax",%progbits
-  96              		.align	2
-  97              		.global	Seat_ADC_SaveConfig
-  98              		.thumb
-  99              		.thumb_func
- 100              		.type	Seat_ADC_SaveConfig, %function
- 101              	Seat_ADC_SaveConfig:
- 102              	.LFB2:
+  81              		.loc 1 97 0
+  82 001a 024B     		ldr	r3, .L3
+  83 001c 1B78     		ldrb	r3, [r3]
   98:Generated_Source\PSoC5/Seat_ADC_PM.c **** }
+  84              		.loc 1 98 0
+  85 001e 00BF     		nop
+  86 0020 80BD     		pop	{r7, pc}
+  87              	.L4:
+  88 0022 00BF     		.align	2
+  89              	.L3:
+  90 0024 67640040 		.word	1073767527
+  91              		.cfi_endproc
+  92              	.LFE1:
+  93              		.size	Seat_ADC_Wakeup, .-Seat_ADC_Wakeup
+  94              		.section	.text.Seat_ADC_SaveConfig,"ax",%progbits
+  95              		.align	2
+  96              		.global	Seat_ADC_SaveConfig
+  97              		.thumb
+  98              		.thumb_func
+  99              		.type	Seat_ADC_SaveConfig, %function
+ 100              	Seat_ADC_SaveConfig:
+ 101              	.LFB2:
   99:Generated_Source\PSoC5/Seat_ADC_PM.c **** 
  100:Generated_Source\PSoC5/Seat_ADC_PM.c **** 
  101:Generated_Source\PSoC5/Seat_ADC_PM.c **** /*******************************************************************************
@@ -234,28 +233,41 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 1
  120:Generated_Source\PSoC5/Seat_ADC_PM.c **** *******************************************************************************/
  121:Generated_Source\PSoC5/Seat_ADC_PM.c **** void Seat_ADC_SaveConfig(void)
  122:Generated_Source\PSoC5/Seat_ADC_PM.c **** {
- 103              		.loc 1 122 0
- 104              		.cfi_startproc
- 105              		@ args = 0, pretend = 0, frame = 0
- 106              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 5
+ 102              		.loc 1 122 0
+ 103              		.cfi_startproc
+ 104              		@ args = 0, pretend = 0, frame = 0
+ 105              		@ frame_needed = 1, uses_anonymous_args = 0
+ 106              		@ link register save eliminated.
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccLyC7Ii.s 			page 5
 
 
- 107              		@ link register save eliminated.
- 108 0000 7047     		bx	lr
- 109              		.cfi_endproc
- 110              	.LFE2:
- 111              		.size	Seat_ADC_SaveConfig, .-Seat_ADC_SaveConfig
- 112 0002 00BF     		.section	.text.Seat_ADC_RestoreConfig,"ax",%progbits
- 113              		.align	2
- 114              		.global	Seat_ADC_RestoreConfig
- 115              		.thumb
- 116              		.thumb_func
- 117              		.type	Seat_ADC_RestoreConfig, %function
- 118              	Seat_ADC_RestoreConfig:
- 119              	.LFB3:
+ 107 0000 80B4     		push	{r7}
+ 108              		.cfi_def_cfa_offset 4
+ 109              		.cfi_offset 7, -4
+ 110 0002 00AF     		add	r7, sp, #0
+ 111              		.cfi_def_cfa_register 7
  123:Generated_Source\PSoC5/Seat_ADC_PM.c **** 
  124:Generated_Source\PSoC5/Seat_ADC_PM.c **** }
+ 112              		.loc 1 124 0
+ 113 0004 00BF     		nop
+ 114 0006 BD46     		mov	sp, r7
+ 115              		.cfi_def_cfa_register 13
+ 116              		@ sp needed
+ 117 0008 80BC     		pop	{r7}
+ 118              		.cfi_restore 7
+ 119              		.cfi_def_cfa_offset 0
+ 120 000a 7047     		bx	lr
+ 121              		.cfi_endproc
+ 122              	.LFE2:
+ 123              		.size	Seat_ADC_SaveConfig, .-Seat_ADC_SaveConfig
+ 124              		.section	.text.Seat_ADC_RestoreConfig,"ax",%progbits
+ 125              		.align	2
+ 126              		.global	Seat_ADC_RestoreConfig
+ 127              		.thumb
+ 128              		.thumb_func
+ 129              		.type	Seat_ADC_RestoreConfig, %function
+ 130              	Seat_ADC_RestoreConfig:
+ 131              	.LFB3:
  125:Generated_Source\PSoC5/Seat_ADC_PM.c **** 
  126:Generated_Source\PSoC5/Seat_ADC_PM.c **** 
  127:Generated_Source\PSoC5/Seat_ADC_PM.c **** /*******************************************************************************
@@ -280,624 +292,444 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 1
  146:Generated_Source\PSoC5/Seat_ADC_PM.c **** *******************************************************************************/
  147:Generated_Source\PSoC5/Seat_ADC_PM.c **** void Seat_ADC_RestoreConfig(void)
  148:Generated_Source\PSoC5/Seat_ADC_PM.c **** {
- 120              		.loc 1 148 0
- 121              		.cfi_startproc
- 122              		@ args = 0, pretend = 0, frame = 0
- 123              		@ frame_needed = 0, uses_anonymous_args = 0
- 124              		@ link register save eliminated.
- 125 0000 7047     		bx	lr
- 126              		.cfi_endproc
- 127              	.LFE3:
- 128              		.size	Seat_ADC_RestoreConfig, .-Seat_ADC_RestoreConfig
- 129 0002 00BF     		.text
- 130              	.Letext0:
- 131              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
- 132              		.file 3 "Generated_Source\\PSoC5\\Seat_ADC_SAR.h"
- 133              		.file 4 "Generated_Source\\PSoC5\\Seat_ADC.h"
- 134              		.file 5 "Generated_Source\\PSoC5\\Seat_ADC_IntClock.h"
- 135              		.file 6 "Generated_Source\\PSoC5\\CyLib.h"
- 136              		.section	.debug_info,"",%progbits
- 137              	.Ldebug_info0:
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 6
+ 132              		.loc 1 148 0
+ 133              		.cfi_startproc
+ 134              		@ args = 0, pretend = 0, frame = 0
+ 135              		@ frame_needed = 1, uses_anonymous_args = 0
+ 136              		@ link register save eliminated.
+ 137 0000 80B4     		push	{r7}
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccLyC7Ii.s 			page 6
 
 
- 138 0000 B4010000 		.4byte	0x1b4
- 139 0004 0400     		.2byte	0x4
- 140 0006 00000000 		.4byte	.Ldebug_abbrev0
- 141 000a 04       		.byte	0x4
- 142 000b 01       		.uleb128 0x1
- 143 000c 7E000000 		.4byte	.LASF29
- 144 0010 0C       		.byte	0xc
- 145 0011 3D010000 		.4byte	.LASF30
- 146 0015 D6010000 		.4byte	.LASF31
- 147 0019 00000000 		.4byte	.Ldebug_ranges0+0
- 148 001d 00000000 		.4byte	0
- 149 0021 00000000 		.4byte	.Ldebug_line0
- 150 0025 02       		.uleb128 0x2
- 151 0026 01       		.byte	0x1
- 152 0027 06       		.byte	0x6
- 153 0028 65020000 		.4byte	.LASF0
- 154 002c 02       		.uleb128 0x2
- 155 002d 01       		.byte	0x1
- 156 002e 08       		.byte	0x8
- 157 002f 70000000 		.4byte	.LASF1
- 158 0033 02       		.uleb128 0x2
- 159 0034 02       		.byte	0x2
- 160 0035 05       		.byte	0x5
- 161 0036 46020000 		.4byte	.LASF2
- 162 003a 02       		.uleb128 0x2
- 163 003b 02       		.byte	0x2
- 164 003c 07       		.byte	0x7
- 165 003d 21000000 		.4byte	.LASF3
- 166 0041 02       		.uleb128 0x2
- 167 0042 04       		.byte	0x4
- 168 0043 05       		.byte	0x5
- 169 0044 50020000 		.4byte	.LASF4
- 170 0048 02       		.uleb128 0x2
- 171 0049 04       		.byte	0x4
- 172 004a 07       		.byte	0x7
- 173 004b 11010000 		.4byte	.LASF5
- 174 004f 02       		.uleb128 0x2
- 175 0050 08       		.byte	0x8
- 176 0051 05       		.byte	0x5
- 177 0052 33020000 		.4byte	.LASF6
- 178 0056 02       		.uleb128 0x2
- 179 0057 08       		.byte	0x8
- 180 0058 07       		.byte	0x7
- 181 0059 BF010000 		.4byte	.LASF7
- 182 005d 03       		.uleb128 0x3
- 183 005e 04       		.byte	0x4
- 184 005f 05       		.byte	0x5
- 185 0060 696E7400 		.ascii	"int\000"
- 186 0064 02       		.uleb128 0x2
- 187 0065 04       		.byte	0x4
- 188 0066 07       		.byte	0x7
- 189 0067 B2010000 		.4byte	.LASF8
- 190 006b 04       		.uleb128 0x4
- 191 006c 23010000 		.4byte	.LASF12
- 192 0070 02       		.byte	0x2
- 193 0071 E401     		.2byte	0x1e4
- 194 0073 2C000000 		.4byte	0x2c
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 7
+ 138              		.cfi_def_cfa_offset 4
+ 139              		.cfi_offset 7, -4
+ 140 0002 00AF     		add	r7, sp, #0
+ 141              		.cfi_def_cfa_register 7
+ 149:Generated_Source\PSoC5/Seat_ADC_PM.c **** 
+ 150:Generated_Source\PSoC5/Seat_ADC_PM.c **** }
+ 142              		.loc 1 150 0
+ 143 0004 00BF     		nop
+ 144 0006 BD46     		mov	sp, r7
+ 145              		.cfi_def_cfa_register 13
+ 146              		@ sp needed
+ 147 0008 80BC     		pop	{r7}
+ 148              		.cfi_restore 7
+ 149              		.cfi_def_cfa_offset 0
+ 150 000a 7047     		bx	lr
+ 151              		.cfi_endproc
+ 152              	.LFE3:
+ 153              		.size	Seat_ADC_RestoreConfig, .-Seat_ADC_RestoreConfig
+ 154              		.text
+ 155              	.Letext0:
+ 156              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 157              		.section	.debug_info,"",%progbits
+ 158              	.Ldebug_info0:
+ 159 0000 EC000000 		.4byte	0xec
+ 160 0004 0400     		.2byte	0x4
+ 161 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 162 000a 04       		.byte	0x4
+ 163 000b 01       		.uleb128 0x1
+ 164 000c CD000000 		.4byte	.LASF20
+ 165 0010 0C       		.byte	0xc
+ 166 0011 77010000 		.4byte	.LASF21
+ 167 0015 32000000 		.4byte	.LASF22
+ 168 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 169 001d 00000000 		.4byte	0
+ 170 0021 00000000 		.4byte	.Ldebug_line0
+ 171 0025 02       		.uleb128 0x2
+ 172 0026 01       		.byte	0x1
+ 173 0027 06       		.byte	0x6
+ 174 0028 C5010000 		.4byte	.LASF0
+ 175 002c 02       		.uleb128 0x2
+ 176 002d 01       		.byte	0x1
+ 177 002e 08       		.byte	0x8
+ 178 002f 5B010000 		.4byte	.LASF1
+ 179 0033 02       		.uleb128 0x2
+ 180 0034 02       		.byte	0x2
+ 181 0035 05       		.byte	0x5
+ 182 0036 DD010000 		.4byte	.LASF2
+ 183 003a 02       		.uleb128 0x2
+ 184 003b 02       		.byte	0x2
+ 185 003c 07       		.byte	0x7
+ 186 003d B2010000 		.4byte	.LASF3
+ 187 0041 02       		.uleb128 0x2
+ 188 0042 04       		.byte	0x4
+ 189 0043 05       		.byte	0x5
+ 190 0044 6E010000 		.4byte	.LASF4
+ 191 0048 02       		.uleb128 0x2
+ 192 0049 04       		.byte	0x4
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccLyC7Ii.s 			page 7
 
 
- 195 0077 02       		.uleb128 0x2
- 196 0078 04       		.byte	0x4
- 197 0079 04       		.byte	0x4
- 198 007a 6A000000 		.4byte	.LASF9
- 199 007e 02       		.uleb128 0x2
- 200 007f 08       		.byte	0x8
- 201 0080 04       		.byte	0x4
- 202 0081 91010000 		.4byte	.LASF10
- 203 0085 02       		.uleb128 0x2
- 204 0086 01       		.byte	0x1
- 205 0087 08       		.byte	0x8
- 206 0088 41020000 		.4byte	.LASF11
- 207 008c 04       		.uleb128 0x4
- 208 008d 0C010000 		.4byte	.LASF13
- 209 0091 02       		.byte	0x2
- 210 0092 8E02     		.2byte	0x28e
- 211 0094 98000000 		.4byte	0x98
- 212 0098 05       		.uleb128 0x5
- 213 0099 6B000000 		.4byte	0x6b
- 214 009d 02       		.uleb128 0x2
- 215 009e 08       		.byte	0x8
- 216 009f 04       		.byte	0x4
- 217 00a0 59020000 		.4byte	.LASF14
- 218 00a4 02       		.uleb128 0x2
- 219 00a5 04       		.byte	0x4
- 220 00a6 07       		.byte	0x7
- 221 00a7 2A020000 		.4byte	.LASF15
- 222 00ab 06       		.uleb128 0x6
- 223 00ac 5B000000 		.4byte	.LASF16
- 224 00b0 01       		.byte	0x1
- 225 00b1 2E       		.byte	0x2e
- 226 00b2 00000000 		.4byte	.LFB0
- 227 00b6 14000000 		.4byte	.LFE0-.LFB0
- 228 00ba 01       		.uleb128 0x1
- 229 00bb 9C       		.byte	0x9c
- 230 00bc E5000000 		.4byte	0xe5
- 231 00c0 07       		.uleb128 0x7
- 232 00c1 06000000 		.4byte	.LVL0
- 233 00c5 54010000 		.4byte	0x154
- 234 00c9 07       		.uleb128 0x7
- 235 00ca 0A000000 		.4byte	.LVL1
- 236 00ce 5F010000 		.4byte	0x15f
- 237 00d2 07       		.uleb128 0x7
- 238 00d3 0E000000 		.4byte	.LVL2
- 239 00d7 6A010000 		.4byte	0x16a
- 240 00db 07       		.uleb128 0x7
- 241 00dc 12000000 		.4byte	.LVL3
- 242 00e0 75010000 		.4byte	0x175
- 243 00e4 00       		.byte	0
- 244 00e5 06       		.uleb128 0x6
- 245 00e6 98010000 		.4byte	.LASF17
- 246 00ea 01       		.byte	0x1
- 247 00eb 4F       		.byte	0x4f
- 248 00ec 00000000 		.4byte	.LFB1
- 249 00f0 24000000 		.4byte	.LFE1-.LFB1
- 250 00f4 01       		.uleb128 0x1
- 251 00f5 9C       		.byte	0x9c
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 8
+ 193 004a 07       		.byte	0x7
+ 194 004b 8A000000 		.4byte	.LASF5
+ 195 004f 02       		.uleb128 0x2
+ 196 0050 08       		.byte	0x8
+ 197 0051 05       		.byte	0x5
+ 198 0052 00000000 		.4byte	.LASF6
+ 199 0056 02       		.uleb128 0x2
+ 200 0057 08       		.byte	0x8
+ 201 0058 07       		.byte	0x7
+ 202 0059 9C000000 		.4byte	.LASF7
+ 203 005d 03       		.uleb128 0x3
+ 204 005e 04       		.byte	0x4
+ 205 005f 05       		.byte	0x5
+ 206 0060 696E7400 		.ascii	"int\000"
+ 207 0064 02       		.uleb128 0x2
+ 208 0065 04       		.byte	0x4
+ 209 0066 07       		.byte	0x7
+ 210 0067 0E000000 		.4byte	.LASF8
+ 211 006b 04       		.uleb128 0x4
+ 212 006c 84000000 		.4byte	.LASF12
+ 213 0070 02       		.byte	0x2
+ 214 0071 E401     		.2byte	0x1e4
+ 215 0073 2C000000 		.4byte	0x2c
+ 216 0077 02       		.uleb128 0x2
+ 217 0078 04       		.byte	0x4
+ 218 0079 04       		.byte	0x4
+ 219 007a C7000000 		.4byte	.LASF9
+ 220 007e 02       		.uleb128 0x2
+ 221 007f 08       		.byte	0x8
+ 222 0080 04       		.byte	0x4
+ 223 0081 AB010000 		.4byte	.LASF10
+ 224 0085 02       		.uleb128 0x2
+ 225 0086 01       		.byte	0x1
+ 226 0087 08       		.byte	0x8
+ 227 0088 69010000 		.4byte	.LASF11
+ 228 008c 04       		.uleb128 0x4
+ 229 008d E7010000 		.4byte	.LASF13
+ 230 0091 02       		.byte	0x2
+ 231 0092 8E02     		.2byte	0x28e
+ 232 0094 98000000 		.4byte	0x98
+ 233 0098 05       		.uleb128 0x5
+ 234 0099 6B000000 		.4byte	0x6b
+ 235 009d 02       		.uleb128 0x2
+ 236 009e 08       		.byte	0x8
+ 237 009f 04       		.byte	0x4
+ 238 00a0 D1010000 		.4byte	.LASF14
+ 239 00a4 02       		.uleb128 0x2
+ 240 00a5 04       		.byte	0x4
+ 241 00a6 07       		.byte	0x7
+ 242 00a7 EC010000 		.4byte	.LASF15
+ 243 00ab 06       		.uleb128 0x6
+ 244 00ac 9C010000 		.4byte	.LASF16
+ 245 00b0 01       		.byte	0x1
+ 246 00b1 2E       		.byte	0x2e
+ 247 00b2 00000000 		.4byte	.LFB0
+ 248 00b6 18000000 		.4byte	.LFE0-.LFB0
+ 249 00ba 01       		.uleb128 0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccLyC7Ii.s 			page 8
 
 
- 252 00f6 32010000 		.4byte	0x132
- 253 00fa 07       		.uleb128 0x7
- 254 00fb 06000000 		.4byte	.LVL4
- 255 00ff 80010000 		.4byte	0x180
- 256 0103 07       		.uleb128 0x7
- 257 0104 0A000000 		.4byte	.LVL5
- 258 0108 8B010000 		.4byte	0x18b
- 259 010c 07       		.uleb128 0x7
- 260 010d 0E000000 		.4byte	.LVL6
- 261 0111 96010000 		.4byte	0x196
- 262 0115 08       		.uleb128 0x8
- 263 0116 14000000 		.4byte	.LVL7
- 264 011a A1010000 		.4byte	0x1a1
- 265 011e 28010000 		.4byte	0x128
- 266 0122 09       		.uleb128 0x9
- 267 0123 01       		.uleb128 0x1
- 268 0124 50       		.byte	0x50
- 269 0125 01       		.uleb128 0x1
- 270 0126 3A       		.byte	0x3a
- 271 0127 00       		.byte	0
- 272 0128 07       		.uleb128 0x7
- 273 0129 18000000 		.4byte	.LVL8
- 274 012d AC010000 		.4byte	0x1ac
- 275 0131 00       		.byte	0
- 276 0132 0A       		.uleb128 0xa
- 277 0133 34000000 		.4byte	.LASF18
- 278 0137 01       		.byte	0x1
- 279 0138 79       		.byte	0x79
- 280 0139 00000000 		.4byte	.LFB2
- 281 013d 02000000 		.4byte	.LFE2-.LFB2
- 282 0141 01       		.uleb128 0x1
- 283 0142 9C       		.byte	0x9c
- 284 0143 0A       		.uleb128 0xa
- 285 0144 7A010000 		.4byte	.LASF19
- 286 0148 01       		.byte	0x1
- 287 0149 93       		.byte	0x93
- 288 014a 00000000 		.4byte	.LFB3
- 289 014e 02000000 		.4byte	.LFE3-.LFB3
- 290 0152 01       		.uleb128 0x1
- 291 0153 9C       		.byte	0x9c
- 292 0154 0B       		.uleb128 0xb
- 293 0155 18020000 		.4byte	.LASF20
- 294 0159 18020000 		.4byte	.LASF20
- 295 015d 03       		.byte	0x3
- 296 015e 35       		.byte	0x35
- 297 015f 0B       		.uleb128 0xb
- 298 0160 48000000 		.4byte	.LASF21
- 299 0164 48000000 		.4byte	.LASF21
- 300 0168 03       		.byte	0x3
- 301 0169 48       		.byte	0x48
- 302 016a 0B       		.uleb128 0xb
- 303 016b 10000000 		.4byte	.LASF22
- 304 016f 10000000 		.4byte	.LASF22
- 305 0173 04       		.byte	0x4
- 306 0174 30       		.byte	0x30
- 307 0175 0B       		.uleb128 0xb
- 308 0176 85020000 		.4byte	.LASF23
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 9
+ 250 00bb 9C       		.byte	0x9c
+ 251 00bc 06       		.uleb128 0x6
+ 252 00bd 74000000 		.4byte	.LASF17
+ 253 00c1 01       		.byte	0x1
+ 254 00c2 4F       		.byte	0x4f
+ 255 00c3 00000000 		.4byte	.LFB1
+ 256 00c7 28000000 		.4byte	.LFE1-.LFB1
+ 257 00cb 01       		.uleb128 0x1
+ 258 00cc 9C       		.byte	0x9c
+ 259 00cd 07       		.uleb128 0x7
+ 260 00ce B3000000 		.4byte	.LASF18
+ 261 00d2 01       		.byte	0x1
+ 262 00d3 79       		.byte	0x79
+ 263 00d4 00000000 		.4byte	.LFB2
+ 264 00d8 0C000000 		.4byte	.LFE2-.LFB2
+ 265 00dc 01       		.uleb128 0x1
+ 266 00dd 9C       		.byte	0x9c
+ 267 00de 07       		.uleb128 0x7
+ 268 00df 1B000000 		.4byte	.LASF19
+ 269 00e3 01       		.byte	0x1
+ 270 00e4 93       		.byte	0x93
+ 271 00e5 00000000 		.4byte	.LFB3
+ 272 00e9 0C000000 		.4byte	.LFE3-.LFB3
+ 273 00ed 01       		.uleb128 0x1
+ 274 00ee 9C       		.byte	0x9c
+ 275 00ef 00       		.byte	0
+ 276              		.section	.debug_abbrev,"",%progbits
+ 277              	.Ldebug_abbrev0:
+ 278 0000 01       		.uleb128 0x1
+ 279 0001 11       		.uleb128 0x11
+ 280 0002 01       		.byte	0x1
+ 281 0003 25       		.uleb128 0x25
+ 282 0004 0E       		.uleb128 0xe
+ 283 0005 13       		.uleb128 0x13
+ 284 0006 0B       		.uleb128 0xb
+ 285 0007 03       		.uleb128 0x3
+ 286 0008 0E       		.uleb128 0xe
+ 287 0009 1B       		.uleb128 0x1b
+ 288 000a 0E       		.uleb128 0xe
+ 289 000b 55       		.uleb128 0x55
+ 290 000c 17       		.uleb128 0x17
+ 291 000d 11       		.uleb128 0x11
+ 292 000e 01       		.uleb128 0x1
+ 293 000f 10       		.uleb128 0x10
+ 294 0010 17       		.uleb128 0x17
+ 295 0011 00       		.byte	0
+ 296 0012 00       		.byte	0
+ 297 0013 02       		.uleb128 0x2
+ 298 0014 24       		.uleb128 0x24
+ 299 0015 00       		.byte	0
+ 300 0016 0B       		.uleb128 0xb
+ 301 0017 0B       		.uleb128 0xb
+ 302 0018 3E       		.uleb128 0x3e
+ 303 0019 0B       		.uleb128 0xb
+ 304 001a 03       		.uleb128 0x3
+ 305 001b 0E       		.uleb128 0xe
+ 306 001c 00       		.byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccLyC7Ii.s 			page 9
 
 
- 309 017a 85020000 		.4byte	.LASF23
- 310 017e 05       		.byte	0x5
- 311 017f 28       		.byte	0x28
- 312 0180 0B       		.uleb128 0xb
- 313 0181 29010000 		.4byte	.LASF24
- 314 0185 29010000 		.4byte	.LASF24
- 315 0189 03       		.byte	0x3
- 316 018a 49       		.byte	0x49
- 317 018b 0B       		.uleb128 0xb
- 318 018c 71020000 		.4byte	.LASF25
- 319 0190 71020000 		.4byte	.LASF25
- 320 0194 03       		.byte	0x3
- 321 0195 44       		.byte	0x44
- 322 0196 0B       		.uleb128 0xb
- 323 0197 62010000 		.4byte	.LASF26
- 324 019b 62010000 		.4byte	.LASF26
- 325 019f 05       		.byte	0x5
- 326 01a0 27       		.byte	0x27
- 327 01a1 0B       		.uleb128 0xb
- 328 01a2 A8010000 		.4byte	.LASF27
- 329 01a6 A8010000 		.4byte	.LASF27
- 330 01aa 06       		.byte	0x6
- 331 01ab 77       		.byte	0x77
- 332 01ac 0B       		.uleb128 0xb
- 333 01ad 00000000 		.4byte	.LASF28
- 334 01b1 00000000 		.4byte	.LASF28
- 335 01b5 04       		.byte	0x4
- 336 01b6 2F       		.byte	0x2f
- 337 01b7 00       		.byte	0
- 338              		.section	.debug_abbrev,"",%progbits
- 339              	.Ldebug_abbrev0:
- 340 0000 01       		.uleb128 0x1
- 341 0001 11       		.uleb128 0x11
- 342 0002 01       		.byte	0x1
- 343 0003 25       		.uleb128 0x25
- 344 0004 0E       		.uleb128 0xe
- 345 0005 13       		.uleb128 0x13
- 346 0006 0B       		.uleb128 0xb
- 347 0007 03       		.uleb128 0x3
- 348 0008 0E       		.uleb128 0xe
- 349 0009 1B       		.uleb128 0x1b
- 350 000a 0E       		.uleb128 0xe
- 351 000b 55       		.uleb128 0x55
- 352 000c 17       		.uleb128 0x17
- 353 000d 11       		.uleb128 0x11
- 354 000e 01       		.uleb128 0x1
- 355 000f 10       		.uleb128 0x10
- 356 0010 17       		.uleb128 0x17
- 357 0011 00       		.byte	0
- 358 0012 00       		.byte	0
- 359 0013 02       		.uleb128 0x2
- 360 0014 24       		.uleb128 0x24
- 361 0015 00       		.byte	0
- 362 0016 0B       		.uleb128 0xb
- 363 0017 0B       		.uleb128 0xb
- 364 0018 3E       		.uleb128 0x3e
- 365 0019 0B       		.uleb128 0xb
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 10
+ 307 001d 00       		.byte	0
+ 308 001e 03       		.uleb128 0x3
+ 309 001f 24       		.uleb128 0x24
+ 310 0020 00       		.byte	0
+ 311 0021 0B       		.uleb128 0xb
+ 312 0022 0B       		.uleb128 0xb
+ 313 0023 3E       		.uleb128 0x3e
+ 314 0024 0B       		.uleb128 0xb
+ 315 0025 03       		.uleb128 0x3
+ 316 0026 08       		.uleb128 0x8
+ 317 0027 00       		.byte	0
+ 318 0028 00       		.byte	0
+ 319 0029 04       		.uleb128 0x4
+ 320 002a 16       		.uleb128 0x16
+ 321 002b 00       		.byte	0
+ 322 002c 03       		.uleb128 0x3
+ 323 002d 0E       		.uleb128 0xe
+ 324 002e 3A       		.uleb128 0x3a
+ 325 002f 0B       		.uleb128 0xb
+ 326 0030 3B       		.uleb128 0x3b
+ 327 0031 05       		.uleb128 0x5
+ 328 0032 49       		.uleb128 0x49
+ 329 0033 13       		.uleb128 0x13
+ 330 0034 00       		.byte	0
+ 331 0035 00       		.byte	0
+ 332 0036 05       		.uleb128 0x5
+ 333 0037 35       		.uleb128 0x35
+ 334 0038 00       		.byte	0
+ 335 0039 49       		.uleb128 0x49
+ 336 003a 13       		.uleb128 0x13
+ 337 003b 00       		.byte	0
+ 338 003c 00       		.byte	0
+ 339 003d 06       		.uleb128 0x6
+ 340 003e 2E       		.uleb128 0x2e
+ 341 003f 00       		.byte	0
+ 342 0040 3F       		.uleb128 0x3f
+ 343 0041 19       		.uleb128 0x19
+ 344 0042 03       		.uleb128 0x3
+ 345 0043 0E       		.uleb128 0xe
+ 346 0044 3A       		.uleb128 0x3a
+ 347 0045 0B       		.uleb128 0xb
+ 348 0046 3B       		.uleb128 0x3b
+ 349 0047 0B       		.uleb128 0xb
+ 350 0048 27       		.uleb128 0x27
+ 351 0049 19       		.uleb128 0x19
+ 352 004a 11       		.uleb128 0x11
+ 353 004b 01       		.uleb128 0x1
+ 354 004c 12       		.uleb128 0x12
+ 355 004d 06       		.uleb128 0x6
+ 356 004e 40       		.uleb128 0x40
+ 357 004f 18       		.uleb128 0x18
+ 358 0050 9642     		.uleb128 0x2116
+ 359 0052 19       		.uleb128 0x19
+ 360 0053 00       		.byte	0
+ 361 0054 00       		.byte	0
+ 362 0055 07       		.uleb128 0x7
+ 363 0056 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccLyC7Ii.s 			page 10
 
 
- 366 001a 03       		.uleb128 0x3
- 367 001b 0E       		.uleb128 0xe
- 368 001c 00       		.byte	0
- 369 001d 00       		.byte	0
- 370 001e 03       		.uleb128 0x3
- 371 001f 24       		.uleb128 0x24
- 372 0020 00       		.byte	0
- 373 0021 0B       		.uleb128 0xb
- 374 0022 0B       		.uleb128 0xb
- 375 0023 3E       		.uleb128 0x3e
- 376 0024 0B       		.uleb128 0xb
- 377 0025 03       		.uleb128 0x3
- 378 0026 08       		.uleb128 0x8
- 379 0027 00       		.byte	0
- 380 0028 00       		.byte	0
- 381 0029 04       		.uleb128 0x4
- 382 002a 16       		.uleb128 0x16
- 383 002b 00       		.byte	0
- 384 002c 03       		.uleb128 0x3
- 385 002d 0E       		.uleb128 0xe
- 386 002e 3A       		.uleb128 0x3a
- 387 002f 0B       		.uleb128 0xb
- 388 0030 3B       		.uleb128 0x3b
- 389 0031 05       		.uleb128 0x5
- 390 0032 49       		.uleb128 0x49
- 391 0033 13       		.uleb128 0x13
- 392 0034 00       		.byte	0
- 393 0035 00       		.byte	0
- 394 0036 05       		.uleb128 0x5
- 395 0037 35       		.uleb128 0x35
- 396 0038 00       		.byte	0
- 397 0039 49       		.uleb128 0x49
- 398 003a 13       		.uleb128 0x13
- 399 003b 00       		.byte	0
- 400 003c 00       		.byte	0
- 401 003d 06       		.uleb128 0x6
- 402 003e 2E       		.uleb128 0x2e
- 403 003f 01       		.byte	0x1
- 404 0040 3F       		.uleb128 0x3f
- 405 0041 19       		.uleb128 0x19
- 406 0042 03       		.uleb128 0x3
- 407 0043 0E       		.uleb128 0xe
- 408 0044 3A       		.uleb128 0x3a
- 409 0045 0B       		.uleb128 0xb
- 410 0046 3B       		.uleb128 0x3b
- 411 0047 0B       		.uleb128 0xb
- 412 0048 27       		.uleb128 0x27
- 413 0049 19       		.uleb128 0x19
- 414 004a 11       		.uleb128 0x11
- 415 004b 01       		.uleb128 0x1
- 416 004c 12       		.uleb128 0x12
- 417 004d 06       		.uleb128 0x6
- 418 004e 40       		.uleb128 0x40
- 419 004f 18       		.uleb128 0x18
- 420 0050 9742     		.uleb128 0x2117
- 421 0052 19       		.uleb128 0x19
- 422 0053 01       		.uleb128 0x1
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 11
+ 364 0057 00       		.byte	0
+ 365 0058 3F       		.uleb128 0x3f
+ 366 0059 19       		.uleb128 0x19
+ 367 005a 03       		.uleb128 0x3
+ 368 005b 0E       		.uleb128 0xe
+ 369 005c 3A       		.uleb128 0x3a
+ 370 005d 0B       		.uleb128 0xb
+ 371 005e 3B       		.uleb128 0x3b
+ 372 005f 0B       		.uleb128 0xb
+ 373 0060 27       		.uleb128 0x27
+ 374 0061 19       		.uleb128 0x19
+ 375 0062 11       		.uleb128 0x11
+ 376 0063 01       		.uleb128 0x1
+ 377 0064 12       		.uleb128 0x12
+ 378 0065 06       		.uleb128 0x6
+ 379 0066 40       		.uleb128 0x40
+ 380 0067 18       		.uleb128 0x18
+ 381 0068 9742     		.uleb128 0x2117
+ 382 006a 19       		.uleb128 0x19
+ 383 006b 00       		.byte	0
+ 384 006c 00       		.byte	0
+ 385 006d 00       		.byte	0
+ 386              		.section	.debug_aranges,"",%progbits
+ 387 0000 34000000 		.4byte	0x34
+ 388 0004 0200     		.2byte	0x2
+ 389 0006 00000000 		.4byte	.Ldebug_info0
+ 390 000a 04       		.byte	0x4
+ 391 000b 00       		.byte	0
+ 392 000c 0000     		.2byte	0
+ 393 000e 0000     		.2byte	0
+ 394 0010 00000000 		.4byte	.LFB0
+ 395 0014 18000000 		.4byte	.LFE0-.LFB0
+ 396 0018 00000000 		.4byte	.LFB1
+ 397 001c 28000000 		.4byte	.LFE1-.LFB1
+ 398 0020 00000000 		.4byte	.LFB2
+ 399 0024 0C000000 		.4byte	.LFE2-.LFB2
+ 400 0028 00000000 		.4byte	.LFB3
+ 401 002c 0C000000 		.4byte	.LFE3-.LFB3
+ 402 0030 00000000 		.4byte	0
+ 403 0034 00000000 		.4byte	0
+ 404              		.section	.debug_ranges,"",%progbits
+ 405              	.Ldebug_ranges0:
+ 406 0000 00000000 		.4byte	.LFB0
+ 407 0004 18000000 		.4byte	.LFE0
+ 408 0008 00000000 		.4byte	.LFB1
+ 409 000c 28000000 		.4byte	.LFE1
+ 410 0010 00000000 		.4byte	.LFB2
+ 411 0014 0C000000 		.4byte	.LFE2
+ 412 0018 00000000 		.4byte	.LFB3
+ 413 001c 0C000000 		.4byte	.LFE3
+ 414 0020 00000000 		.4byte	0
+ 415 0024 00000000 		.4byte	0
+ 416              		.section	.debug_line,"",%progbits
+ 417              	.Ldebug_line0:
+ 418 0000 9B000000 		.section	.debug_str,"MS",%progbits,1
+ 418      02004800 
+ 418      00000201 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccLyC7Ii.s 			page 11
 
 
- 423 0054 13       		.uleb128 0x13
- 424 0055 00       		.byte	0
- 425 0056 00       		.byte	0
- 426 0057 07       		.uleb128 0x7
- 427 0058 898201   		.uleb128 0x4109
- 428 005b 00       		.byte	0
- 429 005c 11       		.uleb128 0x11
- 430 005d 01       		.uleb128 0x1
- 431 005e 31       		.uleb128 0x31
- 432 005f 13       		.uleb128 0x13
- 433 0060 00       		.byte	0
- 434 0061 00       		.byte	0
- 435 0062 08       		.uleb128 0x8
- 436 0063 898201   		.uleb128 0x4109
- 437 0066 01       		.byte	0x1
- 438 0067 11       		.uleb128 0x11
- 439 0068 01       		.uleb128 0x1
- 440 0069 31       		.uleb128 0x31
- 441 006a 13       		.uleb128 0x13
- 442 006b 01       		.uleb128 0x1
- 443 006c 13       		.uleb128 0x13
- 444 006d 00       		.byte	0
- 445 006e 00       		.byte	0
- 446 006f 09       		.uleb128 0x9
- 447 0070 8A8201   		.uleb128 0x410a
- 448 0073 00       		.byte	0
- 449 0074 02       		.uleb128 0x2
- 450 0075 18       		.uleb128 0x18
- 451 0076 9142     		.uleb128 0x2111
- 452 0078 18       		.uleb128 0x18
- 453 0079 00       		.byte	0
- 454 007a 00       		.byte	0
- 455 007b 0A       		.uleb128 0xa
- 456 007c 2E       		.uleb128 0x2e
- 457 007d 00       		.byte	0
- 458 007e 3F       		.uleb128 0x3f
- 459 007f 19       		.uleb128 0x19
- 460 0080 03       		.uleb128 0x3
- 461 0081 0E       		.uleb128 0xe
- 462 0082 3A       		.uleb128 0x3a
- 463 0083 0B       		.uleb128 0xb
- 464 0084 3B       		.uleb128 0x3b
- 465 0085 0B       		.uleb128 0xb
- 466 0086 27       		.uleb128 0x27
- 467 0087 19       		.uleb128 0x19
- 468 0088 11       		.uleb128 0x11
- 469 0089 01       		.uleb128 0x1
- 470 008a 12       		.uleb128 0x12
- 471 008b 06       		.uleb128 0x6
- 472 008c 40       		.uleb128 0x40
- 473 008d 18       		.uleb128 0x18
- 474 008e 9742     		.uleb128 0x2117
- 475 0090 19       		.uleb128 0x19
- 476 0091 00       		.byte	0
- 477 0092 00       		.byte	0
- 478 0093 0B       		.uleb128 0xb
- 479 0094 2E       		.uleb128 0x2e
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 12
+ 418      FB0E0D00 
+ 418      01010101 
+ 419              	.LASF6:
+ 420 0000 6C6F6E67 		.ascii	"long long int\000"
+ 420      206C6F6E 
+ 420      6720696E 
+ 420      7400
+ 421              	.LASF8:
+ 422 000e 756E7369 		.ascii	"unsigned int\000"
+ 422      676E6564 
+ 422      20696E74 
+ 422      00
+ 423              	.LASF19:
+ 424 001b 53656174 		.ascii	"Seat_ADC_RestoreConfig\000"
+ 424      5F414443 
+ 424      5F526573 
+ 424      746F7265 
+ 424      436F6E66 
+ 425              	.LASF22:
+ 426 0032 433A5C55 		.ascii	"C:\\Users\\jebush2\\Desktop\\PSoC 3-19-2019\\Smart "
+ 426      73657273 
+ 426      5C6A6562 
+ 426      75736832 
+ 426      5C446573 
+ 427 0060 42696B65 		.ascii	"Bike PSoC\\IMU.cydsn\000"
+ 427      2050536F 
+ 427      435C494D 
+ 427      552E6379 
+ 427      64736E00 
+ 428              	.LASF17:
+ 429 0074 53656174 		.ascii	"Seat_ADC_Wakeup\000"
+ 429      5F414443 
+ 429      5F57616B 
+ 429      65757000 
+ 430              	.LASF12:
+ 431 0084 75696E74 		.ascii	"uint8\000"
+ 431      3800
+ 432              	.LASF5:
+ 433 008a 6C6F6E67 		.ascii	"long unsigned int\000"
+ 433      20756E73 
+ 433      69676E65 
+ 433      6420696E 
+ 433      7400
+ 434              	.LASF7:
+ 435 009c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 435      206C6F6E 
+ 435      6720756E 
+ 435      7369676E 
+ 435      65642069 
+ 436              	.LASF18:
+ 437 00b3 53656174 		.ascii	"Seat_ADC_SaveConfig\000"
+ 437      5F414443 
+ 437      5F536176 
+ 437      65436F6E 
+ 437      66696700 
+ 438              	.LASF9:
+ 439 00c7 666C6F61 		.ascii	"float\000"
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccLyC7Ii.s 			page 12
 
 
- 480 0095 00       		.byte	0
- 481 0096 3F       		.uleb128 0x3f
- 482 0097 19       		.uleb128 0x19
- 483 0098 3C       		.uleb128 0x3c
- 484 0099 19       		.uleb128 0x19
- 485 009a 6E       		.uleb128 0x6e
- 486 009b 0E       		.uleb128 0xe
- 487 009c 03       		.uleb128 0x3
- 488 009d 0E       		.uleb128 0xe
- 489 009e 3A       		.uleb128 0x3a
- 490 009f 0B       		.uleb128 0xb
- 491 00a0 3B       		.uleb128 0x3b
- 492 00a1 0B       		.uleb128 0xb
- 493 00a2 00       		.byte	0
- 494 00a3 00       		.byte	0
- 495 00a4 00       		.byte	0
- 496              		.section	.debug_aranges,"",%progbits
- 497 0000 34000000 		.4byte	0x34
- 498 0004 0200     		.2byte	0x2
- 499 0006 00000000 		.4byte	.Ldebug_info0
- 500 000a 04       		.byte	0x4
- 501 000b 00       		.byte	0
- 502 000c 0000     		.2byte	0
- 503 000e 0000     		.2byte	0
- 504 0010 00000000 		.4byte	.LFB0
- 505 0014 14000000 		.4byte	.LFE0-.LFB0
- 506 0018 00000000 		.4byte	.LFB1
- 507 001c 24000000 		.4byte	.LFE1-.LFB1
- 508 0020 00000000 		.4byte	.LFB2
- 509 0024 02000000 		.4byte	.LFE2-.LFB2
- 510 0028 00000000 		.4byte	.LFB3
- 511 002c 02000000 		.4byte	.LFE3-.LFB3
- 512 0030 00000000 		.4byte	0
- 513 0034 00000000 		.4byte	0
- 514              		.section	.debug_ranges,"",%progbits
- 515              	.Ldebug_ranges0:
- 516 0000 00000000 		.4byte	.LFB0
- 517 0004 14000000 		.4byte	.LFE0
- 518 0008 00000000 		.4byte	.LFB1
- 519 000c 24000000 		.4byte	.LFE1
- 520 0010 00000000 		.4byte	.LFB2
- 521 0014 02000000 		.4byte	.LFE2
- 522 0018 00000000 		.4byte	.LFB3
- 523 001c 02000000 		.4byte	.LFE3
- 524 0020 00000000 		.4byte	0
- 525 0024 00000000 		.4byte	0
- 526              		.section	.debug_line,"",%progbits
- 527              	.Ldebug_line0:
- 528 0000 D9000000 		.section	.debug_str,"MS",%progbits,1
- 528      02008A00 
- 528      00000201 
- 528      FB0E0D00 
- 528      01010101 
- 529              	.LASF28:
- 530 0000 53656174 		.ascii	"Seat_ADC_Enable\000"
- 530      5F414443 
- 530      5F456E61 
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 13
+ 439      7400
+ 440              	.LASF20:
+ 441 00cd 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 441      43313120 
+ 441      352E342E 
+ 441      31203230 
+ 441      31363036 
+ 442 0100 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 442      20726576 
+ 442      6973696F 
+ 442      6E203233 
+ 442      37373135 
+ 443 0133 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 443      66756E63 
+ 443      74696F6E 
+ 443      2D736563 
+ 443      74696F6E 
+ 444              	.LASF1:
+ 445 015b 756E7369 		.ascii	"unsigned char\000"
+ 445      676E6564 
+ 445      20636861 
+ 445      7200
+ 446              	.LASF11:
+ 447 0169 63686172 		.ascii	"char\000"
+ 447      00
+ 448              	.LASF4:
+ 449 016e 6C6F6E67 		.ascii	"long int\000"
+ 449      20696E74 
+ 449      00
+ 450              	.LASF21:
+ 451 0177 47656E65 		.ascii	"Generated_Source\\PSoC5\\Seat_ADC_PM.c\000"
+ 451      72617465 
+ 451      645F536F 
+ 451      75726365 
+ 451      5C50536F 
+ 452              	.LASF16:
+ 453 019c 53656174 		.ascii	"Seat_ADC_Sleep\000"
+ 453      5F414443 
+ 453      5F536C65 
+ 453      657000
+ 454              	.LASF10:
+ 455 01ab 646F7562 		.ascii	"double\000"
+ 455      6C6500
+ 456              	.LASF3:
+ 457 01b2 73686F72 		.ascii	"short unsigned int\000"
+ 457      7420756E 
+ 457      7369676E 
+ 457      65642069 
+ 457      6E7400
+ 458              	.LASF0:
+ 459 01c5 7369676E 		.ascii	"signed char\000"
+ 459      65642063 
+ 459      68617200 
+ 460              	.LASF14:
+ 461 01d1 6C6F6E67 		.ascii	"long double\000"
+ 461      20646F75 
+ 461      626C6500 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccLyC7Ii.s 			page 13
 
 
- 530      626C6500 
- 531              	.LASF22:
- 532 0010 53656174 		.ascii	"Seat_ADC_Disable\000"
- 532      5F414443 
- 532      5F446973 
- 532      61626C65 
- 532      00
- 533              	.LASF3:
- 534 0021 73686F72 		.ascii	"short unsigned int\000"
- 534      7420756E 
- 534      7369676E 
- 534      65642069 
- 534      6E7400
- 535              	.LASF18:
- 536 0034 53656174 		.ascii	"Seat_ADC_SaveConfig\000"
- 536      5F414443 
- 536      5F536176 
- 536      65436F6E 
- 536      66696700 
- 537              	.LASF21:
- 538 0048 53656174 		.ascii	"Seat_ADC_SAR_Sleep\000"
- 538      5F414443 
- 538      5F534152 
- 538      5F536C65 
- 538      657000
- 539              	.LASF16:
- 540 005b 53656174 		.ascii	"Seat_ADC_Sleep\000"
- 540      5F414443 
- 540      5F536C65 
- 540      657000
- 541              	.LASF9:
- 542 006a 666C6F61 		.ascii	"float\000"
- 542      7400
- 543              	.LASF1:
- 544 0070 756E7369 		.ascii	"unsigned char\000"
- 544      676E6564 
- 544      20636861 
- 544      7200
- 545              	.LASF29:
- 546 007e 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
- 546      43313120 
- 546      352E342E 
- 546      31203230 
- 546      31363036 
- 547 00b1 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
- 547      20726576 
- 547      6973696F 
- 547      6E203233 
- 547      37373135 
- 548 00e4 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
- 548      66756E63 
- 548      74696F6E 
- 548      2D736563 
- 548      74696F6E 
- 549              	.LASF13:
- 550 010c 72656738 		.ascii	"reg8\000"
- 550      00
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 14
-
-
- 551              	.LASF5:
- 552 0111 6C6F6E67 		.ascii	"long unsigned int\000"
- 552      20756E73 
- 552      69676E65 
- 552      6420696E 
- 552      7400
- 553              	.LASF12:
- 554 0123 75696E74 		.ascii	"uint8\000"
- 554      3800
- 555              	.LASF24:
- 556 0129 53656174 		.ascii	"Seat_ADC_SAR_Wakeup\000"
- 556      5F414443 
- 556      5F534152 
- 556      5F57616B 
- 556      65757000 
- 557              	.LASF30:
- 558 013d 47656E65 		.ascii	"Generated_Source\\PSoC5\\Seat_ADC_PM.c\000"
- 558      72617465 
- 558      645F536F 
- 558      75726365 
- 558      5C50536F 
- 559              	.LASF26:
- 560 0162 53656174 		.ascii	"Seat_ADC_IntClock_Start\000"
- 560      5F414443 
- 560      5F496E74 
- 560      436C6F63 
- 560      6B5F5374 
- 561              	.LASF19:
- 562 017a 53656174 		.ascii	"Seat_ADC_RestoreConfig\000"
- 562      5F414443 
- 562      5F526573 
- 562      746F7265 
- 562      436F6E66 
- 563              	.LASF10:
- 564 0191 646F7562 		.ascii	"double\000"
- 564      6C6500
- 565              	.LASF17:
- 566 0198 53656174 		.ascii	"Seat_ADC_Wakeup\000"
- 566      5F414443 
- 566      5F57616B 
- 566      65757000 
- 567              	.LASF27:
- 568 01a8 43794465 		.ascii	"CyDelayUs\000"
- 568      6C617955 
- 568      7300
- 569              	.LASF8:
- 570 01b2 756E7369 		.ascii	"unsigned int\000"
- 570      676E6564 
- 570      20696E74 
- 570      00
- 571              	.LASF7:
- 572 01bf 6C6F6E67 		.ascii	"long long unsigned int\000"
- 572      206C6F6E 
- 572      6720756E 
- 572      7369676E 
- 572      65642069 
- 573              	.LASF31:
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 15
-
-
- 574 01d6 433A5C55 		.ascii	"C:\\Users\\jebush2\\Desktop\\PSoC 3-19-2019\\Smart "
- 574      73657273 
- 574      5C6A6562 
- 574      75736832 
- 574      5C446573 
- 575 0204 42696B65 		.ascii	"Bike PSoC\\IMU.cydsn\000"
- 575      2050536F 
- 575      435C494D 
- 575      552E6379 
- 575      64736E00 
- 576              	.LASF20:
- 577 0218 53656174 		.ascii	"Seat_ADC_SAR_Stop\000"
- 577      5F414443 
- 577      5F534152 
- 577      5F53746F 
- 577      7000
- 578              	.LASF15:
- 579 022a 73697A65 		.ascii	"sizetype\000"
- 579      74797065 
- 579      00
- 580              	.LASF6:
- 581 0233 6C6F6E67 		.ascii	"long long int\000"
- 581      206C6F6E 
- 581      6720696E 
- 581      7400
- 582              	.LASF11:
- 583 0241 63686172 		.ascii	"char\000"
- 583      00
- 584              	.LASF2:
- 585 0246 73686F72 		.ascii	"short int\000"
- 585      7420696E 
- 585      7400
- 586              	.LASF4:
- 587 0250 6C6F6E67 		.ascii	"long int\000"
- 587      20696E74 
- 587      00
- 588              	.LASF14:
- 589 0259 6C6F6E67 		.ascii	"long double\000"
- 589      20646F75 
- 589      626C6500 
- 590              	.LASF0:
- 591 0265 7369676E 		.ascii	"signed char\000"
- 591      65642063 
- 591      68617200 
- 592              	.LASF25:
- 593 0271 53656174 		.ascii	"Seat_ADC_SAR_Enable\000"
- 593      5F414443 
- 593      5F534152 
- 593      5F456E61 
- 593      626C6500 
- 594              	.LASF23:
- 595 0285 53656174 		.ascii	"Seat_ADC_IntClock_Stop\000"
- 595      5F414443 
- 595      5F496E74 
- 595      436C6F63 
- 595      6B5F5374 
- 596              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc8J7Rg.s 			page 16
-
-
+ 462              	.LASF2:
+ 463 01dd 73686F72 		.ascii	"short int\000"
+ 463      7420696E 
+ 463      7400
+ 464              	.LASF13:
+ 465 01e7 72656738 		.ascii	"reg8\000"
+ 465      00
+ 466              	.LASF15:
+ 467 01ec 73697A65 		.ascii	"sizetype\000"
+ 467      74797065 
+ 467      00
+ 468              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

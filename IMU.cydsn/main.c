@@ -69,19 +69,26 @@ int main(void)
     Sample_Interrupt_StartEx(sample_isr);
     Sample_Timer_Start();
     
-    char output[40];
+    char output[80];
     
+    I2C_Enable();
+    I2C_Start();
+    CyDelay(1000);
+    LED_Write(1);
+    bno_init(OPERATION_MODE_IMUPLUS);
     
-    bno_init();
-    
-    
+    euler_angles orientation;
     for(;;)
     {
         
-        bno_update();
-        LED_Write(0);
-        sprintf(output, "h: %3.3f, r: %3.3f, p: %3.3f\n\r", orientation.yaw, orientation.roll, orientation.pitch);
+        bno_update(&orientation);
+        uint8 opr_mode = bno_read(BNO055_OPR_MODE_ADDR);
+        
+        
+        sprintf(output, "h: %6.3f, r: %6.3f, p: %6.3f, mode: %u\r", orientation.yaw, orientation.roll, orientation.pitch, opr_mode);
+        
         USBUART_PutString(output);
+        LED_Write(!LED_Read());
         CyDelay(100);
 //        if (take_sample) {
 //            int32 accumulator[3];

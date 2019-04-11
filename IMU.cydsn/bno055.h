@@ -236,7 +236,7 @@ typedef struct {
 } euler_angles;
 
 
-void bno_init();
+int bno_init(uint8 mode);
 
 /* writes a single byte register */
 void bno_write(uint8 reg, uint8 data);
@@ -247,9 +247,9 @@ uint8 bno_read(uint8 reg);
 /* read data register into rdData buffer */
 void bno_readbuf(uint8 reg, uint8 * rdData, uint8 cnt);
 
-void bno_update();
+void bno_update(euler_angles * angles);
 
-extern volatile euler_angles orientation;
+//extern volatile euler_angles orientation;
 
 
 /* [] END OF FILE */
