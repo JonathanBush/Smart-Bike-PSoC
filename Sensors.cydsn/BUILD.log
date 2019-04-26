@@ -1,15 +1,181 @@
---------------- Build Started: 03/08/2018 11:27:30 Project: Sensors, Configuration: ARM GCC 5.4-2016-q2-update Release ---------------
-The code generation step is up to date.
-arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Release/main.lst -g -D NDEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Os -c main.c -o .\CortexM3\ARM_GCC_541\Release\main.o
+--------------- Build Started: 04/18/2019 10:06:06 Project: Sensors, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+cydsfit.exe -.appdatapath "C:\Users\jebush2\AppData\Local\Cypress Semiconductor\PSoC Creator\4.2" -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p "C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\Sensors.cyprj" -d CY8C5888LTI-LP097 -s "C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\Generated_Source\PSoC5" -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
+Elaborating Design...
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm7" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_256)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.13)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm6" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_255)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.12)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm8" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_257)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.14)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm9" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_258)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.15)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm5" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_254)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.11)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm4" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_253)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.10)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm12" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_272)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.18)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm13" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_273)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.19)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm14" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_274)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.20)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm15" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_275)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.21)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm11" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_271)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.17)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm10" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_270)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.16)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm9" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_269)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.15)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm8" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_268)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.14)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm7" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_267)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.13)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm6" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_266)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.12)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm5" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_265)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.11)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm4" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_264)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.10)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm3" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_262)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.9)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm2" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_261)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.8)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm1" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_260)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.7)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm0" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_259)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.6)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm3" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_251)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.9)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm2" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_250)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.8)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm1" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_249)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.7)
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm0" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_248)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.6)
+HDL Generation...
+Synthesis...
+Tech Mapping...
+ADD: pft.M0040: information: The following 1 pin(s) will be assigned a location by the fitter: RearHall_Pin(0)
+Analog Placement...
+Info: apr.M0002: Analog signal "Net_248" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_249" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_250" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_251" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_253" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_254" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_255" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_256" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_257" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_258" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_259" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_260" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_261" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_262" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_264" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_265" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_266" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_267" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_268" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_269" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_270" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_271" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_272" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_273" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_274" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_275" is connected to one terminal only. (App=cydsfit)
+Log: apr.M0058: The analog placement iterative improvement is 44% done. (App=cydsfit)
+Analog Routing...
+Analog Code Generation...
+Digital Placement...
+Digital Routing...
+Bitstream Generation...
+Bitstream Verification...
+Static timing analysis...
+API Generation...
+Dependency Generation...
+Cleanup...
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/main.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c main.c -o .\CortexM3\ARM_GCC_541\Debug\main.o
 main.c: In function 'main':
 main.c:34:10: warning: unused variable 'sendStr' [-Wunused-variable]
      char sendStr[50];
           ^
-arm-none-eabi-ar.exe -rs .\CortexM3\ARM_GCC_541\Release\Sensors.a .\CortexM3\ARM_GCC_541\Release\USBUART_1.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_audio.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_boot.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_cdc.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_cls.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_descr.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_drv.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_episr.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_hid.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_pm.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_std.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_vnd.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_midi.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_msc.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_Dm.o .\CortexM3\ARM_GCC_541\Release\USBUART_1_Dp.o .\CortexM3\ARM_GCC_541\Release\CyDmac.o .\CortexM3\ARM_GCC_541\Release\CyFlash.o .\CortexM3\ARM_GCC_541\Release\CyLib.o .\CortexM3\ARM_GCC_541\Release\cyPm.o .\CortexM3\ARM_GCC_541\Release\CySpc.o .\CortexM3\ARM_GCC_541\Release\cyutils.o .\CortexM3\ARM_GCC_541\Release\Timer.o .\CortexM3\ARM_GCC_541\Release\Timer_PM.o .\CortexM3\ARM_GCC_541\Release\RearHall_Pin.o .\CortexM3\ARM_GCC_541\Release\Clock_2.o .\CortexM3\ARM_GCC_541\Release\Clock_3.o .\CortexM3\ARM_GCC_541\Release\Hall_Interrupt.o .\CortexM3\ARM_GCC_541\Release\CyBootAsmGnu.o
-arm-none-eabi-ar.exe: creating .\CortexM3\ARM_GCC_541\Release\Sensors.a
-arm-none-eabi-gcc.exe -Wl,--start-group -o "C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\CortexM3\ARM_GCC_541\Release\Sensors.elf" .\CortexM3\ARM_GCC_541\Release\main.o .\CortexM3\ARM_GCC_541\Release\pressure_pad.o .\CortexM3\ARM_GCC_541\Release\cyfitter_cfg.o .\CortexM3\ARM_GCC_541\Release\cymetadata.o .\CortexM3\ARM_GCC_541\Release\Cm3Start.o .\CortexM3\ARM_GCC_541\Release\Sensors.a "C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CortexM3\ARM_GCC_541\Release\CyComponentLibrary.a" -mcpu=cortex-m3 -mthumb -L Generated_Source\PSoC5 -Wl,-Map,.\CortexM3\ARM_GCC_541\Release/Sensors.map -T Generated_Source\PSoC5\cm3gcc.ld -specs=nano.specs -Wl,--gc-sections -g -ffunction-sections -Os -ffat-lto-objects -Wl,--end-group
-cyelftool.exe -C "C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\CortexM3\ARM_GCC_541\Release\Sensors.elf" --flash_row_size 256 --flash_size 262144 --flash_offset 0x00000000
-cyelftool.exe -S "C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\CortexM3\ARM_GCC_541\Release\Sensors.elf"
-Flash used: 6576 of 262144 bytes (2.5%).
-SRAM used: 2753 of 65536 bytes (4.2%). Stack: 2048 bytes. Heap: 128 bytes.
---------------- Build Succeeded: 03/08/2018 11:27:37 ---------------
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/pressure_pad.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c pressure_pad.c -o .\CortexM3\ARM_GCC_541\Debug\pressure_pad.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/cyfitter_cfg.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\cyfitter_cfg.c -o .\CortexM3\ARM_GCC_541\Debug\cyfitter_cfg.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/cymetadata.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\cymetadata.c -o .\CortexM3\ARM_GCC_541\Debug\cymetadata.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_audio.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_audio.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_audio.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_boot.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_boot.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_boot.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_cdc.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_cdc.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_cdc.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_cls.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_cls.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_cls.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_descr.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_descr.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_descr.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_drv.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_drv.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_drv.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_episr.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_episr.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_episr.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_hid.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_hid.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_hid.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_pm.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_pm.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_pm.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_std.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_std.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_std.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_vnd.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_vnd.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_vnd.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_midi.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_midi.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_midi.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_msc.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_msc.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_msc.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_Dm.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_Dm.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_Dm.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/USBUART_1_Dp.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\USBUART_1_Dp.c -o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_Dp.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/Cm3Start.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\Cm3Start.c -o .\CortexM3\ARM_GCC_541\Debug\Cm3Start.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/CyDmac.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\CyDmac.c -o .\CortexM3\ARM_GCC_541\Debug\CyDmac.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/CyFlash.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\CyFlash.c -o .\CortexM3\ARM_GCC_541\Debug\CyFlash.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/CyLib.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\CyLib.c -o .\CortexM3\ARM_GCC_541\Debug\CyLib.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/cyPm.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\cyPm.c -o .\CortexM3\ARM_GCC_541\Debug\cyPm.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/CySpc.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\CySpc.c -o .\CortexM3\ARM_GCC_541\Debug\CySpc.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/cyutils.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\cyutils.c -o .\CortexM3\ARM_GCC_541\Debug\cyutils.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/Timer.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\Timer.c -o .\CortexM3\ARM_GCC_541\Debug\Timer.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/Timer_PM.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\Timer_PM.c -o .\CortexM3\ARM_GCC_541\Debug\Timer_PM.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/RearHall_Pin.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\RearHall_Pin.c -o .\CortexM3\ARM_GCC_541\Debug\RearHall_Pin.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/Clock_2.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\Clock_2.c -o .\CortexM3\ARM_GCC_541\Debug\Clock_2.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/Clock_3.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\Clock_3.c -o .\CortexM3\ARM_GCC_541\Debug\Clock_3.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/Hall_Interrupt.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\Hall_Interrupt.c -o .\CortexM3\ARM_GCC_541\Debug\Hall_Interrupt.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/Resistor_Pin.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\Resistor_Pin.c -o .\CortexM3\ARM_GCC_541\Debug\Resistor_Pin.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/AMuxSeq_2.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\AMuxSeq_2.c -o .\CortexM3\ARM_GCC_541\Debug\AMuxSeq_2.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/ADC_SAR_1.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\ADC_SAR_1.c -o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/ADC_SAR_1_INT.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\ADC_SAR_1_INT.c -o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1_INT.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/ADC_SAR_1_PM.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\ADC_SAR_1_PM.c -o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1_PM.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/AMuxSeq_1.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\AMuxSeq_1.c -o .\CortexM3\ARM_GCC_541\Debug\AMuxSeq_1.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/ADC_SAR_1_IRQ.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\ADC_SAR_1_IRQ.c -o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1_IRQ.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/ADC_SAR_1_theACLK.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\ADC_SAR_1_theACLK.c -o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1_theACLK.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/cy_em_eeprom.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC5\cy_em_eeprom.c -o .\CortexM3\ARM_GCC_541\Debug\cy_em_eeprom.o
+arm-none-eabi-as.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -alh=.\CortexM3\ARM_GCC_541\Debug/CyBootAsmGnu.lst -g -W -o .\CortexM3\ARM_GCC_541\Debug\CyBootAsmGnu.o Generated_Source\PSoC5\CyBootAsmGnu.s
+arm-none-eabi-ar.exe -rs .\CortexM3\ARM_GCC_541\Debug\Sensors.a .\CortexM3\ARM_GCC_541\Debug\USBUART_1.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_audio.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_boot.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_cdc.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_cls.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_descr.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_drv.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_episr.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_hid.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_pm.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_std.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_vnd.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_midi.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_msc.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_Dm.o .\CortexM3\ARM_GCC_541\Debug\USBUART_1_Dp.o .\CortexM3\ARM_GCC_541\Debug\CyDmac.o .\CortexM3\ARM_GCC_541\Debug\CyFlash.o .\CortexM3\ARM_GCC_541\Debug\CyLib.o .\CortexM3\ARM_GCC_541\Debug\cyPm.o .\CortexM3\ARM_GCC_541\Debug\CySpc.o .\CortexM3\ARM_GCC_541\Debug\cyutils.o .\CortexM3\ARM_GCC_541\Debug\Timer.o .\CortexM3\ARM_GCC_541\Debug\Timer_PM.o .\CortexM3\ARM_GCC_541\Debug\RearHall_Pin.o .\CortexM3\ARM_GCC_541\Debug\Clock_2.o .\CortexM3\ARM_GCC_541\Debug\Clock_3.o .\CortexM3\ARM_GCC_541\Debug\Hall_Interrupt.o .\CortexM3\ARM_GCC_541\Debug\Resistor_Pin.o .\CortexM3\ARM_GCC_541\Debug\AMuxSeq_2.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1_INT.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1_PM.o .\CortexM3\ARM_GCC_541\Debug\AMuxSeq_1.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1_IRQ.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1_theACLK.o .\CortexM3\ARM_GCC_541\Debug\cy_em_eeprom.o .\CortexM3\ARM_GCC_541\Debug\CyBootAsmGnu.o
+arm-none-eabi-ar.exe: creating .\CortexM3\ARM_GCC_541\Debug\Sensors.a
+arm-none-eabi-gcc.exe -Wl,--start-group -o "C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\CortexM3\ARM_GCC_541\Debug\Sensors.elf" .\CortexM3\ARM_GCC_541\Debug\main.o .\CortexM3\ARM_GCC_541\Debug\pressure_pad.o .\CortexM3\ARM_GCC_541\Debug\cyfitter_cfg.o .\CortexM3\ARM_GCC_541\Debug\cymetadata.o .\CortexM3\ARM_GCC_541\Debug\Cm3Start.o .\CortexM3\ARM_GCC_541\Debug\Sensors.a "C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CortexM3\ARM_GCC_541\Debug\CyComponentLibrary.a" -mcpu=cortex-m3 -mthumb -L Generated_Source\PSoC5 -Wl,-Map,.\CortexM3\ARM_GCC_541\Debug/Sensors.map -T Generated_Source\PSoC5\cm3gcc.ld -specs=nano.specs -Wl,--gc-sections -g -ffunction-sections -Og -ffat-lto-objects -Wl,--end-group
+cyelftool.exe -C "C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\CortexM3\ARM_GCC_541\Debug\Sensors.elf" --flash_row_size 256 --flash_size 262144 --flash_offset 0x00000000
+No ELF section .cychecksum found, creating one
+Application checksum calculated and stored in ELF section .cychecksum
+Checksum calculated and stored in ELF section .cymeta
+cyelftool.exe -S "C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\CortexM3\ARM_GCC_541\Debug\Sensors.elf"
+Flash used: 7710 of 262144 bytes (2.9%).
+SRAM used: 2777 of 65536 bytes (4.2%). Stack: 2048 bytes. Heap: 128 bytes.
+--------------- Build Succeeded: 04/18/2019 10:06:32 ---------------

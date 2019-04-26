@@ -1,6 +1,6 @@
 // ======================================================================
 // IMU.v generated from TopDesign.cysch
-// 04/11/2019 at 13:58
+// 04/24/2019 at 10:39
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -1588,20 +1588,6 @@ endmodule
 // top
 module top ;
 
-          wire  Net_456;
-          wire  Net_455;
-          wire  Net_241;
-          wire  Net_453;
-          wire  Net_452;
-          wire  Net_451;
-          wire  Net_10;
-          wire  Net_449;
-          wire  Net_448;
-          wire  Net_447;
-          wire  Net_446;
-          wire  Net_445;
-          wire  Net_460;
-          wire  Net_444;
           wire  Net_388;
           wire  Net_478;
           wire  Net_475;

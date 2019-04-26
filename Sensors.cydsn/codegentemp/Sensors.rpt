@@ -1,13 +1,117 @@
-Loading plugins phase: Elapsed time ==> 0s.447ms
+Loading plugins phase: Elapsed time ==> 0s.185ms
 <CYPRESSTAG name="CyDsfit arguments...">
-cydsfit arguments: -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\Sensors.cyprj -d CY8C5888LTI-LP097 -s C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\Generated_Source\PSoC5 -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
+cydsfit arguments: -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\Sensors.cyprj -d CY8C5888LTI-LP097 -s C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\Generated_Source\PSoC5 -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
 </CYPRESSTAG>
 <CYPRESSTAG name="Design elaboration results...">
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm7" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_256)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.13)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm6" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_255)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.12)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm8" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_257)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.14)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm9" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_258)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.15)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm5" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_254)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.11)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm4" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_253)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.10)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm12" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_272)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.18)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm13" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_273)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.19)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm14" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_274)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.20)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm15" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_275)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.21)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm11" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_271)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.17)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm10" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_270)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.16)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm9" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_269)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.15)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm8" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_268)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.14)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm7" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_267)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.13)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm6" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_266)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.12)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm5" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_265)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.11)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm4" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_264)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.10)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm3" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_262)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.9)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm2" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_261)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.8)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm1" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_260)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.7)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_2.AinTerm0" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_259)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_66.6)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm3" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_251)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.9)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm2" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_250)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.8)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm1" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_249)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.7)
+
+ADD: sdb.M0065: information: Analog terminal "AMuxSeq_1.AinTerm0" on TopDesign is unconnected.
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Signal: Net_248)
+ * C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch (Shape_65.6)
+
 </CYPRESSTAG>
-Elaboration phase: Elapsed time ==> 2s.858ms
+Elaboration phase: Elapsed time ==> 2s.340ms
 <CYPRESSTAG name="HDL generation results...">
 </CYPRESSTAG>
-HDL generation phase: Elapsed time ==> 0s.136ms
+HDL generation phase: Elapsed time ==> 0s.059ms
 <CYPRESSTAG name="Synthesis results...">
 
      | | | | | | |
@@ -24,24 +128,24 @@ HDL generation phase: Elapsed time ==> 0s.136ms
 
 ======================================================================
 Compiling:  Sensors.v
-Program  :   C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\bin\warp.exe
-Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\Sensors.cyprj -dcpsoc3 Sensors.v -verilog
+Program  :   C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\bin\warp.exe
+Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\Sensors.cyprj -dcpsoc3 Sensors.v -verilog
 ======================================================================
 
 ======================================================================
 Compiling:  Sensors.v
-Program  :   C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\bin\warp.exe
-Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\Sensors.cyprj -dcpsoc3 Sensors.v -verilog
+Program  :   C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\bin\warp.exe
+Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\Sensors.cyprj -dcpsoc3 Sensors.v -verilog
 ======================================================================
 
 ======================================================================
 Compiling:  Sensors.v
 Program  :   vlogfe
-Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\Sensors.cyprj -dcpsoc3 -verilog Sensors.v
+Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\Sensors.cyprj -dcpsoc3 -verilog Sensors.v
 ======================================================================
 
 vlogfe V6.3 IR 41:  Verilog parser
-Tue Mar 06 12:02:53 2018
+Thu Apr 18 10:06:10 2019
 
 
 ======================================================================
@@ -51,29 +155,35 @@ Options  :    -yv2 -q10 Sensors.v
 ======================================================================
 
 vpp V6.3 IR 41:  Verilog Pre-Processor
-Tue Mar 06 12:02:53 2018
+Thu Apr 18 10:06:10 2019
 
-Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'
-Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\ZeroTerminal\ZeroTerminal.v'
-Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\OneTerminal\OneTerminal.v'
-Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\EdgeDetect_v1_0\EdgeDetect_v1_0.v'
-Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\cypress.v'
-Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'
+Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'
+Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\ZeroTerminal\ZeroTerminal.v'
+Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\OneTerminal\OneTerminal.v'
+Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\EdgeDetect_v1_0\EdgeDetect_v1_0.v'
+Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\cypress.v'
+Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'
+Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\AMuxSeq_v1_80\AMuxSeq_v1_80.v'
+Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\cypress.v'
+Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_analog_virtualmux_v1_0\cy_analog_virtualmux_v1_0.v'
+Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_vref_v1_70\cy_vref_v1_70.v'
+Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\or_v1_0\or_v1_0.v'
+Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_constant_v1_0\cy_constant_v1_0.v'
 
 vpp:  No errors.
 
 Library 'work' => directory 'lcpsoc3'
 General_symbol_table
 General_symbol_table
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\std.vhd'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\cypress.vhd'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\work\cypress.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\ieee\work\stdlogic.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\lpmpkg.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\std.vhd'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\cypress.vhd'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\work\cypress.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\ieee\work\stdlogic.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\lpmpkg.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
 Using control file 'Sensors.ctl'.
 
 vlogfe:  No errors.
@@ -82,29 +192,34 @@ vlogfe:  No errors.
 ======================================================================
 Compiling:  Sensors.v
 Program  :   tovif
-Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\Sensors.cyprj -dcpsoc3 -verilog Sensors.v
+Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\Sensors.cyprj -dcpsoc3 -verilog Sensors.v
 ======================================================================
 
 tovif V6.3 IR 41:  High-level synthesis
-Tue Mar 06 12:02:53 2018
+Thu Apr 18 10:06:11 2019
 
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\std.vhd'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\cypress.vhd'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\work\cypress.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\ieee\work\stdlogic.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\lpmpkg.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
-Linking 'C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\codegentemp\Sensors.ctl'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'.
-Linking 'C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\codegentemp\Sensors.v'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\ZeroTerminal\ZeroTerminal.v'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\OneTerminal\OneTerminal.v'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\EdgeDetect_v1_0\EdgeDetect_v1_0.v'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\cypress.v'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\std.vhd'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\cypress.vhd'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\work\cypress.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\ieee\work\stdlogic.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\lpmpkg.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
+Linking 'C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\codegentemp\Sensors.ctl'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'.
+Linking 'C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\codegentemp\Sensors.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\ZeroTerminal\ZeroTerminal.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\OneTerminal\OneTerminal.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\EdgeDetect_v1_0\EdgeDetect_v1_0.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\cypress.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\AMuxSeq_v1_80\AMuxSeq_v1_80.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_analog_virtualmux_v1_0\cy_analog_virtualmux_v1_0.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_vref_v1_70\cy_vref_v1_70.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\or_v1_0\or_v1_0.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_constant_v1_0\cy_constant_v1_0.v'.
 
 tovif:  No errors.
 
@@ -112,30 +227,35 @@ tovif:  No errors.
 ======================================================================
 Compiling:  Sensors.v
 Program  :   topld
-Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\Sensors.cyprj -dcpsoc3 -verilog Sensors.v
+Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\Sensors.cyprj -dcpsoc3 -verilog Sensors.v
 ======================================================================
 
 topld V6.3 IR 41:  Synthesis and optimization
-Tue Mar 06 12:02:53 2018
+Thu Apr 18 10:06:11 2019
 
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\std.vhd'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\cypress.vhd'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\work\cypress.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\ieee\work\stdlogic.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\lpmpkg.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
-Linking 'C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\codegentemp\Sensors.ctl'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'.
-Linking 'C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\codegentemp\Sensors.v'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\ZeroTerminal\ZeroTerminal.v'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\OneTerminal\OneTerminal.v'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\EdgeDetect_v1_0\EdgeDetect_v1_0.v'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\cypress.v'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'.
-Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\lib\lcpsoc3\stdlogic\cpsoc3.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\std.vhd'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\cypress.vhd'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\work\cypress.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\ieee\work\stdlogic.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\lpmpkg.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
+Linking 'C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\codegentemp\Sensors.ctl'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'.
+Linking 'C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\codegentemp\Sensors.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\ZeroTerminal\ZeroTerminal.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\OneTerminal\OneTerminal.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\EdgeDetect_v1_0\EdgeDetect_v1_0.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\cypress.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\AMuxSeq_v1_80\AMuxSeq_v1_80.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_analog_virtualmux_v1_0\cy_analog_virtualmux_v1_0.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_vref_v1_70\cy_vref_v1_70.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\or_v1_0\or_v1_0.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_constant_v1_0\cy_constant_v1_0.v'.
+Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\lib\lcpsoc3\stdlogic\cpsoc3.vif'.
 
 ----------------------------------------------------------
 Detecting unused logic.
@@ -175,20 +295,79 @@ Aliasing \USBUART_1:tmpOE__Dp_net_0\ to \USBUART_1:tmpOE__Dm_net_0\
 Aliasing \Timer:Net_82\ to zero
 Aliasing \Timer:Net_91\ to zero
 Aliasing tmpOE__RearHall_Pin_net_0 to \USBUART_1:tmpOE__Dm_net_0\
+Aliasing tmpOE__Resistor_Pin_net_0 to \USBUART_1:tmpOE__Dm_net_0\
+Aliasing \ADC_SAR_1:vp_ctl_0\ to zero
+Aliasing \ADC_SAR_1:vp_ctl_2\ to zero
+Aliasing \ADC_SAR_1:vn_ctl_1\ to zero
+Aliasing \ADC_SAR_1:vn_ctl_3\ to zero
+Aliasing \ADC_SAR_1:vp_ctl_1\ to zero
+Aliasing \ADC_SAR_1:vp_ctl_3\ to zero
+Aliasing \ADC_SAR_1:vn_ctl_0\ to zero
+Aliasing \ADC_SAR_1:vn_ctl_2\ to zero
+Aliasing \ADC_SAR_1:soc\ to zero
+Aliasing \ADC_SAR_1:Net_383\ to zero
 Removing Rhs of wire one[9] = \USBUART_1:tmpOE__Dm_net_0\[3]
 Removing Lhs of wire \USBUART_1:tmpOE__Dp_net_0\[12] = one[9]
 Removing Lhs of wire \Timer:Net_82\[65] = zero[4]
 Removing Lhs of wire \Timer:Net_91\[66] = zero[4]
 Removing Lhs of wire tmpOE__RearHall_Pin_net_0[81] = one[9]
-Removing Lhs of wire \EdgeDetect_Rear:last\\D\[87] = Net_45[77]
+Removing Lhs of wire tmpOE__Resistor_Pin_net_0[88] = one[9]
+Removing Lhs of wire \ADC_SAR_1:vp_ctl_0\[117] = zero[4]
+Removing Lhs of wire \ADC_SAR_1:vp_ctl_2\[118] = zero[4]
+Removing Lhs of wire \ADC_SAR_1:vn_ctl_1\[119] = zero[4]
+Removing Lhs of wire \ADC_SAR_1:vn_ctl_3\[120] = zero[4]
+Removing Lhs of wire \ADC_SAR_1:vp_ctl_1\[121] = zero[4]
+Removing Lhs of wire \ADC_SAR_1:vp_ctl_3\[122] = zero[4]
+Removing Lhs of wire \ADC_SAR_1:vn_ctl_0\[123] = zero[4]
+Removing Lhs of wire \ADC_SAR_1:vn_ctl_2\[124] = zero[4]
+Removing Rhs of wire \ADC_SAR_1:Net_188\[128] = \ADC_SAR_1:Net_221\[129]
+Removing Lhs of wire \ADC_SAR_1:soc\[134] = zero[4]
+Removing Lhs of wire \ADC_SAR_1:Net_383\[160] = zero[4]
+Removing Lhs of wire \EdgeDetect_Rear:last\\D\[173] = Net_45[77]
 
 ------------------------------------------------------
-Aliased 0 equations, 6 wires.
+Aliased 0 equations, 18 wires.
 ------------------------------------------------------
 
 ----------------------------------------------------------
 Circuit simplification
 ----------------------------------------------------------
+
+Substituting virtuals - pass 1:
+
+Note:  Expanding virtual equation for 'zero' (cost = 0):
+zero <=  ('0') ;
+
+
+Substituting virtuals - pass 2:
+
+
+----------------------------------------------------------
+Circuit simplification results:
+
+	Expanded 1 signals.
+	Turned 0 signals into soft nodes.
+	Maximum default expansion cost was set at 3.
+----------------------------------------------------------
+
+------------------------------------------------------
+Alias Detection
+------------------------------------------------------
+Removing Lhs of wire \ADC_SAR_1:Net_188\[128] = \ADC_SAR_1:Net_385\[126]
+
+------------------------------------------------------
+Aliased 0 equations, 1 wires.
+------------------------------------------------------
+
+----------------------------------------------------------
+Circuit simplification
+----------------------------------------------------------
+
+Eliminating unused logic - pass 1:
+
+
+Eliminating unused logic - pass 2:
+
 
 Substituting virtuals - pass 1:
 
@@ -203,23 +382,24 @@ Circuit simplification results:
 
 topld:  No errors.
 
-CYPRESS_DIR    : C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp
-Warp Program   : C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\warp\bin\warp.exe
-Warp Arguments : -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya "-.fftprj=C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\Sensors.cyprj" -dcpsoc3 Sensors.v -verilog
+CYPRESS_DIR    : C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp
+Warp Program   : C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\warp\bin\warp.exe
+Warp Arguments : -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya "-.fftprj=C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\Sensors.cyprj" -dcpsoc3 Sensors.v -verilog
 </CYPRESSTAG>
-Warp synthesis phase: Elapsed time ==> 1s.266ms
+Warp synthesis phase: Elapsed time ==> 0s.573ms
 <CYPRESSTAG name="Fitter results...">
 <CYPRESSTAG name="Fitter startup details...">
-cyp3fit: V4.1.0.3210, Family: PSoC3, Started at: Tuesday, 06 March 2018 12:02:53
-Options: -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\Sensors.cyprj -d CY8C5888LTI-LP097 Sensors.v -verilog
+cyp3fit: V4.2.0.641, Family: PSoC3, Started at: Thursday, 18 April 2019 10:06:11
+Options: -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\Sensors.cyprj -d CY8C5888LTI-LP097 Sensors.v -verilog
 </CYPRESSTAG>
 <CYPRESSTAG name="Design parsing">
-Design parsing phase: Elapsed time ==> 0s.126ms
+Design parsing phase: Elapsed time ==> 0s.010ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Tech Mapping">
 <CYPRESSTAG name="Initial Mapping" icon="FILE_RPT_TECHM">
 <CYPRESSTAG name="Global Clock Selection" icon="FILE_RPT_TECHM">
     Digital Clock 0: Automatic-assigning  clock 'Clock_2'. Fanout=1, Signal=Net_47
+    Analog  Clock 0: Automatic-assigning  clock 'ADC_SAR_1_theACLK'. Fanout=2, Signal=\ADC_SAR_1:Net_385\
     Digital Clock 1: Automatic-assigning  clock 'Clock_3'. Fanout=1, Signal=Net_37
 </CYPRESSTAG>
 <CYPRESSTAG name="UDB Clock/Enable Remapping Results">
@@ -358,6 +538,46 @@ Design Equations
             pa_out => RearHall_Pin(0)__PA ,
             fb => Net_45 ,
             pad => RearHall_Pin(0)_PAD );
+
+    Pin : Name = Resistor_Pin(0)
+        Attributes:
+            In Group/Port: True
+            In Sync Option: AUTO
+            Out Sync Option: AUTO
+            Interrupt generated: False
+            Interrupt mode: NONE
+            Drive mode: HI_Z_ANALOG
+            VTrip: EITHER
+            Slew: FAST
+            Input Sync needed: False
+            Output Sync needed: False
+            SC shield enabled: False
+            POR State: ANY
+            LCD Mode: COMMON
+            Register Mode: RegComb
+            CaSense Mode: NEITHER
+            Treat as pin: True
+            Is OE Registered: False
+            Uses Analog: True
+            Can contain Digital: False
+            Is SIO: False
+            SIO Output Buf: NONREGULATED
+            SIO Input Buf: SINGLE_ENDED
+            SIO HiFreq: LOW
+            SIO Hyst: DISABLED
+            SIO Vtrip: MULTIPLIER_0_5
+            SIO Multiplier Index: 0
+            SIO RefSel: VCC_IO
+            Required Capabilities: ANALOG
+            Initial Value: 0
+            IO Voltage: 0
+        PORT MAP (
+            pa_out => Resistor_Pin(0)__PA ,
+            analog_term => Net_227 ,
+            pad => Resistor_Pin(0)_PAD );
+        Properties:
+        {
+        }
     </CYPRESSTAG>
     <CYPRESSTAG name="Macrocell listing" icon="FILE_RPT_EQUATION">
 
@@ -497,6 +717,15 @@ Design Equations
             int_type = "10"
             is_nmi = 0
         }
+
+    interrupt: Name =\ADC_SAR_1:IRQ\
+        PORT MAP (
+            interrupt => Net_223 );
+        Properties:
+        {
+            int_type = "10"
+            is_nmi = 0
+        }
     </CYPRESSTAG>
 </CYPRESSTAG>
 <CYPRESSTAG name="Technology mapping summary" expanded>
@@ -508,11 +737,11 @@ Technology mapping summary
 Resource Type                 : Used : Free :  Max :  % Used
 ============================================================
 Digital Clocks                :    2 :    6 :    8 : 25.00 %
-Analog Clocks                 :    0 :    4 :    4 :  0.00 %
+Analog Clocks                 :    1 :    3 :    4 : 25.00 %
 CapSense Buffers              :    0 :    2 :    2 :  0.00 %
 Digital Filter Block          :    0 :    1 :    1 :  0.00 %
-Interrupts                    :    9 :   23 :   32 : 28.13 %
-IO                            :    6 :   42 :   48 : 12.50 %
+Interrupts                    :   10 :   22 :   32 : 31.25 %
+IO                            :    7 :   41 :   48 : 14.58 %
 Segment LCD                   :    0 :    1 :    1 :  0.00 %
 CAN 2.0b                      :    0 :    1 :    1 :  0.00 %
 I2C                           :    0 :    1 :    1 :  0.00 %
@@ -530,43 +759,371 @@ Opamp                         :    0 :    4 :    4 :  0.00 %
 Comparator                    :    0 :    4 :    4 :  0.00 %
 Delta-Sigma ADC               :    0 :    1 :    1 :  0.00 %
 LPF                           :    0 :    2 :    2 :  0.00 %
-SAR ADC                       :    0 :    2 :    2 :  0.00 %
+SAR ADC                       :    1 :    1 :    2 : 50.00 %
 Analog (SC/CT) Blocks         :    0 :    4 :    4 :  0.00 %
 DAC                           :      :      :      :        
   VIDAC                       :    0 :    4 :    4 :  0.00 %
 </CYPRESSTAG>
-Technology Mapping: Elapsed time ==> 0s.358ms
-Tech Mapping phase: Elapsed time ==> 0s.616ms
+Technology Mapping: Elapsed time ==> 0s.081ms
+Tech Mapping phase: Elapsed time ==> 0s.152ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Analog Placement">
+Info: apr.M0002: Analog signal "Net_248" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_249" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_250" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_251" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_253" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_254" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_255" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_256" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_257" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_258" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_259" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_260" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_261" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_262" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_264" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_265" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_266" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_267" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_268" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_269" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_270" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_271" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_272" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_273" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_274" is connected to one terminal only. (App=cydsfit)
+Info: apr.M0002: Analog signal "Net_275" is connected to one terminal only. (App=cydsfit)
 Initial Analog Placement Results:
+IO_2@[IOP=(0)][IoId=(2)] : Resistor_Pin(0) (fixed)
 IO_7@[IOP=(15)][IoId=(7)] : \USBUART_1:Dm(0)\ (fixed)
 IO_6@[IOP=(15)][IoId=(6)] : \USBUART_1:Dp(0)\ (fixed)
+SAR[1]@[FFB(SAR,1)] : \ADC_SAR_1:ADC_SAR\
+Vref[3]@[FFB(Vref,3)] : \ADC_SAR_1:vRef_1024\
 USB[0]@[FFB(USB,0)] : \USBUART_1:USB\
-Analog Placement phase: Elapsed time ==> 0s.199ms
+Vref[8]@[FFB(Vref,8)] : vRef_1
+Log: apr.M0058: The analog placement iterative improvement is 44% done. (App=cydsfit)
+Analog Placement Results:
+IO_2@[IOP=(0)][IoId=(2)] : Resistor_Pin(0) (fixed)
+IO_7@[IOP=(15)][IoId=(7)] : \USBUART_1:Dm(0)\ (fixed)
+IO_6@[IOP=(15)][IoId=(6)] : \USBUART_1:Dp(0)\ (fixed)
+SAR[0]@[FFB(SAR,0)] : \ADC_SAR_1:ADC_SAR\
+Vref[3]@[FFB(Vref,3)] : \ADC_SAR_1:vRef_1024\
+USB[0]@[FFB(USB,0)] : \USBUART_1:USB\
+Vref[8]@[FFB(Vref,8)] : vRef_1
+
+Analog Placement phase: Elapsed time ==> 0s.523ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Analog Routing">
-Analog Routing phase: Elapsed time ==> 0s.005ms
+Analog Routing phase: Elapsed time ==> 0s.000ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Analog Code Generation">
 ============ Analog Final Answer Routes ============
 Dump of CyAnalogRoutingResultsDB
 Map of net to items {
+  Net: Net_227 {
+    sar_0_vplus
+    agl6_x_sar_0_vplus
+    agl6
+    agl6_x_p0_2
+    p0_2
+  }
+  Net: Net_248 {
+  }
+  Net: Net_249 {
+  }
+  Net: Net_250 {
+  }
+  Net: Net_251 {
+  }
+  Net: Net_253 {
+  }
+  Net: Net_254 {
+  }
+  Net: Net_255 {
+  }
+  Net: Net_256 {
+  }
+  Net: Net_257 {
+  }
+  Net: Net_258 {
+  }
+  Net: Net_102 {
+    pin_vddd
+  }
+  Net: Net_259 {
+  }
+  Net: Net_260 {
+  }
+  Net: Net_261 {
+  }
+  Net: Net_262 {
+  }
+  Net: Net_264 {
+  }
+  Net: Net_265 {
+  }
+  Net: Net_266 {
+  }
+  Net: Net_267 {
+  }
+  Net: Net_268 {
+  }
+  Net: Net_269 {
+  }
+  Net: Net_270 {
+  }
+  Net: Net_271 {
+  }
+  Net: Net_272 {
+  }
+  Net: Net_273 {
+  }
+  Net: Net_274 {
+  }
+  Net: Net_275 {
+  }
+  Net: \ADC_SAR_1:Net_126\ {
+    sar_0_vrefhi
+    sar_0_vminus_x_sar_0_vrefhi
+    sar_0_vminus
+  }
+  Net: \ADC_SAR_1:Net_209\ {
+  }
+  Net: \ADC_SAR_1:Net_233\ {
+    common_vref_1024
+    sar_0_vref_1024
+    sar_0_vref_x_sar_0_vref_1024
+    sar_0_vref
+  }
+  Net: AmuxNet::AMuxSeq_1 {
+  }
+  Net: AmuxNet::AMuxSeq_2 {
+  }
 }
 Map of item to net {
+  sar_0_vplus                                      -> Net_227
+  agl6_x_sar_0_vplus                               -> Net_227
+  agl6                                             -> Net_227
+  agl6_x_p0_2                                      -> Net_227
+  p0_2                                             -> Net_227
+  sar_0_vrefhi                                     -> \ADC_SAR_1:Net_126\
+  sar_0_vminus_x_sar_0_vrefhi                      -> \ADC_SAR_1:Net_126\
+  sar_0_vminus                                     -> \ADC_SAR_1:Net_126\
+  common_vref_1024                                 -> \ADC_SAR_1:Net_233\
+  sar_0_vref_1024                                  -> \ADC_SAR_1:Net_233\
+  sar_0_vref_x_sar_0_vref_1024                     -> \ADC_SAR_1:Net_233\
+  sar_0_vref                                       -> \ADC_SAR_1:Net_233\
+  pin_vddd                                         -> Net_102
 }
 Mux Info {
+  Mux: AMuxSeq_1 {
+     Mouth: Net_227
+     Guts:  AmuxNet::AMuxSeq_1
+     IsSingleSwitching: False
+     IsStaticSwitching: True
+     IsAtMostOneSwitch: True
+    Arm: 0 {
+      Net:   Net_248
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 1 {
+      Net:   Net_249
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 2 {
+      Net:   Net_250
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 3 {
+      Net:   Net_251
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 4 {
+      Net:   Net_253
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 5 {
+      Net:   Net_254
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 6 {
+      Net:   Net_255
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 7 {
+      Net:   Net_256
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 8 {
+      Net:   Net_257
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 9 {
+      Net:   Net_258
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+  }
+  Mux: AMuxSeq_2 {
+     Mouth: Net_102
+     Guts:  AmuxNet::AMuxSeq_2
+     IsSingleSwitching: False
+     IsStaticSwitching: True
+     IsAtMostOneSwitch: True
+    Arm: 0 {
+      Net:   Net_259
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 1 {
+      Net:   Net_260
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 2 {
+      Net:   Net_261
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 3 {
+      Net:   Net_262
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 4 {
+      Net:   Net_264
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 5 {
+      Net:   Net_265
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 6 {
+      Net:   Net_266
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 7 {
+      Net:   Net_267
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 8 {
+      Net:   Net_268
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 9 {
+      Net:   Net_269
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 10 {
+      Net:   Net_270
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 11 {
+      Net:   Net_271
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 12 {
+      Net:   Net_272
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 13 {
+      Net:   Net_273
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 14 {
+      Net:   Net_274
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+    Arm: 15 {
+      Net:   Net_275
+      Outer: __open__
+      Inner: __open__
+      Path {
+      }
+    }
+  }
 }
 Dump of CyP35AnalogRoutingResultsDB
 IsVddaHalfUsedForComp = False
 IsVddaHalfUsedForSar0 = False
 IsVddaHalfUsedForSar1 = False
-Analog Code Generation phase: Elapsed time ==> 0s.577ms
+Analog Code Generation phase: Elapsed time ==> 0s.261ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Digital Placement">
 <CYPRESSTAG name="Detailed placement messages">
 I2659: No Constrained paths were found. The placer will run in non-timing driven mode.
-I2076: Total run-time: 0.8 sec.
+I2076: Total run-time: 0.7 sec.
 
 </CYPRESSTAG>
 <CYPRESSTAG name="PLD Packing">
@@ -590,14 +1147,14 @@ PLD Packing Summary
 <CYPRESSTAG name="Packed PLD Contents">
 Packed PLD Contents not displayed at this verbose level.</CYPRESSTAG>
 </CYPRESSTAG>
-PLD Packing: Elapsed time ==> 0s.043ms
+PLD Packing: Elapsed time ==> 0s.001ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Partitioning">
 <CYPRESSTAG name="Initial Partitioning Summary">
 Initial Partitioning Summary not displayed at this verbose level.</CYPRESSTAG>
 <CYPRESSTAG name="Final Partitioning Summary">
 Final Partitioning Summary not displayed at this verbose level.</CYPRESSTAG>
-Partitioning: Elapsed time ==> 0s.131ms
+Partitioning: Elapsed time ==> 0s.016ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Final Placement Summary">
 
@@ -695,6 +1252,15 @@ Intr container @ [IntrContainer=(0)]:
             is_nmi = 0
         }
   Intr@ [IntrContainer=(0)][IntrId=(1)] 
+    interrupt: Name =\ADC_SAR_1:IRQ\
+        PORT MAP (
+            interrupt => Net_223 );
+        Properties:
+        {
+            int_type = "10"
+            is_nmi = 0
+        }
+  Intr@ [IntrContainer=(0)][IntrId=(2)] 
     interrupt: Name =\USBUART_1:ep_1\
         PORT MAP (
             interrupt => \USBUART_1:ep_int_1\ );
@@ -703,7 +1269,7 @@ Intr container @ [IntrContainer=(0)]:
             int_type = "10"
             is_nmi = 0
         }
-  Intr@ [IntrContainer=(0)][IntrId=(2)] 
+  Intr@ [IntrContainer=(0)][IntrId=(3)] 
     interrupt: Name =\USBUART_1:ep_2\
         PORT MAP (
             interrupt => \USBUART_1:ep_int_2\ );
@@ -712,7 +1278,7 @@ Intr container @ [IntrContainer=(0)]:
             int_type = "10"
             is_nmi = 0
         }
-  Intr@ [IntrContainer=(0)][IntrId=(3)] 
+  Intr@ [IntrContainer=(0)][IntrId=(4)] 
     interrupt: Name =\USBUART_1:ep_3\
         PORT MAP (
             interrupt => \USBUART_1:ep_int_3\ );
@@ -805,6 +1371,47 @@ Pin : Name = RearHall_Pin(0)
         pa_out => RearHall_Pin(0)__PA ,
         fb => Net_45 ,
         pad => RearHall_Pin(0)_PAD );
+    Properties:
+    {
+    }
+
+[IoId=2]: 
+Pin : Name = Resistor_Pin(0)
+    Attributes:
+        In Group/Port: True
+        In Sync Option: AUTO
+        Out Sync Option: AUTO
+        Interrupt generated: False
+        Interrupt mode: NONE
+        Drive mode: HI_Z_ANALOG
+        VTrip: EITHER
+        Slew: FAST
+        Input Sync needed: False
+        Output Sync needed: False
+        SC shield enabled: False
+        POR State: ANY
+        LCD Mode: COMMON
+        Register Mode: RegComb
+        CaSense Mode: NEITHER
+        Treat as pin: True
+        Is OE Registered: False
+        Uses Analog: True
+        Can contain Digital: False
+        Is SIO: False
+        SIO Output Buf: NONREGULATED
+        SIO Input Buf: SINGLE_ENDED
+        SIO HiFreq: LOW
+        SIO Hyst: DISABLED
+        SIO Vtrip: MULTIPLIER_0_5
+        SIO Multiplier Index: 0
+        SIO RefSel: VCC_IO
+        Required Capabilities: ANALOG
+        Initial Value: 0
+        IO Voltage: 0
+    PORT MAP (
+        pa_out => Resistor_Pin(0)__PA ,
+        analog_term => Net_227 ,
+        pad => Resistor_Pin(0)_PAD );
     Properties:
     {
     }
@@ -984,6 +1591,10 @@ Clock group 0:
             clk_bus => ClockBlock_BUS_CLK_local ,
             dclk_glb_0 => Net_47 ,
             dclk_0 => Net_47_local ,
+            aclk_glb_0 => \ADC_SAR_1:Net_385\ ,
+            aclk_0 => \ADC_SAR_1:Net_385_local\ ,
+            clk_a_dig_glb_0 => \ADC_SAR_1:Net_381\ ,
+            clk_a_dig_0 => \ADC_SAR_1:Net_381_local\ ,
             dclk_glb_1 => Net_37 ,
             dclk_1 => Net_37_local );
         Properties:
@@ -1049,11 +1660,118 @@ USB group 0:
 VIDAC group 0: empty
 OpAmp group 0: empty
 CsAbuf group 0: empty
-Vref group 0: empty
+Vref group 0: 
+    Vref Block @ F(Vref,3): 
+    vrefcell: Name =\ADC_SAR_1:vRef_1024\
+        PORT MAP (
+            vout => \ADC_SAR_1:Net_233\ );
+        Properties:
+        {
+            autoenable = 1
+            guid = "89B398AD-36A8-4627-9212-707F2986319E"
+            ignoresleep = 0
+            name = "1.024V"
+        }
+    Vref Block @ F(Vref,8): 
+    vrefcell: Name =vRef_1
+        PORT MAP (
+            vout => Net_102 );
+        Properties:
+        {
+            autoenable = 1
+            guid = "5499430B-31B8-44f1-80BA-E089CFA660C7"
+            ignoresleep = 0
+            name = "Vddd"
+        }
 LPF group 0: empty
-SAR group 0: empty
+SAR group 0: 
+    SAR Block @ F(SAR,0): 
+    sarcell: Name =\ADC_SAR_1:ADC_SAR\
+        PORT MAP (
+            vplus => Net_227 ,
+            vminus => \ADC_SAR_1:Net_126\ ,
+            ext_pin => \ADC_SAR_1:Net_209\ ,
+            vrefhi_out => \ADC_SAR_1:Net_126\ ,
+            vref => \ADC_SAR_1:Net_233\ ,
+            clock => \ADC_SAR_1:Net_385\ ,
+            pump_clock => \ADC_SAR_1:Net_385\ ,
+            irq => \ADC_SAR_1:Net_252\ ,
+            next => Net_226 ,
+            data_out_udb_11 => \ADC_SAR_1:Net_207_11\ ,
+            data_out_udb_10 => \ADC_SAR_1:Net_207_10\ ,
+            data_out_udb_9 => \ADC_SAR_1:Net_207_9\ ,
+            data_out_udb_8 => \ADC_SAR_1:Net_207_8\ ,
+            data_out_udb_7 => \ADC_SAR_1:Net_207_7\ ,
+            data_out_udb_6 => \ADC_SAR_1:Net_207_6\ ,
+            data_out_udb_5 => \ADC_SAR_1:Net_207_5\ ,
+            data_out_udb_4 => \ADC_SAR_1:Net_207_4\ ,
+            data_out_udb_3 => \ADC_SAR_1:Net_207_3\ ,
+            data_out_udb_2 => \ADC_SAR_1:Net_207_2\ ,
+            data_out_udb_1 => \ADC_SAR_1:Net_207_1\ ,
+            data_out_udb_0 => \ADC_SAR_1:Net_207_0\ ,
+            eof_udb => Net_223 );
+        Properties:
+        {
+            cy_registers = ""
+        }
 ANAIF group 0: empty
 PHUB group 0: empty
+
+Blocks not positioned by the digital component placer:
+    Amux Block @ <No Location>: 
+    amuxcell: Name =AMuxSeq_2
+        PORT MAP (
+            muxin_15 => Net_275 ,
+            muxin_14 => Net_274 ,
+            muxin_13 => Net_273 ,
+            muxin_12 => Net_272 ,
+            muxin_11 => Net_271 ,
+            muxin_10 => Net_270 ,
+            muxin_9 => Net_269 ,
+            muxin_8 => Net_268 ,
+            muxin_7 => Net_267 ,
+            muxin_6 => Net_266 ,
+            muxin_5 => Net_265 ,
+            muxin_4 => Net_264 ,
+            muxin_3 => Net_262 ,
+            muxin_2 => Net_261 ,
+            muxin_1 => Net_260 ,
+            muxin_0 => Net_259 ,
+            vout => Net_102 );
+        Properties:
+        {
+            api_type = 1
+            connect_mode = 1
+            cy_registers = ""
+            hw_control = 0
+            init_mux_sel = "0000000000000000"
+            muxin_width = 16
+            one_active = 1
+        }
+    Amux Block @ <No Location>: 
+    amuxcell: Name =AMuxSeq_1
+        PORT MAP (
+            muxin_9 => Net_258 ,
+            muxin_8 => Net_257 ,
+            muxin_7 => Net_256 ,
+            muxin_6 => Net_255 ,
+            muxin_5 => Net_254 ,
+            muxin_4 => Net_253 ,
+            muxin_3 => Net_251 ,
+            muxin_2 => Net_250 ,
+            muxin_1 => Net_249 ,
+            muxin_0 => Net_248 ,
+            vout => Net_227 );
+        Properties:
+        {
+            api_type = 1
+            connect_mode = 1
+            cy_registers = ""
+            hw_control = 0
+            init_mux_sel = "0000000000"
+            muxin_width = 10
+            one_active = 1
+        }
 </CYPRESSTAG>
 <CYPRESSTAG name="Port Configuration Details">
 
@@ -1064,6 +1782,7 @@ Port Configuration report
 Port | Pin | Fixed |      Type |       Drive Mode |              Name | Connections
 -----+-----+-------+-----------+------------------+-------------------+-----------------------------
    0 |   0 |       |      NONE |     HI_Z_DIGITAL |   RearHall_Pin(0) | FB(Net_45)
+     |   2 |     * |      NONE |      HI_Z_ANALOG |   Resistor_Pin(0) | Analog(Net_227)
 -----+-----+-------+-----------+------------------+-------------------+-----------------------------
   15 |   6 |     * |   FALLING |      HI_Z_ANALOG | \USBUART_1:Dp(0)\ | Analog(\USBUART_1:Net_1000\)
      |   7 |     * |      NONE |      HI_Z_ANALOG | \USBUART_1:Dm(0)\ | Analog(\USBUART_1:Net_597\)
@@ -1071,33 +1790,33 @@ Port | Pin | Fixed |      Type |       Drive Mode |              Name | Connecti
 </CYPRESSTAG>
 </CYPRESSTAG>
 </CYPRESSTAG>
-Digital component placer commit/Report: Elapsed time ==> 0s.052ms
-Digital Placement phase: Elapsed time ==> 1s.808ms
+Digital component placer commit/Report: Elapsed time ==> 0s.030ms
+Digital Placement phase: Elapsed time ==> 1s.128ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Digital Routing">
-"C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\bin/sjrouter.exe" --xml-path "C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\dev\psoc5/psoc5lp/route_arch-rrg.cydata" --vh2-path "Sensors_r.vh2" --pcf-path "Sensors.pco" --des-name "Sensors" --dsf-path "Sensors.dsf" --sdc-path "Sensors.sdc" --lib-path "Sensors_r.lib"
+"C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\bin/sjrouter.exe" --xml-path "C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\dev\psoc5/psoc5lp/route_arch-rrg.cydata" --vh2-path "Sensors_r.vh2" --pcf-path "Sensors.pco" --des-name "Sensors" --dsf-path "Sensors.dsf" --sdc-path "Sensors.sdc" --lib-path "Sensors_r.lib"
 Routing successful.
-Digital Routing phase: Elapsed time ==> 1s.696ms
+Digital Routing phase: Elapsed time ==> 1s.387ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Bitstream Generation">
-Bitstream Generation phase: Elapsed time ==> 0s.515ms
+Bitstream Generation phase: Elapsed time ==> 0s.236ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Bitstream Verification">
-Bitstream Verification phase: Elapsed time ==> 0s.160ms
+Bitstream Verification phase: Elapsed time ==> 0s.039ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Static timing analysis">
 Timing report is in Sensors_timing.html.
-Static timing analysis phase: Elapsed time ==> 0s.582ms
+Static timing analysis phase: Elapsed time ==> 0s.362ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Data reporting">
-Data reporting phase: Elapsed time ==> 0s.009ms
+Data reporting phase: Elapsed time ==> 0s.000ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Database update...">
-Design database save phase: Elapsed time ==> 0s.335ms
+Design database save phase: Elapsed time ==> 0s.186ms
 </CYPRESSTAG>
-cydsfit: Elapsed time ==> 6s.734ms
+cydsfit: Elapsed time ==> 4s.339ms
 </CYPRESSTAG>
-Fitter phase: Elapsed time ==> 6s.747ms
-API generation phase: Elapsed time ==> 2s.994ms
-Dependency generation phase: Elapsed time ==> 0s.044ms
-Cleanup phase: Elapsed time ==> 0s.004ms
+Fitter phase: Elapsed time ==> 4s.339ms
+API generation phase: Elapsed time ==> 3s.085ms
+Dependency generation phase: Elapsed time ==> 0s.034ms
+Cleanup phase: Elapsed time ==> 0s.002ms

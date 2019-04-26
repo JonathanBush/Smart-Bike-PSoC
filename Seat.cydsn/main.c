@@ -1,14 +1,3 @@
-/* ========================================
- *
- * Copyright YOUR COMPANY, THE YEAR
- * All Rights Reserved
- * UNPUBLISHED, LICENSED SOFTWARE.
- *
- * CONFIDENTIAL AND PROPRIETARY INFORMATION
- * WHICH IS THE PROPERTY OF your company.
- *
- * ========================================
-*/
 #include "project.h"
 #include <stdio.h>
 
@@ -64,11 +53,8 @@ int main(void)
     {
         if (take_sample) {
             int32 accumulator[3];
-            
             take_sample = 0;
             LED_Write(!LED_Read());
-            
-            
             for (int i = 0; i < 3; ++i) {
                 accumulator[i] = 0;
             }
@@ -84,13 +70,10 @@ int main(void)
             for (int i = 0; i < 3; ++i) {
                 data.channels[i] = (int16)(accumulator[i] / OVERSAMPLING);
             }
-            
             set_checksum(&data);
             
             if (USBUART_CDCIsReady()) {
                 USBUART_PutData((uint8 *)&data, sizeof(struct packet));
-                //sprintf(output, "a: %4d, b: %4d, c: %4d\n\r", data.channels[0], data.channels[1], data.channels[2]);
-                //USBUART_PutString(output);
             }
         }
     }

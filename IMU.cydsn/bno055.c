@@ -1,14 +1,9 @@
-/* ========================================
+/*
+ * Driver for BNO055
  *
- * Copyright YOUR COMPANY, THE YEAR
- * All Rights Reserved
- * UNPUBLISHED, LICENSED SOFTWARE.
- *
- * CONFIDENTIAL AND PROPRIETARY INFORMATION
- * WHICH IS THE PROPERTY OF your company.
- *
- * ========================================
-*/
+ * by Jonathan Bush
+ * 2019
+ */
 
 #include "project.h"
 #include "bno055.h"

@@ -1,7 +1,12 @@
-C:\Users\jon\Sync\Research\PSoC Projects\Controller.cydsn\Controller.cyprj|3369e13b-3cf2-4969-b04c-73790eac5ab3
-C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|70d4b18d-2c34-4c9a-a9d1-b726c3a40a69
-C:\Users\jon\Documents\PSoC Creator\4.1\Downloads ( 4.1).cylib\Downloads ( 4.1).cyprj|950f7fd1-fd70-4cc9-81ef-f9a9db006c5f
-C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|0b904d8b-b0b5-451f-b78c-382c4b94d24e
-C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|f7c5598a-d103-495e-adce-b8c40ed508e9
-C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|c66fd7bf-daec-45c7-933f-3a6078a6d37c
-C:\Users\jon\Sync\Research\PSoC Projects\Sensors.cydsn\Sensors.cyprj|a5fe5331-3e33-43d7-a7e7-b8e4b29d1c20
+C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Controller.cydsn\Controller.cyprj|e03082ec-c550-4c0c-afd6-d09a1ede2fd9
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|e7592552-94d6-4c1d-a8b1-2cd7d14d64ce
+C:\Users\jebush2\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|7014d42f-6765-4fff-9e42-7abcbcc511fc
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|9fb36216-08bd-4b4d-8c91-3d310fbf410c
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|d8e53e8d-649a-4b94-9f9c-2f11d72cbea1
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|3fe16304-bcc3-4e4a-b69d-611c3a6348b6
+C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\Sensors.cyprj|0b4b9322-c54a-4857-8c76-95dec8ef2df4
+C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Balance.cydsn\Balance.cyprj|04b9c5f5-cc4d-428e-b5fb-7285c6711388
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|c556307b-ff6b-4185-a307-9007519d1c9b
+C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG.cydsn\CMG.cyprj|209e69c5-aab7-4f27-acc9-783683948355
+C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Seat.cydsn\Seat.cyprj|b00e41cf-e79f-405e-9cac-fe86cf155580
+C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\IMU.cyprj|29f2b382-11d0-4e7d-8050-480a83064423

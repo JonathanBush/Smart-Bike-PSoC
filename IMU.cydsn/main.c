@@ -1,13 +1,10 @@
 /* ========================================
  *
- * Copyright YOUR COMPANY, THE YEAR
- * All Rights Reserved
- * UNPUBLISHED, LICENSED SOFTWARE.
+ * Reads orientation with BNO055 and 
+ * gimbal angle with absolute encoder
  *
- * CONFIDENTIAL AND PROPRIETARY INFORMATION
- * WHICH IS THE PROPERTY OF your company.
- *
- * ========================================
+ * by Jonathan Bush
+ * 2019
 */
 #include "project.h"
 #include "bno055.h"

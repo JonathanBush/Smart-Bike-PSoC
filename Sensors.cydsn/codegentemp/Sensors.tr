@@ -16,15 +16,17 @@
 ##################################################################### 
                     1::Clock Frequency Summary
 ===================================================================== 
-Number of clocks: 8
-Clock: Clock_2                  | N/A  | Target: 12.00 MHz  | 
-Clock: Clock_3                  | N/A  | Target: 0.00 MHz   | 
-Clock: Clock_3(fixed-function)  | N/A  | Target: 0.00 MHz   | 
-Clock: CyBUS_CLK                | N/A  | Target: 24.00 MHz  | 
-Clock: CyILO                    | N/A  | Target: 0.10 MHz   | 
-Clock: CyIMO                    | N/A  | Target: 24.00 MHz  | 
-Clock: CyMASTER_CLK             | N/A  | Target: 24.00 MHz  | 
-Clock: CyPLL_OUT                | N/A  | Target: 24.00 MHz  | 
+Number of clocks: 10
+Clock: ADC_SAR_1_theACLK                  | N/A  | Target: 1.60 MHz   | 
+Clock: ADC_SAR_1_theACLK(fixed-function)  | N/A  | Target: 1.60 MHz   | 
+Clock: Clock_2                            | N/A  | Target: 12.00 MHz  | 
+Clock: Clock_3                            | N/A  | Target: 0.00 MHz   | 
+Clock: Clock_3(fixed-function)            | N/A  | Target: 0.00 MHz   | 
+Clock: CyBUS_CLK                          | N/A  | Target: 24.00 MHz  | 
+Clock: CyILO                              | N/A  | Target: 0.10 MHz   | 
+Clock: CyIMO                              | N/A  | Target: 24.00 MHz  | 
+Clock: CyMASTER_CLK                       | N/A  | Target: 24.00 MHz  | 
+Clock: CyPLL_OUT                          | N/A  | Target: 24.00 MHz  | 
 
  =====================================================================
                     End of Clock Frequency Summary
@@ -53,7 +55,7 @@ All values are in Picoseconds
 
 Port Name            Setup to Clk  Clock Name:Phase  
 -------------------  ------------  ----------------  
-RearHall_Pin(0)_PAD  17023         Clock_2:R         
+RearHall_Pin(0)_PAD  17013         Clock_2:R         
 
 
                        3.2::Clock to Out
