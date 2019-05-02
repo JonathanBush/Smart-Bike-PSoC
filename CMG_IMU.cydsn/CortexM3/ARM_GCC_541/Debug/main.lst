@@ -1,0 +1,3813 @@
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	__aeabi_i2d
+  20              		.global	__aeabi_dmul
+  21              		.global	__aeabi_i2f
+  22              		.global	__aeabi_f2d
+  23              		.global	__aeabi_ddiv
+  24              		.global	__aeabi_d2f
+  25              		.section	.text.timer_isr,"ax",%progbits
+  26              		.align	2
+  27              		.global	timer_isr
+  28              		.thumb
+  29              		.thumb_func
+  30              		.type	timer_isr, %function
+  31              	timer_isr:
+  32              	.LFB66:
+  33              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** 
+  13:main.c        **** /*
+  14:main.c        ****  * Notes: Gimbal encoder is 980 cpr
+  15:main.c        ****  * Accounting for 18:24 gear ratio, each gimbal revolution is 1306.67 counts
+  16:main.c        ****  *
+  17:main.c        ****  */
+  18:main.c        **** 
+  19:main.c        **** #include <stdio.h>
+  20:main.c        **** #include <string.h>
+  21:main.c        **** #include <stdlib.h>
+  22:main.c        **** #include <math.h>
+  23:main.c        **** #include "project.h"
+  24:main.c        **** 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 2
+
+
+  25:main.c        **** #define GIMBAL_MAX_COMPARE (2200)
+  26:main.c        **** #define GIMBAL_MOTOR_CUTOFF  (20)
+  27:main.c        **** 
+  28:main.c        **** #define STEERING_MAX_COMPARE (2200)
+  29:main.c        **** #define STEERING_MOTOR_CUTOFF  (260)
+  30:main.c        **** 
+  31:main.c        **** #define signum(X) ((X > 0) ? 1 : ((X < 0) ? -1 : 0))
+  32:main.c        **** 
+  33:main.c        **** CY_ISR_PROTO(gimbal_control_loop);
+  34:main.c        **** CY_ISR_PROTO(steering_control_loop);
+  35:main.c        **** CY_ISR_PROTO(rpi_tx_isr);
+  36:main.c        **** CY_ISR_PROTO(timer_isr);
+  37:main.c        **** 
+  38:main.c        **** const uint16 gimbal_pwm_low = 100;
+  39:main.c        **** const uint16 gimbal_pwm_high = 200;
+  40:main.c        **** const uint16 gimbal_pwm_target = 132;//132; //143; //120
+  41:main.c        **** 
+  42:main.c        **** const int16 gimbal_max = 180;
+  43:main.c        **** const int16 gimbal_min = -180;
+  44:main.c        **** 
+  45:main.c        **** volatile int steeringTarget;    // steering setpoint in encoder counts
+  46:main.c        **** volatile float phi_w;           // gimbal angular position
+  47:main.c        **** volatile float phi_w_dot;       // gimbal angular velocity in rad/s
+  48:main.c        **** volatile float phi_b;
+  49:main.c        **** volatile float phi_b_dot;
+  50:main.c        **** volatile float speed_reading;   // measured gimbal angular velocity in rad/s
+  51:main.c        **** 
+  52:main.c        **** const int gimbal_enc_min = -217;
+  53:main.c        **** const int gimbal_enc_max = 217;
+  54:main.c        **** 
+  55:main.c        **** const float phi_w_dot_max = 11.5;
+  56:main.c        **** 
+  57:main.c        **** float alpha();  /* the gimbal angle */
+  58:main.c        **** float cmg_pid();
+  59:main.c        **** 
+  60:main.c        **** int main(void)
+  61:main.c        **** {
+  62:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+  63:main.c        **** 
+  64:main.c        ****     PWM_CMG_Start();
+  65:main.c        ****     PWM_CMG_WriteCompare1(gimbal_pwm_low);
+  66:main.c        ****     
+  67:main.c        ****     LED1_Write(0);
+  68:main.c        ****     
+  69:main.c        ****     phi_w_dot = 0;  // set gimbal angular velocity to 0
+  70:main.c        **** 
+  71:main.c        ****     Gimbal_Encoder_Start();
+  72:main.c        ****     Gimbal_Encoder_SetCounter(0);
+  73:main.c        ****     
+  74:main.c        ****     steeringTarget = 0;
+  75:main.c        ****     Handle_Encoder_Start();
+  76:main.c        ****     Handle_Encoder_SetCounter(0);
+  77:main.c        ****     PWM_Steer_Start();
+  78:main.c        ****     
+  79:main.c        ****     Gimbal_Control_Loop_Interrupt_StartEx(gimbal_control_loop);
+  80:main.c        ****     Steering_Control_Loop_Interrupt_StartEx(steering_control_loop);
+  81:main.c        ****     Rpi_Tx_Interrupt_StartEx(rpi_tx_isr);
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 3
+
+
+  82:main.c        ****     Timer_Interrupt_StartEx(timer_isr); // start the timer interrupt for gimbal speed measurement
+  83:main.c        ****     
+  84:main.c        ****     Gimbal_Timer_Start();   // timers control the control loop frequencies
+  85:main.c        ****     Steering_Timer_Start();
+  86:main.c        ****     UART_Start();
+  87:main.c        ****     
+  88:main.c        ****     for(;;)
+  89:main.c        ****     {
+  90:main.c        ****         LED1_Write(0);
+  91:main.c        ****         while (SW1_Read()) {
+  92:main.c        ****             phi_w_dot = -0.2 * signum(alpha()) / fabs(cos(alpha()));
+  93:main.c        ****         }
+  94:main.c        ****         CyDelay(500);
+  95:main.c        ****         //while (!SW1_Read());
+  96:main.c        ****         
+  97:main.c        **** #define FLYWHEEL_ENABLE        
+  98:main.c        **** #ifdef FLYWHEEL_ENABLE
+  99:main.c        ****         for (uint16 comp = gimbal_pwm_low + 10; comp <= gimbal_pwm_target; ++comp) {
+ 100:main.c        ****             PWM_CMG_WriteCompare1(comp);
+ 101:main.c        ****             LED1_Write(1);
+ 102:main.c        ****             CyDelay(500);
+ 103:main.c        ****             LED1_Write(0);
+ 104:main.c        ****             CyDelay(500);
+ 105:main.c        ****             if (SW1_Read()) {
+ 106:main.c        ****                 break;
+ 107:main.c        ****             }
+ 108:main.c        ****         }
+ 109:main.c        ****         CyDelay(10000);
+ 110:main.c        **** #endif
+ 111:main.c        ****         LED1_Write(1);
+ 112:main.c        ****         
+ 113:main.c        ****         char reset_flag = 0;
+ 114:main.c        **** 
+ 115:main.c        **** #define BALANCE_PID
+ 116:main.c        ****  
+ 117:main.c        ****         /* Sliding Mode control for CMG balancing */
+ 118:main.c        **** #ifndef BALANCE_PID
+ 119:main.c        ****         while (!SW1_Read()) {
+ 120:main.c        ****             //phi_w_dot = M_PI;
+ 121:main.c        ****             //float phi_w_dot_temp = fabs(12.65 * phi_b + 5.56 * phi_b_dot) * signum(3.0 * phi_b + 
+ 122:main.c        ****             
+ 123:main.c        ****             if (phi_b < 0.02 && phi_b > -0.02) {
+ 124:main.c        ****                 phi_w_dot = -0.07 * signum(alpha()) / fabs(cos(alpha()));
+ 125:main.c        ****                 reset_flag = 0;
+ 126:main.c        ****             } else if (reset_flag || Gimbal_Encoder_GetCounter() > gimbal_max || Gimbal_Encoder_Get
+ 127:main.c        ****                 phi_w_dot = -0.2 * signum(alpha()) / fabs(cos(alpha()));
+ 128:main.c        ****                 reset_flag = (fabs(alpha()) > 0.02);
+ 129:main.c        ****             } else {
+ 130:main.c        ****                 float phi_w_dot_temp = -fabs(21.0 * phi_b + 4.0 * phi_b_dot) * signum(3.0 * phi_b +
+ 131:main.c        ****                 
+ 132:main.c        ****                 if (fabs(phi_w_dot_temp) > phi_w_dot_max) {
+ 133:main.c        ****                     phi_w_dot_temp = phi_w_dot_max * signum(phi_w_dot_temp);
+ 134:main.c        ****                 }
+ 135:main.c        ****                 phi_w_dot = phi_w_dot_temp;
+ 136:main.c        ****             }
+ 137:main.c        ****         }
+ 138:main.c        **** #endif
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 4
+
+
+ 139:main.c        **** 
+ 140:main.c        ****         /* PID control for CMG balancing */
+ 141:main.c        **** #ifdef BALANCE_PID
+ 142:main.c        ****         
+ 143:main.c        ****         while (!SW1_Read()) {
+ 144:main.c        ****             phi_w_dot = cmg_pid();
+ 145:main.c        ****             CyDelay(10);
+ 146:main.c        ****         }
+ 147:main.c        **** #endif
+ 148:main.c        ****         phi_w_dot = 0;
+ 149:main.c        **** 
+ 150:main.c        ****         PWM_CMG_WriteCompare1(gimbal_pwm_low);
+ 151:main.c        ****         
+ 152:main.c        ****         LED1_Write(0);
+ 153:main.c        ****         //UART_Stop();
+ 154:main.c        **** 
+ 155:main.c        ****         //while (!SW1_Read());
+ 156:main.c        ****         CyDelay(1000);
+ 157:main.c        ****         
+ 158:main.c        ****     }
+ 159:main.c        ****     
+ 160:main.c        **** }
+ 161:main.c        **** 
+ 162:main.c        **** float cmg_pid()
+ 163:main.c        **** {
+ 164:main.c        ****     static const float Kp = 20;
+ 165:main.c        ****     static const float Ki = 0.0;
+ 166:main.c        ****     static const float Kd = 2.2;
+ 167:main.c        ****     static const float dt = 0.01;
+ 168:main.c        **** 
+ 169:main.c        ****     //static float previous_error = 0;
+ 170:main.c        ****     static float integral = 0;
+ 171:main.c        ****     static float derivative = 0;
+ 172:main.c        ****     
+ 173:main.c        ****     float error = 0 - phi_b;
+ 174:main.c        ****     integral += error * dt;
+ 175:main.c        ****     derivative = phi_b_dot;
+ 176:main.c        ****     float output = (Kp*error + Ki*integral + Kd*derivative);
+ 177:main.c        ****     //previous_error = error;
+ 178:main.c        ****     
+ 179:main.c        ****     return output;
+ 180:main.c        ****     
+ 181:main.c        **** }
+ 182:main.c        **** 
+ 183:main.c        **** /* 10 kHz */
+ 184:main.c        **** CY_ISR(timer_isr) {
+  34              		.loc 1 184 0
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 0, uses_anonymous_args = 0
+  38 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  39              		.cfi_def_cfa_offset 24
+  40              		.cfi_offset 3, -24
+  41              		.cfi_offset 4, -20
+  42              		.cfi_offset 5, -16
+  43              		.cfi_offset 6, -12
+  44              		.cfi_offset 7, -8
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 5
+
+
+  45              		.cfi_offset 14, -4
+ 185:main.c        ****     static int time_since_change = 0;
+ 186:main.c        ****     static int last_encoder = 0;
+ 187:main.c        ****     int new_encoder;
+ 188:main.c        ****     ++time_since_change;
+  46              		.loc 1 188 0
+  47 0002 1B4C     		ldr	r4, .L5+8
+  48 0004 2368     		ldr	r3, [r4]
+  49 0006 0133     		adds	r3, r3, #1
+  50 0008 2360     		str	r3, [r4]
+ 189:main.c        ****     new_encoder = Gimbal_Encoder_GetCounter();
+  51              		.loc 1 189 0
+  52 000a FFF7FEFF 		bl	Gimbal_Encoder_GetCounter
+  53              	.LVL0:
+  54 000e 0546     		mov	r5, r0
+  55              	.LVL1:
+ 190:main.c        ****     if (new_encoder != last_encoder) {
+  56              		.loc 1 190 0
+  57 0010 6068     		ldr	r0, [r4, #4]
+  58              	.LVL2:
+  59 0012 8542     		cmp	r5, r0
+  60 0014 1CD0     		beq	.L2
+ 191:main.c        ****         speed_reading = (last_encoder - new_encoder) * 38.45 / (float)time_since_change;    //48.07
+  61              		.loc 1 191 0
+  62 0016 401B     		subs	r0, r0, r5
+  63 0018 FFF7FEFF 		bl	__aeabi_i2d
+  64              	.LVL3:
+  65 001c 12A3     		adr	r3, .L5
+  66 001e D3E90023 		ldrd	r2, [r3]
+  67 0022 FFF7FEFF 		bl	__aeabi_dmul
+  68              	.LVL4:
+  69 0026 0646     		mov	r6, r0
+  70 0028 0F46     		mov	r7, r1
+  71 002a 2068     		ldr	r0, [r4]
+  72 002c FFF7FEFF 		bl	__aeabi_i2f
+  73              	.LVL5:
+  74 0030 FFF7FEFF 		bl	__aeabi_f2d
+  75              	.LVL6:
+  76 0034 0246     		mov	r2, r0
+  77 0036 0B46     		mov	r3, r1
+  78 0038 3046     		mov	r0, r6
+  79 003a 3946     		mov	r1, r7
+  80 003c FFF7FEFF 		bl	__aeabi_ddiv
+  81              	.LVL7:
+  82 0040 FFF7FEFF 		bl	__aeabi_d2f
+  83              	.LVL8:
+  84 0044 0B4B     		ldr	r3, .L5+12
+  85 0046 1860     		str	r0, [r3]	@ float
+ 192:main.c        ****         last_encoder = new_encoder;
+  86              		.loc 1 192 0
+  87 0048 6560     		str	r5, [r4, #4]
+ 193:main.c        ****         time_since_change = 0;
+  88              		.loc 1 193 0
+  89 004a 0023     		movs	r3, #0
+  90 004c 2360     		str	r3, [r4]
+  91 004e F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+  92              	.LVL9:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 6
+
+
+  93              	.L2:
+ 194:main.c        ****     } else if (time_since_change > 4000) {
+  94              		.loc 1 194 0
+  95 0050 074B     		ldr	r3, .L5+8
+  96 0052 1B68     		ldr	r3, [r3]
+  97 0054 B3F57A6F 		cmp	r3, #4000
+  98 0058 05DD     		ble	.L1
+ 195:main.c        ****         speed_reading = 0;
+  99              		.loc 1 195 0
+ 100 005a 0022     		movs	r2, #0
+ 101 005c 054B     		ldr	r3, .L5+12
+ 102 005e 1A60     		str	r2, [r3]	@ float
+ 196:main.c        ****         time_since_change = 0;
+ 103              		.loc 1 196 0
+ 104 0060 0022     		movs	r2, #0
+ 105 0062 034B     		ldr	r3, .L5+8
+ 106 0064 1A60     		str	r2, [r3]
+ 107              	.L1:
+ 108 0066 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 109              	.LVL10:
+ 110              	.L6:
+ 111              		.align	3
+ 112              	.L5:
+ 113 0068 9A999999 		.word	-1717986918
+ 114 006c 99394340 		.word	1078147481
+ 115 0070 00000000 		.word	.LANCHOR0
+ 116 0074 00000000 		.word	speed_reading
+ 117              		.cfi_endproc
+ 118              	.LFE66:
+ 119              		.size	timer_isr, .-timer_isr
+ 120              		.global	__aeabi_fsub
+ 121              		.global	__aeabi_fmul
+ 122              		.global	__aeabi_fadd
+ 123              		.global	__aeabi_fdiv
+ 124              		.global	__aeabi_fcmplt
+ 125              		.global	__aeabi_fcmpgt
+ 126              		.global	__aeabi_d2iz
+ 127              		.section	.text.gimbal_control_loop,"ax",%progbits
+ 128              		.align	2
+ 129              		.global	gimbal_control_loop
+ 130              		.thumb
+ 131              		.thumb_func
+ 132              		.type	gimbal_control_loop, %function
+ 133              	gimbal_control_loop:
+ 134              	.LFB67:
+ 197:main.c        ****     }
+ 198:main.c        **** }
+ 199:main.c        **** 
+ 200:main.c        **** /* velocity PID control loop for gimbal control, 1000Hz */
+ 201:main.c        **** CY_ISR(gimbal_control_loop)
+ 202:main.c        **** {
+ 135              		.loc 1 202 0
+ 136              		.cfi_startproc
+ 137              		@ args = 0, pretend = 0, frame = 0
+ 138              		@ frame_needed = 0, uses_anonymous_args = 0
+ 139 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 140              		.cfi_def_cfa_offset 24
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 7
+
+
+ 141              		.cfi_offset 4, -24
+ 142              		.cfi_offset 5, -20
+ 143              		.cfi_offset 6, -16
+ 144              		.cfi_offset 7, -12
+ 145              		.cfi_offset 8, -8
+ 146              		.cfi_offset 14, -4
+ 203:main.c        ****     static const float Kp = .8;
+ 204:main.c        ****     static const float Ki = 0.02;
+ 205:main.c        ****     static const float Kd = 0.002;
+ 206:main.c        ****     static const float dt = 0.002;
+ 207:main.c        **** 
+ 208:main.c        ****     static float previous_error = 0;
+ 209:main.c        ****     static float integral = 0;
+ 210:main.c        ****     static float derivative = 0;
+ 211:main.c        ****     
+ 212:main.c        ****     static float speedValue = 0;
+ 213:main.c        ****     
+ 214:main.c        ****     Gimbal_Timer_ReadStatusRegister();
+ 147              		.loc 1 214 0
+ 148 0004 FFF7FEFF 		bl	Gimbal_Timer_ReadStatusRegister
+ 149              	.LVL11:
+ 215:main.c        **** 
+ 216:main.c        ****     float speedTarget = phi_w_dot;
+ 150              		.loc 1 216 0
+ 151 0008 454B     		ldr	r3, .L21+8
+ 152 000a 1868     		ldr	r0, [r3]	@ float
+ 153              	.LVL12:
+ 217:main.c        ****     float error = (speedTarget - speed_reading) * dt;
+ 154              		.loc 1 217 0
+ 155 000c 454B     		ldr	r3, .L21+12
+ 156 000e 1968     		ldr	r1, [r3]	@ float
+ 157 0010 FFF7FEFF 		bl	__aeabi_fsub
+ 158              	.LVL13:
+ 159 0014 4449     		ldr	r1, .L21+16
+ 160 0016 FFF7FEFF 		bl	__aeabi_fmul
+ 161              	.LVL14:
+ 162 001a 0546     		mov	r5, r0
+ 163              	.LVL15:
+ 218:main.c        ****     integral += error * dt;
+ 164              		.loc 1 218 0
+ 165 001c 4249     		ldr	r1, .L21+16
+ 166 001e FFF7FEFF 		bl	__aeabi_fmul
+ 167              	.LVL16:
+ 168 0022 424C     		ldr	r4, .L21+20
+ 169 0024 A168     		ldr	r1, [r4, #8]	@ float
+ 170 0026 FFF7FEFF 		bl	__aeabi_fadd
+ 171              	.LVL17:
+ 172 002a 0646     		mov	r6, r0
+ 173 002c A060     		str	r0, [r4, #8]	@ float
+ 219:main.c        ****     derivative = (error - previous_error) / dt;
+ 174              		.loc 1 219 0
+ 175 002e E168     		ldr	r1, [r4, #12]	@ float
+ 176 0030 2846     		mov	r0, r5
+ 177 0032 FFF7FEFF 		bl	__aeabi_fsub
+ 178              	.LVL18:
+ 179 0036 3C49     		ldr	r1, .L21+16
+ 180 0038 FFF7FEFF 		bl	__aeabi_fdiv
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 8
+
+
+ 181              	.LVL19:
+ 182 003c 0746     		mov	r7, r0
+ 220:main.c        ****     float output = (Kp * error + Ki * integral + Kd*derivative);
+ 183              		.loc 1 220 0
+ 184 003e 3C49     		ldr	r1, .L21+24
+ 185 0040 2846     		mov	r0, r5
+ 186 0042 FFF7FEFF 		bl	__aeabi_fmul
+ 187              	.LVL20:
+ 188 0046 8046     		mov	r8, r0
+ 189 0048 3A49     		ldr	r1, .L21+28
+ 190 004a 3046     		mov	r0, r6
+ 191 004c FFF7FEFF 		bl	__aeabi_fmul
+ 192              	.LVL21:
+ 193 0050 0146     		mov	r1, r0
+ 194 0052 4046     		mov	r0, r8
+ 195 0054 FFF7FEFF 		bl	__aeabi_fadd
+ 196              	.LVL22:
+ 197 0058 0646     		mov	r6, r0
+ 198 005a 3349     		ldr	r1, .L21+16
+ 199 005c 3846     		mov	r0, r7
+ 200 005e FFF7FEFF 		bl	__aeabi_fmul
+ 201              	.LVL23:
+ 202 0062 0146     		mov	r1, r0
+ 203 0064 3046     		mov	r0, r6
+ 204 0066 FFF7FEFF 		bl	__aeabi_fadd
+ 205              	.LVL24:
+ 221:main.c        ****     previous_error = error;
+ 206              		.loc 1 221 0
+ 207 006a E560     		str	r5, [r4, #12]	@ float
+ 222:main.c        ****     float temp = speedValue + output;
+ 208              		.loc 1 222 0
+ 209 006c 2169     		ldr	r1, [r4, #16]	@ float
+ 210 006e FFF7FEFF 		bl	__aeabi_fadd
+ 211              	.LVL25:
+ 212 0072 0446     		mov	r4, r0
+ 213              	.LVL26:
+ 223:main.c        ****     if (temp < -1.0) {
+ 214              		.loc 1 223 0
+ 215 0074 3049     		ldr	r1, .L21+32
+ 216 0076 FFF7FEFF 		bl	__aeabi_fcmplt
+ 217              	.LVL27:
+ 218 007a 30B9     		cbnz	r0, .L15
+ 224:main.c        ****         temp = -1.0;
+ 225:main.c        ****     } else if (temp > 1.0) {
+ 219              		.loc 1 225 0
+ 220 007c 4FF07E51 		mov	r1, #1065353216
+ 221 0080 2046     		mov	r0, r4
+ 222 0082 FFF7FEFF 		bl	__aeabi_fcmpgt
+ 223              	.LVL28:
+ 224 0086 10B9     		cbnz	r0, .L16
+ 225 0088 03E0     		b	.L8
+ 226              	.L15:
+ 224:main.c        ****         temp = -1.0;
+ 227              		.loc 1 224 0
+ 228 008a 2B4C     		ldr	r4, .L21+32
+ 229              	.LVL29:
+ 230 008c 01E0     		b	.L8
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 9
+
+
+ 231              	.LVL30:
+ 232              	.L16:
+ 226:main.c        ****         temp = 1.0;
+ 233              		.loc 1 226 0
+ 234 008e 4FF07E54 		mov	r4, #1065353216
+ 235              	.LVL31:
+ 236              	.L8:
+ 227:main.c        ****     }
+ 228:main.c        ****     speedValue = temp;
+ 237              		.loc 1 228 0
+ 238 0092 264B     		ldr	r3, .L21+20
+ 239 0094 1C61     		str	r4, [r3, #16]	@ float
+ 229:main.c        ****     
+ 230:main.c        ****     gimbal_direction_Write(speedValue < 0);
+ 240              		.loc 1 230 0
+ 241 0096 4FF00105 		mov	r5, #1
+ 242              	.LVL32:
+ 243 009a 0021     		movs	r1, #0
+ 244 009c 2046     		mov	r0, r4
+ 245 009e FFF7FEFF 		bl	__aeabi_fcmplt
+ 246              	.LVL33:
+ 247 00a2 08B9     		cbnz	r0, .L9
+ 248 00a4 4FF00005 		mov	r5, #0
+ 249              	.L9:
+ 250 00a8 05F00100 		and	r0, r5, #1
+ 251 00ac FFF7FEFF 		bl	gimbal_direction_Write
+ 252              	.LVL34:
+ 231:main.c        ****     
+ 232:main.c        ****     int gimbal_motor_compare = (int)((float)GIMBAL_MAX_COMPARE * fabs(speedValue));
+ 253              		.loc 1 232 0
+ 254 00b0 1E4B     		ldr	r3, .L21+20
+ 255 00b2 1D69     		ldr	r5, [r3, #16]	@ float
+ 256 00b4 25F00040 		bic	r0, r5, #-2147483648
+ 257 00b8 FFF7FEFF 		bl	__aeabi_f2d
+ 258              	.LVL35:
+ 259 00bc 16A3     		adr	r3, .L21
+ 260 00be D3E90023 		ldrd	r2, [r3]
+ 261 00c2 FFF7FEFF 		bl	__aeabi_dmul
+ 262              	.LVL36:
+ 263 00c6 FFF7FEFF 		bl	__aeabi_d2iz
+ 264              	.LVL37:
+ 265 00ca 0446     		mov	r4, r0
+ 266              	.LVL38:
+ 233:main.c        ****     
+ 234:main.c        ****     if (gimbal_motor_compare < GIMBAL_MOTOR_CUTOFF) gimbal_motor_compare = 0;
+ 267              		.loc 1 234 0
+ 268 00cc 1328     		cmp	r0, #19
+ 269 00ce 00DC     		bgt	.L10
+ 270 00d0 0024     		movs	r4, #0
+ 271              	.L10:
+ 272              	.LVL39:
+ 235:main.c        ****     
+ 236:main.c        ****     /* limit gimbal motion */
+ 237:main.c        **** #ifdef BALANCE_PID
+ 238:main.c        ****     if (speedValue > 0 && Gimbal_Encoder_GetCounter() < gimbal_min) {
+ 273              		.loc 1 238 0
+ 274 00d2 0021     		movs	r1, #0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 10
+
+
+ 275 00d4 2846     		mov	r0, r5
+ 276 00d6 FFF7FEFF 		bl	__aeabi_fcmpgt
+ 277              	.LVL40:
+ 278 00da 48B1     		cbz	r0, .L11
+ 279              		.loc 1 238 0 is_stmt 0 discriminator 1
+ 280 00dc FFF7FEFF 		bl	Gimbal_Encoder_GetCounter
+ 281              	.LVL41:
+ 282 00e0 10F1B40F 		cmn	r0, #180
+ 283 00e4 04DA     		bge	.L11
+ 284              	.LVL42:
+ 239:main.c        ****         gimbal_motor_compare = 0;
+ 240:main.c        ****         integral = 0;
+ 285              		.loc 1 240 0 is_stmt 1
+ 286 00e6 0022     		movs	r2, #0
+ 287 00e8 104B     		ldr	r3, .L21+20
+ 288 00ea 9A60     		str	r2, [r3, #8]	@ float
+ 239:main.c        ****         gimbal_motor_compare = 0;
+ 289              		.loc 1 239 0
+ 290 00ec 0024     		movs	r4, #0
+ 291              		.loc 1 240 0
+ 292 00ee 0DE0     		b	.L13
+ 293              	.LVL43:
+ 294              	.L11:
+ 241:main.c        ****     } else if (speedValue < 0 && Gimbal_Encoder_GetCounter() > gimbal_max) {
+ 295              		.loc 1 241 0
+ 296 00f0 0021     		movs	r1, #0
+ 297 00f2 0E4B     		ldr	r3, .L21+20
+ 298 00f4 1869     		ldr	r0, [r3, #16]	@ float
+ 299 00f6 FFF7FEFF 		bl	__aeabi_fcmplt
+ 300              	.LVL44:
+ 301 00fa 38B1     		cbz	r0, .L13
+ 302              		.loc 1 241 0 is_stmt 0 discriminator 1
+ 303 00fc FFF7FEFF 		bl	Gimbal_Encoder_GetCounter
+ 304              	.LVL45:
+ 305 0100 B428     		cmp	r0, #180
+ 306 0102 03DD     		ble	.L13
+ 307              	.LVL46:
+ 242:main.c        ****         gimbal_motor_compare = 0;
+ 243:main.c        ****         integral = 0;
+ 308              		.loc 1 243 0 is_stmt 1
+ 309 0104 0022     		movs	r2, #0
+ 310 0106 094B     		ldr	r3, .L21+20
+ 311 0108 9A60     		str	r2, [r3, #8]	@ float
+ 242:main.c        ****         gimbal_motor_compare = 0;
+ 312              		.loc 1 242 0
+ 313 010a 0024     		movs	r4, #0
+ 314              	.LVL47:
+ 315              	.L13:
+ 244:main.c        ****     }
+ 245:main.c        **** #endif
+ 246:main.c        **** 
+ 247:main.c        ****     PWM_CMG_WriteCompare2(gimbal_motor_compare);
+ 316              		.loc 1 247 0
+ 317 010c A0B2     		uxth	r0, r4
+ 318 010e FFF7FEFF 		bl	PWM_CMG_WriteCompare2
+ 319              	.LVL48:
+ 320 0112 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 11
+
+
+ 321              	.LVL49:
+ 322              	.L22:
+ 323 0116 00BF     		.align	3
+ 324              	.L21:
+ 325 0118 00000000 		.word	0
+ 326 011c 0030A140 		.word	1084305408
+ 327 0120 00000000 		.word	phi_w_dot
+ 328 0124 00000000 		.word	speed_reading
+ 329 0128 6F12033B 		.word	990057071
+ 330 012c 00000000 		.word	.LANCHOR0
+ 331 0130 CDCC4C3F 		.word	1061997773
+ 332 0134 0AD7A33C 		.word	1017370378
+ 333 0138 000080BF 		.word	-1082130432
+ 334              		.cfi_endproc
+ 335              	.LFE67:
+ 336              		.size	gimbal_control_loop, .-gimbal_control_loop
+ 337              		.global	__aeabi_f2iz
+ 338              		.section	.text.steering_control_loop,"ax",%progbits
+ 339              		.align	2
+ 340              		.global	steering_control_loop
+ 341              		.thumb
+ 342              		.thumb_func
+ 343              		.type	steering_control_loop, %function
+ 344              	steering_control_loop:
+ 345              	.LFB68:
+ 248:main.c        ****    
+ 249:main.c        **** }
+ 250:main.c        **** 
+ 251:main.c        **** CY_ISR(steering_control_loop)
+ 252:main.c        **** {
+ 346              		.loc 1 252 0
+ 347              		.cfi_startproc
+ 348              		@ args = 0, pretend = 0, frame = 0
+ 349              		@ frame_needed = 0, uses_anonymous_args = 0
+ 350 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 351              		.cfi_def_cfa_offset 24
+ 352              		.cfi_offset 4, -24
+ 353              		.cfi_offset 5, -20
+ 354              		.cfi_offset 6, -16
+ 355              		.cfi_offset 7, -12
+ 356              		.cfi_offset 8, -8
+ 357              		.cfi_offset 14, -4
+ 253:main.c        ****     static const float Kp = 10.0;
+ 254:main.c        ****     static const float Ki = 4.0;
+ 255:main.c        ****     static const float Kd = 0.5;
+ 256:main.c        ****     static const float dt = 0.01;
+ 257:main.c        **** 
+ 258:main.c        ****     static int previous_error = 0;
+ 259:main.c        ****     //static int previous_encoder = 0;
+ 260:main.c        ****     static float integral = 0;
+ 261:main.c        ****     static float derivative = 0;
+ 262:main.c        ****     
+ 263:main.c        ****     Steering_Timer_ReadStatusRegister();
+ 358              		.loc 1 263 0
+ 359 0004 FFF7FEFF 		bl	Steering_Timer_ReadStatusRegister
+ 360              	.LVL50:
+ 264:main.c        ****     
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 12
+
+
+ 265:main.c        ****     int error = steeringTarget - Handle_Encoder_GetCounter();
+ 361              		.loc 1 265 0
+ 362 0008 264B     		ldr	r3, .L27
+ 363 000a 1C68     		ldr	r4, [r3]
+ 364 000c FFF7FEFF 		bl	Handle_Encoder_GetCounter
+ 365              	.LVL51:
+ 366 0010 241A     		subs	r4, r4, r0
+ 367              	.LVL52:
+ 266:main.c        ****     integral += error * dt;
+ 368              		.loc 1 266 0
+ 369 0012 2046     		mov	r0, r4
+ 370 0014 FFF7FEFF 		bl	__aeabi_i2f
+ 371              	.LVL53:
+ 372 0018 8046     		mov	r8, r0
+ 373 001a 2349     		ldr	r1, .L27+4
+ 374 001c FFF7FEFF 		bl	__aeabi_fmul
+ 375              	.LVL54:
+ 376 0020 224D     		ldr	r5, .L27+8
+ 377 0022 6969     		ldr	r1, [r5, #20]	@ float
+ 378 0024 FFF7FEFF 		bl	__aeabi_fadd
+ 379              	.LVL55:
+ 380 0028 0646     		mov	r6, r0
+ 381 002a 6861     		str	r0, [r5, #20]	@ float
+ 267:main.c        ****     derivative = (error - previous_error) / dt;
+ 382              		.loc 1 267 0
+ 383 002c A869     		ldr	r0, [r5, #24]
+ 384 002e 201A     		subs	r0, r4, r0
+ 385 0030 FFF7FEFF 		bl	__aeabi_i2f
+ 386              	.LVL56:
+ 387 0034 1C49     		ldr	r1, .L27+4
+ 388 0036 FFF7FEFF 		bl	__aeabi_fdiv
+ 389              	.LVL57:
+ 390 003a 0746     		mov	r7, r0
+ 268:main.c        ****     int output = (int)(Kp*error + Ki*integral + Kd*derivative);
+ 391              		.loc 1 268 0
+ 392 003c 1C49     		ldr	r1, .L27+12
+ 393 003e 4046     		mov	r0, r8
+ 394 0040 FFF7FEFF 		bl	__aeabi_fmul
+ 395              	.LVL58:
+ 396 0044 8046     		mov	r8, r0
+ 397 0046 4FF08141 		mov	r1, #1082130432
+ 398 004a 3046     		mov	r0, r6
+ 399 004c FFF7FEFF 		bl	__aeabi_fmul
+ 400              	.LVL59:
+ 401 0050 0146     		mov	r1, r0
+ 402 0052 4046     		mov	r0, r8
+ 403 0054 FFF7FEFF 		bl	__aeabi_fadd
+ 404              	.LVL60:
+ 405 0058 0646     		mov	r6, r0
+ 406 005a 4FF07C51 		mov	r1, #1056964608
+ 407 005e 3846     		mov	r0, r7
+ 408 0060 FFF7FEFF 		bl	__aeabi_fmul
+ 409              	.LVL61:
+ 410 0064 0146     		mov	r1, r0
+ 411 0066 3046     		mov	r0, r6
+ 412 0068 FFF7FEFF 		bl	__aeabi_fadd
+ 413              	.LVL62:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 13
+
+
+ 414 006c FFF7FEFF 		bl	__aeabi_f2iz
+ 415              	.LVL63:
+ 269:main.c        ****     previous_error = error;
+ 416              		.loc 1 269 0
+ 417 0070 AC61     		str	r4, [r5, #24]
+ 270:main.c        ****     
+ 271:main.c        ****     Steering_Dir_Write(output > 0);
+ 418              		.loc 1 271 0
+ 419 0072 0446     		mov	r4, r0
+ 420              	.LVL64:
+ 421 0074 0028     		cmp	r0, #0
+ 422 0076 D4BF     		ite	le
+ 423 0078 0020     		movle	r0, #0
+ 424              	.LVL65:
+ 425 007a 0120     		movgt	r0, #1
+ 426 007c FFF7FEFF 		bl	Steering_Dir_Write
+ 427              	.LVL66:
+ 272:main.c        ****     output = (abs(output) > STEERING_MAX_COMPARE) ? STEERING_MAX_COMPARE : abs(output);
+ 428              		.loc 1 272 0
+ 429 0080 84EAE470 		eor	r0, r4, r4, asr #31
+ 430 0084 A0EBE470 		sub	r0, r0, r4, asr #31
+ 431 0088 40F69803 		movw	r3, #2200
+ 432 008c 9842     		cmp	r0, r3
+ 433 008e A8BF     		it	ge
+ 434 0090 1846     		movge	r0, r3
+ 435              	.LVL67:
+ 273:main.c        ****     if (output < STEERING_MOTOR_CUTOFF) output = 0;
+ 436              		.loc 1 273 0
+ 437 0092 B0F5827F 		cmp	r0, #260
+ 438 0096 00DA     		bge	.L24
+ 439 0098 0020     		movs	r0, #0
+ 440              	.LVL68:
+ 441              	.L24:
+ 274:main.c        **** //    if ((output > MOTOR_MAX_COMPARE - 10 && abs(Handle_Encoder_GetCounter() - previous_encoder) <
+ 275:main.c        **** //        output = 0;
+ 276:main.c        **** //        integral = 0;
+ 277:main.c        **** //    }
+ 278:main.c        ****     PWM_Steer_WriteCompare(output);
+ 442              		.loc 1 278 0
+ 443 009a 80B2     		uxth	r0, r0
+ 444              	.LVL69:
+ 445 009c FFF7FEFF 		bl	PWM_Steer_WriteCompare
+ 446              	.LVL70:
+ 447 00a0 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 448              	.L28:
+ 449              		.align	2
+ 450              	.L27:
+ 451 00a4 00000000 		.word	steeringTarget
+ 452 00a8 0AD7233C 		.word	1008981770
+ 453 00ac 00000000 		.word	.LANCHOR0
+ 454 00b0 00002041 		.word	1092616192
+ 455              		.cfi_endproc
+ 456              	.LFE68:
+ 457              		.size	steering_control_loop, .-steering_control_loop
+ 458              		.section	.text.rpi_tx_isr,"ax",%progbits
+ 459              		.align	2
+ 460              		.global	rpi_tx_isr
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 14
+
+
+ 461              		.thumb
+ 462              		.thumb_func
+ 463              		.type	rpi_tx_isr, %function
+ 464              	rpi_tx_isr:
+ 465              	.LFB69:
+ 279:main.c        ****     //previous_encoder = Handle_Encoder_GetCounter();
+ 280:main.c        ****    
+ 281:main.c        **** }
+ 282:main.c        **** 
+ 283:main.c        **** 
+ 284:main.c        **** 
+ 285:main.c        **** CY_ISR(rpi_tx_isr) {
+ 466              		.loc 1 285 0
+ 467              		.cfi_startproc
+ 468              		@ args = 0, pretend = 0, frame = 0
+ 469              		@ frame_needed = 0, uses_anonymous_args = 0
+ 470 0000 10B5     		push	{r4, lr}
+ 471              		.cfi_def_cfa_offset 8
+ 472              		.cfi_offset 4, -8
+ 473              		.cfi_offset 14, -4
+ 286:main.c        ****     static char receiving = 0;
+ 287:main.c        ****     static unsigned char buffer[4];
+ 288:main.c        ****     
+ 289:main.c        ****     char received = UART_GetChar();
+ 474              		.loc 1 289 0
+ 475 0002 FFF7FEFF 		bl	UART_GetChar
+ 476              	.LVL71:
+ 290:main.c        ****     
+ 291:main.c        ****     if (receiving == 0 && received == 0xFF) {   // start byte
+ 477              		.loc 1 291 0
+ 478 0006 194B     		ldr	r3, .L33
+ 479 0008 1B7F     		ldrb	r3, [r3, #28]	@ zero_extendqisi2
+ 480 000a 2BB9     		cbnz	r3, .L30
+ 481              		.loc 1 291 0 is_stmt 0 discriminator 1
+ 482 000c FF28     		cmp	r0, #255
+ 483 000e 03D1     		bne	.L30
+ 292:main.c        ****         receiving = 1;
+ 484              		.loc 1 292 0 is_stmt 1
+ 485 0010 0122     		movs	r2, #1
+ 486 0012 164B     		ldr	r3, .L33
+ 487 0014 1A77     		strb	r2, [r3, #28]
+ 488 0016 10BD     		pop	{r4, pc}
+ 489              	.L30:
+ 293:main.c        ****     } else {
+ 294:main.c        ****         buffer[receiving - 1] = received;
+ 490              		.loc 1 294 0
+ 491 0018 5A1E     		subs	r2, r3, #1
+ 492 001a 1449     		ldr	r1, .L33
+ 493 001c 0A44     		add	r2, r2, r1
+ 494 001e 82F82000 		strb	r0, [r2, #32]
+ 295:main.c        ****         ++receiving;
+ 495              		.loc 1 295 0
+ 496 0022 0133     		adds	r3, r3, #1
+ 497 0024 DBB2     		uxtb	r3, r3
+ 498 0026 0B77     		strb	r3, [r1, #28]
+ 296:main.c        ****         if (receiving > 4) {
+ 499              		.loc 1 296 0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 15
+
+
+ 500 0028 042B     		cmp	r3, #4
+ 501 002a 1ED9     		bls	.L29
+ 502              	.LBB2:
+ 297:main.c        ****             receiving = 0;
+ 503              		.loc 1 297 0
+ 504 002c 0023     		movs	r3, #0
+ 505 002e 0B77     		strb	r3, [r1, #28]
+ 298:main.c        ****             int16 phi_b_i = (int16)(((uint16)buffer[0]) << 8) | (uint16)buffer[1];
+ 506              		.loc 1 298 0
+ 507 0030 91F82030 		ldrb	r3, [r1, #32]	@ zero_extendqisi2
+ 508 0034 1B02     		lsls	r3, r3, #8
+ 509 0036 1BB2     		sxth	r3, r3
+ 510 0038 91F82100 		ldrb	r0, [r1, #33]	@ zero_extendqisi2
+ 511              	.LVL72:
+ 299:main.c        ****             int16 phi_b_dot_i = (int16)(((uint16)buffer[2]) << 8) | (uint16)buffer[3];
+ 512              		.loc 1 299 0
+ 513 003c 91F82220 		ldrb	r2, [r1, #34]	@ zero_extendqisi2
+ 514              	.LVL73:
+ 515 0040 1202     		lsls	r2, r2, #8
+ 516 0042 12B2     		sxth	r2, r2
+ 517 0044 91F82340 		ldrb	r4, [r1, #35]	@ zero_extendqisi2
+ 518 0048 1443     		orrs	r4, r4, r2
+ 519              	.LVL74:
+ 300:main.c        ****             phi_b = (float)phi_b_i / 1000.;// - 0.02;
+ 520              		.loc 1 300 0
+ 521 004a 1843     		orrs	r0, r0, r3
+ 522              	.LVL75:
+ 523 004c FFF7FEFF 		bl	__aeabi_i2f
+ 524              	.LVL76:
+ 525 0050 0749     		ldr	r1, .L33+4
+ 526 0052 FFF7FEFF 		bl	__aeabi_fdiv
+ 527              	.LVL77:
+ 528 0056 074B     		ldr	r3, .L33+8
+ 529 0058 1860     		str	r0, [r3]	@ float
+ 301:main.c        ****             phi_b_dot = (float)phi_b_dot_i / 1000.;
+ 530              		.loc 1 301 0
+ 531 005a 2046     		mov	r0, r4
+ 532 005c FFF7FEFF 		bl	__aeabi_i2f
+ 533              	.LVL78:
+ 534 0060 0349     		ldr	r1, .L33+4
+ 535 0062 FFF7FEFF 		bl	__aeabi_fdiv
+ 536              	.LVL79:
+ 537 0066 044B     		ldr	r3, .L33+12
+ 538 0068 1860     		str	r0, [r3]	@ float
+ 539              	.LVL80:
+ 540              	.L29:
+ 541 006a 10BD     		pop	{r4, pc}
+ 542              	.L34:
+ 543              		.align	2
+ 544              	.L33:
+ 545 006c 00000000 		.word	.LANCHOR0
+ 546 0070 00007A44 		.word	1148846080
+ 547 0074 00000000 		.word	phi_b
+ 548 0078 00000000 		.word	phi_b_dot
+ 549              	.LBE2:
+ 550              		.cfi_endproc
+ 551              	.LFE69:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 16
+
+
+ 552              		.size	rpi_tx_isr, .-rpi_tx_isr
+ 553              		.section	.text.cmg_pid,"ax",%progbits
+ 554              		.align	2
+ 555              		.global	cmg_pid
+ 556              		.thumb
+ 557              		.thumb_func
+ 558              		.type	cmg_pid, %function
+ 559              	cmg_pid:
+ 560              	.LFB65:
+ 163:main.c        ****     static const float Kp = 20;
+ 561              		.loc 1 163 0
+ 562              		.cfi_startproc
+ 563              		@ args = 0, pretend = 0, frame = 0
+ 564              		@ frame_needed = 0, uses_anonymous_args = 0
+ 565 0000 70B5     		push	{r4, r5, r6, lr}
+ 566              		.cfi_def_cfa_offset 16
+ 567              		.cfi_offset 4, -16
+ 568              		.cfi_offset 5, -12
+ 569              		.cfi_offset 6, -8
+ 570              		.cfi_offset 14, -4
+ 173:main.c        ****     integral += error * dt;
+ 571              		.loc 1 173 0
+ 572 0002 144B     		ldr	r3, .L37
+ 573 0004 1968     		ldr	r1, [r3]	@ float
+ 574 0006 0020     		movs	r0, #0
+ 575 0008 FFF7FEFF 		bl	__aeabi_fsub
+ 576              	.LVL81:
+ 577 000c 0646     		mov	r6, r0
+ 578              	.LVL82:
+ 174:main.c        ****     derivative = phi_b_dot;
+ 579              		.loc 1 174 0
+ 580 000e 1249     		ldr	r1, .L37+4
+ 581 0010 FFF7FEFF 		bl	__aeabi_fmul
+ 582              	.LVL83:
+ 583 0014 114D     		ldr	r5, .L37+8
+ 584 0016 696A     		ldr	r1, [r5, #36]	@ float
+ 585 0018 FFF7FEFF 		bl	__aeabi_fadd
+ 586              	.LVL84:
+ 587 001c 0446     		mov	r4, r0
+ 588 001e 6862     		str	r0, [r5, #36]	@ float
+ 175:main.c        ****     float output = (Kp*error + Ki*integral + Kd*derivative);
+ 589              		.loc 1 175 0
+ 590 0020 0F4B     		ldr	r3, .L37+12
+ 591 0022 1D68     		ldr	r5, [r3]	@ float
+ 176:main.c        ****     //previous_error = error;
+ 592              		.loc 1 176 0
+ 593 0024 0F49     		ldr	r1, .L37+16
+ 594 0026 3046     		mov	r0, r6
+ 595 0028 FFF7FEFF 		bl	__aeabi_fmul
+ 596              	.LVL85:
+ 597 002c 0646     		mov	r6, r0
+ 598              	.LVL86:
+ 599 002e 0021     		movs	r1, #0
+ 600 0030 2046     		mov	r0, r4
+ 601 0032 FFF7FEFF 		bl	__aeabi_fmul
+ 602              	.LVL87:
+ 603 0036 0146     		mov	r1, r0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 17
+
+
+ 604 0038 3046     		mov	r0, r6
+ 605 003a FFF7FEFF 		bl	__aeabi_fadd
+ 606              	.LVL88:
+ 607 003e 0446     		mov	r4, r0
+ 608 0040 0949     		ldr	r1, .L37+20
+ 609 0042 2846     		mov	r0, r5
+ 610 0044 FFF7FEFF 		bl	__aeabi_fmul
+ 611              	.LVL89:
+ 612 0048 0146     		mov	r1, r0
+ 613 004a 2046     		mov	r0, r4
+ 614 004c FFF7FEFF 		bl	__aeabi_fadd
+ 615              	.LVL90:
+ 181:main.c        **** 
+ 616              		.loc 1 181 0
+ 617 0050 70BD     		pop	{r4, r5, r6, pc}
+ 618              	.L38:
+ 619 0052 00BF     		.align	2
+ 620              	.L37:
+ 621 0054 00000000 		.word	phi_b
+ 622 0058 0AD7233C 		.word	1008981770
+ 623 005c 00000000 		.word	.LANCHOR0
+ 624 0060 00000000 		.word	phi_b_dot
+ 625 0064 0000A041 		.word	1101004800
+ 626 0068 CDCC0C40 		.word	1074580685
+ 627              		.cfi_endproc
+ 628              	.LFE65:
+ 629              		.size	cmg_pid, .-cmg_pid
+ 630              		.section	.text.alpha,"ax",%progbits
+ 631              		.align	2
+ 632              		.global	alpha
+ 633              		.thumb
+ 634              		.thumb_func
+ 635              		.type	alpha, %function
+ 636              	alpha:
+ 637              	.LFB70:
+ 302:main.c        ****         }
+ 303:main.c        ****     } 
+ 304:main.c        **** }
+ 305:main.c        **** 
+ 306:main.c        **** float alpha()
+ 307:main.c        **** {
+ 638              		.loc 1 307 0
+ 639              		.cfi_startproc
+ 640              		@ args = 0, pretend = 0, frame = 0
+ 641              		@ frame_needed = 0, uses_anonymous_args = 0
+ 642 0000 08B5     		push	{r3, lr}
+ 643              		.cfi_def_cfa_offset 8
+ 644              		.cfi_offset 3, -8
+ 645              		.cfi_offset 14, -4
+ 308:main.c        ****     return -(float)Gimbal_Encoder_GetCounter() * 0.004807; // M_PI * 2 / 1307
+ 646              		.loc 1 308 0
+ 647 0002 FFF7FEFF 		bl	Gimbal_Encoder_GetCounter
+ 648              	.LVL91:
+ 649 0006 FFF7FEFF 		bl	__aeabi_i2f
+ 650              	.LVL92:
+ 651 000a 00F10040 		add	r0, r0, #-2147483648
+ 652 000e FFF7FEFF 		bl	__aeabi_f2d
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 18
+
+
+ 653              	.LVL93:
+ 654 0012 05A3     		adr	r3, .L41
+ 655 0014 D3E90023 		ldrd	r2, [r3]
+ 656 0018 FFF7FEFF 		bl	__aeabi_dmul
+ 657              	.LVL94:
+ 658 001c FFF7FEFF 		bl	__aeabi_d2f
+ 659              	.LVL95:
+ 309:main.c        **** }
+ 660              		.loc 1 309 0
+ 661 0020 08BD     		pop	{r3, pc}
+ 662              	.L42:
+ 663 0022 00BFAFF3 		.align	3
+ 663      0080
+ 664              	.L41:
+ 665 0028 F981AB3C 		.word	1017872889
+ 666 002c 81B0733F 		.word	1064546433
+ 667              		.cfi_endproc
+ 668              	.LFE70:
+ 669              		.size	alpha, .-alpha
+ 670              		.section	.text.main,"ax",%progbits
+ 671              		.align	2
+ 672              		.global	main
+ 673              		.thumb
+ 674              		.thumb_func
+ 675              		.type	main, %function
+ 676              	main:
+ 677              	.LFB64:
+  61:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+ 678              		.loc 1 61 0
+ 679              		.cfi_startproc
+ 680              		@ args = 0, pretend = 0, frame = 0
+ 681              		@ frame_needed = 0, uses_anonymous_args = 0
+ 682 0000 38B5     		push	{r3, r4, r5, lr}
+ 683              		.cfi_def_cfa_offset 16
+ 684              		.cfi_offset 3, -16
+ 685              		.cfi_offset 4, -12
+ 686              		.cfi_offset 5, -8
+ 687              		.cfi_offset 14, -4
+  62:main.c        **** 
+ 688              		.loc 1 62 0
+ 689              		.syntax unified
+ 690              	@ 62 "main.c" 1
+ 691 0002 62B6     		CPSIE   i
+ 692              	@ 0 "" 2
+  64:main.c        ****     PWM_CMG_WriteCompare1(gimbal_pwm_low);
+ 693              		.loc 1 64 0
+ 694              		.thumb
+ 695              		.syntax unified
+ 696 0004 FFF7FEFF 		bl	PWM_CMG_Start
+ 697              	.LVL96:
+  65:main.c        ****     
+ 698              		.loc 1 65 0
+ 699 0008 6420     		movs	r0, #100
+ 700 000a FFF7FEFF 		bl	PWM_CMG_WriteCompare1
+ 701              	.LVL97:
+  67:main.c        ****     
+ 702              		.loc 1 67 0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 19
+
+
+ 703 000e 0020     		movs	r0, #0
+ 704 0010 FFF7FEFF 		bl	LED1_Write
+ 705              	.LVL98:
+  69:main.c        **** 
+ 706              		.loc 1 69 0
+ 707 0014 0022     		movs	r2, #0
+ 708 0016 4E4B     		ldr	r3, .L59+16
+ 709 0018 1A60     		str	r2, [r3]	@ float
+  71:main.c        ****     Gimbal_Encoder_SetCounter(0);
+ 710              		.loc 1 71 0
+ 711 001a FFF7FEFF 		bl	Gimbal_Encoder_Start
+ 712              	.LVL99:
+  72:main.c        ****     
+ 713              		.loc 1 72 0
+ 714 001e 0020     		movs	r0, #0
+ 715 0020 FFF7FEFF 		bl	Gimbal_Encoder_SetCounter
+ 716              	.LVL100:
+  74:main.c        ****     Handle_Encoder_Start();
+ 717              		.loc 1 74 0
+ 718 0024 0024     		movs	r4, #0
+ 719 0026 4B4B     		ldr	r3, .L59+20
+ 720 0028 1C60     		str	r4, [r3]
+  75:main.c        ****     Handle_Encoder_SetCounter(0);
+ 721              		.loc 1 75 0
+ 722 002a FFF7FEFF 		bl	Handle_Encoder_Start
+ 723              	.LVL101:
+  76:main.c        ****     PWM_Steer_Start();
+ 724              		.loc 1 76 0
+ 725 002e 2046     		mov	r0, r4
+ 726 0030 FFF7FEFF 		bl	Handle_Encoder_SetCounter
+ 727              	.LVL102:
+  77:main.c        ****     
+ 728              		.loc 1 77 0
+ 729 0034 FFF7FEFF 		bl	PWM_Steer_Start
+ 730              	.LVL103:
+  79:main.c        ****     Steering_Control_Loop_Interrupt_StartEx(steering_control_loop);
+ 731              		.loc 1 79 0
+ 732 0038 4748     		ldr	r0, .L59+24
+ 733 003a FFF7FEFF 		bl	Gimbal_Control_Loop_Interrupt_StartEx
+ 734              	.LVL104:
+  80:main.c        ****     Rpi_Tx_Interrupt_StartEx(rpi_tx_isr);
+ 735              		.loc 1 80 0
+ 736 003e 4748     		ldr	r0, .L59+28
+ 737 0040 FFF7FEFF 		bl	Steering_Control_Loop_Interrupt_StartEx
+ 738              	.LVL105:
+  81:main.c        ****     Timer_Interrupt_StartEx(timer_isr); // start the timer interrupt for gimbal speed measurement
+ 739              		.loc 1 81 0
+ 740 0044 4648     		ldr	r0, .L59+32
+ 741 0046 FFF7FEFF 		bl	Rpi_Tx_Interrupt_StartEx
+ 742              	.LVL106:
+  82:main.c        ****     
+ 743              		.loc 1 82 0
+ 744 004a 4648     		ldr	r0, .L59+36
+ 745 004c FFF7FEFF 		bl	Timer_Interrupt_StartEx
+ 746              	.LVL107:
+  84:main.c        ****     Steering_Timer_Start();
+ 747              		.loc 1 84 0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 20
+
+
+ 748 0050 FFF7FEFF 		bl	Gimbal_Timer_Start
+ 749              	.LVL108:
+  85:main.c        ****     UART_Start();
+ 750              		.loc 1 85 0
+ 751 0054 FFF7FEFF 		bl	Steering_Timer_Start
+ 752              	.LVL109:
+  86:main.c        ****     
+ 753              		.loc 1 86 0
+ 754 0058 FFF7FEFF 		bl	UART_Start
+ 755              	.LVL110:
+ 756              	.L53:
+ 757              	.LBB3:
+  90:main.c        ****         while (SW1_Read()) {
+ 758              		.loc 1 90 0
+ 759 005c 0020     		movs	r0, #0
+ 760 005e FFF7FEFF 		bl	LED1_Write
+ 761              	.LVL111:
+  91:main.c        ****             phi_w_dot = -0.2 * signum(alpha()) / fabs(cos(alpha()));
+ 762              		.loc 1 91 0
+ 763 0062 27E0     		b	.L44
+ 764              	.L47:
+  92:main.c        ****         }
+ 765              		.loc 1 92 0
+ 766 0064 FFF7FEFF 		bl	alpha
+ 767              	.LVL112:
+ 768 0068 0021     		movs	r1, #0
+ 769 006a FFF7FEFF 		bl	__aeabi_fcmpgt
+ 770              	.LVL113:
+ 771 006e 48B9     		cbnz	r0, .L54
+  92:main.c        ****         }
+ 772              		.loc 1 92 0 is_stmt 0 discriminator 2
+ 773 0070 FFF7FEFF 		bl	alpha
+ 774              	.LVL114:
+ 775 0074 0021     		movs	r1, #0
+ 776 0076 FFF7FEFF 		bl	__aeabi_fcmplt
+ 777              	.LVL115:
+ 778 007a 38B1     		cbz	r0, .L57
+  92:main.c        ****         }
+ 779              		.loc 1 92 0
+ 780 007c 30A5     		adr	r5, .L59
+ 781 007e D5E90045 		ldrd	r4, [r5]
+ 782 0082 06E0     		b	.L45
+ 783              	.L54:
+ 784 0084 30A5     		adr	r5, .L59+8
+ 785 0086 D5E90045 		ldrd	r4, [r5]
+ 786 008a 02E0     		b	.L45
+ 787              	.L57:
+ 788 008c 0024     		movs	r4, #0
+ 789 008e 4FF00045 		mov	r5, #-2147483648
+ 790              	.L45:
+  92:main.c        ****         }
+ 791              		.loc 1 92 0 discriminator 8
+ 792 0092 FFF7FEFF 		bl	alpha
+ 793              	.LVL116:
+ 794 0096 FFF7FEFF 		bl	__aeabi_f2d
+ 795              	.LVL117:
+ 796 009a FFF7FEFF 		bl	cos
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 21
+
+
+ 797              	.LVL118:
+ 798 009e 0246     		mov	r2, r0
+ 799 00a0 21F00043 		bic	r3, r1, #-2147483648
+ 800 00a4 2046     		mov	r0, r4
+ 801 00a6 2946     		mov	r1, r5
+ 802 00a8 FFF7FEFF 		bl	__aeabi_ddiv
+ 803              	.LVL119:
+ 804 00ac FFF7FEFF 		bl	__aeabi_d2f
+ 805              	.LVL120:
+ 806 00b0 274B     		ldr	r3, .L59+16
+ 807 00b2 1860     		str	r0, [r3]	@ float
+ 808              	.L44:
+  91:main.c        ****             phi_w_dot = -0.2 * signum(alpha()) / fabs(cos(alpha()));
+ 809              		.loc 1 91 0 is_stmt 1
+ 810 00b4 FFF7FEFF 		bl	SW1_Read
+ 811              	.LVL121:
+ 812 00b8 0028     		cmp	r0, #0
+ 813 00ba D3D1     		bne	.L47
+  94:main.c        ****         //while (!SW1_Read());
+ 814              		.loc 1 94 0
+ 815 00bc 4FF4FA70 		mov	r0, #500
+ 816 00c0 FFF7FEFF 		bl	CyDelay
+ 817              	.LVL122:
+ 818              	.LBB4:
+  99:main.c        ****             PWM_CMG_WriteCompare1(comp);
+ 819              		.loc 1 99 0
+ 820 00c4 6E24     		movs	r4, #110
+ 821 00c6 15E0     		b	.L48
+ 822              	.LVL123:
+ 823              	.L50:
+ 100:main.c        ****             LED1_Write(1);
+ 824              		.loc 1 100 0
+ 825 00c8 2046     		mov	r0, r4
+ 826 00ca FFF7FEFF 		bl	PWM_CMG_WriteCompare1
+ 827              	.LVL124:
+ 101:main.c        ****             CyDelay(500);
+ 828              		.loc 1 101 0
+ 829 00ce 0120     		movs	r0, #1
+ 830 00d0 FFF7FEFF 		bl	LED1_Write
+ 831              	.LVL125:
+ 102:main.c        ****             LED1_Write(0);
+ 832              		.loc 1 102 0
+ 833 00d4 4FF4FA70 		mov	r0, #500
+ 834 00d8 FFF7FEFF 		bl	CyDelay
+ 835              	.LVL126:
+ 103:main.c        ****             CyDelay(500);
+ 836              		.loc 1 103 0
+ 837 00dc 0020     		movs	r0, #0
+ 838 00de FFF7FEFF 		bl	LED1_Write
+ 839              	.LVL127:
+ 104:main.c        ****             if (SW1_Read()) {
+ 840              		.loc 1 104 0
+ 841 00e2 4FF4FA70 		mov	r0, #500
+ 842 00e6 FFF7FEFF 		bl	CyDelay
+ 843              	.LVL128:
+ 105:main.c        ****                 break;
+ 844              		.loc 1 105 0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 22
+
+
+ 845 00ea FFF7FEFF 		bl	SW1_Read
+ 846              	.LVL129:
+ 847 00ee 18B9     		cbnz	r0, .L49
+  99:main.c        ****             PWM_CMG_WriteCompare1(comp);
+ 848              		.loc 1 99 0 discriminator 2
+ 849 00f0 0134     		adds	r4, r4, #1
+ 850              	.LVL130:
+ 851 00f2 A4B2     		uxth	r4, r4
+ 852              	.LVL131:
+ 853              	.L48:
+  99:main.c        ****             PWM_CMG_WriteCompare1(comp);
+ 854              		.loc 1 99 0 is_stmt 0 discriminator 1
+ 855 00f4 842C     		cmp	r4, #132
+ 856 00f6 E7D9     		bls	.L50
+ 857              	.L49:
+ 858              	.LBE4:
+ 109:main.c        **** #endif
+ 859              		.loc 1 109 0 is_stmt 1
+ 860 00f8 42F21070 		movw	r0, #10000
+ 861 00fc FFF7FEFF 		bl	CyDelay
+ 862              	.LVL132:
+ 111:main.c        ****         
+ 863              		.loc 1 111 0
+ 864 0100 0120     		movs	r0, #1
+ 865 0102 FFF7FEFF 		bl	LED1_Write
+ 866              	.LVL133:
+ 143:main.c        ****             phi_w_dot = cmg_pid();
+ 867              		.loc 1 143 0
+ 868 0106 06E0     		b	.L51
+ 869              	.L52:
+ 144:main.c        ****             CyDelay(10);
+ 870              		.loc 1 144 0
+ 871 0108 FFF7FEFF 		bl	cmg_pid
+ 872              	.LVL134:
+ 873 010c 104B     		ldr	r3, .L59+16
+ 874 010e 1860     		str	r0, [r3]	@ float
+ 145:main.c        ****         }
+ 875              		.loc 1 145 0
+ 876 0110 0A20     		movs	r0, #10
+ 877 0112 FFF7FEFF 		bl	CyDelay
+ 878              	.LVL135:
+ 879              	.L51:
+ 143:main.c        ****             phi_w_dot = cmg_pid();
+ 880              		.loc 1 143 0
+ 881 0116 FFF7FEFF 		bl	SW1_Read
+ 882              	.LVL136:
+ 883 011a 0028     		cmp	r0, #0
+ 884 011c F4D0     		beq	.L52
+ 148:main.c        **** 
+ 885              		.loc 1 148 0
+ 886 011e 0022     		movs	r2, #0
+ 887 0120 0B4B     		ldr	r3, .L59+16
+ 888 0122 1A60     		str	r2, [r3]	@ float
+ 150:main.c        ****         
+ 889              		.loc 1 150 0
+ 890 0124 6420     		movs	r0, #100
+ 891 0126 FFF7FEFF 		bl	PWM_CMG_WriteCompare1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 23
+
+
+ 892              	.LVL137:
+ 152:main.c        ****         //UART_Stop();
+ 893              		.loc 1 152 0
+ 894 012a 0020     		movs	r0, #0
+ 895 012c FFF7FEFF 		bl	LED1_Write
+ 896              	.LVL138:
+ 156:main.c        ****         
+ 897              		.loc 1 156 0
+ 898 0130 4FF47A70 		mov	r0, #1000
+ 899 0134 FFF7FEFF 		bl	CyDelay
+ 900              	.LVL139:
+ 901              	.LBE3:
+ 158:main.c        ****     
+ 902              		.loc 1 158 0
+ 903 0138 90E7     		b	.L53
+ 904              	.L60:
+ 905 013a 00BFAFF3 		.align	3
+ 905      0080
+ 906              	.L59:
+ 907 0140 9A999999 		.word	-1717986918
+ 908 0144 9999C93F 		.word	1070176665
+ 909 0148 9A999999 		.word	-1717986918
+ 910 014c 9999C9BF 		.word	-1077306983
+ 911 0150 00000000 		.word	phi_w_dot
+ 912 0154 00000000 		.word	steeringTarget
+ 913 0158 00000000 		.word	gimbal_control_loop
+ 914 015c 00000000 		.word	steering_control_loop
+ 915 0160 00000000 		.word	rpi_tx_isr
+ 916 0164 00000000 		.word	timer_isr
+ 917              		.cfi_endproc
+ 918              	.LFE64:
+ 919              		.size	main, .-main
+ 920              		.global	phi_w_dot_max
+ 921              		.global	gimbal_enc_max
+ 922              		.global	gimbal_enc_min
+ 923              		.comm	speed_reading,4,4
+ 924              		.comm	phi_b_dot,4,4
+ 925              		.comm	phi_b,4,4
+ 926              		.comm	phi_w_dot,4,4
+ 927              		.comm	phi_w,4,4
+ 928              		.comm	steeringTarget,4,4
+ 929              		.global	gimbal_min
+ 930              		.global	gimbal_max
+ 931              		.global	gimbal_pwm_target
+ 932              		.global	gimbal_pwm_high
+ 933              		.global	gimbal_pwm_low
+ 934              		.section	.rodata
+ 935              		.align	2
+ 936              		.type	phi_w_dot_max, %object
+ 937              		.size	phi_w_dot_max, 4
+ 938              	phi_w_dot_max:
+ 939 0000 00003841 		.word	1094189056
+ 940              		.type	gimbal_enc_max, %object
+ 941              		.size	gimbal_enc_max, 4
+ 942              	gimbal_enc_max:
+ 943 0004 D9000000 		.word	217
+ 944              		.type	gimbal_enc_min, %object
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 24
+
+
+ 945              		.size	gimbal_enc_min, 4
+ 946              	gimbal_enc_min:
+ 947 0008 27FFFFFF 		.word	-217
+ 948              		.type	gimbal_min, %object
+ 949              		.size	gimbal_min, 2
+ 950              	gimbal_min:
+ 951 000c 4CFF     		.short	-180
+ 952              		.type	gimbal_max, %object
+ 953              		.size	gimbal_max, 2
+ 954              	gimbal_max:
+ 955 000e B400     		.short	180
+ 956              		.type	gimbal_pwm_target, %object
+ 957              		.size	gimbal_pwm_target, 2
+ 958              	gimbal_pwm_target:
+ 959 0010 8400     		.short	132
+ 960              		.type	gimbal_pwm_high, %object
+ 961              		.size	gimbal_pwm_high, 2
+ 962              	gimbal_pwm_high:
+ 963 0012 C800     		.short	200
+ 964              		.type	gimbal_pwm_low, %object
+ 965              		.size	gimbal_pwm_low, 2
+ 966              	gimbal_pwm_low:
+ 967 0014 6400     		.short	100
+ 968              		.bss
+ 969              		.align	2
+ 970              		.set	.LANCHOR0,. + 0
+ 971              		.type	time_since_change.8772, %object
+ 972              		.size	time_since_change.8772, 4
+ 973              	time_since_change.8772:
+ 974 0000 00000000 		.space	4
+ 975              		.type	last_encoder.8773, %object
+ 976              		.size	last_encoder.8773, 4
+ 977              	last_encoder.8773:
+ 978 0004 00000000 		.space	4
+ 979              		.type	integral.8783, %object
+ 980              		.size	integral.8783, 4
+ 981              	integral.8783:
+ 982 0008 00000000 		.space	4
+ 983              		.type	previous_error.8782, %object
+ 984              		.size	previous_error.8782, 4
+ 985              	previous_error.8782:
+ 986 000c 00000000 		.space	4
+ 987              		.type	speedValue.8785, %object
+ 988              		.size	speedValue.8785, 4
+ 989              	speedValue.8785:
+ 990 0010 00000000 		.space	4
+ 991              		.type	integral.8799, %object
+ 992              		.size	integral.8799, 4
+ 993              	integral.8799:
+ 994 0014 00000000 		.space	4
+ 995              		.type	previous_error.8798, %object
+ 996              		.size	previous_error.8798, 4
+ 997              	previous_error.8798:
+ 998 0018 00000000 		.space	4
+ 999              		.type	receiving.8806, %object
+ 1000              		.size	receiving.8806, 1
+ 1001              	receiving.8806:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 25
+
+
+ 1002 001c 00       		.space	1
+ 1003 001d 000000   		.space	3
+ 1004              		.type	buffer.8807, %object
+ 1005              		.size	buffer.8807, 4
+ 1006              	buffer.8807:
+ 1007 0020 00000000 		.space	4
+ 1008              		.type	integral.8765, %object
+ 1009              		.size	integral.8765, 4
+ 1010              	integral.8765:
+ 1011 0024 00000000 		.space	4
+ 1012              		.text
+ 1013              	.Letext0:
+ 1014              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1015              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1016              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 1017              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 1018              		.file 6 "Generated_Source\\PSoC5/Gimbal_Encoder.h"
+ 1019              		.file 7 "Generated_Source\\PSoC5/Gimbal_Timer.h"
+ 1020              		.file 8 "Generated_Source\\PSoC5/gimbal_direction.h"
+ 1021              		.file 9 "Generated_Source\\PSoC5/PWM_CMG.h"
+ 1022              		.file 10 "Generated_Source\\PSoC5/Steering_Timer.h"
+ 1023              		.file 11 "Generated_Source\\PSoC5/Handle_Encoder.h"
+ 1024              		.file 12 "Generated_Source\\PSoC5/Steering_Dir.h"
+ 1025              		.file 13 "Generated_Source\\PSoC5/PWM_Steer.h"
+ 1026              		.file 14 "Generated_Source\\PSoC5/UART.h"
+ 1027              		.file 15 "Generated_Source\\PSoC5/LED1.h"
+ 1028              		.file 16 "Generated_Source\\PSoC5/CyLib.h"
+ 1029              		.file 17 "Generated_Source\\PSoC5/SW1.h"
+ 1030              		.file 18 "Generated_Source\\PSoC5/Gimbal_Control_Loop_Interrupt.h"
+ 1031              		.file 19 "Generated_Source\\PSoC5/Steering_Control_Loop_Interrupt.h"
+ 1032              		.file 20 "Generated_Source\\PSoC5/Rpi_Tx_Interrupt.h"
+ 1033              		.file 21 "Generated_Source\\PSoC5/Timer_Interrupt.h"
+ 1034              		.file 22 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4
+ 1035              		.section	.debug_info,"",%progbits
+ 1036              	.Ldebug_info0:
+ 1037 0000 16090000 		.4byte	0x916
+ 1038 0004 0400     		.2byte	0x4
+ 1039 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1040 000a 04       		.byte	0x4
+ 1041 000b 01       		.uleb128 0x1
+ 1042 000c 9C040000 		.4byte	.LASF84
+ 1043 0010 0C       		.byte	0xc
+ 1044 0011 C1030000 		.4byte	.LASF85
+ 1045 0015 6D000000 		.4byte	.LASF86
+ 1046 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1047 001d 00000000 		.4byte	0
+ 1048 0021 00000000 		.4byte	.Ldebug_line0
+ 1049 0025 02       		.uleb128 0x2
+ 1050 0026 01       		.byte	0x1
+ 1051 0027 06       		.byte	0x6
+ 1052 0028 20020000 		.4byte	.LASF0
+ 1053 002c 02       		.uleb128 0x2
+ 1054 002d 01       		.byte	0x1
+ 1055 002e 08       		.byte	0x8
+ 1056 002f F4010000 		.4byte	.LASF1
+ 1057 0033 02       		.uleb128 0x2
+ 1058 0034 02       		.byte	0x2
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 26
+
+
+ 1059 0035 05       		.byte	0x5
+ 1060 0036 E7000000 		.4byte	.LASF2
+ 1061 003a 02       		.uleb128 0x2
+ 1062 003b 02       		.byte	0x2
+ 1063 003c 07       		.byte	0x7
+ 1064 003d A3020000 		.4byte	.LASF3
+ 1065 0041 03       		.uleb128 0x3
+ 1066 0042 1B040000 		.4byte	.LASF12
+ 1067 0046 02       		.byte	0x2
+ 1068 0047 3F       		.byte	0x3f
+ 1069 0048 4C000000 		.4byte	0x4c
+ 1070 004c 02       		.uleb128 0x2
+ 1071 004d 04       		.byte	0x4
+ 1072 004e 05       		.byte	0x5
+ 1073 004f A8010000 		.4byte	.LASF4
+ 1074 0053 02       		.uleb128 0x2
+ 1075 0054 04       		.byte	0x4
+ 1076 0055 07       		.byte	0x7
+ 1077 0056 DD030000 		.4byte	.LASF5
+ 1078 005a 02       		.uleb128 0x2
+ 1079 005b 08       		.byte	0x8
+ 1080 005c 05       		.byte	0x5
+ 1081 005d B8000000 		.4byte	.LASF6
+ 1082 0061 02       		.uleb128 0x2
+ 1083 0062 08       		.byte	0x8
+ 1084 0063 07       		.byte	0x7
+ 1085 0064 2C020000 		.4byte	.LASF7
+ 1086 0068 04       		.uleb128 0x4
+ 1087 0069 04       		.byte	0x4
+ 1088 006a 05       		.byte	0x5
+ 1089 006b 696E7400 		.ascii	"int\000"
+ 1090 006f 02       		.uleb128 0x2
+ 1091 0070 04       		.byte	0x4
+ 1092 0071 07       		.byte	0x7
+ 1093 0072 5C020000 		.4byte	.LASF8
+ 1094 0076 02       		.uleb128 0x2
+ 1095 0077 08       		.byte	0x8
+ 1096 0078 04       		.byte	0x4
+ 1097 0079 DB010000 		.4byte	.LASF9
+ 1098 007d 05       		.uleb128 0x5
+ 1099 007e 2C000000 		.4byte	0x2c
+ 1100 0082 8D000000 		.4byte	0x8d
+ 1101 0086 06       		.uleb128 0x6
+ 1102 0087 8D000000 		.4byte	0x8d
+ 1103 008b 03       		.byte	0x3
+ 1104 008c 00       		.byte	0
+ 1105 008d 02       		.uleb128 0x2
+ 1106 008e 04       		.byte	0x4
+ 1107 008f 07       		.byte	0x7
+ 1108 0090 45040000 		.4byte	.LASF10
+ 1109 0094 02       		.uleb128 0x2
+ 1110 0095 01       		.byte	0x1
+ 1111 0096 08       		.byte	0x8
+ 1112 0097 CA020000 		.4byte	.LASF11
+ 1113 009b 03       		.uleb128 0x3
+ 1114 009c 34030000 		.4byte	.LASF13
+ 1115 00a0 03       		.byte	0x3
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 27
+
+
+ 1116 00a1 2C       		.byte	0x2c
+ 1117 00a2 41000000 		.4byte	0x41
+ 1118 00a6 02       		.uleb128 0x2
+ 1119 00a7 08       		.byte	0x8
+ 1120 00a8 04       		.byte	0x4
+ 1121 00a9 70040000 		.4byte	.LASF14
+ 1122 00ad 02       		.uleb128 0x2
+ 1123 00ae 04       		.byte	0x4
+ 1124 00af 04       		.byte	0x4
+ 1125 00b0 61010000 		.4byte	.LASF15
+ 1126 00b4 07       		.uleb128 0x7
+ 1127 00b5 23010000 		.4byte	.LASF16
+ 1128 00b9 04       		.byte	0x4
+ 1129 00ba E501     		.2byte	0x1e5
+ 1130 00bc 3A000000 		.4byte	0x3a
+ 1131 00c0 07       		.uleb128 0x7
+ 1132 00c1 3C010000 		.4byte	.LASF17
+ 1133 00c5 04       		.byte	0x4
+ 1134 00c6 E801     		.2byte	0x1e8
+ 1135 00c8 33000000 		.4byte	0x33
+ 1136 00cc 08       		.uleb128 0x8
+ 1137 00cd 85040000 		.4byte	.LASF21
+ 1138 00d1 01       		.byte	0x1
+ 1139 00d2 B8       		.byte	0xb8
+ 1140 00d3 00000000 		.4byte	.LFB66
+ 1141 00d7 78000000 		.4byte	.LFE66-.LFB66
+ 1142 00db 01       		.uleb128 0x1
+ 1143 00dc 9C       		.byte	0x9c
+ 1144 00dd 1C010000 		.4byte	0x11c
+ 1145 00e1 09       		.uleb128 0x9
+ 1146 00e2 00000000 		.4byte	.LASF18
+ 1147 00e6 01       		.byte	0x1
+ 1148 00e7 B9       		.byte	0xb9
+ 1149 00e8 68000000 		.4byte	0x68
+ 1150 00ec 05       		.uleb128 0x5
+ 1151 00ed 03       		.byte	0x3
+ 1152 00ee 00000000 		.4byte	time_since_change.8772
+ 1153 00f2 09       		.uleb128 0x9
+ 1154 00f3 E7010000 		.4byte	.LASF19
+ 1155 00f7 01       		.byte	0x1
+ 1156 00f8 BA       		.byte	0xba
+ 1157 00f9 68000000 		.4byte	0x68
+ 1158 00fd 05       		.uleb128 0x5
+ 1159 00fe 03       		.byte	0x3
+ 1160 00ff 04000000 		.4byte	last_encoder.8773
+ 1161 0103 0A       		.uleb128 0xa
+ 1162 0104 B1010000 		.4byte	.LASF20
+ 1163 0108 01       		.byte	0x1
+ 1164 0109 BB       		.byte	0xbb
+ 1165 010a 68000000 		.4byte	0x68
+ 1166 010e 00000000 		.4byte	.LLST0
+ 1167 0112 0B       		.uleb128 0xb
+ 1168 0113 0E000000 		.4byte	.LVL0
+ 1169 0117 F0070000 		.4byte	0x7f0
+ 1170 011b 00       		.byte	0
+ 1171 011c 08       		.uleb128 0x8
+ 1172 011d B6020000 		.4byte	.LASF22
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 28
+
+
+ 1173 0121 01       		.byte	0x1
+ 1174 0122 C9       		.byte	0xc9
+ 1175 0123 00000000 		.4byte	.LFB67
+ 1176 0127 3C010000 		.4byte	.LFE67-.LFB67
+ 1177 012b 01       		.uleb128 0x1
+ 1178 012c 9C       		.byte	0x9c
+ 1179 012d 38020000 		.4byte	0x238
+ 1180 0131 0C       		.uleb128 0xc
+ 1181 0132 4B7000   		.ascii	"Kp\000"
+ 1182 0135 01       		.byte	0x1
+ 1183 0136 CB       		.byte	0xcb
+ 1184 0137 38020000 		.4byte	0x238
+ 1185 013b 04       		.byte	0x4
+ 1186 013c CDCC4C3F 		.4byte	0x3f4ccccd
+ 1187 0140 0C       		.uleb128 0xc
+ 1188 0141 4B6900   		.ascii	"Ki\000"
+ 1189 0144 01       		.byte	0x1
+ 1190 0145 CC       		.byte	0xcc
+ 1191 0146 38020000 		.4byte	0x238
+ 1192 014a 04       		.byte	0x4
+ 1193 014b 0AD7A33C 		.4byte	0x3ca3d70a
+ 1194 014f 0C       		.uleb128 0xc
+ 1195 0150 4B6400   		.ascii	"Kd\000"
+ 1196 0153 01       		.byte	0x1
+ 1197 0154 CD       		.byte	0xcd
+ 1198 0155 38020000 		.4byte	0x238
+ 1199 0159 04       		.byte	0x4
+ 1200 015a 6F12033B 		.4byte	0x3b03126f
+ 1201 015e 0C       		.uleb128 0xc
+ 1202 015f 647400   		.ascii	"dt\000"
+ 1203 0162 01       		.byte	0x1
+ 1204 0163 CE       		.byte	0xce
+ 1205 0164 38020000 		.4byte	0x238
+ 1206 0168 04       		.byte	0x4
+ 1207 0169 6F12033B 		.4byte	0x3b03126f
+ 1208 016d 09       		.uleb128 0x9
+ 1209 016e 11020000 		.4byte	.LASF23
+ 1210 0172 01       		.byte	0x1
+ 1211 0173 D0       		.byte	0xd0
+ 1212 0174 AD000000 		.4byte	0xad
+ 1213 0178 05       		.uleb128 0x5
+ 1214 0179 03       		.byte	0x3
+ 1215 017a 0C000000 		.4byte	previous_error.8782
+ 1216 017e 09       		.uleb128 0x9
+ 1217 017f BD010000 		.4byte	.LASF24
+ 1218 0183 01       		.byte	0x1
+ 1219 0184 D1       		.byte	0xd1
+ 1220 0185 AD000000 		.4byte	0xad
+ 1221 0189 05       		.uleb128 0x5
+ 1222 018a 03       		.byte	0x3
+ 1223 018b 08000000 		.4byte	integral.8783
+ 1224 018f 0D       		.uleb128 0xd
+ 1225 0190 9D010000 		.4byte	.LASF32
+ 1226 0194 01       		.byte	0x1
+ 1227 0195 D2       		.byte	0xd2
+ 1228 0196 AD000000 		.4byte	0xad
+ 1229 019a 09       		.uleb128 0x9
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 29
+
+
+ 1230 019b F1000000 		.4byte	.LASF25
+ 1231 019f 01       		.byte	0x1
+ 1232 01a0 D4       		.byte	0xd4
+ 1233 01a1 AD000000 		.4byte	0xad
+ 1234 01a5 05       		.uleb128 0x5
+ 1235 01a6 03       		.byte	0x3
+ 1236 01a7 10000000 		.4byte	speedValue.8785
+ 1237 01ab 0A       		.uleb128 0xa
+ 1238 01ac 97020000 		.4byte	.LASF26
+ 1239 01b0 01       		.byte	0x1
+ 1240 01b1 D8       		.byte	0xd8
+ 1241 01b2 AD000000 		.4byte	0xad
+ 1242 01b6 1E000000 		.4byte	.LLST1
+ 1243 01ba 0A       		.uleb128 0xa
+ 1244 01bb 6A040000 		.4byte	.LASF27
+ 1245 01bf 01       		.byte	0x1
+ 1246 01c0 D9       		.byte	0xd9
+ 1247 01c1 AD000000 		.4byte	0xad
+ 1248 01c5 31000000 		.4byte	.LLST2
+ 1249 01c9 0A       		.uleb128 0xa
+ 1250 01ca 4E040000 		.4byte	.LASF28
+ 1251 01ce 01       		.byte	0x1
+ 1252 01cf DC       		.byte	0xdc
+ 1253 01d0 AD000000 		.4byte	0xad
+ 1254 01d4 4F000000 		.4byte	.LLST3
+ 1255 01d8 0A       		.uleb128 0xa
+ 1256 01d9 5D000000 		.4byte	.LASF29
+ 1257 01dd 01       		.byte	0x1
+ 1258 01de DE       		.byte	0xde
+ 1259 01df AD000000 		.4byte	0xad
+ 1260 01e3 62000000 		.4byte	.LLST4
+ 1261 01e7 0A       		.uleb128 0xa
+ 1262 01e8 C8030000 		.4byte	.LASF30
+ 1263 01ec 01       		.byte	0x1
+ 1264 01ed E8       		.byte	0xe8
+ 1265 01ee 68000000 		.4byte	0x68
+ 1266 01f2 8B000000 		.4byte	.LLST5
+ 1267 01f6 0B       		.uleb128 0xb
+ 1268 01f7 08000000 		.4byte	.LVL11
+ 1269 01fb FB070000 		.4byte	0x7fb
+ 1270 01ff 0E       		.uleb128 0xe
+ 1271 0200 B0000000 		.4byte	.LVL34
+ 1272 0204 06080000 		.4byte	0x806
+ 1273 0208 15020000 		.4byte	0x215
+ 1274 020c 0F       		.uleb128 0xf
+ 1275 020d 01       		.uleb128 0x1
+ 1276 020e 50       		.byte	0x50
+ 1277 020f 04       		.uleb128 0x4
+ 1278 0210 75       		.byte	0x75
+ 1279 0211 00       		.sleb128 0
+ 1280 0212 31       		.byte	0x31
+ 1281 0213 1A       		.byte	0x1a
+ 1282 0214 00       		.byte	0
+ 1283 0215 0B       		.uleb128 0xb
+ 1284 0216 E0000000 		.4byte	.LVL41
+ 1285 021a F0070000 		.4byte	0x7f0
+ 1286 021e 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 30
+
+
+ 1287 021f 00010000 		.4byte	.LVL45
+ 1288 0223 F0070000 		.4byte	0x7f0
+ 1289 0227 10       		.uleb128 0x10
+ 1290 0228 12010000 		.4byte	.LVL48
+ 1291 022c 11080000 		.4byte	0x811
+ 1292 0230 0F       		.uleb128 0xf
+ 1293 0231 01       		.uleb128 0x1
+ 1294 0232 50       		.byte	0x50
+ 1295 0233 02       		.uleb128 0x2
+ 1296 0234 74       		.byte	0x74
+ 1297 0235 00       		.sleb128 0
+ 1298 0236 00       		.byte	0
+ 1299 0237 00       		.byte	0
+ 1300 0238 11       		.uleb128 0x11
+ 1301 0239 AD000000 		.4byte	0xad
+ 1302 023d 08       		.uleb128 0x8
+ 1303 023e C6000000 		.4byte	.LASF31
+ 1304 0242 01       		.byte	0x1
+ 1305 0243 FB       		.byte	0xfb
+ 1306 0244 00000000 		.4byte	.LFB68
+ 1307 0248 B4000000 		.4byte	.LFE68-.LFB68
+ 1308 024c 01       		.uleb128 0x1
+ 1309 024d 9C       		.byte	0x9c
+ 1310 024e 23030000 		.4byte	0x323
+ 1311 0252 0C       		.uleb128 0xc
+ 1312 0253 4B7000   		.ascii	"Kp\000"
+ 1313 0256 01       		.byte	0x1
+ 1314 0257 FD       		.byte	0xfd
+ 1315 0258 38020000 		.4byte	0x238
+ 1316 025c 04       		.byte	0x4
+ 1317 025d 00002041 		.4byte	0x41200000
+ 1318 0261 0C       		.uleb128 0xc
+ 1319 0262 4B6900   		.ascii	"Ki\000"
+ 1320 0265 01       		.byte	0x1
+ 1321 0266 FE       		.byte	0xfe
+ 1322 0267 38020000 		.4byte	0x238
+ 1323 026b 04       		.byte	0x4
+ 1324 026c 00008040 		.4byte	0x40800000
+ 1325 0270 0C       		.uleb128 0xc
+ 1326 0271 4B6400   		.ascii	"Kd\000"
+ 1327 0274 01       		.byte	0x1
+ 1328 0275 FF       		.byte	0xff
+ 1329 0276 38020000 		.4byte	0x238
+ 1330 027a 04       		.byte	0x4
+ 1331 027b 0000003F 		.4byte	0x3f000000
+ 1332 027f 12       		.uleb128 0x12
+ 1333 0280 647400   		.ascii	"dt\000"
+ 1334 0283 01       		.byte	0x1
+ 1335 0284 0001     		.2byte	0x100
+ 1336 0286 38020000 		.4byte	0x238
+ 1337 028a 04       		.byte	0x4
+ 1338 028b 0AD7233C 		.4byte	0x3c23d70a
+ 1339 028f 13       		.uleb128 0x13
+ 1340 0290 11020000 		.4byte	.LASF23
+ 1341 0294 01       		.byte	0x1
+ 1342 0295 0201     		.2byte	0x102
+ 1343 0297 68000000 		.4byte	0x68
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 31
+
+
+ 1344 029b 05       		.uleb128 0x5
+ 1345 029c 03       		.byte	0x3
+ 1346 029d 18000000 		.4byte	previous_error.8798
+ 1347 02a1 13       		.uleb128 0x13
+ 1348 02a2 BD010000 		.4byte	.LASF24
+ 1349 02a6 01       		.byte	0x1
+ 1350 02a7 0401     		.2byte	0x104
+ 1351 02a9 AD000000 		.4byte	0xad
+ 1352 02ad 05       		.uleb128 0x5
+ 1353 02ae 03       		.byte	0x3
+ 1354 02af 14000000 		.4byte	integral.8799
+ 1355 02b3 14       		.uleb128 0x14
+ 1356 02b4 9D010000 		.4byte	.LASF32
+ 1357 02b8 01       		.byte	0x1
+ 1358 02b9 0501     		.2byte	0x105
+ 1359 02bb AD000000 		.4byte	0xad
+ 1360 02bf 15       		.uleb128 0x15
+ 1361 02c0 6A040000 		.4byte	.LASF27
+ 1362 02c4 01       		.byte	0x1
+ 1363 02c5 0901     		.2byte	0x109
+ 1364 02c7 68000000 		.4byte	0x68
+ 1365 02cb D7000000 		.4byte	.LLST6
+ 1366 02cf 15       		.uleb128 0x15
+ 1367 02d0 4E040000 		.4byte	.LASF28
+ 1368 02d4 01       		.byte	0x1
+ 1369 02d5 0C01     		.2byte	0x10c
+ 1370 02d7 68000000 		.4byte	0x68
+ 1371 02db F9000000 		.4byte	.LLST7
+ 1372 02df 0B       		.uleb128 0xb
+ 1373 02e0 08000000 		.4byte	.LVL50
+ 1374 02e4 1C080000 		.4byte	0x81c
+ 1375 02e8 0B       		.uleb128 0xb
+ 1376 02e9 10000000 		.4byte	.LVL51
+ 1377 02ed 27080000 		.4byte	0x827
+ 1378 02f1 0E       		.uleb128 0xe
+ 1379 02f2 80000000 		.4byte	.LVL66
+ 1380 02f6 32080000 		.4byte	0x832
+ 1381 02fa 19030000 		.4byte	0x319
+ 1382 02fe 0F       		.uleb128 0xf
+ 1383 02ff 01       		.uleb128 0x1
+ 1384 0300 50       		.byte	0x50
+ 1385 0301 16       		.uleb128 0x16
+ 1386 0302 31       		.byte	0x31
+ 1387 0303 30       		.byte	0x30
+ 1388 0304 74       		.byte	0x74
+ 1389 0305 00       		.sleb128 0
+ 1390 0306 74       		.byte	0x74
+ 1391 0307 00       		.sleb128 0
+ 1392 0308 30       		.byte	0x30
+ 1393 0309 2C       		.byte	0x2c
+ 1394 030a 28       		.byte	0x28
+ 1395 030b 0100     		.2byte	0x1
+ 1396 030d 16       		.byte	0x16
+ 1397 030e 13       		.byte	0x13
+ 1398 030f 74       		.byte	0x74
+ 1399 0310 00       		.sleb128 0
+ 1400 0311 30       		.byte	0x30
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 32
+
+
+ 1401 0312 2B       		.byte	0x2b
+ 1402 0313 28       		.byte	0x28
+ 1403 0314 0100     		.2byte	0x1
+ 1404 0316 16       		.byte	0x16
+ 1405 0317 13       		.byte	0x13
+ 1406 0318 00       		.byte	0
+ 1407 0319 0B       		.uleb128 0xb
+ 1408 031a A0000000 		.4byte	.LVL70
+ 1409 031e 3D080000 		.4byte	0x83d
+ 1410 0322 00       		.byte	0
+ 1411 0323 16       		.uleb128 0x16
+ 1412 0324 77020000 		.4byte	.LASF33
+ 1413 0328 01       		.byte	0x1
+ 1414 0329 1D01     		.2byte	0x11d
+ 1415 032b 00000000 		.4byte	.LFB69
+ 1416 032f 7C000000 		.4byte	.LFE69-.LFB69
+ 1417 0333 01       		.uleb128 0x1
+ 1418 0334 9C       		.byte	0x9c
+ 1419 0335 A5030000 		.4byte	0x3a5
+ 1420 0339 13       		.uleb128 0x13
+ 1421 033a D1010000 		.4byte	.LASF34
+ 1422 033e 01       		.byte	0x1
+ 1423 033f 1E01     		.2byte	0x11e
+ 1424 0341 94000000 		.4byte	0x94
+ 1425 0345 05       		.uleb128 0x5
+ 1426 0346 03       		.byte	0x3
+ 1427 0347 1C000000 		.4byte	receiving.8806
+ 1428 034b 13       		.uleb128 0x13
+ 1429 034c 97030000 		.4byte	.LASF35
+ 1430 0350 01       		.byte	0x1
+ 1431 0351 1F01     		.2byte	0x11f
+ 1432 0353 7D000000 		.4byte	0x7d
+ 1433 0357 05       		.uleb128 0x5
+ 1434 0358 03       		.byte	0x3
+ 1435 0359 20000000 		.4byte	buffer.8807
+ 1436 035d 15       		.uleb128 0x15
+ 1437 035e 12040000 		.4byte	.LASF36
+ 1438 0362 01       		.byte	0x1
+ 1439 0363 2101     		.2byte	0x121
+ 1440 0365 94000000 		.4byte	0x94
+ 1441 0369 22010000 		.4byte	.LLST8
+ 1442 036d 17       		.uleb128 0x17
+ 1443 036e 2C000000 		.4byte	.LBB2
+ 1444 0372 50000000 		.4byte	.LBE2-.LBB2
+ 1445 0376 9B030000 		.4byte	0x39b
+ 1446 037a 15       		.uleb128 0x15
+ 1447 037b 32050000 		.4byte	.LASF37
+ 1448 037f 01       		.byte	0x1
+ 1449 0380 2A01     		.2byte	0x12a
+ 1450 0382 C0000000 		.4byte	0xc0
+ 1451 0386 5A010000 		.4byte	.LLST9
+ 1452 038a 15       		.uleb128 0x15
+ 1453 038b 2A010000 		.4byte	.LASF38
+ 1454 038f 01       		.byte	0x1
+ 1455 0390 2B01     		.2byte	0x12b
+ 1456 0392 C0000000 		.4byte	0xc0
+ 1457 0396 8A010000 		.4byte	.LLST10
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 33
+
+
+ 1458 039a 00       		.byte	0
+ 1459 039b 0B       		.uleb128 0xb
+ 1460 039c 06000000 		.4byte	.LVL71
+ 1461 03a0 48080000 		.4byte	0x848
+ 1462 03a4 00       		.byte	0
+ 1463 03a5 18       		.uleb128 0x18
+ 1464 03a6 51030000 		.4byte	.LASF39
+ 1465 03aa 01       		.byte	0x1
+ 1466 03ab A2       		.byte	0xa2
+ 1467 03ac AD000000 		.4byte	0xad
+ 1468 03b0 00000000 		.4byte	.LFB65
+ 1469 03b4 6C000000 		.4byte	.LFE65-.LFB65
+ 1470 03b8 01       		.uleb128 0x1
+ 1471 03b9 9C       		.byte	0x9c
+ 1472 03ba 33040000 		.4byte	0x433
+ 1473 03be 0C       		.uleb128 0xc
+ 1474 03bf 4B7000   		.ascii	"Kp\000"
+ 1475 03c2 01       		.byte	0x1
+ 1476 03c3 A4       		.byte	0xa4
+ 1477 03c4 38020000 		.4byte	0x238
+ 1478 03c8 04       		.byte	0x4
+ 1479 03c9 0000A041 		.4byte	0x41a00000
+ 1480 03cd 0C       		.uleb128 0xc
+ 1481 03ce 4B6900   		.ascii	"Ki\000"
+ 1482 03d1 01       		.byte	0x1
+ 1483 03d2 A5       		.byte	0xa5
+ 1484 03d3 38020000 		.4byte	0x238
+ 1485 03d7 04       		.byte	0x4
+ 1486 03d8 00000000 		.4byte	0
+ 1487 03dc 0C       		.uleb128 0xc
+ 1488 03dd 4B6400   		.ascii	"Kd\000"
+ 1489 03e0 01       		.byte	0x1
+ 1490 03e1 A6       		.byte	0xa6
+ 1491 03e2 38020000 		.4byte	0x238
+ 1492 03e6 04       		.byte	0x4
+ 1493 03e7 CDCC0C40 		.4byte	0x400ccccd
+ 1494 03eb 0C       		.uleb128 0xc
+ 1495 03ec 647400   		.ascii	"dt\000"
+ 1496 03ef 01       		.byte	0x1
+ 1497 03f0 A7       		.byte	0xa7
+ 1498 03f1 38020000 		.4byte	0x238
+ 1499 03f5 04       		.byte	0x4
+ 1500 03f6 0AD7233C 		.4byte	0x3c23d70a
+ 1501 03fa 09       		.uleb128 0x9
+ 1502 03fb BD010000 		.4byte	.LASF24
+ 1503 03ff 01       		.byte	0x1
+ 1504 0400 AA       		.byte	0xaa
+ 1505 0401 AD000000 		.4byte	0xad
+ 1506 0405 05       		.uleb128 0x5
+ 1507 0406 03       		.byte	0x3
+ 1508 0407 24000000 		.4byte	integral.8765
+ 1509 040b 0D       		.uleb128 0xd
+ 1510 040c 9D010000 		.4byte	.LASF32
+ 1511 0410 01       		.byte	0x1
+ 1512 0411 AB       		.byte	0xab
+ 1513 0412 AD000000 		.4byte	0xad
+ 1514 0416 0A       		.uleb128 0xa
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 34
+
+
+ 1515 0417 6A040000 		.4byte	.LASF27
+ 1516 041b 01       		.byte	0x1
+ 1517 041c AD       		.byte	0xad
+ 1518 041d AD000000 		.4byte	0xad
+ 1519 0421 9D010000 		.4byte	.LLST11
+ 1520 0425 09       		.uleb128 0x9
+ 1521 0426 4E040000 		.4byte	.LASF28
+ 1522 042a 01       		.byte	0x1
+ 1523 042b B0       		.byte	0xb0
+ 1524 042c AD000000 		.4byte	0xad
+ 1525 0430 01       		.uleb128 0x1
+ 1526 0431 50       		.byte	0x50
+ 1527 0432 00       		.byte	0
+ 1528 0433 19       		.uleb128 0x19
+ 1529 0434 36010000 		.4byte	.LASF40
+ 1530 0438 01       		.byte	0x1
+ 1531 0439 3201     		.2byte	0x132
+ 1532 043b AD000000 		.4byte	0xad
+ 1533 043f 00000000 		.4byte	.LFB70
+ 1534 0443 30000000 		.4byte	.LFE70-.LFB70
+ 1535 0447 01       		.uleb128 0x1
+ 1536 0448 9C       		.byte	0x9c
+ 1537 0449 57040000 		.4byte	0x457
+ 1538 044d 0B       		.uleb128 0xb
+ 1539 044e 06000000 		.4byte	.LVL91
+ 1540 0452 F0070000 		.4byte	0x7f0
+ 1541 0456 00       		.byte	0
+ 1542 0457 1A       		.uleb128 0x1a
+ 1543 0458 B3000000 		.4byte	.LASF87
+ 1544 045c 01       		.byte	0x1
+ 1545 045d 3C       		.byte	0x3c
+ 1546 045e 68000000 		.4byte	0x68
+ 1547 0462 00000000 		.4byte	.LFB64
+ 1548 0466 68010000 		.4byte	.LFE64-.LFB64
+ 1549 046a 01       		.uleb128 0x1
+ 1550 046b 9C       		.byte	0x9c
+ 1551 046c D8060000 		.4byte	0x6d8
+ 1552 0470 17       		.uleb128 0x17
+ 1553 0471 5C000000 		.4byte	.LBB3
+ 1554 0475 DC000000 		.4byte	.LBE3-.LBB3
+ 1555 0479 EE050000 		.4byte	0x5ee
+ 1556 047d 1B       		.uleb128 0x1b
+ 1557 047e AD030000 		.4byte	.LASF41
+ 1558 0482 01       		.byte	0x1
+ 1559 0483 71       		.byte	0x71
+ 1560 0484 94000000 		.4byte	0x94
+ 1561 0488 00       		.byte	0
+ 1562 0489 17       		.uleb128 0x17
+ 1563 048a C4000000 		.4byte	.LBB4
+ 1564 048e 34000000 		.4byte	.LBE4-.LBB4
+ 1565 0492 13050000 		.4byte	0x513
+ 1566 0496 0A       		.uleb128 0xa
+ 1567 0497 12000000 		.4byte	.LASF42
+ 1568 049b 01       		.byte	0x1
+ 1569 049c 63       		.byte	0x63
+ 1570 049d B4000000 		.4byte	0xb4
+ 1571 04a1 BB010000 		.4byte	.LLST12
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 35
+
+
+ 1572 04a5 0E       		.uleb128 0xe
+ 1573 04a6 CE000000 		.4byte	.LVL124
+ 1574 04aa 53080000 		.4byte	0x853
+ 1575 04ae B9040000 		.4byte	0x4b9
+ 1576 04b2 0F       		.uleb128 0xf
+ 1577 04b3 01       		.uleb128 0x1
+ 1578 04b4 50       		.byte	0x50
+ 1579 04b5 02       		.uleb128 0x2
+ 1580 04b6 74       		.byte	0x74
+ 1581 04b7 00       		.sleb128 0
+ 1582 04b8 00       		.byte	0
+ 1583 04b9 0E       		.uleb128 0xe
+ 1584 04ba D4000000 		.4byte	.LVL125
+ 1585 04be 5E080000 		.4byte	0x85e
+ 1586 04c2 CC040000 		.4byte	0x4cc
+ 1587 04c6 0F       		.uleb128 0xf
+ 1588 04c7 01       		.uleb128 0x1
+ 1589 04c8 50       		.byte	0x50
+ 1590 04c9 01       		.uleb128 0x1
+ 1591 04ca 31       		.byte	0x31
+ 1592 04cb 00       		.byte	0
+ 1593 04cc 0E       		.uleb128 0xe
+ 1594 04cd DC000000 		.4byte	.LVL126
+ 1595 04d1 69080000 		.4byte	0x869
+ 1596 04d5 E1040000 		.4byte	0x4e1
+ 1597 04d9 0F       		.uleb128 0xf
+ 1598 04da 01       		.uleb128 0x1
+ 1599 04db 50       		.byte	0x50
+ 1600 04dc 03       		.uleb128 0x3
+ 1601 04dd 0A       		.byte	0xa
+ 1602 04de F401     		.2byte	0x1f4
+ 1603 04e0 00       		.byte	0
+ 1604 04e1 0E       		.uleb128 0xe
+ 1605 04e2 E2000000 		.4byte	.LVL127
+ 1606 04e6 5E080000 		.4byte	0x85e
+ 1607 04ea F4040000 		.4byte	0x4f4
+ 1608 04ee 0F       		.uleb128 0xf
+ 1609 04ef 01       		.uleb128 0x1
+ 1610 04f0 50       		.byte	0x50
+ 1611 04f1 01       		.uleb128 0x1
+ 1612 04f2 30       		.byte	0x30
+ 1613 04f3 00       		.byte	0
+ 1614 04f4 0E       		.uleb128 0xe
+ 1615 04f5 EA000000 		.4byte	.LVL128
+ 1616 04f9 69080000 		.4byte	0x869
+ 1617 04fd 09050000 		.4byte	0x509
+ 1618 0501 0F       		.uleb128 0xf
+ 1619 0502 01       		.uleb128 0x1
+ 1620 0503 50       		.byte	0x50
+ 1621 0504 03       		.uleb128 0x3
+ 1622 0505 0A       		.byte	0xa
+ 1623 0506 F401     		.2byte	0x1f4
+ 1624 0508 00       		.byte	0
+ 1625 0509 0B       		.uleb128 0xb
+ 1626 050a EE000000 		.4byte	.LVL129
+ 1627 050e 74080000 		.4byte	0x874
+ 1628 0512 00       		.byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 36
+
+
+ 1629 0513 0E       		.uleb128 0xe
+ 1630 0514 62000000 		.4byte	.LVL111
+ 1631 0518 5E080000 		.4byte	0x85e
+ 1632 051c 26050000 		.4byte	0x526
+ 1633 0520 0F       		.uleb128 0xf
+ 1634 0521 01       		.uleb128 0x1
+ 1635 0522 50       		.byte	0x50
+ 1636 0523 01       		.uleb128 0x1
+ 1637 0524 30       		.byte	0x30
+ 1638 0525 00       		.byte	0
+ 1639 0526 0B       		.uleb128 0xb
+ 1640 0527 68000000 		.4byte	.LVL112
+ 1641 052b 33040000 		.4byte	0x433
+ 1642 052f 0B       		.uleb128 0xb
+ 1643 0530 74000000 		.4byte	.LVL114
+ 1644 0534 33040000 		.4byte	0x433
+ 1645 0538 0B       		.uleb128 0xb
+ 1646 0539 96000000 		.4byte	.LVL116
+ 1647 053d 33040000 		.4byte	0x433
+ 1648 0541 0B       		.uleb128 0xb
+ 1649 0542 9E000000 		.4byte	.LVL118
+ 1650 0546 7F080000 		.4byte	0x87f
+ 1651 054a 0B       		.uleb128 0xb
+ 1652 054b B8000000 		.4byte	.LVL121
+ 1653 054f 74080000 		.4byte	0x874
+ 1654 0553 0E       		.uleb128 0xe
+ 1655 0554 C4000000 		.4byte	.LVL122
+ 1656 0558 69080000 		.4byte	0x869
+ 1657 055c 68050000 		.4byte	0x568
+ 1658 0560 0F       		.uleb128 0xf
+ 1659 0561 01       		.uleb128 0x1
+ 1660 0562 50       		.byte	0x50
+ 1661 0563 03       		.uleb128 0x3
+ 1662 0564 0A       		.byte	0xa
+ 1663 0565 F401     		.2byte	0x1f4
+ 1664 0567 00       		.byte	0
+ 1665 0568 0E       		.uleb128 0xe
+ 1666 0569 00010000 		.4byte	.LVL132
+ 1667 056d 69080000 		.4byte	0x869
+ 1668 0571 7D050000 		.4byte	0x57d
+ 1669 0575 0F       		.uleb128 0xf
+ 1670 0576 01       		.uleb128 0x1
+ 1671 0577 50       		.byte	0x50
+ 1672 0578 03       		.uleb128 0x3
+ 1673 0579 0A       		.byte	0xa
+ 1674 057a 1027     		.2byte	0x2710
+ 1675 057c 00       		.byte	0
+ 1676 057d 0E       		.uleb128 0xe
+ 1677 057e 06010000 		.4byte	.LVL133
+ 1678 0582 5E080000 		.4byte	0x85e
+ 1679 0586 90050000 		.4byte	0x590
+ 1680 058a 0F       		.uleb128 0xf
+ 1681 058b 01       		.uleb128 0x1
+ 1682 058c 50       		.byte	0x50
+ 1683 058d 01       		.uleb128 0x1
+ 1684 058e 31       		.byte	0x31
+ 1685 058f 00       		.byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 37
+
+
+ 1686 0590 0B       		.uleb128 0xb
+ 1687 0591 0C010000 		.4byte	.LVL134
+ 1688 0595 A5030000 		.4byte	0x3a5
+ 1689 0599 0E       		.uleb128 0xe
+ 1690 059a 16010000 		.4byte	.LVL135
+ 1691 059e 69080000 		.4byte	0x869
+ 1692 05a2 AC050000 		.4byte	0x5ac
+ 1693 05a6 0F       		.uleb128 0xf
+ 1694 05a7 01       		.uleb128 0x1
+ 1695 05a8 50       		.byte	0x50
+ 1696 05a9 01       		.uleb128 0x1
+ 1697 05aa 3A       		.byte	0x3a
+ 1698 05ab 00       		.byte	0
+ 1699 05ac 0B       		.uleb128 0xb
+ 1700 05ad 1A010000 		.4byte	.LVL136
+ 1701 05b1 74080000 		.4byte	0x874
+ 1702 05b5 0E       		.uleb128 0xe
+ 1703 05b6 2A010000 		.4byte	.LVL137
+ 1704 05ba 53080000 		.4byte	0x853
+ 1705 05be C9050000 		.4byte	0x5c9
+ 1706 05c2 0F       		.uleb128 0xf
+ 1707 05c3 01       		.uleb128 0x1
+ 1708 05c4 50       		.byte	0x50
+ 1709 05c5 02       		.uleb128 0x2
+ 1710 05c6 08       		.byte	0x8
+ 1711 05c7 64       		.byte	0x64
+ 1712 05c8 00       		.byte	0
+ 1713 05c9 0E       		.uleb128 0xe
+ 1714 05ca 30010000 		.4byte	.LVL138
+ 1715 05ce 5E080000 		.4byte	0x85e
+ 1716 05d2 DC050000 		.4byte	0x5dc
+ 1717 05d6 0F       		.uleb128 0xf
+ 1718 05d7 01       		.uleb128 0x1
+ 1719 05d8 50       		.byte	0x50
+ 1720 05d9 01       		.uleb128 0x1
+ 1721 05da 30       		.byte	0x30
+ 1722 05db 00       		.byte	0
+ 1723 05dc 10       		.uleb128 0x10
+ 1724 05dd 38010000 		.4byte	.LVL139
+ 1725 05e1 69080000 		.4byte	0x869
+ 1726 05e5 0F       		.uleb128 0xf
+ 1727 05e6 01       		.uleb128 0x1
+ 1728 05e7 50       		.byte	0x50
+ 1729 05e8 03       		.uleb128 0x3
+ 1730 05e9 0A       		.byte	0xa
+ 1731 05ea E803     		.2byte	0x3e8
+ 1732 05ec 00       		.byte	0
+ 1733 05ed 00       		.byte	0
+ 1734 05ee 0B       		.uleb128 0xb
+ 1735 05ef 08000000 		.4byte	.LVL96
+ 1736 05f3 8A080000 		.4byte	0x88a
+ 1737 05f7 0E       		.uleb128 0xe
+ 1738 05f8 0E000000 		.4byte	.LVL97
+ 1739 05fc 53080000 		.4byte	0x853
+ 1740 0600 0B060000 		.4byte	0x60b
+ 1741 0604 0F       		.uleb128 0xf
+ 1742 0605 01       		.uleb128 0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 38
+
+
+ 1743 0606 50       		.byte	0x50
+ 1744 0607 02       		.uleb128 0x2
+ 1745 0608 08       		.byte	0x8
+ 1746 0609 64       		.byte	0x64
+ 1747 060a 00       		.byte	0
+ 1748 060b 0E       		.uleb128 0xe
+ 1749 060c 14000000 		.4byte	.LVL98
+ 1750 0610 5E080000 		.4byte	0x85e
+ 1751 0614 1E060000 		.4byte	0x61e
+ 1752 0618 0F       		.uleb128 0xf
+ 1753 0619 01       		.uleb128 0x1
+ 1754 061a 50       		.byte	0x50
+ 1755 061b 01       		.uleb128 0x1
+ 1756 061c 30       		.byte	0x30
+ 1757 061d 00       		.byte	0
+ 1758 061e 0B       		.uleb128 0xb
+ 1759 061f 1E000000 		.4byte	.LVL99
+ 1760 0623 95080000 		.4byte	0x895
+ 1761 0627 0E       		.uleb128 0xe
+ 1762 0628 24000000 		.4byte	.LVL100
+ 1763 062c A0080000 		.4byte	0x8a0
+ 1764 0630 3A060000 		.4byte	0x63a
+ 1765 0634 0F       		.uleb128 0xf
+ 1766 0635 01       		.uleb128 0x1
+ 1767 0636 50       		.byte	0x50
+ 1768 0637 01       		.uleb128 0x1
+ 1769 0638 30       		.byte	0x30
+ 1770 0639 00       		.byte	0
+ 1771 063a 0B       		.uleb128 0xb
+ 1772 063b 2E000000 		.4byte	.LVL101
+ 1773 063f AB080000 		.4byte	0x8ab
+ 1774 0643 0E       		.uleb128 0xe
+ 1775 0644 34000000 		.4byte	.LVL102
+ 1776 0648 B6080000 		.4byte	0x8b6
+ 1777 064c 57060000 		.4byte	0x657
+ 1778 0650 0F       		.uleb128 0xf
+ 1779 0651 01       		.uleb128 0x1
+ 1780 0652 50       		.byte	0x50
+ 1781 0653 02       		.uleb128 0x2
+ 1782 0654 74       		.byte	0x74
+ 1783 0655 00       		.sleb128 0
+ 1784 0656 00       		.byte	0
+ 1785 0657 0B       		.uleb128 0xb
+ 1786 0658 38000000 		.4byte	.LVL103
+ 1787 065c C1080000 		.4byte	0x8c1
+ 1788 0660 0E       		.uleb128 0xe
+ 1789 0661 3E000000 		.4byte	.LVL104
+ 1790 0665 CC080000 		.4byte	0x8cc
+ 1791 0669 77060000 		.4byte	0x677
+ 1792 066d 0F       		.uleb128 0xf
+ 1793 066e 01       		.uleb128 0x1
+ 1794 066f 50       		.byte	0x50
+ 1795 0670 05       		.uleb128 0x5
+ 1796 0671 03       		.byte	0x3
+ 1797 0672 00000000 		.4byte	gimbal_control_loop
+ 1798 0676 00       		.byte	0
+ 1799 0677 0E       		.uleb128 0xe
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 39
+
+
+ 1800 0678 44000000 		.4byte	.LVL105
+ 1801 067c D7080000 		.4byte	0x8d7
+ 1802 0680 8E060000 		.4byte	0x68e
+ 1803 0684 0F       		.uleb128 0xf
+ 1804 0685 01       		.uleb128 0x1
+ 1805 0686 50       		.byte	0x50
+ 1806 0687 05       		.uleb128 0x5
+ 1807 0688 03       		.byte	0x3
+ 1808 0689 00000000 		.4byte	steering_control_loop
+ 1809 068d 00       		.byte	0
+ 1810 068e 0E       		.uleb128 0xe
+ 1811 068f 4A000000 		.4byte	.LVL106
+ 1812 0693 E2080000 		.4byte	0x8e2
+ 1813 0697 A5060000 		.4byte	0x6a5
+ 1814 069b 0F       		.uleb128 0xf
+ 1815 069c 01       		.uleb128 0x1
+ 1816 069d 50       		.byte	0x50
+ 1817 069e 05       		.uleb128 0x5
+ 1818 069f 03       		.byte	0x3
+ 1819 06a0 00000000 		.4byte	rpi_tx_isr
+ 1820 06a4 00       		.byte	0
+ 1821 06a5 0E       		.uleb128 0xe
+ 1822 06a6 50000000 		.4byte	.LVL107
+ 1823 06aa ED080000 		.4byte	0x8ed
+ 1824 06ae BC060000 		.4byte	0x6bc
+ 1825 06b2 0F       		.uleb128 0xf
+ 1826 06b3 01       		.uleb128 0x1
+ 1827 06b4 50       		.byte	0x50
+ 1828 06b5 05       		.uleb128 0x5
+ 1829 06b6 03       		.byte	0x3
+ 1830 06b7 00000000 		.4byte	timer_isr
+ 1831 06bb 00       		.byte	0
+ 1832 06bc 0B       		.uleb128 0xb
+ 1833 06bd 54000000 		.4byte	.LVL108
+ 1834 06c1 F8080000 		.4byte	0x8f8
+ 1835 06c5 0B       		.uleb128 0xb
+ 1836 06c6 58000000 		.4byte	.LVL109
+ 1837 06ca 03090000 		.4byte	0x903
+ 1838 06ce 0B       		.uleb128 0xb
+ 1839 06cf 5C000000 		.4byte	.LVL110
+ 1840 06d3 0E090000 		.4byte	0x90e
+ 1841 06d7 00       		.byte	0
+ 1842 06d8 1C       		.uleb128 0x1c
+ 1843 06d9 8F040000 		.4byte	.LASF43
+ 1844 06dd 05       		.byte	0x5
+ 1845 06de 1207     		.2byte	0x712
+ 1846 06e0 E4060000 		.4byte	0x6e4
+ 1847 06e4 1D       		.uleb128 0x1d
+ 1848 06e5 9B000000 		.4byte	0x9b
+ 1849 06e9 1E       		.uleb128 0x1e
+ 1850 06ea 52010000 		.4byte	.LASF44
+ 1851 06ee 01       		.byte	0x1
+ 1852 06ef 26       		.byte	0x26
+ 1853 06f0 FA060000 		.4byte	0x6fa
+ 1854 06f4 05       		.uleb128 0x5
+ 1855 06f5 03       		.byte	0x3
+ 1856 06f6 00000000 		.4byte	gimbal_pwm_low
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 40
+
+
+ 1857 06fa 11       		.uleb128 0x11
+ 1858 06fb B4000000 		.4byte	0xb4
+ 1859 06ff 1E       		.uleb128 0x1e
+ 1860 0700 4D000000 		.4byte	.LASF45
+ 1861 0704 01       		.byte	0x1
+ 1862 0705 27       		.byte	0x27
+ 1863 0706 FA060000 		.4byte	0x6fa
+ 1864 070a 05       		.uleb128 0x5
+ 1865 070b 03       		.byte	0x3
+ 1866 070c 00000000 		.4byte	gimbal_pwm_high
+ 1867 0710 1E       		.uleb128 0x1e
+ 1868 0711 31000000 		.4byte	.LASF46
+ 1869 0715 01       		.byte	0x1
+ 1870 0716 28       		.byte	0x28
+ 1871 0717 FA060000 		.4byte	0x6fa
+ 1872 071b 05       		.uleb128 0x5
+ 1873 071c 03       		.byte	0x3
+ 1874 071d 00000000 		.4byte	gimbal_pwm_target
+ 1875 0721 1E       		.uleb128 0x1e
+ 1876 0722 62000000 		.4byte	.LASF47
+ 1877 0726 01       		.byte	0x1
+ 1878 0727 2A       		.byte	0x2a
+ 1879 0728 32070000 		.4byte	0x732
+ 1880 072c 05       		.uleb128 0x5
+ 1881 072d 03       		.byte	0x3
+ 1882 072e 00000000 		.4byte	gimbal_max
+ 1883 0732 11       		.uleb128 0x11
+ 1884 0733 C0000000 		.4byte	0xc0
+ 1885 0737 1E       		.uleb128 0x1e
+ 1886 0738 DC000000 		.4byte	.LASF48
+ 1887 073c 01       		.byte	0x1
+ 1888 073d 2B       		.byte	0x2b
+ 1889 073e 32070000 		.4byte	0x732
+ 1890 0742 05       		.uleb128 0x5
+ 1891 0743 03       		.byte	0x3
+ 1892 0744 00000000 		.4byte	gimbal_min
+ 1893 0748 1E       		.uleb128 0x1e
+ 1894 0749 9E030000 		.4byte	.LASF49
+ 1895 074d 01       		.byte	0x1
+ 1896 074e 2D       		.byte	0x2d
+ 1897 074f 59070000 		.4byte	0x759
+ 1898 0753 05       		.uleb128 0x5
+ 1899 0754 03       		.byte	0x3
+ 1900 0755 00000000 		.4byte	steeringTarget
+ 1901 0759 1D       		.uleb128 0x1d
+ 1902 075a 68000000 		.4byte	0x68
+ 1903 075e 1E       		.uleb128 0x1e
+ 1904 075f 3A050000 		.4byte	.LASF50
+ 1905 0763 01       		.byte	0x1
+ 1906 0764 2E       		.byte	0x2e
+ 1907 0765 6F070000 		.4byte	0x76f
+ 1908 0769 05       		.uleb128 0x5
+ 1909 076a 03       		.byte	0x3
+ 1910 076b 00000000 		.4byte	phi_w
+ 1911 076f 1D       		.uleb128 0x1d
+ 1912 0770 AD000000 		.4byte	0xad
+ 1913 0774 1E       		.uleb128 0x1e
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 41
+
+
+ 1914 0775 43000000 		.4byte	.LASF51
+ 1915 0779 01       		.byte	0x1
+ 1916 077a 2F       		.byte	0x2f
+ 1917 077b 6F070000 		.4byte	0x76f
+ 1918 077f 05       		.uleb128 0x5
+ 1919 0780 03       		.byte	0x3
+ 1920 0781 00000000 		.4byte	phi_w_dot
+ 1921 0785 1E       		.uleb128 0x1e
+ 1922 0786 91020000 		.4byte	.LASF52
+ 1923 078a 01       		.byte	0x1
+ 1924 078b 30       		.byte	0x30
+ 1925 078c 6F070000 		.4byte	0x76f
+ 1926 0790 05       		.uleb128 0x5
+ 1927 0791 03       		.byte	0x3
+ 1928 0792 00000000 		.4byte	phi_b
+ 1929 0796 1E       		.uleb128 0x1e
+ 1930 0797 73030000 		.4byte	.LASF53
+ 1931 079b 01       		.byte	0x1
+ 1932 079c 31       		.byte	0x31
+ 1933 079d 6F070000 		.4byte	0x76f
+ 1934 07a1 05       		.uleb128 0x5
+ 1935 07a2 03       		.byte	0x3
+ 1936 07a3 00000000 		.4byte	phi_b_dot
+ 1937 07a7 1E       		.uleb128 0x1e
+ 1938 07a8 77040000 		.4byte	.LASF54
+ 1939 07ac 01       		.byte	0x1
+ 1940 07ad 32       		.byte	0x32
+ 1941 07ae 6F070000 		.4byte	0x76f
+ 1942 07b2 05       		.uleb128 0x5
+ 1943 07b3 03       		.byte	0x3
+ 1944 07b4 00000000 		.4byte	speed_reading
+ 1945 07b8 1E       		.uleb128 0x1e
+ 1946 07b9 82020000 		.4byte	.LASF55
+ 1947 07bd 01       		.byte	0x1
+ 1948 07be 34       		.byte	0x34
+ 1949 07bf C9070000 		.4byte	0x7c9
+ 1950 07c3 05       		.uleb128 0x5
+ 1951 07c4 03       		.byte	0x3
+ 1952 07c5 00000000 		.4byte	gimbal_enc_min
+ 1953 07c9 11       		.uleb128 0x11
+ 1954 07ca 68000000 		.4byte	0x68
+ 1955 07ce 1E       		.uleb128 0x1e
+ 1956 07cf 02020000 		.4byte	.LASF56
+ 1957 07d3 01       		.byte	0x1
+ 1958 07d4 35       		.byte	0x35
+ 1959 07d5 C9070000 		.4byte	0x7c9
+ 1960 07d9 05       		.uleb128 0x5
+ 1961 07da 03       		.byte	0x3
+ 1962 07db 00000000 		.4byte	gimbal_enc_max
+ 1963 07df 1E       		.uleb128 0x1e
+ 1964 07e0 69020000 		.4byte	.LASF57
+ 1965 07e4 01       		.byte	0x1
+ 1966 07e5 37       		.byte	0x37
+ 1967 07e6 38020000 		.4byte	0x238
+ 1968 07ea 05       		.uleb128 0x5
+ 1969 07eb 03       		.byte	0x3
+ 1970 07ec 00000000 		.4byte	phi_w_dot_max
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 42
+
+
+ 1971 07f0 1F       		.uleb128 0x1f
+ 1972 07f1 7D030000 		.4byte	.LASF58
+ 1973 07f5 7D030000 		.4byte	.LASF58
+ 1974 07f9 06       		.byte	0x6
+ 1975 07fa 4E       		.byte	0x4e
+ 1976 07fb 1F       		.uleb128 0x1f
+ 1977 07fc 25040000 		.4byte	.LASF59
+ 1978 0800 25040000 		.4byte	.LASF59
+ 1979 0804 07       		.byte	0x7
+ 1980 0805 5E       		.byte	0x5e
+ 1981 0806 1F       		.uleb128 0x1f
+ 1982 0807 79050000 		.4byte	.LASF60
+ 1983 080b 79050000 		.4byte	.LASF60
+ 1984 080f 08       		.byte	0x8
+ 1985 0810 26       		.byte	0x26
+ 1986 0811 1F       		.uleb128 0x1f
+ 1987 0812 07030000 		.4byte	.LASF61
+ 1988 0816 07030000 		.4byte	.LASF61
+ 1989 081a 09       		.byte	0x9
+ 1990 081b CA       		.byte	0xca
+ 1991 081c 1F       		.uleb128 0x1f
+ 1992 081d CF020000 		.4byte	.LASF62
+ 1993 0821 CF020000 		.4byte	.LASF62
+ 1994 0825 0A       		.byte	0xa
+ 1995 0826 5E       		.byte	0x5e
+ 1996 0827 1F       		.uleb128 0x1f
+ 1997 0828 59030000 		.4byte	.LASF63
+ 1998 082c 59030000 		.4byte	.LASF63
+ 1999 0830 0B       		.byte	0xb
+ 2000 0831 4E       		.byte	0x4e
+ 2001 0832 1F       		.uleb128 0x1f
+ 2002 0833 40050000 		.4byte	.LASF64
+ 2003 0837 40050000 		.4byte	.LASF64
+ 2004 083b 0C       		.byte	0xc
+ 2005 083c 26       		.byte	0x26
+ 2006 083d 1F       		.uleb128 0x1f
+ 2007 083e 1D030000 		.4byte	.LASF65
+ 2008 0842 1D030000 		.4byte	.LASF65
+ 2009 0846 0D       		.byte	0xd
+ 2010 0847 C3       		.byte	0xc3
+ 2011 0848 1F       		.uleb128 0x1f
+ 2012 0849 16010000 		.4byte	.LASF66
+ 2013 084d 16010000 		.4byte	.LASF66
+ 2014 0851 0E       		.byte	0xe
+ 2015 0852 71       		.byte	0x71
+ 2016 0853 1F       		.uleb128 0x1f
+ 2017 0854 F1020000 		.4byte	.LASF67
+ 2018 0858 F1020000 		.4byte	.LASF67
+ 2019 085c 09       		.byte	0x9
+ 2020 085d C7       		.byte	0xc7
+ 2021 085e 1F       		.uleb128 0x1f
+ 2022 085f 67010000 		.4byte	.LASF68
+ 2023 0863 67010000 		.4byte	.LASF68
+ 2024 0867 0F       		.byte	0xf
+ 2025 0868 26       		.byte	0x26
+ 2026 0869 1F       		.uleb128 0x1f
+ 2027 086a 2A050000 		.4byte	.LASF69
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 43
+
+
+ 2028 086e 2A050000 		.4byte	.LASF69
+ 2029 0872 10       		.byte	0x10
+ 2030 0873 76       		.byte	0x76
+ 2031 0874 1F       		.uleb128 0x1f
+ 2032 0875 B8030000 		.4byte	.LASF70
+ 2033 0879 B8030000 		.4byte	.LASF70
+ 2034 087d 11       		.byte	0x11
+ 2035 087e 29       		.byte	0x29
+ 2036 087f 20       		.uleb128 0x20
+ 2037 0880 636F7300 		.ascii	"cos\000"
+ 2038 0884 636F7300 		.ascii	"cos\000"
+ 2039 0888 16       		.byte	0x16
+ 2040 0889 6E       		.byte	0x6e
+ 2041 088a 1F       		.uleb128 0x1f
+ 2042 088b 04040000 		.4byte	.LASF71
+ 2043 088f 04040000 		.4byte	.LASF71
+ 2044 0893 09       		.byte	0x9
+ 2045 0894 92       		.byte	0x92
+ 2046 0895 1F       		.uleb128 0x1f
+ 2047 0896 55040000 		.4byte	.LASF72
+ 2048 089a 55040000 		.4byte	.LASF72
+ 2049 089e 06       		.byte	0x6
+ 2050 089f 48       		.byte	0x48
+ 2051 08a0 1F       		.uleb128 0x1f
+ 2052 08a1 FC000000 		.4byte	.LASF73
+ 2053 08a5 FC000000 		.4byte	.LASF73
+ 2054 08a9 06       		.byte	0x6
+ 2055 08aa 4F       		.byte	0x4f
+ 2056 08ab 1F       		.uleb128 0x1f
+ 2057 08ac 3C030000 		.4byte	.LASF74
+ 2058 08b0 3C030000 		.4byte	.LASF74
+ 2059 08b4 0B       		.byte	0xb
+ 2060 08b5 48       		.byte	0x48
+ 2061 08b6 1F       		.uleb128 0x1f
+ 2062 08b7 17000000 		.4byte	.LASF75
+ 2063 08bb 17000000 		.4byte	.LASF75
+ 2064 08bf 0B       		.byte	0xb
+ 2065 08c0 4F       		.byte	0x4f
+ 2066 08c1 1F       		.uleb128 0x1f
+ 2067 08c2 42010000 		.4byte	.LASF76
+ 2068 08c6 42010000 		.4byte	.LASF76
+ 2069 08ca 0D       		.byte	0xd
+ 2070 08cb 92       		.byte	0x92
+ 2071 08cc 1F       		.uleb128 0x1f
+ 2072 08cd 53050000 		.4byte	.LASF77
+ 2073 08d1 53050000 		.4byte	.LASF77
+ 2074 08d5 12       		.byte	0x12
+ 2075 08d6 18       		.byte	0x18
+ 2076 08d7 1F       		.uleb128 0x1f
+ 2077 08d8 90050000 		.4byte	.LASF78
+ 2078 08dc 90050000 		.4byte	.LASF78
+ 2079 08e0 13       		.byte	0x13
+ 2080 08e1 18       		.byte	0x18
+ 2081 08e2 1F       		.uleb128 0x1f
+ 2082 08e3 43020000 		.4byte	.LASF79
+ 2083 08e7 43020000 		.4byte	.LASF79
+ 2084 08eb 14       		.byte	0x14
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 44
+
+
+ 2085 08ec 18       		.byte	0x18
+ 2086 08ed 1F       		.uleb128 0x1f
+ 2087 08ee 85010000 		.4byte	.LASF80
+ 2088 08f2 85010000 		.4byte	.LASF80
+ 2089 08f6 15       		.byte	0x15
+ 2090 08f7 18       		.byte	0x18
+ 2091 08f8 1F       		.uleb128 0x1f
+ 2092 08f9 72010000 		.4byte	.LASF81
+ 2093 08fd 72010000 		.4byte	.LASF81
+ 2094 0901 07       		.byte	0x7
+ 2095 0902 5A       		.byte	0x5a
+ 2096 0903 1F       		.uleb128 0x1f
+ 2097 0904 EF030000 		.4byte	.LASF82
+ 2098 0908 EF030000 		.4byte	.LASF82
+ 2099 090c 0A       		.byte	0xa
+ 2100 090d 5A       		.byte	0x5a
+ 2101 090e 1F       		.uleb128 0x1f
+ 2102 090f C6010000 		.4byte	.LASF83
+ 2103 0913 C6010000 		.4byte	.LASF83
+ 2104 0917 0E       		.byte	0xe
+ 2105 0918 54       		.byte	0x54
+ 2106 0919 00       		.byte	0
+ 2107              		.section	.debug_abbrev,"",%progbits
+ 2108              	.Ldebug_abbrev0:
+ 2109 0000 01       		.uleb128 0x1
+ 2110 0001 11       		.uleb128 0x11
+ 2111 0002 01       		.byte	0x1
+ 2112 0003 25       		.uleb128 0x25
+ 2113 0004 0E       		.uleb128 0xe
+ 2114 0005 13       		.uleb128 0x13
+ 2115 0006 0B       		.uleb128 0xb
+ 2116 0007 03       		.uleb128 0x3
+ 2117 0008 0E       		.uleb128 0xe
+ 2118 0009 1B       		.uleb128 0x1b
+ 2119 000a 0E       		.uleb128 0xe
+ 2120 000b 55       		.uleb128 0x55
+ 2121 000c 17       		.uleb128 0x17
+ 2122 000d 11       		.uleb128 0x11
+ 2123 000e 01       		.uleb128 0x1
+ 2124 000f 10       		.uleb128 0x10
+ 2125 0010 17       		.uleb128 0x17
+ 2126 0011 00       		.byte	0
+ 2127 0012 00       		.byte	0
+ 2128 0013 02       		.uleb128 0x2
+ 2129 0014 24       		.uleb128 0x24
+ 2130 0015 00       		.byte	0
+ 2131 0016 0B       		.uleb128 0xb
+ 2132 0017 0B       		.uleb128 0xb
+ 2133 0018 3E       		.uleb128 0x3e
+ 2134 0019 0B       		.uleb128 0xb
+ 2135 001a 03       		.uleb128 0x3
+ 2136 001b 0E       		.uleb128 0xe
+ 2137 001c 00       		.byte	0
+ 2138 001d 00       		.byte	0
+ 2139 001e 03       		.uleb128 0x3
+ 2140 001f 16       		.uleb128 0x16
+ 2141 0020 00       		.byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 45
+
+
+ 2142 0021 03       		.uleb128 0x3
+ 2143 0022 0E       		.uleb128 0xe
+ 2144 0023 3A       		.uleb128 0x3a
+ 2145 0024 0B       		.uleb128 0xb
+ 2146 0025 3B       		.uleb128 0x3b
+ 2147 0026 0B       		.uleb128 0xb
+ 2148 0027 49       		.uleb128 0x49
+ 2149 0028 13       		.uleb128 0x13
+ 2150 0029 00       		.byte	0
+ 2151 002a 00       		.byte	0
+ 2152 002b 04       		.uleb128 0x4
+ 2153 002c 24       		.uleb128 0x24
+ 2154 002d 00       		.byte	0
+ 2155 002e 0B       		.uleb128 0xb
+ 2156 002f 0B       		.uleb128 0xb
+ 2157 0030 3E       		.uleb128 0x3e
+ 2158 0031 0B       		.uleb128 0xb
+ 2159 0032 03       		.uleb128 0x3
+ 2160 0033 08       		.uleb128 0x8
+ 2161 0034 00       		.byte	0
+ 2162 0035 00       		.byte	0
+ 2163 0036 05       		.uleb128 0x5
+ 2164 0037 01       		.uleb128 0x1
+ 2165 0038 01       		.byte	0x1
+ 2166 0039 49       		.uleb128 0x49
+ 2167 003a 13       		.uleb128 0x13
+ 2168 003b 01       		.uleb128 0x1
+ 2169 003c 13       		.uleb128 0x13
+ 2170 003d 00       		.byte	0
+ 2171 003e 00       		.byte	0
+ 2172 003f 06       		.uleb128 0x6
+ 2173 0040 21       		.uleb128 0x21
+ 2174 0041 00       		.byte	0
+ 2175 0042 49       		.uleb128 0x49
+ 2176 0043 13       		.uleb128 0x13
+ 2177 0044 2F       		.uleb128 0x2f
+ 2178 0045 0B       		.uleb128 0xb
+ 2179 0046 00       		.byte	0
+ 2180 0047 00       		.byte	0
+ 2181 0048 07       		.uleb128 0x7
+ 2182 0049 16       		.uleb128 0x16
+ 2183 004a 00       		.byte	0
+ 2184 004b 03       		.uleb128 0x3
+ 2185 004c 0E       		.uleb128 0xe
+ 2186 004d 3A       		.uleb128 0x3a
+ 2187 004e 0B       		.uleb128 0xb
+ 2188 004f 3B       		.uleb128 0x3b
+ 2189 0050 05       		.uleb128 0x5
+ 2190 0051 49       		.uleb128 0x49
+ 2191 0052 13       		.uleb128 0x13
+ 2192 0053 00       		.byte	0
+ 2193 0054 00       		.byte	0
+ 2194 0055 08       		.uleb128 0x8
+ 2195 0056 2E       		.uleb128 0x2e
+ 2196 0057 01       		.byte	0x1
+ 2197 0058 3F       		.uleb128 0x3f
+ 2198 0059 19       		.uleb128 0x19
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 46
+
+
+ 2199 005a 03       		.uleb128 0x3
+ 2200 005b 0E       		.uleb128 0xe
+ 2201 005c 3A       		.uleb128 0x3a
+ 2202 005d 0B       		.uleb128 0xb
+ 2203 005e 3B       		.uleb128 0x3b
+ 2204 005f 0B       		.uleb128 0xb
+ 2205 0060 27       		.uleb128 0x27
+ 2206 0061 19       		.uleb128 0x19
+ 2207 0062 11       		.uleb128 0x11
+ 2208 0063 01       		.uleb128 0x1
+ 2209 0064 12       		.uleb128 0x12
+ 2210 0065 06       		.uleb128 0x6
+ 2211 0066 40       		.uleb128 0x40
+ 2212 0067 18       		.uleb128 0x18
+ 2213 0068 9642     		.uleb128 0x2116
+ 2214 006a 19       		.uleb128 0x19
+ 2215 006b 01       		.uleb128 0x1
+ 2216 006c 13       		.uleb128 0x13
+ 2217 006d 00       		.byte	0
+ 2218 006e 00       		.byte	0
+ 2219 006f 09       		.uleb128 0x9
+ 2220 0070 34       		.uleb128 0x34
+ 2221 0071 00       		.byte	0
+ 2222 0072 03       		.uleb128 0x3
+ 2223 0073 0E       		.uleb128 0xe
+ 2224 0074 3A       		.uleb128 0x3a
+ 2225 0075 0B       		.uleb128 0xb
+ 2226 0076 3B       		.uleb128 0x3b
+ 2227 0077 0B       		.uleb128 0xb
+ 2228 0078 49       		.uleb128 0x49
+ 2229 0079 13       		.uleb128 0x13
+ 2230 007a 02       		.uleb128 0x2
+ 2231 007b 18       		.uleb128 0x18
+ 2232 007c 00       		.byte	0
+ 2233 007d 00       		.byte	0
+ 2234 007e 0A       		.uleb128 0xa
+ 2235 007f 34       		.uleb128 0x34
+ 2236 0080 00       		.byte	0
+ 2237 0081 03       		.uleb128 0x3
+ 2238 0082 0E       		.uleb128 0xe
+ 2239 0083 3A       		.uleb128 0x3a
+ 2240 0084 0B       		.uleb128 0xb
+ 2241 0085 3B       		.uleb128 0x3b
+ 2242 0086 0B       		.uleb128 0xb
+ 2243 0087 49       		.uleb128 0x49
+ 2244 0088 13       		.uleb128 0x13
+ 2245 0089 02       		.uleb128 0x2
+ 2246 008a 17       		.uleb128 0x17
+ 2247 008b 00       		.byte	0
+ 2248 008c 00       		.byte	0
+ 2249 008d 0B       		.uleb128 0xb
+ 2250 008e 898201   		.uleb128 0x4109
+ 2251 0091 00       		.byte	0
+ 2252 0092 11       		.uleb128 0x11
+ 2253 0093 01       		.uleb128 0x1
+ 2254 0094 31       		.uleb128 0x31
+ 2255 0095 13       		.uleb128 0x13
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 47
+
+
+ 2256 0096 00       		.byte	0
+ 2257 0097 00       		.byte	0
+ 2258 0098 0C       		.uleb128 0xc
+ 2259 0099 34       		.uleb128 0x34
+ 2260 009a 00       		.byte	0
+ 2261 009b 03       		.uleb128 0x3
+ 2262 009c 08       		.uleb128 0x8
+ 2263 009d 3A       		.uleb128 0x3a
+ 2264 009e 0B       		.uleb128 0xb
+ 2265 009f 3B       		.uleb128 0x3b
+ 2266 00a0 0B       		.uleb128 0xb
+ 2267 00a1 49       		.uleb128 0x49
+ 2268 00a2 13       		.uleb128 0x13
+ 2269 00a3 1C       		.uleb128 0x1c
+ 2270 00a4 0A       		.uleb128 0xa
+ 2271 00a5 00       		.byte	0
+ 2272 00a6 00       		.byte	0
+ 2273 00a7 0D       		.uleb128 0xd
+ 2274 00a8 34       		.uleb128 0x34
+ 2275 00a9 00       		.byte	0
+ 2276 00aa 03       		.uleb128 0x3
+ 2277 00ab 0E       		.uleb128 0xe
+ 2278 00ac 3A       		.uleb128 0x3a
+ 2279 00ad 0B       		.uleb128 0xb
+ 2280 00ae 3B       		.uleb128 0x3b
+ 2281 00af 0B       		.uleb128 0xb
+ 2282 00b0 49       		.uleb128 0x49
+ 2283 00b1 13       		.uleb128 0x13
+ 2284 00b2 00       		.byte	0
+ 2285 00b3 00       		.byte	0
+ 2286 00b4 0E       		.uleb128 0xe
+ 2287 00b5 898201   		.uleb128 0x4109
+ 2288 00b8 01       		.byte	0x1
+ 2289 00b9 11       		.uleb128 0x11
+ 2290 00ba 01       		.uleb128 0x1
+ 2291 00bb 31       		.uleb128 0x31
+ 2292 00bc 13       		.uleb128 0x13
+ 2293 00bd 01       		.uleb128 0x1
+ 2294 00be 13       		.uleb128 0x13
+ 2295 00bf 00       		.byte	0
+ 2296 00c0 00       		.byte	0
+ 2297 00c1 0F       		.uleb128 0xf
+ 2298 00c2 8A8201   		.uleb128 0x410a
+ 2299 00c5 00       		.byte	0
+ 2300 00c6 02       		.uleb128 0x2
+ 2301 00c7 18       		.uleb128 0x18
+ 2302 00c8 9142     		.uleb128 0x2111
+ 2303 00ca 18       		.uleb128 0x18
+ 2304 00cb 00       		.byte	0
+ 2305 00cc 00       		.byte	0
+ 2306 00cd 10       		.uleb128 0x10
+ 2307 00ce 898201   		.uleb128 0x4109
+ 2308 00d1 01       		.byte	0x1
+ 2309 00d2 11       		.uleb128 0x11
+ 2310 00d3 01       		.uleb128 0x1
+ 2311 00d4 31       		.uleb128 0x31
+ 2312 00d5 13       		.uleb128 0x13
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 48
+
+
+ 2313 00d6 00       		.byte	0
+ 2314 00d7 00       		.byte	0
+ 2315 00d8 11       		.uleb128 0x11
+ 2316 00d9 26       		.uleb128 0x26
+ 2317 00da 00       		.byte	0
+ 2318 00db 49       		.uleb128 0x49
+ 2319 00dc 13       		.uleb128 0x13
+ 2320 00dd 00       		.byte	0
+ 2321 00de 00       		.byte	0
+ 2322 00df 12       		.uleb128 0x12
+ 2323 00e0 34       		.uleb128 0x34
+ 2324 00e1 00       		.byte	0
+ 2325 00e2 03       		.uleb128 0x3
+ 2326 00e3 08       		.uleb128 0x8
+ 2327 00e4 3A       		.uleb128 0x3a
+ 2328 00e5 0B       		.uleb128 0xb
+ 2329 00e6 3B       		.uleb128 0x3b
+ 2330 00e7 05       		.uleb128 0x5
+ 2331 00e8 49       		.uleb128 0x49
+ 2332 00e9 13       		.uleb128 0x13
+ 2333 00ea 1C       		.uleb128 0x1c
+ 2334 00eb 0A       		.uleb128 0xa
+ 2335 00ec 00       		.byte	0
+ 2336 00ed 00       		.byte	0
+ 2337 00ee 13       		.uleb128 0x13
+ 2338 00ef 34       		.uleb128 0x34
+ 2339 00f0 00       		.byte	0
+ 2340 00f1 03       		.uleb128 0x3
+ 2341 00f2 0E       		.uleb128 0xe
+ 2342 00f3 3A       		.uleb128 0x3a
+ 2343 00f4 0B       		.uleb128 0xb
+ 2344 00f5 3B       		.uleb128 0x3b
+ 2345 00f6 05       		.uleb128 0x5
+ 2346 00f7 49       		.uleb128 0x49
+ 2347 00f8 13       		.uleb128 0x13
+ 2348 00f9 02       		.uleb128 0x2
+ 2349 00fa 18       		.uleb128 0x18
+ 2350 00fb 00       		.byte	0
+ 2351 00fc 00       		.byte	0
+ 2352 00fd 14       		.uleb128 0x14
+ 2353 00fe 34       		.uleb128 0x34
+ 2354 00ff 00       		.byte	0
+ 2355 0100 03       		.uleb128 0x3
+ 2356 0101 0E       		.uleb128 0xe
+ 2357 0102 3A       		.uleb128 0x3a
+ 2358 0103 0B       		.uleb128 0xb
+ 2359 0104 3B       		.uleb128 0x3b
+ 2360 0105 05       		.uleb128 0x5
+ 2361 0106 49       		.uleb128 0x49
+ 2362 0107 13       		.uleb128 0x13
+ 2363 0108 00       		.byte	0
+ 2364 0109 00       		.byte	0
+ 2365 010a 15       		.uleb128 0x15
+ 2366 010b 34       		.uleb128 0x34
+ 2367 010c 00       		.byte	0
+ 2368 010d 03       		.uleb128 0x3
+ 2369 010e 0E       		.uleb128 0xe
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 49
+
+
+ 2370 010f 3A       		.uleb128 0x3a
+ 2371 0110 0B       		.uleb128 0xb
+ 2372 0111 3B       		.uleb128 0x3b
+ 2373 0112 05       		.uleb128 0x5
+ 2374 0113 49       		.uleb128 0x49
+ 2375 0114 13       		.uleb128 0x13
+ 2376 0115 02       		.uleb128 0x2
+ 2377 0116 17       		.uleb128 0x17
+ 2378 0117 00       		.byte	0
+ 2379 0118 00       		.byte	0
+ 2380 0119 16       		.uleb128 0x16
+ 2381 011a 2E       		.uleb128 0x2e
+ 2382 011b 01       		.byte	0x1
+ 2383 011c 3F       		.uleb128 0x3f
+ 2384 011d 19       		.uleb128 0x19
+ 2385 011e 03       		.uleb128 0x3
+ 2386 011f 0E       		.uleb128 0xe
+ 2387 0120 3A       		.uleb128 0x3a
+ 2388 0121 0B       		.uleb128 0xb
+ 2389 0122 3B       		.uleb128 0x3b
+ 2390 0123 05       		.uleb128 0x5
+ 2391 0124 27       		.uleb128 0x27
+ 2392 0125 19       		.uleb128 0x19
+ 2393 0126 11       		.uleb128 0x11
+ 2394 0127 01       		.uleb128 0x1
+ 2395 0128 12       		.uleb128 0x12
+ 2396 0129 06       		.uleb128 0x6
+ 2397 012a 40       		.uleb128 0x40
+ 2398 012b 18       		.uleb128 0x18
+ 2399 012c 9642     		.uleb128 0x2116
+ 2400 012e 19       		.uleb128 0x19
+ 2401 012f 01       		.uleb128 0x1
+ 2402 0130 13       		.uleb128 0x13
+ 2403 0131 00       		.byte	0
+ 2404 0132 00       		.byte	0
+ 2405 0133 17       		.uleb128 0x17
+ 2406 0134 0B       		.uleb128 0xb
+ 2407 0135 01       		.byte	0x1
+ 2408 0136 11       		.uleb128 0x11
+ 2409 0137 01       		.uleb128 0x1
+ 2410 0138 12       		.uleb128 0x12
+ 2411 0139 06       		.uleb128 0x6
+ 2412 013a 01       		.uleb128 0x1
+ 2413 013b 13       		.uleb128 0x13
+ 2414 013c 00       		.byte	0
+ 2415 013d 00       		.byte	0
+ 2416 013e 18       		.uleb128 0x18
+ 2417 013f 2E       		.uleb128 0x2e
+ 2418 0140 01       		.byte	0x1
+ 2419 0141 3F       		.uleb128 0x3f
+ 2420 0142 19       		.uleb128 0x19
+ 2421 0143 03       		.uleb128 0x3
+ 2422 0144 0E       		.uleb128 0xe
+ 2423 0145 3A       		.uleb128 0x3a
+ 2424 0146 0B       		.uleb128 0xb
+ 2425 0147 3B       		.uleb128 0x3b
+ 2426 0148 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 50
+
+
+ 2427 0149 49       		.uleb128 0x49
+ 2428 014a 13       		.uleb128 0x13
+ 2429 014b 11       		.uleb128 0x11
+ 2430 014c 01       		.uleb128 0x1
+ 2431 014d 12       		.uleb128 0x12
+ 2432 014e 06       		.uleb128 0x6
+ 2433 014f 40       		.uleb128 0x40
+ 2434 0150 18       		.uleb128 0x18
+ 2435 0151 9642     		.uleb128 0x2116
+ 2436 0153 19       		.uleb128 0x19
+ 2437 0154 01       		.uleb128 0x1
+ 2438 0155 13       		.uleb128 0x13
+ 2439 0156 00       		.byte	0
+ 2440 0157 00       		.byte	0
+ 2441 0158 19       		.uleb128 0x19
+ 2442 0159 2E       		.uleb128 0x2e
+ 2443 015a 01       		.byte	0x1
+ 2444 015b 3F       		.uleb128 0x3f
+ 2445 015c 19       		.uleb128 0x19
+ 2446 015d 03       		.uleb128 0x3
+ 2447 015e 0E       		.uleb128 0xe
+ 2448 015f 3A       		.uleb128 0x3a
+ 2449 0160 0B       		.uleb128 0xb
+ 2450 0161 3B       		.uleb128 0x3b
+ 2451 0162 05       		.uleb128 0x5
+ 2452 0163 49       		.uleb128 0x49
+ 2453 0164 13       		.uleb128 0x13
+ 2454 0165 11       		.uleb128 0x11
+ 2455 0166 01       		.uleb128 0x1
+ 2456 0167 12       		.uleb128 0x12
+ 2457 0168 06       		.uleb128 0x6
+ 2458 0169 40       		.uleb128 0x40
+ 2459 016a 18       		.uleb128 0x18
+ 2460 016b 9642     		.uleb128 0x2116
+ 2461 016d 19       		.uleb128 0x19
+ 2462 016e 01       		.uleb128 0x1
+ 2463 016f 13       		.uleb128 0x13
+ 2464 0170 00       		.byte	0
+ 2465 0171 00       		.byte	0
+ 2466 0172 1A       		.uleb128 0x1a
+ 2467 0173 2E       		.uleb128 0x2e
+ 2468 0174 01       		.byte	0x1
+ 2469 0175 3F       		.uleb128 0x3f
+ 2470 0176 19       		.uleb128 0x19
+ 2471 0177 03       		.uleb128 0x3
+ 2472 0178 0E       		.uleb128 0xe
+ 2473 0179 3A       		.uleb128 0x3a
+ 2474 017a 0B       		.uleb128 0xb
+ 2475 017b 3B       		.uleb128 0x3b
+ 2476 017c 0B       		.uleb128 0xb
+ 2477 017d 27       		.uleb128 0x27
+ 2478 017e 19       		.uleb128 0x19
+ 2479 017f 49       		.uleb128 0x49
+ 2480 0180 13       		.uleb128 0x13
+ 2481 0181 8701     		.uleb128 0x87
+ 2482 0183 19       		.uleb128 0x19
+ 2483 0184 11       		.uleb128 0x11
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 51
+
+
+ 2484 0185 01       		.uleb128 0x1
+ 2485 0186 12       		.uleb128 0x12
+ 2486 0187 06       		.uleb128 0x6
+ 2487 0188 40       		.uleb128 0x40
+ 2488 0189 18       		.uleb128 0x18
+ 2489 018a 9642     		.uleb128 0x2116
+ 2490 018c 19       		.uleb128 0x19
+ 2491 018d 01       		.uleb128 0x1
+ 2492 018e 13       		.uleb128 0x13
+ 2493 018f 00       		.byte	0
+ 2494 0190 00       		.byte	0
+ 2495 0191 1B       		.uleb128 0x1b
+ 2496 0192 34       		.uleb128 0x34
+ 2497 0193 00       		.byte	0
+ 2498 0194 03       		.uleb128 0x3
+ 2499 0195 0E       		.uleb128 0xe
+ 2500 0196 3A       		.uleb128 0x3a
+ 2501 0197 0B       		.uleb128 0xb
+ 2502 0198 3B       		.uleb128 0x3b
+ 2503 0199 0B       		.uleb128 0xb
+ 2504 019a 49       		.uleb128 0x49
+ 2505 019b 13       		.uleb128 0x13
+ 2506 019c 1C       		.uleb128 0x1c
+ 2507 019d 0B       		.uleb128 0xb
+ 2508 019e 00       		.byte	0
+ 2509 019f 00       		.byte	0
+ 2510 01a0 1C       		.uleb128 0x1c
+ 2511 01a1 34       		.uleb128 0x34
+ 2512 01a2 00       		.byte	0
+ 2513 01a3 03       		.uleb128 0x3
+ 2514 01a4 0E       		.uleb128 0xe
+ 2515 01a5 3A       		.uleb128 0x3a
+ 2516 01a6 0B       		.uleb128 0xb
+ 2517 01a7 3B       		.uleb128 0x3b
+ 2518 01a8 05       		.uleb128 0x5
+ 2519 01a9 49       		.uleb128 0x49
+ 2520 01aa 13       		.uleb128 0x13
+ 2521 01ab 3F       		.uleb128 0x3f
+ 2522 01ac 19       		.uleb128 0x19
+ 2523 01ad 3C       		.uleb128 0x3c
+ 2524 01ae 19       		.uleb128 0x19
+ 2525 01af 00       		.byte	0
+ 2526 01b0 00       		.byte	0
+ 2527 01b1 1D       		.uleb128 0x1d
+ 2528 01b2 35       		.uleb128 0x35
+ 2529 01b3 00       		.byte	0
+ 2530 01b4 49       		.uleb128 0x49
+ 2531 01b5 13       		.uleb128 0x13
+ 2532 01b6 00       		.byte	0
+ 2533 01b7 00       		.byte	0
+ 2534 01b8 1E       		.uleb128 0x1e
+ 2535 01b9 34       		.uleb128 0x34
+ 2536 01ba 00       		.byte	0
+ 2537 01bb 03       		.uleb128 0x3
+ 2538 01bc 0E       		.uleb128 0xe
+ 2539 01bd 3A       		.uleb128 0x3a
+ 2540 01be 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 52
+
+
+ 2541 01bf 3B       		.uleb128 0x3b
+ 2542 01c0 0B       		.uleb128 0xb
+ 2543 01c1 49       		.uleb128 0x49
+ 2544 01c2 13       		.uleb128 0x13
+ 2545 01c3 3F       		.uleb128 0x3f
+ 2546 01c4 19       		.uleb128 0x19
+ 2547 01c5 02       		.uleb128 0x2
+ 2548 01c6 18       		.uleb128 0x18
+ 2549 01c7 00       		.byte	0
+ 2550 01c8 00       		.byte	0
+ 2551 01c9 1F       		.uleb128 0x1f
+ 2552 01ca 2E       		.uleb128 0x2e
+ 2553 01cb 00       		.byte	0
+ 2554 01cc 3F       		.uleb128 0x3f
+ 2555 01cd 19       		.uleb128 0x19
+ 2556 01ce 3C       		.uleb128 0x3c
+ 2557 01cf 19       		.uleb128 0x19
+ 2558 01d0 6E       		.uleb128 0x6e
+ 2559 01d1 0E       		.uleb128 0xe
+ 2560 01d2 03       		.uleb128 0x3
+ 2561 01d3 0E       		.uleb128 0xe
+ 2562 01d4 3A       		.uleb128 0x3a
+ 2563 01d5 0B       		.uleb128 0xb
+ 2564 01d6 3B       		.uleb128 0x3b
+ 2565 01d7 0B       		.uleb128 0xb
+ 2566 01d8 00       		.byte	0
+ 2567 01d9 00       		.byte	0
+ 2568 01da 20       		.uleb128 0x20
+ 2569 01db 2E       		.uleb128 0x2e
+ 2570 01dc 00       		.byte	0
+ 2571 01dd 3F       		.uleb128 0x3f
+ 2572 01de 19       		.uleb128 0x19
+ 2573 01df 3C       		.uleb128 0x3c
+ 2574 01e0 19       		.uleb128 0x19
+ 2575 01e1 6E       		.uleb128 0x6e
+ 2576 01e2 08       		.uleb128 0x8
+ 2577 01e3 03       		.uleb128 0x3
+ 2578 01e4 08       		.uleb128 0x8
+ 2579 01e5 3A       		.uleb128 0x3a
+ 2580 01e6 0B       		.uleb128 0xb
+ 2581 01e7 3B       		.uleb128 0x3b
+ 2582 01e8 0B       		.uleb128 0xb
+ 2583 01e9 00       		.byte	0
+ 2584 01ea 00       		.byte	0
+ 2585 01eb 00       		.byte	0
+ 2586              		.section	.debug_loc,"",%progbits
+ 2587              	.Ldebug_loc0:
+ 2588              	.LLST0:
+ 2589 0000 10000000 		.4byte	.LVL1
+ 2590 0004 12000000 		.4byte	.LVL2
+ 2591 0008 0100     		.2byte	0x1
+ 2592 000a 50       		.byte	0x50
+ 2593 000b 12000000 		.4byte	.LVL2
+ 2594 000f 68000000 		.4byte	.LVL10
+ 2595 0013 0100     		.2byte	0x1
+ 2596 0015 55       		.byte	0x55
+ 2597 0016 00000000 		.4byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 53
+
+
+ 2598 001a 00000000 		.4byte	0
+ 2599              	.LLST1:
+ 2600 001e 0C000000 		.4byte	.LVL12
+ 2601 0022 13000000 		.4byte	.LVL13-1
+ 2602 0026 0100     		.2byte	0x1
+ 2603 0028 50       		.byte	0x50
+ 2604 0029 00000000 		.4byte	0
+ 2605 002d 00000000 		.4byte	0
+ 2606              	.LLST2:
+ 2607 0031 1C000000 		.4byte	.LVL15
+ 2608 0035 21000000 		.4byte	.LVL16-1
+ 2609 0039 0100     		.2byte	0x1
+ 2610 003b 50       		.byte	0x50
+ 2611 003c 21000000 		.4byte	.LVL16-1
+ 2612 0040 9A000000 		.4byte	.LVL32
+ 2613 0044 0100     		.2byte	0x1
+ 2614 0046 55       		.byte	0x55
+ 2615 0047 00000000 		.4byte	0
+ 2616 004b 00000000 		.4byte	0
+ 2617              	.LLST3:
+ 2618 004f 6A000000 		.4byte	.LVL24
+ 2619 0053 71000000 		.4byte	.LVL25-1
+ 2620 0057 0100     		.2byte	0x1
+ 2621 0059 50       		.byte	0x50
+ 2622 005a 00000000 		.4byte	0
+ 2623 005e 00000000 		.4byte	0
+ 2624              	.LLST4:
+ 2625 0062 74000000 		.4byte	.LVL26
+ 2626 0066 79000000 		.4byte	.LVL27-1
+ 2627 006a 0100     		.2byte	0x1
+ 2628 006c 50       		.byte	0x50
+ 2629 006d 79000000 		.4byte	.LVL27-1
+ 2630 0071 8C000000 		.4byte	.LVL29
+ 2631 0075 0100     		.2byte	0x1
+ 2632 0077 54       		.byte	0x54
+ 2633 0078 8E000000 		.4byte	.LVL30
+ 2634 007c CC000000 		.4byte	.LVL38
+ 2635 0080 0100     		.2byte	0x1
+ 2636 0082 54       		.byte	0x54
+ 2637 0083 00000000 		.4byte	0
+ 2638 0087 00000000 		.4byte	0
+ 2639              	.LLST5:
+ 2640 008b CC000000 		.4byte	.LVL38
+ 2641 008f D2000000 		.4byte	.LVL39
+ 2642 0093 0100     		.2byte	0x1
+ 2643 0095 50       		.byte	0x50
+ 2644 0096 D2000000 		.4byte	.LVL39
+ 2645 009a E6000000 		.4byte	.LVL42
+ 2646 009e 0100     		.2byte	0x1
+ 2647 00a0 54       		.byte	0x54
+ 2648 00a1 E6000000 		.4byte	.LVL42
+ 2649 00a5 F0000000 		.4byte	.LVL43
+ 2650 00a9 0200     		.2byte	0x2
+ 2651 00ab 30       		.byte	0x30
+ 2652 00ac 9F       		.byte	0x9f
+ 2653 00ad F0000000 		.4byte	.LVL43
+ 2654 00b1 04010000 		.4byte	.LVL46
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 54
+
+
+ 2655 00b5 0100     		.2byte	0x1
+ 2656 00b7 54       		.byte	0x54
+ 2657 00b8 04010000 		.4byte	.LVL46
+ 2658 00bc 0C010000 		.4byte	.LVL47
+ 2659 00c0 0200     		.2byte	0x2
+ 2660 00c2 30       		.byte	0x30
+ 2661 00c3 9F       		.byte	0x9f
+ 2662 00c4 0C010000 		.4byte	.LVL47
+ 2663 00c8 16010000 		.4byte	.LVL49
+ 2664 00cc 0100     		.2byte	0x1
+ 2665 00ce 54       		.byte	0x54
+ 2666 00cf 00000000 		.4byte	0
+ 2667 00d3 00000000 		.4byte	0
+ 2668              	.LLST6:
+ 2669 00d7 12000000 		.4byte	.LVL52
+ 2670 00db 74000000 		.4byte	.LVL64
+ 2671 00df 0100     		.2byte	0x1
+ 2672 00e1 54       		.byte	0x54
+ 2673 00e2 74000000 		.4byte	.LVL64
+ 2674 00e6 7F000000 		.4byte	.LVL66-1
+ 2675 00ea 0500     		.2byte	0x5
+ 2676 00ec 03       		.byte	0x3
+ 2677 00ed 18000000 		.4byte	previous_error.8798
+ 2678 00f1 00000000 		.4byte	0
+ 2679 00f5 00000000 		.4byte	0
+ 2680              	.LLST7:
+ 2681 00f9 70000000 		.4byte	.LVL63
+ 2682 00fd 7A000000 		.4byte	.LVL65
+ 2683 0101 0100     		.2byte	0x1
+ 2684 0103 50       		.byte	0x50
+ 2685 0104 7A000000 		.4byte	.LVL65
+ 2686 0108 92000000 		.4byte	.LVL67
+ 2687 010c 0100     		.2byte	0x1
+ 2688 010e 54       		.byte	0x54
+ 2689 010f 92000000 		.4byte	.LVL67
+ 2690 0113 9C000000 		.4byte	.LVL69
+ 2691 0117 0100     		.2byte	0x1
+ 2692 0119 50       		.byte	0x50
+ 2693 011a 00000000 		.4byte	0
+ 2694 011e 00000000 		.4byte	0
+ 2695              	.LLST8:
+ 2696 0122 06000000 		.4byte	.LVL71
+ 2697 0126 3C000000 		.4byte	.LVL72
+ 2698 012a 0100     		.2byte	0x1
+ 2699 012c 50       		.byte	0x50
+ 2700 012d 3C000000 		.4byte	.LVL72
+ 2701 0131 40000000 		.4byte	.LVL73
+ 2702 0135 0200     		.2byte	0x2
+ 2703 0137 72       		.byte	0x72
+ 2704 0138 20       		.sleb128 32
+ 2705 0139 40000000 		.4byte	.LVL73
+ 2706 013d 4F000000 		.4byte	.LVL76-1
+ 2707 0141 0F00     		.2byte	0xf
+ 2708 0143 03       		.byte	0x3
+ 2709 0144 1C000000 		.4byte	receiving.8806
+ 2710 0148 94       		.byte	0x94
+ 2711 0149 01       		.byte	0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 55
+
+
+ 2712 014a 08       		.byte	0x8
+ 2713 014b FF       		.byte	0xff
+ 2714 014c 1A       		.byte	0x1a
+ 2715 014d 71       		.byte	0x71
+ 2716 014e 00       		.sleb128 0
+ 2717 014f 22       		.byte	0x22
+ 2718 0150 23       		.byte	0x23
+ 2719 0151 1F       		.uleb128 0x1f
+ 2720 0152 00000000 		.4byte	0
+ 2721 0156 00000000 		.4byte	0
+ 2722              	.LLST9:
+ 2723 015a 3C000000 		.4byte	.LVL72
+ 2724 015e 4C000000 		.4byte	.LVL75
+ 2725 0162 0600     		.2byte	0x6
+ 2726 0164 73       		.byte	0x73
+ 2727 0165 00       		.sleb128 0
+ 2728 0166 70       		.byte	0x70
+ 2729 0167 00       		.sleb128 0
+ 2730 0168 21       		.byte	0x21
+ 2731 0169 9F       		.byte	0x9f
+ 2732 016a 4C000000 		.4byte	.LVL75
+ 2733 016e 4F000000 		.4byte	.LVL76-1
+ 2734 0172 0E00     		.2byte	0xe
+ 2735 0174 03       		.byte	0x3
+ 2736 0175 21000000 		.4byte	buffer.8807+1
+ 2737 0179 94       		.byte	0x94
+ 2738 017a 01       		.byte	0x1
+ 2739 017b 08       		.byte	0x8
+ 2740 017c FF       		.byte	0xff
+ 2741 017d 1A       		.byte	0x1a
+ 2742 017e 73       		.byte	0x73
+ 2743 017f 00       		.sleb128 0
+ 2744 0180 21       		.byte	0x21
+ 2745 0181 9F       		.byte	0x9f
+ 2746 0182 00000000 		.4byte	0
+ 2747 0186 00000000 		.4byte	0
+ 2748              	.LLST10:
+ 2749 018a 4A000000 		.4byte	.LVL74
+ 2750 018e 6A000000 		.4byte	.LVL80
+ 2751 0192 0100     		.2byte	0x1
+ 2752 0194 54       		.byte	0x54
+ 2753 0195 00000000 		.4byte	0
+ 2754 0199 00000000 		.4byte	0
+ 2755              	.LLST11:
+ 2756 019d 0E000000 		.4byte	.LVL82
+ 2757 01a1 13000000 		.4byte	.LVL83-1
+ 2758 01a5 0100     		.2byte	0x1
+ 2759 01a7 50       		.byte	0x50
+ 2760 01a8 13000000 		.4byte	.LVL83-1
+ 2761 01ac 2E000000 		.4byte	.LVL86
+ 2762 01b0 0100     		.2byte	0x1
+ 2763 01b2 56       		.byte	0x56
+ 2764 01b3 00000000 		.4byte	0
+ 2765 01b7 00000000 		.4byte	0
+ 2766              	.LLST12:
+ 2767 01bb C4000000 		.4byte	.LVL122
+ 2768 01bf C8000000 		.4byte	.LVL123
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 56
+
+
+ 2769 01c3 0300     		.2byte	0x3
+ 2770 01c5 08       		.byte	0x8
+ 2771 01c6 6E       		.byte	0x6e
+ 2772 01c7 9F       		.byte	0x9f
+ 2773 01c8 C8000000 		.4byte	.LVL123
+ 2774 01cc F2000000 		.4byte	.LVL130
+ 2775 01d0 0100     		.2byte	0x1
+ 2776 01d2 54       		.byte	0x54
+ 2777 01d3 F4000000 		.4byte	.LVL131
+ 2778 01d7 68010000 		.4byte	.LFE64
+ 2779 01db 0100     		.2byte	0x1
+ 2780 01dd 54       		.byte	0x54
+ 2781 01de 00000000 		.4byte	0
+ 2782 01e2 00000000 		.4byte	0
+ 2783              		.section	.debug_aranges,"",%progbits
+ 2784 0000 4C000000 		.4byte	0x4c
+ 2785 0004 0200     		.2byte	0x2
+ 2786 0006 00000000 		.4byte	.Ldebug_info0
+ 2787 000a 04       		.byte	0x4
+ 2788 000b 00       		.byte	0
+ 2789 000c 0000     		.2byte	0
+ 2790 000e 0000     		.2byte	0
+ 2791 0010 00000000 		.4byte	.LFB66
+ 2792 0014 78000000 		.4byte	.LFE66-.LFB66
+ 2793 0018 00000000 		.4byte	.LFB67
+ 2794 001c 3C010000 		.4byte	.LFE67-.LFB67
+ 2795 0020 00000000 		.4byte	.LFB68
+ 2796 0024 B4000000 		.4byte	.LFE68-.LFB68
+ 2797 0028 00000000 		.4byte	.LFB69
+ 2798 002c 7C000000 		.4byte	.LFE69-.LFB69
+ 2799 0030 00000000 		.4byte	.LFB65
+ 2800 0034 6C000000 		.4byte	.LFE65-.LFB65
+ 2801 0038 00000000 		.4byte	.LFB70
+ 2802 003c 30000000 		.4byte	.LFE70-.LFB70
+ 2803 0040 00000000 		.4byte	.LFB64
+ 2804 0044 68010000 		.4byte	.LFE64-.LFB64
+ 2805 0048 00000000 		.4byte	0
+ 2806 004c 00000000 		.4byte	0
+ 2807              		.section	.debug_ranges,"",%progbits
+ 2808              	.Ldebug_ranges0:
+ 2809 0000 00000000 		.4byte	.LFB66
+ 2810 0004 78000000 		.4byte	.LFE66
+ 2811 0008 00000000 		.4byte	.LFB67
+ 2812 000c 3C010000 		.4byte	.LFE67
+ 2813 0010 00000000 		.4byte	.LFB68
+ 2814 0014 B4000000 		.4byte	.LFE68
+ 2815 0018 00000000 		.4byte	.LFB69
+ 2816 001c 7C000000 		.4byte	.LFE69
+ 2817 0020 00000000 		.4byte	.LFB65
+ 2818 0024 6C000000 		.4byte	.LFE65
+ 2819 0028 00000000 		.4byte	.LFB70
+ 2820 002c 30000000 		.4byte	.LFE70
+ 2821 0030 00000000 		.4byte	.LFB64
+ 2822 0034 68010000 		.4byte	.LFE64
+ 2823 0038 00000000 		.4byte	0
+ 2824 003c 00000000 		.4byte	0
+ 2825              		.section	.debug_line,"",%progbits
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 57
+
+
+ 2826              	.Ldebug_line0:
+ 2827 0000 03040000 		.section	.debug_str,"MS",%progbits,1
+ 2827      0200EB02 
+ 2827      00000201 
+ 2827      FB0E0D00 
+ 2827      01010101 
+ 2828              	.LASF18:
+ 2829 0000 74696D65 		.ascii	"time_since_change\000"
+ 2829      5F73696E 
+ 2829      63655F63 
+ 2829      68616E67 
+ 2829      6500
+ 2830              	.LASF42:
+ 2831 0012 636F6D70 		.ascii	"comp\000"
+ 2831      00
+ 2832              	.LASF75:
+ 2833 0017 48616E64 		.ascii	"Handle_Encoder_SetCounter\000"
+ 2833      6C655F45 
+ 2833      6E636F64 
+ 2833      65725F53 
+ 2833      6574436F 
+ 2834              	.LASF46:
+ 2835 0031 67696D62 		.ascii	"gimbal_pwm_target\000"
+ 2835      616C5F70 
+ 2835      776D5F74 
+ 2835      61726765 
+ 2835      7400
+ 2836              	.LASF51:
+ 2837 0043 7068695F 		.ascii	"phi_w_dot\000"
+ 2837      775F646F 
+ 2837      7400
+ 2838              	.LASF45:
+ 2839 004d 67696D62 		.ascii	"gimbal_pwm_high\000"
+ 2839      616C5F70 
+ 2839      776D5F68 
+ 2839      69676800 
+ 2840              	.LASF29:
+ 2841 005d 74656D70 		.ascii	"temp\000"
+ 2841      00
+ 2842              	.LASF47:
+ 2843 0062 67696D62 		.ascii	"gimbal_max\000"
+ 2843      616C5F6D 
+ 2843      617800
+ 2844              	.LASF86:
+ 2845 006d 433A5C55 		.ascii	"C:\\Users\\jebush2\\Desktop\\PSoC 3-19-2019\\Smart "
+ 2845      73657273 
+ 2845      5C6A6562 
+ 2845      75736832 
+ 2845      5C446573 
+ 2846 009b 42696B65 		.ascii	"Bike PSoC\\CMG_IMU.cydsn\000"
+ 2846      2050536F 
+ 2846      435C434D 
+ 2846      475F494D 
+ 2846      552E6379 
+ 2847              	.LASF87:
+ 2848 00b3 6D61696E 		.ascii	"main\000"
+ 2848      00
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 58
+
+
+ 2849              	.LASF6:
+ 2850 00b8 6C6F6E67 		.ascii	"long long int\000"
+ 2850      206C6F6E 
+ 2850      6720696E 
+ 2850      7400
+ 2851              	.LASF31:
+ 2852 00c6 73746565 		.ascii	"steering_control_loop\000"
+ 2852      72696E67 
+ 2852      5F636F6E 
+ 2852      74726F6C 
+ 2852      5F6C6F6F 
+ 2853              	.LASF48:
+ 2854 00dc 67696D62 		.ascii	"gimbal_min\000"
+ 2854      616C5F6D 
+ 2854      696E00
+ 2855              	.LASF2:
+ 2856 00e7 73686F72 		.ascii	"short int\000"
+ 2856      7420696E 
+ 2856      7400
+ 2857              	.LASF25:
+ 2858 00f1 73706565 		.ascii	"speedValue\000"
+ 2858      6456616C 
+ 2858      756500
+ 2859              	.LASF73:
+ 2860 00fc 47696D62 		.ascii	"Gimbal_Encoder_SetCounter\000"
+ 2860      616C5F45 
+ 2860      6E636F64 
+ 2860      65725F53 
+ 2860      6574436F 
+ 2861              	.LASF66:
+ 2862 0116 55415254 		.ascii	"UART_GetChar\000"
+ 2862      5F476574 
+ 2862      43686172 
+ 2862      00
+ 2863              	.LASF16:
+ 2864 0123 75696E74 		.ascii	"uint16\000"
+ 2864      313600
+ 2865              	.LASF38:
+ 2866 012a 7068695F 		.ascii	"phi_b_dot_i\000"
+ 2866      625F646F 
+ 2866      745F6900 
+ 2867              	.LASF40:
+ 2868 0136 616C7068 		.ascii	"alpha\000"
+ 2868      6100
+ 2869              	.LASF17:
+ 2870 013c 696E7431 		.ascii	"int16\000"
+ 2870      3600
+ 2871              	.LASF76:
+ 2872 0142 50574D5F 		.ascii	"PWM_Steer_Start\000"
+ 2872      53746565 
+ 2872      725F5374 
+ 2872      61727400 
+ 2873              	.LASF44:
+ 2874 0152 67696D62 		.ascii	"gimbal_pwm_low\000"
+ 2874      616C5F70 
+ 2874      776D5F6C 
+ 2874      6F7700
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 59
+
+
+ 2875              	.LASF15:
+ 2876 0161 666C6F61 		.ascii	"float\000"
+ 2876      7400
+ 2877              	.LASF68:
+ 2878 0167 4C454431 		.ascii	"LED1_Write\000"
+ 2878      5F577269 
+ 2878      746500
+ 2879              	.LASF81:
+ 2880 0172 47696D62 		.ascii	"Gimbal_Timer_Start\000"
+ 2880      616C5F54 
+ 2880      696D6572 
+ 2880      5F537461 
+ 2880      727400
+ 2881              	.LASF80:
+ 2882 0185 54696D65 		.ascii	"Timer_Interrupt_StartEx\000"
+ 2882      725F496E 
+ 2882      74657272 
+ 2882      7570745F 
+ 2882      53746172 
+ 2883              	.LASF32:
+ 2884 019d 64657269 		.ascii	"derivative\000"
+ 2884      76617469 
+ 2884      766500
+ 2885              	.LASF4:
+ 2886 01a8 6C6F6E67 		.ascii	"long int\000"
+ 2886      20696E74 
+ 2886      00
+ 2887              	.LASF20:
+ 2888 01b1 6E65775F 		.ascii	"new_encoder\000"
+ 2888      656E636F 
+ 2888      64657200 
+ 2889              	.LASF24:
+ 2890 01bd 696E7465 		.ascii	"integral\000"
+ 2890      6772616C 
+ 2890      00
+ 2891              	.LASF83:
+ 2892 01c6 55415254 		.ascii	"UART_Start\000"
+ 2892      5F537461 
+ 2892      727400
+ 2893              	.LASF34:
+ 2894 01d1 72656365 		.ascii	"receiving\000"
+ 2894      6976696E 
+ 2894      6700
+ 2895              	.LASF9:
+ 2896 01db 6C6F6E67 		.ascii	"long double\000"
+ 2896      20646F75 
+ 2896      626C6500 
+ 2897              	.LASF19:
+ 2898 01e7 6C617374 		.ascii	"last_encoder\000"
+ 2898      5F656E63 
+ 2898      6F646572 
+ 2898      00
+ 2899              	.LASF1:
+ 2900 01f4 756E7369 		.ascii	"unsigned char\000"
+ 2900      676E6564 
+ 2900      20636861 
+ 2900      7200
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 60
+
+
+ 2901              	.LASF56:
+ 2902 0202 67696D62 		.ascii	"gimbal_enc_max\000"
+ 2902      616C5F65 
+ 2902      6E635F6D 
+ 2902      617800
+ 2903              	.LASF23:
+ 2904 0211 70726576 		.ascii	"previous_error\000"
+ 2904      696F7573 
+ 2904      5F657272 
+ 2904      6F7200
+ 2905              	.LASF0:
+ 2906 0220 7369676E 		.ascii	"signed char\000"
+ 2906      65642063 
+ 2906      68617200 
+ 2907              	.LASF7:
+ 2908 022c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2908      206C6F6E 
+ 2908      6720756E 
+ 2908      7369676E 
+ 2908      65642069 
+ 2909              	.LASF79:
+ 2910 0243 5270695F 		.ascii	"Rpi_Tx_Interrupt_StartEx\000"
+ 2910      54785F49 
+ 2910      6E746572 
+ 2910      72757074 
+ 2910      5F537461 
+ 2911              	.LASF8:
+ 2912 025c 756E7369 		.ascii	"unsigned int\000"
+ 2912      676E6564 
+ 2912      20696E74 
+ 2912      00
+ 2913              	.LASF57:
+ 2914 0269 7068695F 		.ascii	"phi_w_dot_max\000"
+ 2914      775F646F 
+ 2914      745F6D61 
+ 2914      7800
+ 2915              	.LASF33:
+ 2916 0277 7270695F 		.ascii	"rpi_tx_isr\000"
+ 2916      74785F69 
+ 2916      737200
+ 2917              	.LASF55:
+ 2918 0282 67696D62 		.ascii	"gimbal_enc_min\000"
+ 2918      616C5F65 
+ 2918      6E635F6D 
+ 2918      696E00
+ 2919              	.LASF52:
+ 2920 0291 7068695F 		.ascii	"phi_b\000"
+ 2920      6200
+ 2921              	.LASF26:
+ 2922 0297 73706565 		.ascii	"speedTarget\000"
+ 2922      64546172 
+ 2922      67657400 
+ 2923              	.LASF3:
+ 2924 02a3 73686F72 		.ascii	"short unsigned int\000"
+ 2924      7420756E 
+ 2924      7369676E 
+ 2924      65642069 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 61
+
+
+ 2924      6E7400
+ 2925              	.LASF22:
+ 2926 02b6 67696D62 		.ascii	"gimbal_control_loop\000"
+ 2926      616C5F63 
+ 2926      6F6E7472 
+ 2926      6F6C5F6C 
+ 2926      6F6F7000 
+ 2927              	.LASF11:
+ 2928 02ca 63686172 		.ascii	"char\000"
+ 2928      00
+ 2929              	.LASF62:
+ 2930 02cf 53746565 		.ascii	"Steering_Timer_ReadStatusRegister\000"
+ 2930      72696E67 
+ 2930      5F54696D 
+ 2930      65725F52 
+ 2930      65616453 
+ 2931              	.LASF67:
+ 2932 02f1 50574D5F 		.ascii	"PWM_CMG_WriteCompare1\000"
+ 2932      434D475F 
+ 2932      57726974 
+ 2932      65436F6D 
+ 2932      70617265 
+ 2933              	.LASF61:
+ 2934 0307 50574D5F 		.ascii	"PWM_CMG_WriteCompare2\000"
+ 2934      434D475F 
+ 2934      57726974 
+ 2934      65436F6D 
+ 2934      70617265 
+ 2935              	.LASF65:
+ 2936 031d 50574D5F 		.ascii	"PWM_Steer_WriteCompare\000"
+ 2936      53746565 
+ 2936      725F5772 
+ 2936      69746543 
+ 2936      6F6D7061 
+ 2937              	.LASF13:
+ 2938 0334 696E7433 		.ascii	"int32_t\000"
+ 2938      325F7400 
+ 2939              	.LASF74:
+ 2940 033c 48616E64 		.ascii	"Handle_Encoder_Start\000"
+ 2940      6C655F45 
+ 2940      6E636F64 
+ 2940      65725F53 
+ 2940      74617274 
+ 2941              	.LASF39:
+ 2942 0351 636D675F 		.ascii	"cmg_pid\000"
+ 2942      70696400 
+ 2943              	.LASF63:
+ 2944 0359 48616E64 		.ascii	"Handle_Encoder_GetCounter\000"
+ 2944      6C655F45 
+ 2944      6E636F64 
+ 2944      65725F47 
+ 2944      6574436F 
+ 2945              	.LASF53:
+ 2946 0373 7068695F 		.ascii	"phi_b_dot\000"
+ 2946      625F646F 
+ 2946      7400
+ 2947              	.LASF58:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 62
+
+
+ 2948 037d 47696D62 		.ascii	"Gimbal_Encoder_GetCounter\000"
+ 2948      616C5F45 
+ 2948      6E636F64 
+ 2948      65725F47 
+ 2948      6574436F 
+ 2949              	.LASF35:
+ 2950 0397 62756666 		.ascii	"buffer\000"
+ 2950      657200
+ 2951              	.LASF49:
+ 2952 039e 73746565 		.ascii	"steeringTarget\000"
+ 2952      72696E67 
+ 2952      54617267 
+ 2952      657400
+ 2953              	.LASF41:
+ 2954 03ad 72657365 		.ascii	"reset_flag\000"
+ 2954      745F666C 
+ 2954      616700
+ 2955              	.LASF70:
+ 2956 03b8 5357315F 		.ascii	"SW1_Read\000"
+ 2956      52656164 
+ 2956      00
+ 2957              	.LASF85:
+ 2958 03c1 6D61696E 		.ascii	"main.c\000"
+ 2958      2E6300
+ 2959              	.LASF30:
+ 2960 03c8 67696D62 		.ascii	"gimbal_motor_compare\000"
+ 2960      616C5F6D 
+ 2960      6F746F72 
+ 2960      5F636F6D 
+ 2960      70617265 
+ 2961              	.LASF5:
+ 2962 03dd 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2962      20756E73 
+ 2962      69676E65 
+ 2962      6420696E 
+ 2962      7400
+ 2963              	.LASF82:
+ 2964 03ef 53746565 		.ascii	"Steering_Timer_Start\000"
+ 2964      72696E67 
+ 2964      5F54696D 
+ 2964      65725F53 
+ 2964      74617274 
+ 2965              	.LASF71:
+ 2966 0404 50574D5F 		.ascii	"PWM_CMG_Start\000"
+ 2966      434D475F 
+ 2966      53746172 
+ 2966      7400
+ 2967              	.LASF36:
+ 2968 0412 72656365 		.ascii	"received\000"
+ 2968      69766564 
+ 2968      00
+ 2969              	.LASF12:
+ 2970 041b 5F5F696E 		.ascii	"__int32_t\000"
+ 2970      7433325F 
+ 2970      7400
+ 2971              	.LASF59:
+ 2972 0425 47696D62 		.ascii	"Gimbal_Timer_ReadStatusRegister\000"
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 63
+
+
+ 2972      616C5F54 
+ 2972      696D6572 
+ 2972      5F526561 
+ 2972      64537461 
+ 2973              	.LASF10:
+ 2974 0445 73697A65 		.ascii	"sizetype\000"
+ 2974      74797065 
+ 2974      00
+ 2975              	.LASF28:
+ 2976 044e 6F757470 		.ascii	"output\000"
+ 2976      757400
+ 2977              	.LASF72:
+ 2978 0455 47696D62 		.ascii	"Gimbal_Encoder_Start\000"
+ 2978      616C5F45 
+ 2978      6E636F64 
+ 2978      65725F53 
+ 2978      74617274 
+ 2979              	.LASF27:
+ 2980 046a 6572726F 		.ascii	"error\000"
+ 2980      7200
+ 2981              	.LASF14:
+ 2982 0470 646F7562 		.ascii	"double\000"
+ 2982      6C6500
+ 2983              	.LASF54:
+ 2984 0477 73706565 		.ascii	"speed_reading\000"
+ 2984      645F7265 
+ 2984      6164696E 
+ 2984      6700
+ 2985              	.LASF21:
+ 2986 0485 74696D65 		.ascii	"timer_isr\000"
+ 2986      725F6973 
+ 2986      7200
+ 2987              	.LASF43:
+ 2988 048f 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2988      52784275 
+ 2988      66666572 
+ 2988      00
+ 2989              	.LASF84:
+ 2990 049c 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2990      43313120 
+ 2990      352E342E 
+ 2990      31203230 
+ 2990      31363036 
+ 2991 04cf 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2991      20726576 
+ 2991      6973696F 
+ 2991      6E203233 
+ 2991      37373135 
+ 2992 0502 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2992      66756E63 
+ 2992      74696F6E 
+ 2992      2D736563 
+ 2992      74696F6E 
+ 2993              	.LASF69:
+ 2994 052a 43794465 		.ascii	"CyDelay\000"
+ 2994      6C617900 
+ 2995              	.LASF37:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\cclBmoO8.s 			page 64
+
+
+ 2996 0532 7068695F 		.ascii	"phi_b_i\000"
+ 2996      625F6900 
+ 2997              	.LASF50:
+ 2998 053a 7068695F 		.ascii	"phi_w\000"
+ 2998      7700
+ 2999              	.LASF64:
+ 3000 0540 53746565 		.ascii	"Steering_Dir_Write\000"
+ 3000      72696E67 
+ 3000      5F446972 
+ 3000      5F577269 
+ 3000      746500
+ 3001              	.LASF77:
+ 3002 0553 47696D62 		.ascii	"Gimbal_Control_Loop_Interrupt_StartEx\000"
+ 3002      616C5F43 
+ 3002      6F6E7472 
+ 3002      6F6C5F4C 
+ 3002      6F6F705F 
+ 3003              	.LASF60:
+ 3004 0579 67696D62 		.ascii	"gimbal_direction_Write\000"
+ 3004      616C5F64 
+ 3004      69726563 
+ 3004      74696F6E 
+ 3004      5F577269 
+ 3005              	.LASF78:
+ 3006 0590 53746565 		.ascii	"Steering_Control_Loop_Interrupt_StartEx\000"
+ 3006      72696E67 
+ 3006      5F436F6E 
+ 3006      74726F6C 
+ 3006      5F4C6F6F 
+ 3007              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

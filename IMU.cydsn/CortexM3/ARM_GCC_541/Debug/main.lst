@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 1
 
 
    1              		.syntax unified
@@ -37,42 +37,39 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
   34              		.file 1 "main.c"
    1:main.c        **** /* ========================================
    2:main.c        ****  *
-   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
-   4:main.c        ****  * All Rights Reserved
-   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
-   6:main.c        ****  *
-   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
-   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
-   9:main.c        ****  *
-  10:main.c        ****  * ========================================
-  11:main.c        **** */
-  12:main.c        **** #include "project.h"
-  13:main.c        **** #include "bno055.h"
-  14:main.c        **** #include <stdio.h>
+   3:main.c        ****  * Reads orientation with BNO055 and 
+   4:main.c        ****  * gimbal angle with absolute encoder
+   5:main.c        ****  *
+   6:main.c        ****  * by Jonathan Bush
+   7:main.c        ****  * 2019
+   8:main.c        **** */
+   9:main.c        **** #include "project.h"
+  10:main.c        **** #include "bno055.h"
+  11:main.c        **** #include <stdio.h>
+  12:main.c        **** 
+  13:main.c        **** #define STARTBYTE 0xFF
+  14:main.c        **** #define ENDBYTE 0x77
   15:main.c        **** 
-  16:main.c        **** #define STARTBYTE 0xFF
-  17:main.c        **** #define ENDBYTE 0x77
-  18:main.c        **** 
-  19:main.c        **** #define OVERSAMPLING (10)
-  20:main.c        **** 
-  21:main.c        **** CY_ISR_PROTO(sample_isr);
-  22:main.c        **** CY_ISR_PROTO(enc_high_isr);
-  23:main.c        **** CY_ISR_PROTO(enc_low_isr);
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 2
+  16:main.c        **** #define OVERSAMPLING (10)
+  17:main.c        **** 
+  18:main.c        **** CY_ISR_PROTO(sample_isr);
+  19:main.c        **** CY_ISR_PROTO(enc_high_isr);
+  20:main.c        **** CY_ISR_PROTO(enc_low_isr);
+  21:main.c        **** 
+  22:main.c        **** volatile int take_sample = 0;
+  23:main.c        **** 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 2
 
 
-  24:main.c        **** 
-  25:main.c        **** volatile int take_sample = 0;
-  26:main.c        **** 
-  27:main.c        **** struct packet {
-  28:main.c        ****     uint8 startbyte;
-  29:main.c        ****     uint8 checksum;
-  30:main.c        ****     int16 channels[3];
-  31:main.c        **** };
-  32:main.c        **** 
-  33:main.c        **** void set_checksum(struct packet *pkt)
-  34:main.c        **** {
-  35              		.loc 1 34 0
+  24:main.c        **** struct packet {
+  25:main.c        ****     uint8 startbyte;
+  26:main.c        ****     uint8 checksum;
+  27:main.c        ****     int16 channels[3];
+  28:main.c        **** };
+  29:main.c        **** 
+  30:main.c        **** void set_checksum(struct packet *pkt)
+  31:main.c        **** {
+  35              		.loc 1 31 0
   36              		.cfi_startproc
   37              		@ args = 0, pretend = 0, frame = 24
   38              		@ frame_needed = 1, uses_anonymous_args = 0
@@ -86,24 +83,24 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
   46 0004 00AF     		add	r7, sp, #0
   47              		.cfi_def_cfa_register 7
   48 0006 7860     		str	r0, [r7, #4]
-  35:main.c        ****     uint8 *data = (uint8 *)(&(pkt->channels[0]));
-  49              		.loc 1 35 0
+  32:main.c        ****     uint8 *data = (uint8 *)(&(pkt->channels[0]));
+  49              		.loc 1 32 0
   50 0008 7B68     		ldr	r3, [r7, #4]
   51 000a 0233     		adds	r3, r3, #2
   52 000c FB60     		str	r3, [r7, #12]
-  36:main.c        ****     uint8 checksum = 0;
-  53              		.loc 1 36 0
+  33:main.c        ****     uint8 checksum = 0;
+  53              		.loc 1 33 0
   54 000e 0023     		movs	r3, #0
   55 0010 FB75     		strb	r3, [r7, #23]
   56              	.LBB2:
-  37:main.c        ****     for (int i = 0; i < 6; ++i) {
-  57              		.loc 1 37 0
+  34:main.c        ****     for (int i = 0; i < 6; ++i) {
+  57              		.loc 1 34 0
   58 0012 0023     		movs	r3, #0
   59 0014 3B61     		str	r3, [r7, #16]
   60 0016 15E0     		b	.L2
   61              	.L3:
-  38:main.c        ****         checksum = (uint8)(((uint16)checksum + (uint16)data[i]) % 255);
-  62              		.loc 1 38 0 discriminator 3
+  35:main.c        ****         checksum = (uint8)(((uint16)checksum + (uint16)data[i]) % 255);
+  62              		.loc 1 35 0 discriminator 3
   63 0018 FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
   64 001a 3A69     		ldr	r2, [r7, #16]
   65 001c F968     		ldr	r1, [r7, #12]
@@ -118,33 +115,33 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
   74 0030 C91A     		subs	r1, r1, r3
   75 0032 0B46     		mov	r3, r1
   76 0034 1B02     		lsls	r3, r3, #8
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 3
-
-
   77 0036 5B1A     		subs	r3, r3, r1
   78 0038 D11A     		subs	r1, r2, r3
   79 003a 0B46     		mov	r3, r1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 3
+
+
   80 003c FB75     		strb	r3, [r7, #23]
-  37:main.c        ****     for (int i = 0; i < 6; ++i) {
-  81              		.loc 1 37 0 discriminator 3
+  34:main.c        ****     for (int i = 0; i < 6; ++i) {
+  81              		.loc 1 34 0 discriminator 3
   82 003e 3B69     		ldr	r3, [r7, #16]
   83 0040 0133     		adds	r3, r3, #1
   84 0042 3B61     		str	r3, [r7, #16]
   85              	.L2:
-  37:main.c        ****     for (int i = 0; i < 6; ++i) {
-  86              		.loc 1 37 0 is_stmt 0 discriminator 1
+  34:main.c        ****     for (int i = 0; i < 6; ++i) {
+  86              		.loc 1 34 0 is_stmt 0 discriminator 1
   87 0044 3B69     		ldr	r3, [r7, #16]
   88 0046 052B     		cmp	r3, #5
   89 0048 E6DD     		ble	.L3
   90              	.LBE2:
-  39:main.c        ****     }
-  40:main.c        ****     pkt->checksum = checksum;
-  91              		.loc 1 40 0 is_stmt 1
+  36:main.c        ****     }
+  37:main.c        ****     pkt->checksum = checksum;
+  91              		.loc 1 37 0 is_stmt 1
   92 004a 7B68     		ldr	r3, [r7, #4]
   93 004c FA7D     		ldrb	r2, [r7, #23]
   94 004e 5A70     		strb	r2, [r3, #1]
-  41:main.c        **** }
-  95              		.loc 1 41 0
+  38:main.c        **** }
+  95              		.loc 1 38 0
   96 0050 00BF     		nop
   97 0052 1837     		adds	r7, r7, #24
   98              		.cfi_def_cfa_offset 8
@@ -171,31 +168,31 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  119              		.type	sample_isr, %function
  120              	sample_isr:
  121              	.LFB65:
-  42:main.c        **** 
-  43:main.c        **** CY_ISR(sample_isr) {
- 122              		.loc 1 43 0
+  39:main.c        **** 
+  40:main.c        **** CY_ISR(sample_isr) {
+ 122              		.loc 1 40 0
  123              		.cfi_startproc
  124              		@ args = 0, pretend = 0, frame = 0
  125              		@ frame_needed = 1, uses_anonymous_args = 0
  126 0000 80B5     		push	{r7, lr}
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 4
-
-
  127              		.cfi_def_cfa_offset 8
  128              		.cfi_offset 7, -8
  129              		.cfi_offset 14, -4
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 4
+
+
  130 0002 00AF     		add	r7, sp, #0
  131              		.cfi_def_cfa_register 7
-  44:main.c        ****     Sample_Timer_ReadStatusRegister();
- 132              		.loc 1 44 0
+  41:main.c        ****     Sample_Timer_ReadStatusRegister();
+ 132              		.loc 1 41 0
  133 0004 FFF7FEFF 		bl	Sample_Timer_ReadStatusRegister
-  45:main.c        ****     take_sample = 1;
- 134              		.loc 1 45 0
+  42:main.c        ****     take_sample = 1;
+ 134              		.loc 1 42 0
  135 0008 024B     		ldr	r3, .L7
  136 000a 0122     		movs	r2, #1
  137 000c 1A60     		str	r2, [r3]
-  46:main.c        **** }
- 138              		.loc 1 46 0
+  43:main.c        **** }
+ 138              		.loc 1 43 0
  139 000e 00BF     		nop
  140 0010 80BD     		pop	{r7, pc}
  141              	.L8:
@@ -226,38 +223,38 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  166              		.type	enc_high_isr, %function
  167              	enc_high_isr:
  168              	.LFB66:
+  44:main.c        **** 
+  45:main.c        **** uint16 high_ctr = 1;
+  46:main.c        **** uint16 low_ctr = 1;
   47:main.c        **** 
-  48:main.c        **** uint16 high_ctr = 1;
-  49:main.c        **** uint16 low_ctr = 1;
-  50:main.c        **** 
-  51:main.c        **** CY_ISR(enc_high_isr) {
- 169              		.loc 1 51 0
+  48:main.c        **** CY_ISR(enc_high_isr) {
+ 169              		.loc 1 48 0
  170              		.cfi_startproc
  171              		@ args = 0, pretend = 0, frame = 0
  172              		@ frame_needed = 1, uses_anonymous_args = 0
  173 0000 80B5     		push	{r7, lr}
  174              		.cfi_def_cfa_offset 8
  175              		.cfi_offset 7, -8
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 5
-
-
  176              		.cfi_offset 14, -4
  177 0002 00AF     		add	r7, sp, #0
  178              		.cfi_def_cfa_register 7
-  52:main.c        ****     high_ctr = 65535 - EncTimer_ReadCounter();
- 179              		.loc 1 52 0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 5
+
+
+  49:main.c        ****     high_ctr = 65535 - EncTimer_ReadCounter();
+ 179              		.loc 1 49 0
  180 0004 FFF7FEFF 		bl	EncTimer_ReadCounter
  181 0008 0346     		mov	r3, r0
  182 000a DB43     		mvns	r3, r3
  183 000c 9AB2     		uxth	r2, r3
  184 000e 044B     		ldr	r3, .L10
  185 0010 1A80     		strh	r2, [r3]	@ movhi
-  53:main.c        ****     EncTimer_WriteCounter(65535);
- 186              		.loc 1 53 0
+  50:main.c        ****     EncTimer_WriteCounter(65535);
+ 186              		.loc 1 50 0
  187 0012 4FF6FF70 		movw	r0, #65535
  188 0016 FFF7FEFF 		bl	EncTimer_WriteCounter
-  54:main.c        **** }
- 189              		.loc 1 54 0
+  51:main.c        **** }
+ 189              		.loc 1 51 0
  190 001a 00BF     		nop
  191 001c 80BD     		pop	{r7, pc}
  192              	.L11:
@@ -275,9 +272,9 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  204              		.type	enc_low_isr, %function
  205              	enc_low_isr:
  206              	.LFB67:
-  55:main.c        **** 
-  56:main.c        **** CY_ISR(enc_low_isr) {
- 207              		.loc 1 56 0
+  52:main.c        **** 
+  53:main.c        **** CY_ISR(enc_low_isr) {
+ 207              		.loc 1 53 0
  208              		.cfi_startproc
  209              		@ args = 0, pretend = 0, frame = 0
  210              		@ frame_needed = 1, uses_anonymous_args = 0
@@ -287,23 +284,23 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  214              		.cfi_offset 14, -4
  215 0002 00AF     		add	r7, sp, #0
  216              		.cfi_def_cfa_register 7
-  57:main.c        ****     low_ctr = 65535 - EncTimer_ReadCounter();
- 217              		.loc 1 57 0
+  54:main.c        ****     low_ctr = 65535 - EncTimer_ReadCounter();
+ 217              		.loc 1 54 0
  218 0004 FFF7FEFF 		bl	EncTimer_ReadCounter
  219 0008 0346     		mov	r3, r0
  220 000a DB43     		mvns	r3, r3
  221 000c 9AB2     		uxth	r2, r3
  222 000e 024B     		ldr	r3, .L13
  223 0010 1A80     		strh	r2, [r3]	@ movhi
-  58:main.c        **** }
- 224              		.loc 1 58 0
+  55:main.c        **** }
+ 224              		.loc 1 55 0
  225 0012 00BF     		nop
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 6
-
-
  226 0014 80BD     		pop	{r7, pc}
  227              	.L14:
  228 0016 00BF     		.align	2
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 6
+
+
  229              	.L13:
  230 0018 00000000 		.word	low_ctr
  231              		.cfi_endproc
@@ -330,10 +327,10 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  248              		.type	main, %function
  249              	main:
  250              	.LFB68:
-  59:main.c        **** 
-  60:main.c        **** int main(void)
-  61:main.c        **** {
- 251              		.loc 1 61 0
+  56:main.c        **** 
+  57:main.c        **** int main(void)
+  58:main.c        **** {
+ 251              		.loc 1 58 0
  252              		.cfi_startproc
  253              		@ args = 0, pretend = 0, frame = 112
  254              		@ frame_needed = 1, uses_anonymous_args = 0
@@ -351,19 +348,19 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  266              		.cfi_def_cfa_offset 168
  267 0006 06AF     		add	r7, sp, #24
  268              		.cfi_def_cfa 7, 144
-  62:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
- 269              		.loc 1 62 0
+  59:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+ 269              		.loc 1 59 0
  270              		.syntax unified
- 271              	@ 62 "main.c" 1
+ 271              	@ 59 "main.c" 1
  272 0008 62B6     		CPSIE   i
  273              	@ 0 "" 2
-  63:main.c        **** 
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 7
-
-
-  64:main.c        ****     struct packet data = {.startbyte = STARTBYTE};
- 274              		.loc 1 64 0
+  60:main.c        **** 
+  61:main.c        ****     struct packet data = {.startbyte = STARTBYTE};
+ 274              		.loc 1 61 0
  275              		.thumb
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 7
+
+
  276              		.syntax unified
  277 000a 07F16403 		add	r3, r7, #100
  278 000e 0022     		movs	r2, #0
@@ -371,91 +368,91 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  280 0012 5A60     		str	r2, [r3, #4]
  281 0014 FF23     		movs	r3, #255
  282 0016 87F86430 		strb	r3, [r7, #100]
-  65:main.c        ****     
-  66:main.c        ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
-  67:main.c        ****     Seat_ADC_Start();
- 283              		.loc 1 67 0
+  62:main.c        ****     
+  63:main.c        ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+  64:main.c        ****     Seat_ADC_Start();
+ 283              		.loc 1 64 0
  284 001a FFF7FEFF 		bl	Seat_ADC_Start
-  68:main.c        **** 
-  69:main.c        ****     USBUART_Init();
- 285              		.loc 1 69 0
+  65:main.c        **** 
+  66:main.c        ****     USBUART_Init();
+ 285              		.loc 1 66 0
  286 001e FFF7FEFF 		bl	USBUART_Init
-  70:main.c        ****     USBUART_CDC_Init();
- 287              		.loc 1 70 0
+  67:main.c        ****     USBUART_CDC_Init();
+ 287              		.loc 1 67 0
  288 0022 FFF7FEFF 		bl	USBUART_CDC_Init
-  71:main.c        ****     USBUART_Start(0, USBUART_5V_OPERATION);
- 289              		.loc 1 71 0
+  68:main.c        ****     USBUART_Start(0, USBUART_5V_OPERATION);
+ 289              		.loc 1 68 0
  290 0026 0121     		movs	r1, #1
  291 0028 0020     		movs	r0, #0
  292 002a FFF7FEFF 		bl	USBUART_Start
-  72:main.c        ****     
-  73:main.c        ****     Sample_Interrupt_StartEx(sample_isr);
- 293              		.loc 1 73 0
+  69:main.c        ****     
+  70:main.c        ****     Sample_Interrupt_StartEx(sample_isr);
+ 293              		.loc 1 70 0
  294 002e 3A48     		ldr	r0, .L17
  295 0030 FFF7FEFF 		bl	Sample_Interrupt_StartEx
-  74:main.c        ****     Sample_Timer_Start();
- 296              		.loc 1 74 0
+  71:main.c        ****     Sample_Timer_Start();
+ 296              		.loc 1 71 0
  297 0034 FFF7FEFF 		bl	Sample_Timer_Start
-  75:main.c        ****     
-  76:main.c        ****     Enc_Int_High_StartEx(enc_high_isr);
- 298              		.loc 1 76 0
+  72:main.c        ****     
+  73:main.c        ****     Enc_Int_High_StartEx(enc_high_isr);
+ 298              		.loc 1 73 0
  299 0038 3848     		ldr	r0, .L17+4
  300 003a FFF7FEFF 		bl	Enc_Int_High_StartEx
-  77:main.c        ****     Enc_Int_Low_StartEx(enc_low_isr);
- 301              		.loc 1 77 0
+  74:main.c        ****     Enc_Int_Low_StartEx(enc_low_isr);
+ 301              		.loc 1 74 0
  302 003e 3848     		ldr	r0, .L17+8
  303 0040 FFF7FEFF 		bl	Enc_Int_Low_StartEx
-  78:main.c        ****     
-  79:main.c        ****     char output[80];
-  80:main.c        ****     
-  81:main.c        ****     I2C_Enable();
- 304              		.loc 1 81 0
+  75:main.c        ****     
+  76:main.c        ****     char output[80];
+  77:main.c        ****     
+  78:main.c        ****     I2C_Enable();
+ 304              		.loc 1 78 0
  305 0044 FFF7FEFF 		bl	I2C_Enable
-  82:main.c        ****     I2C_Start();
- 306              		.loc 1 82 0
+  79:main.c        ****     I2C_Start();
+ 306              		.loc 1 79 0
  307 0048 FFF7FEFF 		bl	I2C_Start
-  83:main.c        ****     CyDelay(1000);
- 308              		.loc 1 83 0
+  80:main.c        ****     CyDelay(1000);
+ 308              		.loc 1 80 0
  309 004c 4FF47A70 		mov	r0, #1000
  310 0050 FFF7FEFF 		bl	CyDelay
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 8
-
-
-  84:main.c        ****     LED_Write(1);
- 311              		.loc 1 84 0
+  81:main.c        ****     LED_Write(1);
+ 311              		.loc 1 81 0
  312 0054 0120     		movs	r0, #1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 8
+
+
  313 0056 FFF7FEFF 		bl	LED_Write
-  85:main.c        ****     bno_init(OPERATION_MODE_IMUPLUS);
- 314              		.loc 1 85 0
+  82:main.c        ****     bno_init(OPERATION_MODE_IMUPLUS);
+ 314              		.loc 1 82 0
  315 005a 0820     		movs	r0, #8
  316 005c FFF7FEFF 		bl	bno_init
-  86:main.c        ****     
-  87:main.c        ****     euler_angles orientation;
-  88:main.c        ****     //PWM_1_Start();
-  89:main.c        ****     EncTimer_Start();
- 317              		.loc 1 89 0
+  83:main.c        ****     
+  84:main.c        ****     euler_angles orientation;
+  85:main.c        ****     //PWM_1_Start();
+  86:main.c        ****     EncTimer_Start();
+ 317              		.loc 1 86 0
  318 0060 FFF7FEFF 		bl	EncTimer_Start
  319              	.L16:
  320              	.LBB3:
-  90:main.c        ****     
-  91:main.c        ****     for(;;)
-  92:main.c        ****     {
-  93:main.c        ****         
-  94:main.c        ****         bno_update(&orientation);
- 321              		.loc 1 94 0 discriminator 1
+  87:main.c        ****     
+  88:main.c        ****     for(;;)
+  89:main.c        ****     {
+  90:main.c        ****         
+  91:main.c        ****         bno_update(&orientation);
+ 321              		.loc 1 91 0 discriminator 1
  322 0064 07F10803 		add	r3, r7, #8
  323 0068 1846     		mov	r0, r3
  324 006a FFF7FEFF 		bl	bno_update
-  95:main.c        ****         uint8 opr_mode = bno_read(BNO055_OPR_MODE_ADDR);
- 325              		.loc 1 95 0 discriminator 1
+  92:main.c        ****         uint8 opr_mode = bno_read(BNO055_OPR_MODE_ADDR);
+ 325              		.loc 1 92 0 discriminator 1
  326 006e 3D20     		movs	r0, #61
  327 0070 FFF7FEFF 		bl	bno_read
  328 0074 0346     		mov	r3, r0
  329 0076 87F86F30 		strb	r3, [r7, #111]
-  96:main.c        ****         
-  97:main.c        ****         
-  98:main.c        ****         sprintf(output, "h: %6.3f, r: %6.3f, p: %6.3f, enc: %6.3f       \r", orientation.yaw, orien
- 330              		.loc 1 98 0 discriminator 1
+  93:main.c        ****         
+  94:main.c        ****         
+  95:main.c        ****         sprintf(output, "h: %6.3f, r: %6.3f, p: %6.3f, enc: %6.3f       \r", orientation.yaw, orien
+ 330              		.loc 1 95 0 discriminator 1
  331 007a 3B69     		ldr	r3, [r7, #16]	@ float
  332 007c 1846     		mov	r0, r3
  333 007e FFF7FEFF 		bl	__aeabi_f2d
@@ -478,12 +475,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  350 00a8 4FF00002 		mov	r2, #0
  351 00ac 1E4B     		ldr	r3, .L17+16
  352 00ae FFF7FEFF 		bl	__aeabi_dmul
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 9
-
-
  353 00b2 0246     		mov	r2, r0
  354 00b4 0B46     		mov	r3, r1
  355 00b6 C7E90023 		strd	r2, [r7]
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 9
+
+
  356 00ba 1C4B     		ldr	r3, .L17+20
  357 00bc 1B88     		ldrh	r3, [r3]
  358 00be 1846     		mov	r0, r3
@@ -502,14 +499,14 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  371 00e6 5B46     		mov	r3, fp
  372 00e8 1149     		ldr	r1, .L17+24
  373 00ea FFF7FEFF 		bl	sprintf
-  99:main.c        ****         
- 100:main.c        ****         USBUART_PutString(output);
- 374              		.loc 1 100 0 discriminator 1
+  96:main.c        ****         
+  97:main.c        ****         USBUART_PutString(output);
+ 374              		.loc 1 97 0 discriminator 1
  375 00ee 07F11403 		add	r3, r7, #20
  376 00f2 1846     		mov	r0, r3
  377 00f4 FFF7FEFF 		bl	USBUART_PutString
- 101:main.c        ****         LED_Write(!LED_Read());
- 378              		.loc 1 101 0 discriminator 1
+  98:main.c        ****         LED_Write(!LED_Read());
+ 378              		.loc 1 98 0 discriminator 1
  379 00f8 FFF7FEFF 		bl	LED_Read
  380 00fc 0346     		mov	r3, r0
  381 00fe 002B     		cmp	r3, #0
@@ -519,47 +516,47 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  385 0106 DBB2     		uxtb	r3, r3
  386 0108 1846     		mov	r0, r3
  387 010a FFF7FEFF 		bl	LED_Write
- 102:main.c        ****         CyDelay(100);
- 388              		.loc 1 102 0 discriminator 1
+  99:main.c        ****         CyDelay(100);
+ 388              		.loc 1 99 0 discriminator 1
  389 010e 6420     		movs	r0, #100
  390 0110 FFF7FEFF 		bl	CyDelay
  391              	.LBE3:
- 103:main.c        **** //        if (take_sample) {
- 104:main.c        **** //            int32 accumulator[3];
+ 100:main.c        **** //        if (take_sample) {
+ 101:main.c        **** //            int32 accumulator[3];
+ 102:main.c        **** //            
+ 103:main.c        **** //            take_sample = 0;
+ 104:main.c        **** //            LED_Write(!LED_Read());
  105:main.c        **** //            
- 106:main.c        **** //            take_sample = 0;
- 107:main.c        **** //            LED_Write(!LED_Read());
- 108:main.c        **** //            
- 109:main.c        **** //            
- 110:main.c        **** //            for (int i = 0; i < 3; ++i) {
- 111:main.c        **** //                accumulator[i] = 0;
- 112:main.c        **** //            }
- 113:main.c        **** //            for (int i = 0; i < OVERSAMPLING; ++i) {
- 114:main.c        **** //                    Seat_ADC_StartConvert();
- 115:main.c        **** //                    Seat_ADC_IsEndConversion(Seat_ADC_WAIT_FOR_RESULT);
+ 106:main.c        **** //            
+ 107:main.c        **** //            for (int i = 0; i < 3; ++i) {
+ 108:main.c        **** //                accumulator[i] = 0;
+ 109:main.c        **** //            }
+ 110:main.c        **** //            for (int i = 0; i < OVERSAMPLING; ++i) {
+ 111:main.c        **** //                    Seat_ADC_StartConvert();
+ 112:main.c        **** //                    Seat_ADC_IsEndConversion(Seat_ADC_WAIT_FOR_RESULT);
+ 113:main.c        **** //                    
+ 114:main.c        **** //                for (int n = 0; n < 3; ++n) {
+ 115:main.c        **** //                    accumulator[n] += Seat_ADC_GetResult16(n);
  116:main.c        **** //                    
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 10
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 10
 
 
- 117:main.c        **** //                for (int n = 0; n < 3; ++n) {
- 118:main.c        **** //                    accumulator[n] += Seat_ADC_GetResult16(n);
- 119:main.c        **** //                    
- 120:main.c        **** //                }
+ 117:main.c        **** //                }
+ 118:main.c        **** //            }
+ 119:main.c        **** //            for (int i = 0; i < 3; ++i) {
+ 120:main.c        **** //                data.channels[i] = (int16)(accumulator[i] / OVERSAMPLING);
  121:main.c        **** //            }
- 122:main.c        **** //            for (int i = 0; i < 3; ++i) {
- 123:main.c        **** //                data.channels[i] = (int16)(accumulator[i] / OVERSAMPLING);
- 124:main.c        **** //            }
- 125:main.c        **** //            
- 126:main.c        **** //            set_checksum(&data);
- 127:main.c        **** //            
- 128:main.c        **** //            if (USBUART_CDCIsReady()) {
- 129:main.c        **** //                USBUART_PutData((uint8 *)&data, sizeof(struct packet));
- 130:main.c        **** //                //sprintf(output, "a: %4d, b: %4d, c: %4d\n\r", data.channels[0], data.channels[1
- 131:main.c        **** //                //USBUART_PutString(output);
- 132:main.c        **** //            }
- 133:main.c        **** //        }
- 134:main.c        ****     }
- 392              		.loc 1 134 0 discriminator 1
+ 122:main.c        **** //            
+ 123:main.c        **** //            set_checksum(&data);
+ 124:main.c        **** //            
+ 125:main.c        **** //            if (USBUART_CDCIsReady()) {
+ 126:main.c        **** //                USBUART_PutData((uint8 *)&data, sizeof(struct packet));
+ 127:main.c        **** //                //sprintf(output, "a: %4d, b: %4d, c: %4d\n\r", data.channels[0], data.channels[1
+ 128:main.c        **** //                //USBUART_PutString(output);
+ 129:main.c        **** //            }
+ 130:main.c        **** //        }
+ 131:main.c        ****     }
+ 392              		.loc 1 131 0 discriminator 1
  393 0114 A6E7     		b	.L16
  394              	.L18:
  395 0116 00BF     		.align	2
@@ -598,12 +595,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  428 0025 02       		.uleb128 0x2
  429 0026 01       		.byte	0x1
  430 0027 06       		.byte	0x6
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 11
-
-
  431 0028 BB0D0000 		.4byte	.LASF0
  432 002c 02       		.uleb128 0x2
  433 002d 01       		.byte	0x1
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 11
+
+
  434 002e 08       		.byte	0x8
  435 002f 650C0000 		.4byte	.LASF1
  436 0033 02       		.uleb128 0x2
@@ -658,12 +655,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  485 0092 04       		.byte	0x4
  486 0093 E501     		.2byte	0x1e5
  487 0095 3A000000 		.4byte	0x3a
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 12
-
-
  488 0099 05       		.uleb128 0x5
  489 009a 60010000 		.4byte	.LASF13
  490 009e 04       		.byte	0x4
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 12
+
+
  491 009f E801     		.2byte	0x1e8
  492 00a1 33000000 		.4byte	0x33
  493 00a5 02       		.uleb128 0x2
@@ -718,12 +715,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  542 0103 06       		.byte	0x6
  543 0104 07       		.uleb128 0x7
  544 0105 61030000 		.4byte	.LASF27
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 13
-
-
  545 0109 08       		.byte	0x8
  546 010a 07       		.uleb128 0x7
  547 010b F6070000 		.4byte	.LASF28
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 13
+
+
  548 010f 09       		.byte	0x9
  549 0110 07       		.uleb128 0x7
  550 0111 26060000 		.4byte	.LASF29
@@ -778,12 +775,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  599 0175 1A       		.byte	0x1a
  600 0176 07       		.uleb128 0x7
  601 0177 9B0C0000 		.4byte	.LASF46
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 14
-
-
  602 017b 1B       		.byte	0x1b
  603 017c 07       		.uleb128 0x7
  604 017d B30C0000 		.4byte	.LASF47
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 14
+
+
  605 0181 1C       		.byte	0x1c
  606 0182 07       		.uleb128 0x7
  607 0183 8B020000 		.4byte	.LASF48
@@ -838,12 +835,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  656 01e7 2D       		.byte	0x2d
  657 01e8 07       		.uleb128 0x7
  658 01e9 610D0000 		.4byte	.LASF65
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 15
-
-
  659 01ed 2E       		.byte	0x2e
  660 01ee 07       		.uleb128 0x7
  661 01ef 75040000 		.4byte	.LASF66
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 15
+
+
  662 01f3 2F       		.byte	0x2f
  663 01f4 07       		.uleb128 0x7
  664 01f5 33020000 		.4byte	.LASF67
@@ -898,12 +895,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  713 0259 40       		.byte	0x40
  714 025a 07       		.uleb128 0x7
  715 025b 2C070000 		.4byte	.LASF84
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 16
-
-
  716 025f 41       		.byte	0x41
  717 0260 07       		.uleb128 0x7
  718 0261 1B0C0000 		.4byte	.LASF85
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 16
+
+
  719 0265 42       		.byte	0x42
  720 0266 07       		.uleb128 0x7
  721 0267 C70D0000 		.4byte	.LASF86
@@ -958,12 +955,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  770 02cb 53       		.byte	0x53
  771 02cc 07       		.uleb128 0x7
  772 02cd 6C010000 		.4byte	.LASF103
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 17
-
-
  773 02d1 54       		.byte	0x54
  774 02d2 07       		.uleb128 0x7
  775 02d3 5F090000 		.4byte	.LASF104
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 17
+
+
  776 02d7 55       		.byte	0x55
  777 02d8 07       		.uleb128 0x7
  778 02d9 C4000000 		.4byte	.LASF105
@@ -1018,12 +1015,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  827 033d 66       		.byte	0x66
  828 033e 07       		.uleb128 0x7
  829 033f F3050000 		.4byte	.LASF122
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 18
-
-
  830 0343 67       		.byte	0x67
  831 0344 07       		.uleb128 0x7
  832 0345 730B0000 		.4byte	.LASF123
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 18
+
+
  833 0349 68       		.byte	0x68
  834 034a 07       		.uleb128 0x7
  835 034b 730C0000 		.4byte	.LASF124
@@ -1078,12 +1075,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  884 03ac 870C0000 		.4byte	.LASF138
  885 03b0 0C       		.byte	0xc
  886 03b1 00       		.byte	0
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 19
-
-
  887 03b2 08       		.uleb128 0x8
  888 03b3 0C       		.byte	0xc
  889 03b4 05       		.byte	0x5
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 19
+
+
  890 03b5 E8       		.byte	0xe8
  891 03b6 DF030000 		.4byte	0x3df
  892 03ba 09       		.uleb128 0x9
@@ -1114,41 +1111,41 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  917 03eb F20B0000 		.4byte	.LASF159
  918 03ef 08       		.byte	0x8
  919 03f0 01       		.byte	0x1
- 920 03f1 1B       		.byte	0x1b
+ 920 03f1 18       		.byte	0x18
  921 03f2 1B040000 		.4byte	0x41b
  922 03f6 09       		.uleb128 0x9
  923 03f7 34010000 		.4byte	.LASF142
  924 03fb 01       		.byte	0x1
- 925 03fc 1C       		.byte	0x1c
+ 925 03fc 19       		.byte	0x19
  926 03fd 81000000 		.4byte	0x81
  927 0401 00       		.byte	0
  928 0402 09       		.uleb128 0x9
  929 0403 1B040000 		.4byte	.LASF143
  930 0407 01       		.byte	0x1
- 931 0408 1D       		.byte	0x1d
+ 931 0408 1A       		.byte	0x1a
  932 0409 81000000 		.4byte	0x81
  933 040d 01       		.byte	0x1
  934 040e 09       		.uleb128 0x9
  935 040f C0070000 		.4byte	.LASF144
  936 0413 01       		.byte	0x1
- 937 0414 1E       		.byte	0x1e
+ 937 0414 1B       		.byte	0x1b
  938 0415 1B040000 		.4byte	0x41b
  939 0419 02       		.byte	0x2
  940 041a 00       		.byte	0
  941 041b 0C       		.uleb128 0xc
  942 041c 99000000 		.4byte	0x99
  943 0420 2B040000 		.4byte	0x42b
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 20
-
-
  944 0424 0D       		.uleb128 0xd
  945 0425 C1000000 		.4byte	0xc1
  946 0429 02       		.byte	0x2
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 20
+
+
  947 042a 00       		.byte	0
  948 042b 0E       		.uleb128 0xe
  949 042c 8F070000 		.4byte	.LASF160
  950 0430 01       		.byte	0x1
- 951 0431 21       		.byte	0x21
+ 951 0431 1E       		.byte	0x1e
  952 0432 00000000 		.4byte	.LFB64
  953 0436 60000000 		.4byte	.LFE64-.LFB64
  954 043a 01       		.uleb128 0x1
@@ -1157,7 +1154,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  957 0440 0F       		.uleb128 0xf
  958 0441 706B7400 		.ascii	"pkt\000"
  959 0445 01       		.byte	0x1
- 960 0446 21       		.byte	0x21
+ 960 0446 1E       		.byte	0x1e
  961 0447 81040000 		.4byte	0x481
  962 044b 02       		.uleb128 0x2
  963 044c 91       		.byte	0x91
@@ -1165,7 +1162,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  965 044e 10       		.uleb128 0x10
  966 044f DD060000 		.4byte	.LASF145
  967 0453 01       		.byte	0x1
- 968 0454 23       		.byte	0x23
+ 968 0454 20       		.byte	0x20
  969 0455 87040000 		.4byte	0x487
  970 0459 02       		.uleb128 0x2
  971 045a 91       		.byte	0x91
@@ -1173,7 +1170,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  973 045c 10       		.uleb128 0x10
  974 045d 1B040000 		.4byte	.LASF143
  975 0461 01       		.byte	0x1
- 976 0462 24       		.byte	0x24
+ 976 0462 21       		.byte	0x21
  977 0463 81000000 		.4byte	0x81
  978 0467 02       		.uleb128 0x2
  979 0468 91       		.byte	0x91
@@ -1184,7 +1181,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  984 0473 12       		.uleb128 0x12
  985 0474 6900     		.ascii	"i\000"
  986 0476 01       		.byte	0x1
- 987 0477 25       		.byte	0x25
+ 987 0477 22       		.byte	0x22
  988 0478 68000000 		.4byte	0x68
  989 047c 02       		.uleb128 0x2
  990 047d 91       		.byte	0x91
@@ -1198,12 +1195,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  998 0488 04       		.byte	0x4
  999 0489 81000000 		.4byte	0x81
  1000 048d 14       		.uleb128 0x14
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 21
-
-
  1001 048e BD090000 		.4byte	.LASF146
  1002 0492 01       		.byte	0x1
- 1003 0493 2B       		.byte	0x2b
+ 1003 0493 28       		.byte	0x28
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 21
+
+
  1004 0494 00000000 		.4byte	.LFB65
  1005 0498 18000000 		.4byte	.LFE65-.LFB65
  1006 049c 01       		.uleb128 0x1
@@ -1211,7 +1208,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1008 049e 14       		.uleb128 0x14
  1009 049f 370D0000 		.4byte	.LASF147
  1010 04a3 01       		.byte	0x1
- 1011 04a4 33       		.byte	0x33
+ 1011 04a4 30       		.byte	0x30
  1012 04a5 00000000 		.4byte	.LFB66
  1013 04a9 24000000 		.4byte	.LFE66-.LFB66
  1014 04ad 01       		.uleb128 0x1
@@ -1219,7 +1216,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1016 04af 14       		.uleb128 0x14
  1017 04b0 AE050000 		.4byte	.LASF148
  1018 04b4 01       		.byte	0x1
- 1019 04b5 38       		.byte	0x38
+ 1019 04b5 35       		.byte	0x35
  1020 04b6 00000000 		.4byte	.LFB67
  1021 04ba 1C000000 		.4byte	.LFE67-.LFB67
  1022 04be 01       		.uleb128 0x1
@@ -1227,7 +1224,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1024 04c0 15       		.uleb128 0x15
  1025 04c1 F70D0000 		.4byte	.LASF161
  1026 04c5 01       		.byte	0x1
- 1027 04c6 3C       		.byte	0x3c
+ 1027 04c6 39       		.byte	0x39
  1028 04c7 68000000 		.4byte	0x68
  1029 04cb 00000000 		.4byte	.LFB68
  1030 04cf 34010000 		.4byte	.LFE68-.LFB68
@@ -1237,7 +1234,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1034 04d9 10       		.uleb128 0x10
  1035 04da DD060000 		.4byte	.LASF145
  1036 04de 01       		.byte	0x1
- 1037 04df 40       		.byte	0x40
+ 1037 04df 3D       		.byte	0x3d
  1038 04e0 EA030000 		.4byte	0x3ea
  1039 04e4 02       		.uleb128 0x2
  1040 04e5 91       		.byte	0x91
@@ -1245,7 +1242,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1042 04e7 10       		.uleb128 0x10
  1043 04e8 84000000 		.4byte	.LASF149
  1044 04ec 01       		.byte	0x1
- 1045 04ed 4F       		.byte	0x4f
+ 1045 04ed 4C       		.byte	0x4c
  1046 04ee 1E050000 		.4byte	0x51e
  1047 04f2 03       		.uleb128 0x3
  1048 04f3 91       		.byte	0x91
@@ -1253,21 +1250,21 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1050 04f6 10       		.uleb128 0x10
  1051 04f7 D7020000 		.4byte	.LASF150
  1052 04fb 01       		.byte	0x1
- 1053 04fc 57       		.byte	0x57
+ 1053 04fc 54       		.byte	0x54
  1054 04fd DF030000 		.4byte	0x3df
  1055 0501 03       		.uleb128 0x3
  1056 0502 91       		.byte	0x91
  1057 0503 F87E     		.sleb128 -136
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 22
-
-
  1058 0505 11       		.uleb128 0x11
  1059 0506 64000000 		.4byte	.LBB3
  1060 050a B0000000 		.4byte	.LBE3-.LBB3
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 22
+
+
  1061 050e 10       		.uleb128 0x10
  1062 050f 80080000 		.4byte	.LASF151
  1063 0513 01       		.byte	0x1
- 1064 0514 5F       		.byte	0x5f
+ 1064 0514 5C       		.byte	0x5c
  1065 0515 81000000 		.4byte	0x81
  1066 0519 02       		.uleb128 0x2
  1067 051a 91       		.byte	0x91
@@ -1291,7 +1288,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1085 053f 18       		.uleb128 0x18
  1086 0540 D1050000 		.4byte	.LASF153
  1087 0544 01       		.byte	0x1
- 1088 0545 19       		.byte	0x19
+ 1088 0545 16       		.byte	0x16
  1089 0546 50050000 		.4byte	0x550
  1090 054a 05       		.uleb128 0x5
  1091 054b 03       		.byte	0x3
@@ -1301,7 +1298,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1095 0555 18       		.uleb128 0x18
  1096 0556 27090000 		.4byte	.LASF154
  1097 055a 01       		.byte	0x1
- 1098 055b 30       		.byte	0x30
+ 1098 055b 2D       		.byte	0x2d
  1099 055c 8D000000 		.4byte	0x8d
  1100 0560 05       		.uleb128 0x5
  1101 0561 03       		.byte	0x3
@@ -1309,7 +1306,7 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1103 0566 18       		.uleb128 0x18
  1104 0567 25030000 		.4byte	.LASF155
  1105 056b 01       		.byte	0x1
- 1106 056c 31       		.byte	0x31
+ 1106 056c 2E       		.byte	0x2e
  1107 056d 8D000000 		.4byte	0x8d
  1108 0571 05       		.uleb128 0x5
  1109 0572 03       		.byte	0x3
@@ -1318,12 +1315,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1112              		.section	.debug_abbrev,"",%progbits
  1113              	.Ldebug_abbrev0:
  1114 0000 01       		.uleb128 0x1
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 23
-
-
  1115 0001 11       		.uleb128 0x11
  1116 0002 01       		.byte	0x1
  1117 0003 25       		.uleb128 0x25
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 23
+
+
  1118 0004 0E       		.uleb128 0xe
  1119 0005 13       		.uleb128 0x13
  1120 0006 0B       		.uleb128 0xb
@@ -1378,12 +1375,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1169 0037 16       		.uleb128 0x16
  1170 0038 00       		.byte	0
  1171 0039 03       		.uleb128 0x3
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 24
-
-
  1172 003a 0E       		.uleb128 0xe
  1173 003b 3A       		.uleb128 0x3a
  1174 003c 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 24
+
+
  1175 003d 3B       		.uleb128 0x3b
  1176 003e 05       		.uleb128 0x5
  1177 003f 49       		.uleb128 0x49
@@ -1438,12 +1435,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1226 0070 0B       		.uleb128 0xb
  1227 0071 49       		.uleb128 0x49
  1228 0072 13       		.uleb128 0x13
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 25
-
-
  1229 0073 38       		.uleb128 0x38
  1230 0074 0B       		.uleb128 0xb
  1231 0075 00       		.byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 25
+
+
  1232 0076 00       		.byte	0
  1233 0077 0A       		.uleb128 0xa
  1234 0078 0D       		.uleb128 0xd
@@ -1498,12 +1495,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1283 00a9 01       		.byte	0x1
  1284 00aa 3F       		.uleb128 0x3f
  1285 00ab 19       		.uleb128 0x19
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 26
-
-
  1286 00ac 03       		.uleb128 0x3
  1287 00ad 0E       		.uleb128 0xe
  1288 00ae 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 26
+
+
  1289 00af 0B       		.uleb128 0xb
  1290 00b0 3B       		.uleb128 0x3b
  1291 00b1 0B       		.uleb128 0xb
@@ -1558,12 +1555,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1340 00e3 01       		.uleb128 0x1
  1341 00e4 12       		.uleb128 0x12
  1342 00e5 06       		.uleb128 0x6
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 27
-
-
  1343 00e6 00       		.byte	0
  1344 00e7 00       		.byte	0
  1345 00e8 12       		.uleb128 0x12
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 27
+
+
  1346 00e9 34       		.uleb128 0x34
  1347 00ea 00       		.byte	0
  1348 00eb 03       		.uleb128 0x3
@@ -1618,12 +1615,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1397 011d 03       		.uleb128 0x3
  1398 011e 0E       		.uleb128 0xe
  1399 011f 3A       		.uleb128 0x3a
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 28
-
-
  1400 0120 0B       		.uleb128 0xb
  1401 0121 3B       		.uleb128 0x3b
  1402 0122 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 28
+
+
  1403 0123 27       		.uleb128 0x27
  1404 0124 19       		.uleb128 0x19
  1405 0125 49       		.uleb128 0x49
@@ -1678,12 +1675,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1454 0157 3F       		.uleb128 0x3f
  1455 0158 19       		.uleb128 0x19
  1456 0159 02       		.uleb128 0x2
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 29
-
-
  1457 015a 18       		.uleb128 0x18
  1458 015b 00       		.byte	0
  1459 015c 00       		.byte	0
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 29
+
+
  1460 015d 00       		.byte	0
  1461              		.section	.debug_aranges,"",%progbits
  1462 0000 3C000000 		.4byte	0x3c
@@ -1738,12 +1735,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1501      4343454C 
  1501      5F444154 
  1501      415F5A5F 
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 30
-
-
  1502              	.LASF75:
  1503 0034 424E4F30 		.ascii	"BNO055_SYS_CLK_STAT_ADDR\000"
  1503      35355F53 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 30
+
+
  1503      59535F43 
  1503      4C4B5F53 
  1503      5441545F 
@@ -1798,12 +1795,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1522              	.LASF25:
  1523 010d 424E4F30 		.ascii	"BNO055_SW_REV_ID_MSB_ADDR\000"
  1523      35355F53 
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 31
-
-
  1523      575F5245 
  1523      565F4944 
  1523      5F4D5342 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 31
+
+
  1524              	.LASF8:
  1525 0127 756E7369 		.ascii	"unsigned int\000"
  1525      676E6564 
@@ -1858,12 +1855,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1543      2D736563 
  1543      74696F6E 
  1544              	.LASF67:
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 32
-
-
  1545 0233 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_Y_LSB_ADDR\000"
  1545      35355F47 
  1545      52415649 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 32
+
+
  1545      54595F44 
  1545      4154415F 
  1546              	.LASF80:
@@ -1918,12 +1915,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1563      57525F4D 
  1563      4F44455F 
  1563      41444452 
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 33
-
-
  1564              	.LASF155:
  1565 0325 6C6F775F 		.ascii	"low_ctr\000"
  1565      63747200 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 33
+
+
  1566              	.LASF117:
  1567 032d 4759524F 		.ascii	"GYRO_OFFSET_X_MSB_ADDR\000"
  1567      5F4F4646 
@@ -1978,12 +1975,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1583      55535F4D 
  1583      53425F41 
  1583      44445200 
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 34
-
-
  1584              	.LASF14:
  1585 0415 666C6F61 		.ascii	"float\000"
  1585      7400
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 34
+
+
  1586              	.LASF143:
  1587 041b 63686563 		.ascii	"checksum\000"
  1587      6B73756D 
@@ -2038,12 +2035,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1603      425F4144 
  1604              	.LASF44:
  1605 0504 424E4F30 		.ascii	"BNO055_GYRO_DATA_Z_MSB_ADDR\000"
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 35
-
-
  1605      35355F47 
  1605      59524F5F 
  1605      44415441 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 35
+
+
  1605      5F5A5F4D 
  1606              	.LASF72:
  1607 0520 424E4F30 		.ascii	"BNO055_CALIB_STAT_ADDR\000"
@@ -2098,12 +2095,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1624              	.LASF122:
  1625 05f3 41434345 		.ascii	"ACCEL_RADIUS_LSB_ADDR\000"
  1625      4C5F5241 
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 36
-
-
  1625      44495553 
  1625      5F4C5342 
  1625      5F414444 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 36
+
+
  1626              	.LASF89:
  1627 0609 424E4F30 		.ascii	"BNO055_SIC_MATRIX_1_MSB_ADDR\000"
  1627      35355F53 
@@ -2158,12 +2155,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1646              	.LASF26:
  1647 06e2 424E4F30 		.ascii	"BNO055_BL_REV_ID_ADDR\000"
  1647      35355F42 
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 37
-
-
  1647      4C5F5245 
  1647      565F4944 
  1647      5F414444 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 37
+
+
  1648              	.LASF139:
  1649 06f8 726F6C6C 		.ascii	"roll\000"
  1649      00
@@ -2218,12 +2215,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1667      6E656C73 
  1667      00
  1668              	.LASF121:
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 38
-
-
  1669 07c9 4759524F 		.ascii	"GYRO_OFFSET_Z_MSB_ADDR\000"
  1669      5F4F4646 
  1669      5345545F 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 38
+
+
  1669      5A5F4D53 
  1669      425F4144 
  1670              	.LASF115:
@@ -2278,12 +2275,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1687      626C6500 
  1688              	.LASF141:
  1689 08b1 65756C65 		.ascii	"euler_angles\000"
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 39
-
-
  1689      725F616E 
  1689      676C6573 
  1689      00
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 39
+
+
  1690              	.LASF31:
  1691 08be 424E4F30 		.ascii	"BNO055_ACCEL_DATA_Z_LSB_ADDR\000"
  1691      35355F41 
@@ -2338,12 +2335,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1707      43454C5F 
  1708              	.LASF50:
  1709 099b 424E4F30 		.ascii	"BNO055_EULER_P_MSB_ADDR\000"
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 40
-
-
  1709      35355F45 
  1709      554C4552 
  1709      5F505F4D 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 40
+
+
  1709      53425F41 
  1710              	.LASF2:
  1711 09b3 73686F72 		.ascii	"short int\000"
@@ -2398,12 +2395,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1729      4E5F4D4F 
  1729      44455F41 
  1729      4D4700
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 41
-
-
  1730              	.LASF70:
  1731 0a62 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_Z_MSB_ADDR\000"
  1731      35355F47 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 41
+
+
  1731      52415649 
  1731      54595F44 
  1731      4154415F 
@@ -2458,12 +2455,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1748 0b73 41434345 		.ascii	"ACCEL_RADIUS_MSB_ADDR\000"
  1748      4C5F5241 
  1748      44495553 
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 42
-
-
  1748      5F4D5342 
  1748      5F414444 
  1749              	.LASF18:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 42
+
+
  1750 0b89 73697A65 		.ascii	"sizetype\000"
  1750      74797065 
  1750      00
@@ -2518,12 +2515,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1769              	.LASF136:
  1770 0c52 4F504552 		.ascii	"OPERATION_MODE_M4G\000"
  1770      4154494F 
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 43
-
-
  1770      4E5F4D4F 
  1770      44455F4D 
  1770      344700
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 43
+
+
  1771              	.LASF1:
  1772 0c65 756E7369 		.ascii	"unsigned char\000"
  1772      676E6564 
@@ -2578,12 +2575,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1788      534F5552 
  1788      43455F41 
  1789              	.LASF147:
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 44
-
-
  1790 0d37 656E635F 		.ascii	"enc_high_isr\000"
  1790      68696768 
  1790      5F697372 
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 44
+
+
  1790      00
  1791              	.LASF30:
  1792 0d44 424E4F30 		.ascii	"BNO055_ACCEL_DATA_Y_MSB_ADDR\000"
@@ -2638,12 +2635,12 @@ ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 1
  1810 0e13 424E4F30 		.ascii	"BNO055_INTR_STAT_ADDR\000"
  1810      35355F49 
  1810      4E54525F 
-ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccP4isbG.s 			page 45
-
-
  1810      53544154 
  1810      5F414444 
  1811              	.LASF11:
+ARM GAS  C:\Users\jebush2\AppData\Local\Temp\ccc3d0gN.s 			page 45
+
+
  1812 0e29 75696E74 		.ascii	"uint8\000"
  1812      3800
  1813              	.LASF15:
