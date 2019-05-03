@@ -176,7 +176,7 @@ int main(void)
 
 float cmg_pid()
 {
-    static const float Kp = 20;
+    static const float Kp = 20;     // PID controller gains
     static const float Ki = 0.0;
     static const float Kd = 2.2;
     static const float dt = 0.01;
