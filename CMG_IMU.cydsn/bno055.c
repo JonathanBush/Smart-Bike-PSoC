@@ -13,7 +13,9 @@
 
 //volatile euler_angles orientation = {.roll = 0, .pitch = 0, .yaw = 0};
 
-int bno_init(uint8 mode) {
+int16 angle_divider = BNO_DEGREES;
+
+int bno_init(uint8 mode, bno055_angle_unit_t units) {
     CyDelay(3000);
     uint8_t id = bno_read(BNO055_CHIP_ID_ADDR);
     if (id != BNO055_ID) {
@@ -44,6 +46,8 @@ int bno_init(uint8 mode) {
     
     bno_write(BNO055_OPR_MODE_ADDR, mode);
     CyDelay(600);
+    
+    angle_divider = units;
     
     return 1;
     

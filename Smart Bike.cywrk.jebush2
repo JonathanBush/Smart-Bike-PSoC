@@ -13,7 +13,7 @@
 <v>Output</v>
 </TreeKeys>
 <TreeStates>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="Smart Bike\CMG_IMU\Header Files">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="Smart Bike\CMG_IMU\Source Files\main.c">
 <ExpandedNodeIds>
 <v>Smart Bike</v>
 <v>Smart Bike\Balance\TopDesign</v>
@@ -35,6 +35,7 @@
 <v>Smart Bike\Balance\Source Files\sbus.c</v>
 <v>Smart Bike\Balance\Generated_Source</v>
 <v>Smart Bike\Balance\Generated_Source\PSoC5</v>
+<v>Smart Bike\CMG</v>
 <v>Smart Bike\CMG\TopDesign</v>
 <v>Smart Bike\CMG\CMG.cydwr</v>
 <v>Smart Bike\CMG\CMG.cydwr\Pins</v>
@@ -147,9 +148,30 @@
 <v>Smart Bike\Sensors\Generated_Source\PSoC5</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
-<v>Smart Bike</v>
-<v>Smart Bike\Balance</v>
-<v>Smart Bike\CMG</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\Timer_Interrupt</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\UART</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\UART_IntClock</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\VDAC8_1</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cycodeshareexport.ld</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cycodeshareimport.ld</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cycodeshareimport.scat</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cydevice.h</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cydevice_trm.h</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cydevicegnu.inc</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cydevicegnu_trm.inc</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cydeviceiar.inc</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cydeviceiar_trm.inc</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cydevicerv.inc</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cydevicerv_trm.inc</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cydisabledsheets.h</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cyfitter.h</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cyfitter_cfg.c</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cyfitter_cfg.h</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cyfittergnu.inc</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cyfitteriar.inc</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cyfitterrv.inc</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\cymetadata.c</v>
+<v>Smart Bike\CMG\Generated_Source\PSoC5\project.h</v>
 <v>Smart Bike\CMG_IMU</v>
 <v>Smart Bike\CMG_IMU\TopDesign</v>
 <v>Smart Bike\CMG_IMU\CMG_IMU.cydwr</v>
@@ -175,27 +197,6 @@
 <v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Clock_3</v>
 <v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Clock_4</v>
 <v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Clock_5</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\cy_boot</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Em_EEPROM_Dynamic</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Enc_Int_High</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Enc_Int_Low</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\EncTimer</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\flywheel_motor</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Gimbal_Control_Loop_Interrupt</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\gimbal_direction</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Gimbal_Encoder</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Gimbal_Encoder_A</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Gimbal_Encoder_B</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Gimbal_Encoder_Cnt16</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\gimbal_motor</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Gimbal_Timer</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Handle_Encoder</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Handle_Encoder_A</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Handle_Encoder_B</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\Handle_Encoder_Cnt16</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\I2C</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\isr_1</v>
-<v>Smart Bike\CMG_IMU\Generated_Source\PSoC5\LED</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 <CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
@@ -413,6 +414,7 @@
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\BNO_Interupt.lst</v>
+<v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\bno055.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_2.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_3.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_4.lst</v>
@@ -465,7 +467,6 @@
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM_CMG_PM.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM_Steer.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM_Steer_PM.lst</v>
-<v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\Rpi_Tx_Interrupt.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\Sample_Interrupt.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\Sample_Timer.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\Sample_Timer_PM.lst</v>
@@ -479,11 +480,6 @@
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\SW1.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\timer_clock.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\Timer_Interrupt.lst</v>
-<v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\UART.lst</v>
-<v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_BOOT.lst</v>
-<v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_INT.lst</v>
-<v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_IntClock.lst</v>
-<v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_PM.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_audio.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_boot.lst</v>
@@ -500,8 +496,6 @@
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_pm.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_std.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_vnd.lst</v>
-<v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\VDAC8_1.lst</v>
-<v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\Listing Files\VDAC8_1_PM.lst</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\CMG_IMU.elf</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\CMG_IMU.hex</v>
 <v>Smart Bike\CMG_IMU\CortexM3\ARM_GCC_541\Debug\CMG_IMU.map</v>
@@ -942,6 +936,52 @@
 <VisibleNodeIds>
 <v>Smart Bike</v>
 <v>Smart Bike\Balance</v>
+<v>Smart Bike\Balance\CortexM3</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Brake_PWM.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Clock_1.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Clock_2.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Clock_3.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Clock_4.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Clock_5.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Clock_6.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Cm3Start.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CMG_UART.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CMG_UART_BOOT.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CMG_UART_INT.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CMG_UART_IntClock.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CMG_UART_PM.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CMG_UART_Rx_ISR.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Control_Loop_Interrupt.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\cy_em_eeprom.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CyBootAsmGnu.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CyDmac.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\cyfitter_cfg.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CyFlash.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CyLib.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\cymetadata.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\cyPm.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CySpc.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\cyutils.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\FrontHall_Pin.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Hall_Interrupt_Front.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Hall_Interrupt_Rear.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Handle_Encoder.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Handle_Encoder_A.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Handle_Encoder_B.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Handle_Encoder_Cnt16.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Handle_Encoder_Cnt16_PM.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Handle_Encoder_PM.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\main.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Motor_Encoder_A.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Motor_Encoder_B.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Opamp_Throttle.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Opamp_Throttle_PM.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\PWM_Brake.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\PWM_Brake_PM.lst</v>
+<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\PWM_Steer.lst</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 </TreeStates>
@@ -1027,9 +1067,7 @@
 <v>Smart Bike\CMG_IMU\QuadDec_v3_0\QuadDec_v3_0.pdf</v>
 <v>Smart Bike\CMG_IMU\Timer_v2_80</v>
 <v>Smart Bike\CMG_IMU\Timer_v2_80\Timer_v2_80.pdf</v>
-<v>Smart Bike\CMG_IMU\UART_v2_50.pdf</v>
 <v>Smart Bike\CMG_IMU\USBFS_v3_20.pdf</v>
-<v>Smart Bike\CMG_IMU\VDAC8_v1_90.pdf</v>
 <v>Smart Bike\CMG_IMU\ZeroTerminal</v>
 <v>Smart Bike\CMG_IMU\ZeroTerminal\ZeroTerminal.pdf</v>
 <v>Smart Bike\Controller</v>

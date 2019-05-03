@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "project.h"
+#include "bno055.h"
 
 #define GIMBAL_MAX_COMPARE (2200)
 #define GIMBAL_MOTOR_CUTOFF  (20)
@@ -32,8 +33,9 @@
 
 CY_ISR_PROTO(gimbal_control_loop);
 CY_ISR_PROTO(steering_control_loop);
-CY_ISR_PROTO(rpi_tx_isr);
 CY_ISR_PROTO(timer_isr);
+CY_ISR_PROTO(enc_high_isr);
+CY_ISR_PROTO(enc_low_isr);
 
 const uint16 gimbal_pwm_low = 100;
 const uint16 gimbal_pwm_high = 200;
@@ -54,8 +56,13 @@ const int gimbal_enc_max = 217;
 
 const float phi_w_dot_max = 11.5;
 
+uint16 high_ctr = 1;
+uint16 low_ctr = 1;
+
 float alpha();  /* the gimbal angle */
 float cmg_pid();
+
+euler_angles orientation;   /* orientation data read from the IMU */
 
 int main(void)
 {
@@ -78,16 +85,24 @@ int main(void)
     
     Gimbal_Control_Loop_Interrupt_StartEx(gimbal_control_loop);
     Steering_Control_Loop_Interrupt_StartEx(steering_control_loop);
-    Rpi_Tx_Interrupt_StartEx(rpi_tx_isr);
     Timer_Interrupt_StartEx(timer_isr); // start the timer interrupt for gimbal speed measurement
     
     Gimbal_Timer_Start();   // timers control the control loop frequencies
     Steering_Timer_Start();
-    UART_Start();
+    
+    bno_init(OPERATION_MODE_IMUPLUS, BNO_RADIANS);
     
     for(;;)
     {
         LED1_Write(0);
+        
+        bno_update(&orientation);   // read the orienation
+        
+        phi_b = orientation.roll;// - 0.02;
+        uint8 phi_b_dot_lsb = bno_read(BNO055_EULER_R_LSB_ADDR);
+        uint8 phi_b_dot_msb = bno_read(BNO055_EULER_R_MSB_ADDR);
+        phi_b_dot = (float)((int16)((uint16)phi_b_dot_msb << 8 | (uint16)phi_b_dot_lsb)) / BNO_RADIANS;
+        
         while (SW1_Read()) {
             phi_w_dot = -0.2 * signum(alpha()) / fabs(cos(alpha()));
         }
@@ -282,29 +297,20 @@ CY_ISR(steering_control_loop)
 
 
 
-CY_ISR(rpi_tx_isr) {
-    static char receiving = 0;
-    static unsigned char buffer[4];
-    
-    char received = UART_GetChar();
-    
-    if (receiving == 0 && received == 0xFF) {   // start byte
-        receiving = 1;
-    } else {
-        buffer[receiving - 1] = received;
-        ++receiving;
-        if (receiving > 4) {
-            receiving = 0;
-            int16 phi_b_i = (int16)(((uint16)buffer[0]) << 8) | (uint16)buffer[1];
-            int16 phi_b_dot_i = (int16)(((uint16)buffer[2]) << 8) | (uint16)buffer[3];
-            phi_b = (float)phi_b_i / 1000.;// - 0.02;
-            phi_b_dot = (float)phi_b_dot_i / 1000.;
-        }
-    } 
-}
-
 float alpha()
 {
-    return -(float)Gimbal_Encoder_GetCounter() * 0.004807; // M_PI * 2 / 1307
+    return 6.2832 * low_ctr / high_ctr;
+    //return -(float)Gimbal_Encoder_GetCounter() * 0.004807; // M_PI * 2 / 1307
 }
+
+CY_ISR(enc_high_isr) {
+    high_ctr = 65535 - EncTimer_ReadCounter();
+    EncTimer_WriteCounter(65535);
+}
+
+CY_ISR(enc_low_isr) {
+    low_ctr = 65535 - EncTimer_ReadCounter();
+    
+}
+
 /* [] END OF FILE */

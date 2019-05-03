@@ -1,6 +1,6 @@
 -- ======================================================================
 -- CMG_IMU.ctl generated from CMG_IMU
--- 05/02/2019 at 09:59
+-- 05/03/2019 at 12:39
 -- This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 -- ======================================================================
 

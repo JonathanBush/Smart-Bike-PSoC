@@ -30,16 +30,6 @@
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\gimbal_direction_aliases.h" value="HEADER;;;;;gimbal_direction" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\gimbal_direction.c" value="SOURCE_C;CortexM3;;;;gimbal_direction" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\gimbal_direction.h" value="HEADER;;;;;gimbal_direction" />
-  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\UART.c" value="SOURCE_C;CortexM3;;;;UART" />
-  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\UART.h" value="HEADER;;;;;UART" />
-  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\UART_PM.c" value="SOURCE_C;CortexM3;;;;UART" />
-  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\UART_INT.c" value="SOURCE_C;CortexM3;;;;UART" />
-  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\UART_BOOT.c" value="SOURCE_C;CortexM3;;;;UART" />
-  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\Rpi_Tx_Interrupt.c" value="SOURCE_C;CortexM3;;;;Rpi_Tx_Interrupt" />
-  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\Rpi_Tx_Interrupt.h" value="HEADER;;;;;Rpi_Tx_Interrupt" />
-  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\VDAC8_1.c" value="SOURCE_C;CortexM3;;;;VDAC8_1" />
-  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\VDAC8_1.h" value="HEADER;;;;;VDAC8_1" />
-  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\VDAC8_1_PM.c" value="SOURCE_C;CortexM3;;;;VDAC8_1" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\Clock_3.c" value="SOURCE_C;CortexM3;;;;Clock_3" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\Clock_3.h" value="HEADER;;;;;Clock_3" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\Gimbal_Timer.c" value="SOURCE_C;CortexM3;;;;Gimbal_Timer" />
@@ -155,8 +145,6 @@
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\Pin_1_aliases.h" value="HEADER;;;;;Pin_1" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\Pin_1.c" value="SOURCE_C;CortexM3;;;;Pin_1" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\Pin_1.h" value="HEADER;;;;;Pin_1" />
-  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\UART_IntClock.c" value="SOURCE_C;CortexM3;;;;UART_IntClock" />
-  <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\UART_IntClock.h" value="HEADER;;;;;UART_IntClock" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\Gimbal_Encoder_Cnt16.c" value="SOURCE_C;CortexM3;;;;Gimbal_Encoder_Cnt16" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\Gimbal_Encoder_Cnt16.h" value="HEADER;;;;;Gimbal_Encoder_Cnt16" />
   <file name="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\codegentemp\Gimbal_Encoder_Cnt16_PM.c" value="SOURCE_C;CortexM3;;;;Gimbal_Encoder_Cnt16" />

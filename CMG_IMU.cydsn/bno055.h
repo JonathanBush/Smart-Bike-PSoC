@@ -229,6 +229,11 @@ typedef enum {
     VECTOR_GRAVITY = BNO055_GRAVITY_DATA_X_LSB_ADDR
 } adafruit_vector_type_t;
 
+typedef enum {
+    BNO_RADIANS = 900,
+    BNO_DEGREES = 16
+} bno055_angle_unit_t;
+
 typedef struct {
     float roll;
     float pitch;
@@ -236,7 +241,7 @@ typedef struct {
 } euler_angles;
 
 
-int bno_init(uint8 mode);
+int bno_init(uint8 mode, bno055_angle_unit_t units);
 
 /* writes a single byte register */
 void bno_write(uint8 reg, uint8 data);

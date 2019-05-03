@@ -37,7 +37,9 @@
       <Folder BuildType="STRICT" Path="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn">
         <Files Root="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn">
           <File BuildType="BUILD" Toolchain="">main.c</File>
+          <File BuildType="BUILD" Toolchain="">bno055.c</File>
           <File BuildType="BUILD" Toolchain="">cyapicallbacks.h</File>
+          <File BuildType="BUILD" Toolchain="">bno055.h</File>
         </Files>
       </Folder>
       <Folder BuildType="STRICT" Path="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\Generated_Source\PSoC5">
@@ -67,16 +69,6 @@
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\gimbal_direction_aliases.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\gimbal_direction.c</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\gimbal_direction.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\UART.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\UART.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\UART_PM.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\UART_INT.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\UART_BOOT.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\Rpi_Tx_Interrupt.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\Rpi_Tx_Interrupt.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\VDAC8_1.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\VDAC8_1.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\VDAC8_1_PM.c</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\Clock_3.c</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\Clock_3.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\Steering_Timer.c</File>
@@ -84,8 +76,6 @@
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\Steering_Timer_PM.c</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\Timer_Interrupt.c</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\Timer_Interrupt.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\UART_IntClock.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\UART_IntClock.h</File>
           <File BuildType="BUILD" Toolchain="ARM GCC Generic">Generated_Source\PSoC5\cm3gcc.ld</File>
           <File BuildType="BUILD" Toolchain="ARM MDK Generic">Generated_Source\PSoC5\Cm3RealView.scat</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC5\Cm3Start.c</File>
