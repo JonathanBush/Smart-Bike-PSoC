@@ -936,52 +936,6 @@
 <VisibleNodeIds>
 <v>Smart Bike</v>
 <v>Smart Bike\Balance</v>
-<v>Smart Bike\Balance\CortexM3</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Brake_PWM.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Clock_1.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Clock_2.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Clock_3.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Clock_4.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Clock_5.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Clock_6.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Cm3Start.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CMG_UART.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CMG_UART_BOOT.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CMG_UART_INT.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CMG_UART_IntClock.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CMG_UART_PM.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CMG_UART_Rx_ISR.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Control_Loop_Interrupt.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\cy_em_eeprom.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CyBootAsmGnu.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CyDmac.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\cyfitter_cfg.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CyFlash.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CyLib.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\cymetadata.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\cyPm.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\CySpc.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\cyutils.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\FrontHall_Pin.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Hall_Interrupt_Front.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Hall_Interrupt_Rear.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Handle_Encoder.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Handle_Encoder_A.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Handle_Encoder_B.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Handle_Encoder_Cnt16.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Handle_Encoder_Cnt16_PM.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Handle_Encoder_PM.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\main.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Motor_Encoder_A.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Motor_Encoder_B.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Opamp_Throttle.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\Opamp_Throttle_PM.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\PWM_Brake.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\PWM_Brake_PM.lst</v>
-<v>Smart Bike\Balance\CortexM3\ARM_GCC_541\Release\Listing Files\PWM_Steer.lst</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 </TreeStates>
@@ -1213,17 +1167,13 @@
 </CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
 <Unloaded />
 <OpenDocs>
-<name v=".\IMU.cydsn\bno055.h" />
-<name v=".\IMU.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\CMG_IMU.cydsn\TopDesign\TopDesign.cysch" />
 <name v=".\IMU.cydsn\main.c" />
-<name v=".\IMU.cydsn\bno055.c" />
-<name v=".\Sensors.cydsn\TopDesign\TopDesign.cysch" />
-<name v=".\IMU.cydsn\IMU.cydwr" />
-<name v=".\IMU.cydsn\Generated_Source\PSoC5\I2C.h" />
-<name v=".\IMU.cydsn\Generated_Source\PSoC5\I2C_MASTER.c" />
-<name v=".\Seat.cydsn\TopDesign\TopDesign.cysch" />
-<name v=".\Sensors.cydsn\Sensors.cydwr" />
-<name v=".\Seat.cydsn\main.c" />
+<name v=".\CMG_IMU.cydsn\main.c" />
+<name v=".\CMG.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\CMG.cydsn\main.c" />
+<name v=".\CMG_IMU.cydsn\bno055.c" />
+<name v=".\CMG_IMU.cydsn\bno055.h" />
 </OpenDocs>
 <OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
 
@@ -1231,7 +1181,7 @@
   Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
   http://www.actiprosoftware.com
 
---><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1309, 721" SelectedTabbedMdiWindow="582b1bf6-1925-4ba2-ad78-c950bcdd1330"><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\bno055.h" Guid="7751617f-ae75-48b3-a579-77c4e8807d39" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\TopDesign\TopDesign.cysch" Guid="582b1bf6-1925-4ba2-ad78-c950bcdd1330" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\main.c" Guid="6431529b-99d3-4688-bd8d-20f2dfd992ca" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\bno055.c" Guid="f8994651-b175-4493-8f60-b74fe67e7db5" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\TopDesign\TopDesign.cysch" Guid="bd196c51-d470-4f7f-b2a4-cd44ad3d2471" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\IMU.cydwr" Guid="56f1310b-9600-4fdd-bff7-b89e93ec9475" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\Generated_Source\PSoC5\I2C.h" Guid="e86d4a7e-ece9-4545-b7b3-4298995f3618" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\Generated_Source\PSoC5\I2C_MASTER.c" Guid="7ee23aef-79bd-4e59-8e34-e0e1aa119c63" /><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="1d8bd890-a0ed-4ec7-b1da-217171d44c88" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Seat.cydsn\TopDesign\TopDesign.cysch" Guid="cff65bdc-ea35-4c73-8c77-482e17962360" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Sensors.cydsn\Sensors.cydwr" Guid="2e6c4f7f-39ca-494e-bdf8-c261e714c8da" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\Seat.cydsn\main.c" Guid="12365415-9006-415d-831f-b8bb1a5d98f2" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1309, 721" SelectedTabbedMdiWindow="b522582e-ea2a-4144-9493-f01d1f38b4fd"><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\TopDesign\TopDesign.cysch" Guid="ad8b2651-ecc4-4b5d-8cdd-a6bde2270ed9" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\IMU.cydsn\main.c" Guid="11136b83-3942-4339-9246-14511d136ba0" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\main.c" Guid="b522582e-ea2a-4144-9493-f01d1f38b4fd" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG.cydsn\TopDesign\TopDesign.cysch" Guid="77d5b502-1685-4768-91b6-a11a8a3d10a0" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG.cydsn\main.c" Guid="341cde1b-e739-4bc4-acc9-901dfafee97c" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\bno055.c" Guid="aee47c8e-16a9-46f9-a190-b75a8697e384" /><DocumentWindow Key="C:\Users\jebush2\Desktop\PSoC 3-19-2019\Smart Bike PSoC\CMG_IMU.cydsn\bno055.h" Guid="822121a8-1175-4e77-a917-712e88832b94" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
 <config v="Debug" />
 <AutoUpdate v="true" />
 </CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>

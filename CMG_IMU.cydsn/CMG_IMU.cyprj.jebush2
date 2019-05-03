@@ -11,6 +11,188 @@
 <CyGuid_f44455c5-3770-4452-b988-0a7a7ff46256 type_name="CyDesigner.Common.ProjMgmt.Model.CyConfigDependencies" version="1">
 <dependency_info name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM3" xml_contents_version="2">
 <CyGuid_1173175f-1b9b-4ad4-a065-754a48a27021 type_name="CyDesigner.Common.Base.CyFileDeps" version="1">
+<file name=".\CortexM3\ARM_GCC_541\Debug\main.o">
+<dep name=".\Generated_Source\PSoC5\BNO_Interupt.h" />
+<dep name=".\Generated_Source\PSoC5\BNO_Interupt_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\Clock_2.h" />
+<dep name=".\Generated_Source\PSoC5\Clock_3.h" />
+<dep name=".\Generated_Source\PSoC5\Clock_4.h" />
+<dep name=".\Generated_Source\PSoC5\Clock_5.h" />
+<dep name=".\Generated_Source\PSoC5\CyDmac.h" />
+<dep name=".\Generated_Source\PSoC5\CyFlash.h" />
+<dep name=".\Generated_Source\PSoC5\CyLib.h" />
+<dep name=".\Generated_Source\PSoC5\CySpc.h" />
+<dep name=".\Generated_Source\PSoC5\EncTimer.h" />
+<dep name=".\Generated_Source\PSoC5\Enc_Int_High.h" />
+<dep name=".\Generated_Source\PSoC5\Enc_Int_Low.h" />
+<dep name=".\Generated_Source\PSoC5\Gimbal_Control_Loop_Interrupt.h" />
+<dep name=".\Generated_Source\PSoC5\Gimbal_Encoder.h" />
+<dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_A.h" />
+<dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_A_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_B.h" />
+<dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_B_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_Cnt16.h" />
+<dep name=".\Generated_Source\PSoC5\Gimbal_Timer.h" />
+<dep name=".\Generated_Source\PSoC5\Handle_Encoder.h" />
+<dep name=".\Generated_Source\PSoC5\Handle_Encoder_A.h" />
+<dep name=".\Generated_Source\PSoC5\Handle_Encoder_A_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\Handle_Encoder_B.h" />
+<dep name=".\Generated_Source\PSoC5\Handle_Encoder_B_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\Handle_Encoder_Cnt16.h" />
+<dep name=".\Generated_Source\PSoC5\I2C.h" />
+<dep name=".\Generated_Source\PSoC5\I2C_PVT.h" />
+<dep name=".\Generated_Source\PSoC5\LED.h" />
+<dep name=".\Generated_Source\PSoC5\LED1.h" />
+<dep name=".\Generated_Source\PSoC5\LED1_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\LED_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\PWM_CMG.h" />
+<dep name=".\Generated_Source\PSoC5\PWM_Steer.h" />
+<dep name=".\Generated_Source\PSoC5\Pin_1.h" />
+<dep name=".\Generated_Source\PSoC5\Pin_1_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\SCL_1.h" />
+<dep name=".\Generated_Source\PSoC5\SCL_1_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\SDA_1.h" />
+<dep name=".\Generated_Source\PSoC5\SDA_1_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\SW1.h" />
+<dep name=".\Generated_Source\PSoC5\SW1_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\Sample_Interrupt.h" />
+<dep name=".\Generated_Source\PSoC5\Sample_Timer.h" />
+<dep name=".\Generated_Source\PSoC5\Steering_Control_Loop_Interrupt.h" />
+<dep name=".\Generated_Source\PSoC5\Steering_Dir.h" />
+<dep name=".\Generated_Source\PSoC5\Steering_Dir_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\Steering_PWM.h" />
+<dep name=".\Generated_Source\PSoC5\Steering_PWM_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\Steering_Timer.h" />
+<dep name=".\Generated_Source\PSoC5\Timer_Interrupt.h" />
+<dep name=".\Generated_Source\PSoC5\USBUART.h" />
+<dep name=".\Generated_Source\PSoC5\USBUART_Dm.h" />
+<dep name=".\Generated_Source\PSoC5\USBUART_Dm_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\USBUART_Dp.h" />
+<dep name=".\Generated_Source\PSoC5\USBUART_Dp_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\USBUART_audio.h" />
+<dep name=".\Generated_Source\PSoC5\USBUART_cdc.h" />
+<dep name=".\Generated_Source\PSoC5\USBUART_cydmac.h" />
+<dep name=".\Generated_Source\PSoC5\USBUART_hid.h" />
+<dep name=".\Generated_Source\PSoC5\USBUART_midi.h" />
+<dep name=".\Generated_Source\PSoC5\USBUART_msc.h" />
+<dep name=".\Generated_Source\PSoC5\USBUART_pvt.h" />
+<dep name=".\Generated_Source\PSoC5\cmsis_armcc.h" />
+<dep name=".\Generated_Source\PSoC5\cmsis_compiler.h" />
+<dep name=".\Generated_Source\PSoC5\cmsis_gcc.h" />
+<dep name=".\Generated_Source\PSoC5\core_cm3.h" />
+<dep name=".\Generated_Source\PSoC5\core_cm3_psoc5.h" />
+<dep name=".\Generated_Source\PSoC5\cyPm.h" />
+<dep name=".\Generated_Source\PSoC5\cy_em_eeprom.h" />
+<dep name=".\Generated_Source\PSoC5\cydevice.h" />
+<dep name=".\Generated_Source\PSoC5\cydevice_trm.h" />
+<dep name=".\Generated_Source\PSoC5\cydisabledsheets.h" />
+<dep name=".\Generated_Source\PSoC5\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC5\cyfitter_cfg.h" />
+<dep name=".\Generated_Source\PSoC5\cypins.h" />
+<dep name=".\Generated_Source\PSoC5\cytypes.h" />
+<dep name=".\Generated_Source\PSoC5\flywheel_motor.h" />
+<dep name=".\Generated_Source\PSoC5\flywheel_motor_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\gimbal_direction.h" />
+<dep name=".\Generated_Source\PSoC5\gimbal_direction_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\gimbal_motor.h" />
+<dep name=".\Generated_Source\PSoC5\gimbal_motor_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\isr_1.h" />
+<dep name=".\Generated_Source\PSoC5\project.h" />
+<dep name=".\Generated_Source\PSoC5\timer_clock.h" />
+<dep name=".\bno055.h" />
+<dep name=".\cyapicallbacks.h" />
+<dep name=".\main.c" />
+</file>
+<file name=".\Generated_Source\PSoC5\BNO_Interupt.h" />
+<file name=".\Generated_Source\PSoC5\BNO_Interupt_aliases.h" />
+<file name=".\Generated_Source\PSoC5\Clock_2.h" />
+<file name=".\Generated_Source\PSoC5\Clock_3.h" />
+<file name=".\Generated_Source\PSoC5\Clock_4.h" />
+<file name=".\Generated_Source\PSoC5\Clock_5.h" />
+<file name=".\Generated_Source\PSoC5\CyDmac.h" />
+<file name=".\Generated_Source\PSoC5\CyFlash.h" />
+<file name=".\Generated_Source\PSoC5\CyLib.h" />
+<file name=".\Generated_Source\PSoC5\CySpc.h" />
+<file name=".\Generated_Source\PSoC5\EncTimer.h" />
+<file name=".\Generated_Source\PSoC5\Enc_Int_High.h" />
+<file name=".\Generated_Source\PSoC5\Enc_Int_Low.h" />
+<file name=".\Generated_Source\PSoC5\Gimbal_Control_Loop_Interrupt.h" />
+<file name=".\Generated_Source\PSoC5\Gimbal_Encoder.h" />
+<file name=".\Generated_Source\PSoC5\Gimbal_Encoder_A.h" />
+<file name=".\Generated_Source\PSoC5\Gimbal_Encoder_A_aliases.h" />
+<file name=".\Generated_Source\PSoC5\Gimbal_Encoder_B.h" />
+<file name=".\Generated_Source\PSoC5\Gimbal_Encoder_B_aliases.h" />
+<file name=".\Generated_Source\PSoC5\Gimbal_Encoder_Cnt16.h" />
+<file name=".\Generated_Source\PSoC5\Gimbal_Timer.h" />
+<file name=".\Generated_Source\PSoC5\Handle_Encoder.h" />
+<file name=".\Generated_Source\PSoC5\Handle_Encoder_A.h" />
+<file name=".\Generated_Source\PSoC5\Handle_Encoder_A_aliases.h" />
+<file name=".\Generated_Source\PSoC5\Handle_Encoder_B.h" />
+<file name=".\Generated_Source\PSoC5\Handle_Encoder_B_aliases.h" />
+<file name=".\Generated_Source\PSoC5\Handle_Encoder_Cnt16.h" />
+<file name=".\Generated_Source\PSoC5\I2C.h" />
+<file name=".\Generated_Source\PSoC5\I2C_PVT.h" />
+<file name=".\Generated_Source\PSoC5\LED.h" />
+<file name=".\Generated_Source\PSoC5\LED1.h" />
+<file name=".\Generated_Source\PSoC5\LED1_aliases.h" />
+<file name=".\Generated_Source\PSoC5\LED_aliases.h" />
+<file name=".\Generated_Source\PSoC5\PWM_CMG.h" />
+<file name=".\Generated_Source\PSoC5\PWM_Steer.h" />
+<file name=".\Generated_Source\PSoC5\Pin_1.h" />
+<file name=".\Generated_Source\PSoC5\Pin_1_aliases.h" />
+<file name=".\Generated_Source\PSoC5\SCL_1.h" />
+<file name=".\Generated_Source\PSoC5\SCL_1_aliases.h" />
+<file name=".\Generated_Source\PSoC5\SDA_1.h" />
+<file name=".\Generated_Source\PSoC5\SDA_1_aliases.h" />
+<file name=".\Generated_Source\PSoC5\SW1.h" />
+<file name=".\Generated_Source\PSoC5\SW1_aliases.h" />
+<file name=".\Generated_Source\PSoC5\Sample_Interrupt.h" />
+<file name=".\Generated_Source\PSoC5\Sample_Timer.h" />
+<file name=".\Generated_Source\PSoC5\Steering_Control_Loop_Interrupt.h" />
+<file name=".\Generated_Source\PSoC5\Steering_Dir.h" />
+<file name=".\Generated_Source\PSoC5\Steering_Dir_aliases.h" />
+<file name=".\Generated_Source\PSoC5\Steering_PWM.h" />
+<file name=".\Generated_Source\PSoC5\Steering_PWM_aliases.h" />
+<file name=".\Generated_Source\PSoC5\Steering_Timer.h" />
+<file name=".\Generated_Source\PSoC5\Timer_Interrupt.h" />
+<file name=".\Generated_Source\PSoC5\USBUART.h" />
+<file name=".\Generated_Source\PSoC5\USBUART_Dm.h" />
+<file name=".\Generated_Source\PSoC5\USBUART_Dm_aliases.h" />
+<file name=".\Generated_Source\PSoC5\USBUART_Dp.h" />
+<file name=".\Generated_Source\PSoC5\USBUART_Dp_aliases.h" />
+<file name=".\Generated_Source\PSoC5\USBUART_audio.h" />
+<file name=".\Generated_Source\PSoC5\USBUART_cdc.h" />
+<file name=".\Generated_Source\PSoC5\USBUART_cydmac.h" />
+<file name=".\Generated_Source\PSoC5\USBUART_hid.h" />
+<file name=".\Generated_Source\PSoC5\USBUART_midi.h" />
+<file name=".\Generated_Source\PSoC5\USBUART_msc.h" />
+<file name=".\Generated_Source\PSoC5\USBUART_pvt.h" />
+<file name=".\Generated_Source\PSoC5\cmsis_armcc.h" />
+<file name=".\Generated_Source\PSoC5\cmsis_compiler.h" />
+<file name=".\Generated_Source\PSoC5\cmsis_gcc.h" />
+<file name=".\Generated_Source\PSoC5\core_cm3.h" />
+<file name=".\Generated_Source\PSoC5\core_cm3_psoc5.h" />
+<file name=".\Generated_Source\PSoC5\cyPm.h" />
+<file name=".\Generated_Source\PSoC5\cy_em_eeprom.h" />
+<file name=".\Generated_Source\PSoC5\cydevice.h" />
+<file name=".\Generated_Source\PSoC5\cydevice_trm.h" />
+<file name=".\Generated_Source\PSoC5\cydisabledsheets.h" />
+<file name=".\Generated_Source\PSoC5\cyfitter.h" />
+<file name=".\Generated_Source\PSoC5\cyfitter_cfg.h" />
+<file name=".\Generated_Source\PSoC5\cypins.h" />
+<file name=".\Generated_Source\PSoC5\cytypes.h" />
+<file name=".\Generated_Source\PSoC5\flywheel_motor.h" />
+<file name=".\Generated_Source\PSoC5\flywheel_motor_aliases.h" />
+<file name=".\Generated_Source\PSoC5\gimbal_direction.h" />
+<file name=".\Generated_Source\PSoC5\gimbal_direction_aliases.h" />
+<file name=".\Generated_Source\PSoC5\gimbal_motor.h" />
+<file name=".\Generated_Source\PSoC5\gimbal_motor_aliases.h" />
+<file name=".\Generated_Source\PSoC5\isr_1.h" />
+<file name=".\Generated_Source\PSoC5\project.h" />
+<file name=".\Generated_Source\PSoC5\timer_clock.h" />
+<file name=".\bno055.h" />
+<file name=".\cyapicallbacks.h" />
+<file name=".\main.c" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\BNO_Interupt.o">
 <dep name=".\Generated_Source\PSoC5\BNO_Interupt.c" />
 <dep name=".\Generated_Source\PSoC5\BNO_Interupt.h" />
@@ -22,13 +204,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\BNO_Interupt.c" />
-<file name=".\Generated_Source\PSoC5\BNO_Interupt.h" />
-<file name=".\Generated_Source\PSoC5\BNO_Interupt_aliases.h" />
-<file name=".\Generated_Source\PSoC5\cydevice.h" />
-<file name=".\Generated_Source\PSoC5\cydevice_trm.h" />
-<file name=".\Generated_Source\PSoC5\cyfitter.h" />
-<file name=".\Generated_Source\PSoC5\cypins.h" />
-<file name=".\Generated_Source\PSoC5\cytypes.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Clock_2.o">
 <dep name=".\Generated_Source\PSoC5\Clock_2.c" />
 <dep name=".\Generated_Source\PSoC5\Clock_2.h" />
@@ -38,7 +213,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Clock_2.c" />
-<file name=".\Generated_Source\PSoC5\Clock_2.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Clock_3.o">
 <dep name=".\Generated_Source\PSoC5\Clock_3.c" />
 <dep name=".\Generated_Source\PSoC5\Clock_3.h" />
@@ -48,7 +222,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Clock_3.c" />
-<file name=".\Generated_Source\PSoC5\Clock_3.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Clock_4.o">
 <dep name=".\Generated_Source\PSoC5\Clock_4.c" />
 <dep name=".\Generated_Source\PSoC5\Clock_4.h" />
@@ -58,7 +231,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Clock_4.c" />
-<file name=".\Generated_Source\PSoC5\Clock_4.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Clock_5.o">
 <dep name=".\Generated_Source\PSoC5\Clock_5.c" />
 <dep name=".\Generated_Source\PSoC5\Clock_5.h" />
@@ -68,7 +240,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Clock_5.c" />
-<file name=".\Generated_Source\PSoC5\Clock_5.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Cm3Start.o">
 <dep name=".\Generated_Source\PSoC5\Cm3Start.c" />
 <dep name=".\Generated_Source\PSoC5\CyDmac.h" />
@@ -84,13 +255,6 @@
 <dep name=".\cyapicallbacks.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Cm3Start.c" />
-<file name=".\Generated_Source\PSoC5\CyDmac.h" />
-<file name=".\Generated_Source\PSoC5\CyFlash.h" />
-<file name=".\Generated_Source\PSoC5\CyLib.h" />
-<file name=".\Generated_Source\PSoC5\CySpc.h" />
-<file name=".\Generated_Source\PSoC5\cyPm.h" />
-<file name=".\Generated_Source\PSoC5\cyfitter_cfg.h" />
-<file name=".\cyapicallbacks.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\CyDmac.o">
 <dep name=".\Generated_Source\PSoC5\CyDmac.c" />
 <dep name=".\Generated_Source\PSoC5\CyDmac.h" />
@@ -153,7 +317,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\EncTimer.c" />
-<file name=".\Generated_Source\PSoC5\EncTimer.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\EncTimer_PM.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -181,7 +344,6 @@
 <dep name=".\cyapicallbacks.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Enc_Int_High.c" />
-<file name=".\Generated_Source\PSoC5\Enc_Int_High.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Enc_Int_Low.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -196,7 +358,6 @@
 <dep name=".\cyapicallbacks.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Enc_Int_Low.c" />
-<file name=".\Generated_Source\PSoC5\Enc_Int_Low.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Gimbal_Control_Loop_Interrupt.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -211,7 +372,6 @@
 <dep name=".\cyapicallbacks.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Gimbal_Control_Loop_Interrupt.c" />
-<file name=".\Generated_Source\PSoC5\Gimbal_Control_Loop_Interrupt.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Gimbal_Encoder.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -226,8 +386,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Gimbal_Encoder.c" />
-<file name=".\Generated_Source\PSoC5\Gimbal_Encoder.h" />
-<file name=".\Generated_Source\PSoC5\Gimbal_Encoder_Cnt16.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Gimbal_Encoder_A.o">
 <dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_A.c" />
 <dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_A.h" />
@@ -239,8 +397,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Gimbal_Encoder_A.c" />
-<file name=".\Generated_Source\PSoC5\Gimbal_Encoder_A.h" />
-<file name=".\Generated_Source\PSoC5\Gimbal_Encoder_A_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Gimbal_Encoder_B.o">
 <dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_B.c" />
 <dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_B.h" />
@@ -252,8 +408,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Gimbal_Encoder_B.c" />
-<file name=".\Generated_Source\PSoC5\Gimbal_Encoder_B.h" />
-<file name=".\Generated_Source\PSoC5\Gimbal_Encoder_B_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Gimbal_Encoder_Cnt16.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -307,7 +461,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Gimbal_Timer.c" />
-<file name=".\Generated_Source\PSoC5\Gimbal_Timer.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Gimbal_Timer_PM.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -335,8 +488,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Handle_Encoder.c" />
-<file name=".\Generated_Source\PSoC5\Handle_Encoder.h" />
-<file name=".\Generated_Source\PSoC5\Handle_Encoder_Cnt16.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Handle_Encoder_A.o">
 <dep name=".\Generated_Source\PSoC5\Handle_Encoder_A.c" />
 <dep name=".\Generated_Source\PSoC5\Handle_Encoder_A.h" />
@@ -348,8 +499,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Handle_Encoder_A.c" />
-<file name=".\Generated_Source\PSoC5\Handle_Encoder_A.h" />
-<file name=".\Generated_Source\PSoC5\Handle_Encoder_A_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Handle_Encoder_B.o">
 <dep name=".\Generated_Source\PSoC5\Handle_Encoder_B.c" />
 <dep name=".\Generated_Source\PSoC5\Handle_Encoder_B.h" />
@@ -361,8 +510,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Handle_Encoder_B.c" />
-<file name=".\Generated_Source\PSoC5\Handle_Encoder_B.h" />
-<file name=".\Generated_Source\PSoC5\Handle_Encoder_B_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Handle_Encoder_Cnt16.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -417,8 +564,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\I2C.c" />
-<file name=".\Generated_Source\PSoC5\I2C.h" />
-<file name=".\Generated_Source\PSoC5\I2C_PVT.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\I2C_BOOT.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -501,8 +646,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\LED.c" />
-<file name=".\Generated_Source\PSoC5\LED.h" />
-<file name=".\Generated_Source\PSoC5\LED_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\LED1.o">
 <dep name=".\Generated_Source\PSoC5\LED1.c" />
 <dep name=".\Generated_Source\PSoC5\LED1.h" />
@@ -514,8 +657,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\LED1.c" />
-<file name=".\Generated_Source\PSoC5\LED1.h" />
-<file name=".\Generated_Source\PSoC5\LED1_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\PWM_CMG.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -529,7 +670,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\PWM_CMG.c" />
-<file name=".\Generated_Source\PSoC5\PWM_CMG.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\PWM_CMG_PM.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -556,7 +696,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\PWM_Steer.c" />
-<file name=".\Generated_Source\PSoC5\PWM_Steer.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\PWM_Steer_PM.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -581,8 +720,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Pin_1.c" />
-<file name=".\Generated_Source\PSoC5\Pin_1.h" />
-<file name=".\Generated_Source\PSoC5\Pin_1_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\SCL_1.o">
 <dep name=".\Generated_Source\PSoC5\SCL_1.c" />
 <dep name=".\Generated_Source\PSoC5\SCL_1.h" />
@@ -594,8 +731,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\SCL_1.c" />
-<file name=".\Generated_Source\PSoC5\SCL_1.h" />
-<file name=".\Generated_Source\PSoC5\SCL_1_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\SDA_1.o">
 <dep name=".\Generated_Source\PSoC5\SDA_1.c" />
 <dep name=".\Generated_Source\PSoC5\SDA_1.h" />
@@ -607,8 +742,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\SDA_1.c" />
-<file name=".\Generated_Source\PSoC5\SDA_1.h" />
-<file name=".\Generated_Source\PSoC5\SDA_1_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\SW1.o">
 <dep name=".\Generated_Source\PSoC5\SW1.c" />
 <dep name=".\Generated_Source\PSoC5\SW1.h" />
@@ -620,8 +753,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\SW1.c" />
-<file name=".\Generated_Source\PSoC5\SW1.h" />
-<file name=".\Generated_Source\PSoC5\SW1_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Sample_Interrupt.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -636,7 +767,6 @@
 <dep name=".\cyapicallbacks.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Sample_Interrupt.c" />
-<file name=".\Generated_Source\PSoC5\Sample_Interrupt.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Sample_Timer.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -650,7 +780,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Sample_Timer.c" />
-<file name=".\Generated_Source\PSoC5\Sample_Timer.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Sample_Timer_PM.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -678,7 +807,6 @@
 <dep name=".\cyapicallbacks.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Steering_Control_Loop_Interrupt.c" />
-<file name=".\Generated_Source\PSoC5\Steering_Control_Loop_Interrupt.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Steering_Dir.o">
 <dep name=".\Generated_Source\PSoC5\Steering_Dir.c" />
 <dep name=".\Generated_Source\PSoC5\Steering_Dir.h" />
@@ -690,8 +818,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Steering_Dir.c" />
-<file name=".\Generated_Source\PSoC5\Steering_Dir.h" />
-<file name=".\Generated_Source\PSoC5\Steering_Dir_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Steering_PWM.o">
 <dep name=".\Generated_Source\PSoC5\Steering_PWM.c" />
 <dep name=".\Generated_Source\PSoC5\Steering_PWM.h" />
@@ -703,8 +829,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Steering_PWM.c" />
-<file name=".\Generated_Source\PSoC5\Steering_PWM.h" />
-<file name=".\Generated_Source\PSoC5\Steering_PWM_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Steering_Timer.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -718,7 +842,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Steering_Timer.c" />
-<file name=".\Generated_Source\PSoC5\Steering_Timer.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\Steering_Timer_PM.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -746,7 +869,6 @@
 <dep name=".\cyapicallbacks.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\Timer_Interrupt.c" />
-<file name=".\Generated_Source\PSoC5\Timer_Interrupt.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\USBUART.o">
 <dep name=".\Generated_Source\PSoC5\CyDmac.h" />
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
@@ -772,16 +894,6 @@
 <dep name=".\cyapicallbacks.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\USBUART.c" />
-<file name=".\Generated_Source\PSoC5\USBUART.h" />
-<file name=".\Generated_Source\PSoC5\USBUART_Dp.h" />
-<file name=".\Generated_Source\PSoC5\USBUART_Dp_aliases.h" />
-<file name=".\Generated_Source\PSoC5\USBUART_audio.h" />
-<file name=".\Generated_Source\PSoC5\USBUART_cdc.h" />
-<file name=".\Generated_Source\PSoC5\USBUART_cydmac.h" />
-<file name=".\Generated_Source\PSoC5\USBUART_hid.h" />
-<file name=".\Generated_Source\PSoC5\USBUART_midi.h" />
-<file name=".\Generated_Source\PSoC5\USBUART_msc.h" />
-<file name=".\Generated_Source\PSoC5\USBUART_pvt.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\USBUART_Dm.o">
 <dep name=".\Generated_Source\PSoC5\USBUART_Dm.c" />
 <dep name=".\Generated_Source\PSoC5\USBUART_Dm.h" />
@@ -793,8 +905,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\USBUART_Dm.c" />
-<file name=".\Generated_Source\PSoC5\USBUART_Dm.h" />
-<file name=".\Generated_Source\PSoC5\USBUART_Dm_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\USBUART_Dp.o">
 <dep name=".\Generated_Source\PSoC5\USBUART_Dp.c" />
 <dep name=".\Generated_Source\PSoC5\USBUART_Dp.h" />
@@ -1097,7 +1207,6 @@
 <dep name=".\Generated_Source\PSoC5\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\cy_em_eeprom.c" />
-<file name=".\Generated_Source\PSoC5\cy_em_eeprom.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\cyfitter_cfg.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -1135,8 +1244,6 @@
 <dep name=".\Generated_Source\PSoC5\flywheel_motor_aliases.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\flywheel_motor.c" />
-<file name=".\Generated_Source\PSoC5\flywheel_motor.h" />
-<file name=".\Generated_Source\PSoC5\flywheel_motor_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\gimbal_direction.o">
 <dep name=".\Generated_Source\PSoC5\cydevice.h" />
 <dep name=".\Generated_Source\PSoC5\cydevice_trm.h" />
@@ -1148,8 +1255,6 @@
 <dep name=".\Generated_Source\PSoC5\gimbal_direction_aliases.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\gimbal_direction.c" />
-<file name=".\Generated_Source\PSoC5\gimbal_direction.h" />
-<file name=".\Generated_Source\PSoC5\gimbal_direction_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\gimbal_motor.o">
 <dep name=".\Generated_Source\PSoC5\cydevice.h" />
 <dep name=".\Generated_Source\PSoC5\cydevice_trm.h" />
@@ -1161,8 +1266,6 @@
 <dep name=".\Generated_Source\PSoC5\gimbal_motor_aliases.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\gimbal_motor.c" />
-<file name=".\Generated_Source\PSoC5\gimbal_motor.h" />
-<file name=".\Generated_Source\PSoC5\gimbal_motor_aliases.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\isr_1.o">
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC5\CyLib.h" />
@@ -1177,7 +1280,6 @@
 <dep name=".\cyapicallbacks.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\isr_1.c" />
-<file name=".\Generated_Source\PSoC5\isr_1.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\timer_clock.o">
 <dep name=".\Generated_Source\PSoC5\cydevice.h" />
 <dep name=".\Generated_Source\PSoC5\cydevice_trm.h" />
@@ -1187,7 +1289,6 @@
 <dep name=".\Generated_Source\PSoC5\timer_clock.h" />
 </file>
 <file name=".\Generated_Source\PSoC5\timer_clock.c" />
-<file name=".\Generated_Source\PSoC5\timer_clock.h" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\bno055.o">
 <dep name=".\Generated_Source\PSoC5\cmsis_armcc.h" />
 <dep name=".\Generated_Source\PSoC5\cmsis_compiler.h" />
@@ -1280,108 +1381,7 @@
 <dep name=".\bno055.h" />
 <dep name=".\cyapicallbacks.h" />
 </file>
-<file name=".\Generated_Source\PSoC5\cmsis_armcc.h" />
-<file name=".\Generated_Source\PSoC5\cmsis_compiler.h" />
-<file name=".\Generated_Source\PSoC5\cmsis_gcc.h" />
-<file name=".\Generated_Source\PSoC5\core_cm3.h" />
-<file name=".\Generated_Source\PSoC5\core_cm3_psoc5.h" />
-<file name=".\Generated_Source\PSoC5\cydisabledsheets.h" />
-<file name=".\Generated_Source\PSoC5\project.h" />
 <file name=".\bno055.c" />
-<file name=".\bno055.h" />
-<file name=".\CortexM3\ARM_GCC_541\Debug\main.o">
-<dep name=".\Generated_Source\PSoC5\cmsis_armcc.h" />
-<dep name=".\Generated_Source\PSoC5\cmsis_compiler.h" />
-<dep name=".\Generated_Source\PSoC5\cmsis_gcc.h" />
-<dep name=".\Generated_Source\PSoC5\core_cm3.h" />
-<dep name=".\Generated_Source\PSoC5\core_cm3_psoc5.h" />
-<dep name=".\Generated_Source\PSoC5\cydisabledsheets.h" />
-<dep name=".\Generated_Source\PSoC5\project.h" />
-<dep name=".\Generated_Source\PSoC5\BNO_Interupt.h" />
-<dep name=".\Generated_Source\PSoC5\BNO_Interupt_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\Clock_2.h" />
-<dep name=".\Generated_Source\PSoC5\Clock_3.h" />
-<dep name=".\Generated_Source\PSoC5\Clock_4.h" />
-<dep name=".\Generated_Source\PSoC5\Clock_5.h" />
-<dep name=".\Generated_Source\PSoC5\CyDmac.h" />
-<dep name=".\Generated_Source\PSoC5\CyFlash.h" />
-<dep name=".\Generated_Source\PSoC5\CyLib.h" />
-<dep name=".\Generated_Source\PSoC5\CySpc.h" />
-<dep name=".\Generated_Source\PSoC5\EncTimer.h" />
-<dep name=".\Generated_Source\PSoC5\Enc_Int_High.h" />
-<dep name=".\Generated_Source\PSoC5\Enc_Int_Low.h" />
-<dep name=".\Generated_Source\PSoC5\Gimbal_Control_Loop_Interrupt.h" />
-<dep name=".\Generated_Source\PSoC5\Gimbal_Encoder.h" />
-<dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_A.h" />
-<dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_A_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_B.h" />
-<dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_B_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\Gimbal_Encoder_Cnt16.h" />
-<dep name=".\Generated_Source\PSoC5\Gimbal_Timer.h" />
-<dep name=".\Generated_Source\PSoC5\Handle_Encoder.h" />
-<dep name=".\Generated_Source\PSoC5\Handle_Encoder_A.h" />
-<dep name=".\Generated_Source\PSoC5\Handle_Encoder_A_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\Handle_Encoder_B.h" />
-<dep name=".\Generated_Source\PSoC5\Handle_Encoder_B_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\Handle_Encoder_Cnt16.h" />
-<dep name=".\Generated_Source\PSoC5\I2C.h" />
-<dep name=".\Generated_Source\PSoC5\I2C_PVT.h" />
-<dep name=".\Generated_Source\PSoC5\LED.h" />
-<dep name=".\Generated_Source\PSoC5\LED1.h" />
-<dep name=".\Generated_Source\PSoC5\LED1_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\LED_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\PWM_CMG.h" />
-<dep name=".\Generated_Source\PSoC5\PWM_Steer.h" />
-<dep name=".\Generated_Source\PSoC5\Pin_1.h" />
-<dep name=".\Generated_Source\PSoC5\Pin_1_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\SCL_1.h" />
-<dep name=".\Generated_Source\PSoC5\SCL_1_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\SDA_1.h" />
-<dep name=".\Generated_Source\PSoC5\SDA_1_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\SW1.h" />
-<dep name=".\Generated_Source\PSoC5\SW1_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\Sample_Interrupt.h" />
-<dep name=".\Generated_Source\PSoC5\Sample_Timer.h" />
-<dep name=".\Generated_Source\PSoC5\Steering_Control_Loop_Interrupt.h" />
-<dep name=".\Generated_Source\PSoC5\Steering_Dir.h" />
-<dep name=".\Generated_Source\PSoC5\Steering_Dir_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\Steering_PWM.h" />
-<dep name=".\Generated_Source\PSoC5\Steering_PWM_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\Steering_Timer.h" />
-<dep name=".\Generated_Source\PSoC5\Timer_Interrupt.h" />
-<dep name=".\Generated_Source\PSoC5\USBUART.h" />
-<dep name=".\Generated_Source\PSoC5\USBUART_Dm.h" />
-<dep name=".\Generated_Source\PSoC5\USBUART_Dm_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\USBUART_Dp.h" />
-<dep name=".\Generated_Source\PSoC5\USBUART_Dp_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\USBUART_audio.h" />
-<dep name=".\Generated_Source\PSoC5\USBUART_cdc.h" />
-<dep name=".\Generated_Source\PSoC5\USBUART_cydmac.h" />
-<dep name=".\Generated_Source\PSoC5\USBUART_hid.h" />
-<dep name=".\Generated_Source\PSoC5\USBUART_midi.h" />
-<dep name=".\Generated_Source\PSoC5\USBUART_msc.h" />
-<dep name=".\Generated_Source\PSoC5\USBUART_pvt.h" />
-<dep name=".\Generated_Source\PSoC5\cyPm.h" />
-<dep name=".\Generated_Source\PSoC5\cy_em_eeprom.h" />
-<dep name=".\Generated_Source\PSoC5\cydevice.h" />
-<dep name=".\Generated_Source\PSoC5\cydevice_trm.h" />
-<dep name=".\Generated_Source\PSoC5\cyfitter.h" />
-<dep name=".\Generated_Source\PSoC5\cyfitter_cfg.h" />
-<dep name=".\Generated_Source\PSoC5\cypins.h" />
-<dep name=".\Generated_Source\PSoC5\cytypes.h" />
-<dep name=".\Generated_Source\PSoC5\flywheel_motor.h" />
-<dep name=".\Generated_Source\PSoC5\flywheel_motor_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\gimbal_direction.h" />
-<dep name=".\Generated_Source\PSoC5\gimbal_direction_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\gimbal_motor.h" />
-<dep name=".\Generated_Source\PSoC5\gimbal_motor_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\isr_1.h" />
-<dep name=".\Generated_Source\PSoC5\timer_clock.h" />
-<dep name=".\bno055.h" />
-<dep name=".\cyapicallbacks.h" />
-<dep name=".\main.c" />
-</file>
-<file name=".\main.c" />
 <file name=".\CortexM3\ARM_GCC_541\Debug\CyBootAsmGnu.o">
 <dep name=".\Generated_Source\PSoC5\CyBootAsmGnu.s" />
 <dep name=".\Generated_Source\PSoC5\cydevicegnu.inc" />
@@ -2368,7 +2368,7 @@
 <dataGuid v="769d31ea-68b1-4f0c-b90a-7c10a43ee563">
 <CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563 type_name="CyDesigner.Common.ProjMgmt.Model.CyLinkCustomData" version="1">
 <link_deps_times>
-<name_val_pair name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM3" v="132013860036135856" />
+<name_val_pair name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM3" v="132013907383970246" />
 </link_deps_times>
 </CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563>
 </dataGuid>

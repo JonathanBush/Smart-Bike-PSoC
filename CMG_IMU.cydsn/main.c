@@ -99,8 +99,8 @@ int main(void)
         bno_update(&orientation);   // read the orienation
         
         phi_b = orientation.roll;// - 0.02;
-        uint8 phi_b_dot_lsb = bno_read(BNO055_EULER_R_LSB_ADDR);
-        uint8 phi_b_dot_msb = bno_read(BNO055_EULER_R_MSB_ADDR);
+        uint8 phi_b_dot_lsb = bno_read(BNO055_GYRO_DATA_Y_LSB_ADDR);
+        uint8 phi_b_dot_msb = bno_read(BNO055_GYRO_DATA_Y_MSB_ADDR);
         phi_b_dot = (float)((int16)((uint16)phi_b_dot_msb << 8 | (uint16)phi_b_dot_lsb)) / BNO_RADIANS;
         
         while (SW1_Read()) {

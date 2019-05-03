@@ -3,7 +3,7 @@
 <!--This file is machine generated and read. It is not intended to be edited by hand.-->
 <!--Due to this, there is no schema for this file.-->
 <CyGuid_2867d519-54d2-4c01-9830-c51cb08bc3dd type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWorkspaceSerialize" version="5" xml_contents_version="3" name="Smart Bike" persistent="Smart Bike.cywrk" platform="NOT_USED">
-<current_project name=".\IMU.cydsn\IMU.cyprj" />
+<current_project name=".\CMG_IMU.cydsn\CMG_IMU.cyprj" />
 <wrkspc_folders />
 <files />
 <projects>
@@ -13,6 +13,7 @@
 <v>.\CMG.cydsn\CMG.cyprj</v>
 <v>.\Seat.cydsn\Seat.cyprj</v>
 <v>.\IMU.cydsn\IMU.cyprj</v>
+<v>.\CMG_IMU.cydsn\CMG_IMU.cyprj</v>
 </projects>
 <workspace_id v="8520f7f7-a5ec-47a8-b4de-c8763145e0cf" />
 <WriteAppVersionLastSavedWith v="4.2.0.641" />
